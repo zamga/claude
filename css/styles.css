@@ -914,6 +914,80 @@ button { font: inherit; cursor: pointer; }
   .team-grid { grid-template-columns: 1fr 1fr; }
 }
 
+/* =====================================================================
+   Institutional (capital markets) components — built on the dark DNA
+   ===================================================================== */
+.tnum { font-variant-numeric: tabular-nums; }
+.delta-up { color: var(--color-accent); }
+.delta-down { color: #E0917F; }
+
+/* ticker in the utility rail */
+.ticker { display: flex; align-items: center; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; }
+.ticker::-webkit-scrollbar { display: none; }
+.ticker__item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; color: var(--color-text-secondary); }
+.ticker__item .lbl { color: var(--color-text-muted); }
+
+/* multi-tier mega menu */
+.nav-group { position: static; display: flex; align-items: center; }
+.mega-panel {
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-panel);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0.2s;
+  z-index: 90;
+}
+.mega-panel__inner {
+  width: 100%; max-width: var(--container-max); margin-inline: auto;
+  padding: 1.25rem var(--container-pad) 1.75rem;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.mega-col { padding: 0.25rem 1.5rem; border-left: 1px solid var(--color-border-subtle); }
+.mega-col:first-child { border-left: 0; padding-left: 0; }
+.mega-link { display: block; padding: 0.7rem 0; }
+.mega-link b { display: block; font-weight: 600; color: var(--color-text-primary); }
+.mega-link span { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.2rem; }
+.mega-link:hover b { color: var(--color-accent); }
+@media (min-width: 861px) {
+  .nav-group:hover .mega-panel,
+  .nav-group:focus-within .mega-panel { opacity: 1; visibility: visible; transform: none; }
+}
+
+/* thought-leadership grid (4-up) */
+.tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.proof-card__meta { display: flex; gap: 0.8rem; color: var(--color-text-muted); margin-top: auto; padding-top: 1.2rem; }
+.tl-chart { width: 100%; height: auto; margin: 0.5rem 0 1.2rem; }
+
+/* KPI strip */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--color-border-subtle); border-left: 1px solid var(--color-border-subtle); }
+.kpi { padding: 1.6rem; border-right: 1px solid var(--color-border-subtle); border-bottom: 1px solid var(--color-border-subtle); }
+.kpi__label { color: var(--color-text-muted); margin-bottom: 0.9rem; }
+.kpi__value { font-size: clamp(2rem, 3.2vw, 2.85rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.kpi__value small { font-size: 1rem; color: var(--color-text-muted); font-weight: 500; }
+.kpi__delta { font-size: 0.8rem; margin-top: 0.5rem; }
+
+/* data table */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.data-table thead th { text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--color-border-strong); color: var(--color-text-muted); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.data-table th.num, .data-table td.num { text-align: right; }
+.data-table td { padding: 0.85rem 0; border-bottom: 1px solid var(--color-border-subtle); }
+.data-table tr:last-child td { border-bottom: 0; }
+.bar-track { display: block; width: 120px; margin-left: auto; height: 6px; background: rgba(255, 255, 255, 0.08); }
+.bar-track i { display: block; height: 100%; background: var(--color-accent); }
+
+@media (max-width: 1024px) {
+  .tl-grid { grid-template-columns: repeat(2, 1fr); }
+  .mega-panel__inner { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .tl-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr; }
+}
+
 /* --------------------------- reduced motion --------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
