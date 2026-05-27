@@ -1060,6 +1060,16 @@ button { font: inherit; cursor: pointer; }
   .action-grid { grid-template-columns: 1fr; }
 }
 
+/* Act 3 — bright palette-cleanser: capability band flips to icy slate */
+.section--bright { background: var(--color-surface-soft); color: var(--color-text-dark); }
+.section--bright .eyebrow { color: var(--color-surface-dark); }
+.section--bright .band__heading { color: var(--color-text-dark); }
+.section--bright .band__copy { color: var(--color-surface-dark); }
+.section--bright .band__col { border-top-color: rgba(31, 38, 42, 0.14); }
+.section--bright .band__col:hover { background: rgba(31, 38, 42, 0.04); }
+.section--bright .link-arrow { color: var(--color-text-dark); }
+.section--bright .link-arrow span { color: var(--color-accent); }
+
 /* --------------------------- reduced motion --------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
