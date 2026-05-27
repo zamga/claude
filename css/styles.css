@@ -433,7 +433,7 @@ button { font: inherit; cursor: pointer; }
 /* proof rail */
 .proof-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 .proof-card {
@@ -484,44 +484,6 @@ button { font: inherit; cursor: pointer; }
   margin-bottom: 1.2rem;
 }
 .band__copy { color: var(--color-text-secondary); margin-bottom: 1.6rem; }
-
-.band__col--careers {
-  grid-column: 1 / -1;
-  padding-top: clamp(2rem, 4vw, 3rem);
-  margin-top: clamp(1rem, 2vw, 2rem);
-}
-.band__col--careers .band__heading { max-width: 22ch; }
-.band__col--careers .band__copy { max-width: 70ch; }
-
-.proof-points {
-  list-style: none;
-  margin: 0 0 2rem;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.4rem;
-}
-.proof-points li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding-left: 1.2rem;
-  border-left: 2px solid var(--color-border-accent);
-}
-.proof-points__title { font-weight: 700; }
-.proof-points__copy { color: var(--color-text-secondary); font-size: 0.95rem; }
-
-.band__actions {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-.band__links { display: flex; gap: 1.4rem; }
-.band__links a { color: var(--color-text-secondary); transition: color 0.2s var(--ease-out); }
-.band__links a:hover { color: var(--color-accent); }
 
 /* firm identity */
 .shell--firm { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
@@ -662,7 +624,6 @@ button { font: inherit; cursor: pointer; }
   .hero__inner { grid-template-columns: 1fr; }
   .hero__panel { justify-self: stretch; max-width: 480px; margin-top: 1rem; }
   .band { grid-template-columns: 1fr; }
-  .band__col--careers { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 860px) {
@@ -694,13 +655,11 @@ button { font: inherit; cursor: pointer; }
   .utility-nav { display: none; }
   .proof-grid,
   .firm-grid { grid-template-columns: 1fr; }
-  .proof-points { grid-template-columns: 1fr 1fr; }
   .subscribe { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
   .data-plate__value { font-size: 2.6rem; }
-  .proof-points { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }
 }
