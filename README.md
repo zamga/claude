@@ -1,6 +1,6 @@
 # Meridian
 
-A premium agency homepage built from the Master Web Design Blueprint:
+A premium institutional homepage built from the Master Web Blueprint:
 **Goldman for structure, Effortel for surface & motion, Carlyle for language.**
 
 - **Structure** — Header → Hero lead → Editorial proof rail → Capability/Thinking/Careers band → Firm identity → Subscription → Compact footer.
@@ -12,7 +12,7 @@ A premium agency homepage built from the Master Web Design Blueprint:
 Self-contained static site — no build step.
 
 - `index.html` — semantic markup, all blueprint copy
-- `css/styles.css` — design tokens + full layout/motion system
+- `css/styles.css` — visual tokens + full layout/motion system
 - `js/main.js` — reveals, parallax, sticky header, mobile nav, form validation
 
 Fonts load from CDN (Fontshare/Google) with system fallbacks; the page renders fully offline.

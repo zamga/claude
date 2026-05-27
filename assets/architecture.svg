@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Architectural line study">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cdd8de"/>
+      <stop offset="1" stop-color="#7d8a92"/>
+    </linearGradient>
+    <linearGradient id="towerA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#aab8c0"/>
+      <stop offset="1" stop-color="#5d6a72"/>
+    </linearGradient>
+    <linearGradient id="towerB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8d9aa2"/>
+      <stop offset="1" stop-color="#4a565d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <!-- receding tower block -->
+  <polygon points="120,900 120,210 470,120 470,900" fill="url(#towerA)"/>
+  <polygon points="470,900 470,120 470,120 470,900" fill="none"/>
+  <polygon points="470,900 470,300 820,360 820,900" fill="url(#towerB)"/>
+  <polygon points="820,900 820,180 1100,90 1100,900" fill="url(#towerA)"/>
+  <!-- facade grid lines, tower 1 -->
+  <g stroke="#2b343a" stroke-width="2" opacity="0.55">
+    <line x1="120" y1="300" x2="470" y2="214"/>
+    <line x1="120" y1="400" x2="470" y2="318"/>
+    <line x1="120" y1="500" x2="470" y2="422"/>
+    <line x1="120" y1="600" x2="470" y2="526"/>
+    <line x1="120" y1="700" x2="470" y2="630"/>
+    <line x1="120" y1="800" x2="470" y2="734"/>
+    <line x1="190" y1="900" x2="190" y2="196"/>
+    <line x1="270" y1="900" x2="270" y2="176"/>
+    <line x1="350" y1="900" x2="350" y2="156"/>
+    <line x1="430" y1="900" x2="430" y2="136"/>
+  </g>
+  <!-- facade grid lines, tower 3 -->
+  <g stroke="#1f262a" stroke-width="2" opacity="0.5">
+    <line x1="820" y1="320" x2="1100" y2="234"/>
+    <line x1="820" y1="430" x2="1100" y2="346"/>
+    <line x1="820" y1="540" x2="1100" y2="458"/>
+    <line x1="820" y1="650" x2="1100" y2="570"/>
+    <line x1="820" y1="760" x2="1100" y2="682"/>
+    <line x1="900" y1="900" x2="900" y2="156"/>
+    <line x1="980" y1="900" x2="980" y2="131"/>
+    <line x1="1060" y1="900" x2="1060" y2="106"/>
+  </g>
+  <!-- mid tower glazing -->
+  <g stroke="#3a444a" stroke-width="2" opacity="0.45">
+    <line x1="470" y1="430" x2="820" y2="486"/>
+    <line x1="470" y1="560" x2="820" y2="612"/>
+    <line x1="470" y1="690" x2="820" y2="738"/>
+    <line x1="560" y1="900" x2="560" y2="322"/>
+    <line x1="650" y1="900" x2="650" y2="337"/>
+    <line x1="740" y1="900" x2="740" y2="352"/>
+  </g>
+</svg>

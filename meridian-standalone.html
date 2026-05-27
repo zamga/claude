@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meridian — Design conviction for consequential moments</title>
-  <meta name="description" content="Meridian connects strategy, design, and development to shape perception, strengthen digital performance, and position businesses for long-term growth." />
+  <title>Meridian — A global execution firm</title>
+  <meta name="description" content="Meridian deploys creative capital across scalable digital assets, delivering attractive digital returns for enterprise partners throughout an execution cycle." />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
   <style>
 /* =====================================================================
-   MERIDIAN — design system
+   MERIDIAN — visual system
    Goldman structure · Effortel surface & motion · Carlyle language
    ===================================================================== */
 
@@ -677,6 +677,250 @@ button { font: inherit; cursor: pointer; }
   .footer-brand { grid-column: 1 / -1; }
 }
 
+/* =====================================================================
+   Photography as UI — "precision hardware" treatment
+   B&W grading, slate overlay (multiply), inset rounded shell with a
+   microscopic cyan keyline, and a slow scale/overlay-lift on hover.
+   ===================================================================== */
+.media-frame {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  border: 1px solid rgba(102, 232, 250, 0.15);
+  background: var(--color-bg-elevated);
+  isolation: isolate;
+}
+.media-frame img,
+.media-frame__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08) brightness(0.92);
+  transition: transform 0.6s var(--ease-out), filter 0.6s var(--ease-out);
+}
+.media-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40, 52, 66, 0.45), rgba(27, 33, 35, 0.78));
+  mix-blend-mode: multiply;
+  opacity: 1;
+  transition: opacity 0.6s var(--ease-out);
+  pointer-events: none;
+  z-index: 1;
+}
+.media-frame:hover img,
+.media-frame:hover .media-frame__img { transform: scale(1.03); }
+.media-frame:hover::after { opacity: 0.55; }
+.media-frame__caption {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1.1rem;
+  z-index: 2;
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------- subpage hero --------------------------- */
+.page-hero {
+  position: relative;
+  padding-top: 180px;
+  padding-bottom: clamp(3rem, 6vw, 5.5rem);
+  overflow: hidden;
+}
+.page-hero__inner { position: relative; z-index: 1; }
+.page-hero__title {
+  font-size: var(--text-display-lg);
+  font-weight: 900;
+  line-height: 1.0;
+  max-width: 18ch;
+  margin-bottom: 1.6rem;
+}
+.page-hero__lead {
+  font-size: var(--text-body-lg);
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+}
+
+/* --------------------------- capability grid --------------------------- */
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.cap-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  padding: 2.25rem;
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+.cap-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+.cap-card__index { color: var(--color-accent); margin-bottom: 1.4rem; }
+.cap-card__title { font-size: 1.5rem; line-height: 1.15; margin-bottom: 0.5rem; }
+.cap-card__kicker { color: var(--color-text-muted); margin-bottom: 1.2rem; }
+.cap-card__copy { color: var(--color-text-secondary); font-size: 0.98rem; margin-bottom: 1.6rem; }
+.cap-card__list { list-style: none; margin: auto 0 0; padding: 1.4rem 0 0; border-top: 1px solid var(--color-border-subtle); display: grid; gap: 0.7rem; }
+.cap-card__list li { display: flex; gap: 0.7rem; color: var(--color-text-secondary); font-size: 0.95rem; }
+.cap-card__list li::before { content: "—"; color: var(--color-accent); }
+
+/* --------------------------- methodology timeline --------------------------- */
+.timeline { max-width: 60rem; }
+.timeline__item {
+  position: relative;
+  padding: 0 0 clamp(2.25rem, 4vw, 3.25rem) clamp(2rem, 4vw, 3rem);
+  border-left: 1px solid var(--color-border-strong);
+}
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0.35rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 14px var(--color-glow-accent);
+}
+.timeline__phase { color: var(--color-accent); margin-bottom: 0.75rem; }
+.timeline__title { font-size: var(--text-heading-md); line-height: 1.1; margin-bottom: 0.8rem; }
+.timeline__copy { color: var(--color-text-secondary); max-width: 52ch; }
+
+/* --------------------------- closing CTA module --------------------------- */
+.cta-module {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-radius: var(--radius-shell);
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(102, 232, 250, 0.16), transparent 55%),
+    var(--color-bg-elevated);
+  border: 1px solid var(--color-border-accent);
+  box-shadow: inset 0 0 80px rgba(102, 232, 250, 0.06);
+}
+.cta-module__title {
+  font-size: var(--text-heading-lg);
+  max-width: 20ch;
+  margin: 0 auto 2rem;
+}
+.cta-module .btn { margin-inline: auto; }
+
+/* --------------------------- insights: featured split --------------------------- */
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: stretch;
+}
+.feature__media { min-height: 420px; }
+.feature__body { display: flex; flex-direction: column; justify-content: center; }
+.feature__meta { display: flex; gap: 1.2rem; color: var(--color-text-muted); margin-bottom: 1.4rem; }
+.feature__title { font-size: var(--text-heading-lg); line-height: 1.05; margin-bottom: 1.4rem; }
+.feature__excerpt { color: var(--color-text-secondary); font-size: var(--text-body-lg); margin-bottom: 2rem; max-width: 46ch; }
+
+/* --------------------------- insights: archive --------------------------- */
+.archive { border-top: 1px solid rgba(102, 232, 250, 0.18); }
+.archive__item {
+  display: grid;
+  grid-template-columns: 12rem 1fr auto;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: baseline;
+  padding: clamp(1.4rem, 2.5vw, 2rem) 0.5rem;
+  border-bottom: 1px solid rgba(102, 232, 250, 0.18);
+  transition: background-color 0.3s var(--ease-out), padding-left 0.3s var(--ease-out);
+}
+.archive__item:hover { background: rgba(102, 232, 250, 0.04); padding-left: 1.25rem; }
+.archive__date { color: var(--color-text-muted); }
+.archive__title { font-size: 1.3rem; font-weight: 700; line-height: 1.2; transition: color 0.3s var(--ease-out); }
+.archive__item:hover .archive__title { color: var(--color-accent); }
+.archive__tag { color: var(--color-text-muted); white-space: nowrap; }
+
+/* --------------------------- our firm: team --------------------------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.portrait { display: flex; flex-direction: column; gap: 1rem; }
+.portrait__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid rgba(102, 232, 250, 0.15);
+  background: var(--color-bg);
+  display: grid;
+  place-items: center;
+  transition: box-shadow 0.45s var(--ease-out), border-color 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.portrait__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(27, 33, 35, 0.85));
+  z-index: 1;
+}
+.portrait__monogram {
+  font-weight: 900;
+  font-size: 3rem;
+  letter-spacing: 0.05em;
+  color: var(--color-surface-slate);
+  filter: grayscale(1);
+}
+.portrait:hover .portrait__media {
+  transform: translateY(-4px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 0 46px var(--color-glow-accent), 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+.portrait__name { font-weight: 700; }
+.portrait__role { color: var(--color-text-muted); }
+
+/* --------------------------- our firm: locations --------------------------- */
+.locations {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+.locations li { display: flex; flex-direction: column; gap: 0.4rem; }
+.locations__city { display: flex; align-items: center; gap: 0.6rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.locations__city::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+}
+.locations__meta { color: var(--color-text-muted); }
+
+/* --------------------------- active nav state --------------------------- */
+.primary-nav a[aria-current="page"] { color: var(--color-text-primary); }
+.primary-nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* --------------------------- subpage responsive --------------------------- */
+@media (max-width: 1024px) {
+  .cap-grid { grid-template-columns: 1fr; }
+  .feature { grid-template-columns: 1fr; }
+  .feature__media { min-height: 300px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .archive__item { grid-template-columns: 1fr; gap: 0.4rem; }
+  .archive__tag { order: -1; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+}
+
 /* --------------------------- reduced motion --------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -701,11 +945,11 @@ button { font: inherit; cursor: pointer; }
       <div class="container utility-rail__inner">
         <span class="utility-rail__locale mono">GLOBAL — EST. SINCE INCEPTION</span>
         <nav class="utility-nav mono" aria-label="Utility">
-          <a href="#proof">Case Studies</a>
-          <a href="#firm">Pressroom</a>
-          <a href="#firm">Worldwide</a>
-          <a href="#firm">Alumni</a>
-          <a href="#subscribe">Client Portal</a>
+          <a href="what-we-do.html">Case Studies</a>
+          <a href="insights.html">Pressroom</a>
+          <a href="our-firm.html#locations">Worldwide</a>
+          <a href="our-firm.html#careers">Alumni</a>
+          <a href="insights.html#subscribe">Client Portal</a>
         </nav>
       </div>
     </div>
@@ -717,10 +961,10 @@ button { font: inherit; cursor: pointer; }
       </a>
 
       <nav class="primary-nav" aria-label="Primary">
-        <a href="#capabilities">What We Do</a>
-        <a href="#thinking">Insights</a>
-        <a href="#firm">Our Firm</a>
-        <a href="#careers">Careers</a>
+        <a href="what-we-do.html">What We Do</a>
+        <a href="insights.html">Insights</a>
+        <a href="our-firm.html">Our Firm</a>
+        <a href="our-firm.html#careers">Careers</a>
       </nav>
 
       <div class="header-actions">
@@ -758,17 +1002,16 @@ button { font: inherit; cursor: pointer; }
 
       <div class="container hero__inner">
         <div class="hero__content">
-          <h1 class="hero__title" data-anim>We are a global design firm that deploys creative capital across scalable digital strategies.</h1>
+          <h1 class="hero__title" data-anim>We are a global execution firm deploying creative capital across scalable digital assets.</h1>
           <p class="hero__dek" data-anim>
             Our business today is exceptionally diversified across platforms, geographies, and
             distribution channels. We advise an array of enterprise clients and organizations that
-            invest across the spectrum of digital asset classes, including brand architecture, product
-            experience, and digital infrastructure. Our teams leverage deep-industry expertise and
-            global resources to deliver attractive digital returns for our partners throughout an
-            execution cycle.
+            invest across the spectrum of digital architecture, including brand equity, product
+            experience, and digital infrastructure. Our teams leverage deep-industry expertise to
+            deliver attractive digital returns for our partners throughout an execution cycle.
           </p>
           <div class="hero__actions" data-anim>
-            <a class="btn btn--accent" href="#capabilities">
+            <a class="btn btn--accent" href="what-we-do.html">
               <span>Explore Our Capabilities</span>
               <span class="btn__capsule" aria-hidden="true">→</span>
             </a>
@@ -824,10 +1067,9 @@ button { font: inherit; cursor: pointer; }
               <span class="card-label mono">Transformation Spotlight</span>
               <h3 class="proof-card__title">Delivering performance excellence across global platforms.</h3>
               <p class="proof-card__copy">
-                We bolstered our leadership team to mobilize our efforts around improving digital
-                operations across the firm and delivering performance excellence. We have strong momentum
-                in areas we strategically identified for growth, creating scalable digital assets for our
-                partners.
+                We mobilized our efforts around improving digital operations and delivering performance
+                excellence. We have strong momentum in areas we strategically identified for growth,
+                creating scalable digital assets for our partners.
               </p>
             </article>
 
@@ -835,10 +1077,10 @@ button { font: inherit; cursor: pointer; }
               <span class="card-label mono">Launch Spotlight</span>
               <h3 class="proof-card__title">Navigating complex markets with institutional discipline.</h3>
               <p class="proof-card__copy">
-                We continue to navigate some of the most complex digital markets in recent memory. While
-                organizations are not deploying capital at the same frequency as prior years, their core
-                needs have not changed. They need digital platforms to grow and to outpace competitors.
-                This is where our execution takes market share.
+                We continue to navigate complex digital markets. While organizations are not deploying
+                capital at the same frequency as prior years, their core needs have not changed. They need
+                robust digital platforms to grow and outpace competitors. This is where our execution takes
+                market share.
               </p>
             </article>
           </div>
@@ -853,10 +1095,10 @@ button { font: inherit; cursor: pointer; }
           <p class="eyebrow mono">What We Do</p>
           <h2 class="band__heading">Operating across three core businesses.</h2>
           <p class="band__copy">
-            We operate in three highly scalable businesses. First, our Corporate Brand Equity business,
-            focused on high-stakes market repositioning. Second, our Digital Platforms business,
-            addressing significant white space in complex web architecture. Third, our User Experience
-            Solutions business, investing in primary user flows and conversion environments.
+            We operate in three highly scalable businesses. First, our Brand Equity business, focused on
+            high-stakes market repositioning. Second, our Digital Platforms business, addressing
+            significant white space in complex web architecture. Third, our User Experience Solutions
+            business, investing in primary user flows and conversion environments.
           </p>
         </div>
 
@@ -868,7 +1110,7 @@ button { font: inherit; cursor: pointer; }
             from our portfolio of enterprise engagements. We leverage this data set to forecast digital
             shifts and protect long-term value for our clients.
           </p>
-          <a class="link-arrow mono" href="#subscribe">Explore All Insights <span aria-hidden="true">→</span></a>
+          <a class="link-arrow mono" href="insights.html">Explore All Insights <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="band__col" id="careers" data-reveal>
@@ -876,10 +1118,10 @@ button { font: inherit; cursor: pointer; }
           <h2 class="band__heading">Where experienced teams compound value.</h2>
           <p class="band__copy">
             We are a firm of dedicated professionals around the world, managing high-stakes digital assets
-            through a broad range of execution strategies. We have long-standing, very deep relationships
-            with the largest and most sophisticated global enterprises.
+            through a broad range of execution strategies. We have long-standing relationships with the
+            most sophisticated global enterprises.
           </p>
-          <a class="link-arrow mono" href="#subscribe">Explore Life at Meridian <span aria-hidden="true">→</span></a>
+          <a class="link-arrow mono" href="our-firm.html#careers">Explore Life at Meridian <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -890,11 +1132,11 @@ button { font: inherit; cursor: pointer; }
         <div class="shell shell--firm" data-reveal-group data-parallax="0.04">
           <header class="firm-head" data-reveal>
             <p class="eyebrow mono">Our Firm</p>
-            <h2 class="firm-head__title">We have generated great performance over a long time.</h2>
+            <h2 class="firm-head__title">We generate operational alpha over a long time horizon.</h2>
             <p class="firm-head__intro">
               Our digital returns for our enterprise partners across various sectors over the past decade
-              have generally outperformed all comparable industry benchmarks by wide margins.
-              Fundamentally, that is why we are a trusted execution partner.
+              have outperformed comparable industry benchmarks by wide margins. Fundamentally, that is why
+              we are a trusted execution partner.
             </p>
           </header>
 
@@ -903,9 +1145,9 @@ button { font: inherit; cursor: pointer; }
               <span class="firm-card__index mono">01</span>
               <h3 class="firm-card__title">Sticky, long-term structures.</h3>
               <p class="firm-card__copy">
-                We focus on building digital systems with highly secure, long-term locked-up value. Our
-                work ensures that our clients' digital revenues remain resilient, regardless of
-                macro-economic volatility.
+                We focus on building digital systems with highly secure, locked-up value. Our work ensures
+                that our clients' digital revenues remain resilient, regardless of macro-economic
+                volatility.
               </p>
             </article>
 
@@ -913,9 +1155,8 @@ button { font: inherit; cursor: pointer; }
               <span class="firm-card__index mono">02</span>
               <h3 class="firm-card__title">Taking advantage of deep industry specialization.</h3>
               <p class="firm-card__copy">
-                By taking advantage of our deep industry specialization and institutional value creation
-                capabilities, we invest in better design systems while also driving operating leverage for
-                our clients.
+                By leveraging our institutional value creation capabilities, we invest in better
+                operational architecture while driving measurable leverage for our clients.
               </p>
             </article>
 
@@ -975,31 +1216,29 @@ button { font: inherit; cursor: pointer; }
             <span class="brand__mark" aria-hidden="true"></span>
             <span class="brand__word">MERIDIAN</span>
           </a>
-          <p class="footer-brand__line">Design with conviction. Build for long-term value.</p>
+          <p class="footer-brand__line">Built with conviction. Engineered for long-term value.</p>
         </div>
 
         <nav class="footer-col" aria-label="Capabilities">
           <h3 class="footer-col__head mono">Capabilities</h3>
-          <a href="#capabilities">Brand Strategy</a>
-          <a href="#capabilities">Identity Systems</a>
-          <a href="#capabilities">UX Strategy</a>
-          <a href="#capabilities">Product Design</a>
-          <a href="#capabilities">Creative Development</a>
+          <a href="what-we-do.html">Brand Architecture</a>
+          <a href="what-we-do.html">Digital Platforms</a>
+          <a href="what-we-do.html">User Experience</a>
         </nav>
 
         <nav class="footer-col" aria-label="Insights">
           <h3 class="footer-col__head mono">Insights</h3>
-          <a href="#subscribe">Briefings</a>
-          <a href="#proof">Case Studies</a>
-          <a href="#proof">News</a>
+          <a href="insights.html">Briefings</a>
+          <a href="what-we-do.html">Case Studies</a>
+          <a href="insights.html">News</a>
         </nav>
 
         <nav class="footer-col" aria-label="Our Firm">
           <h3 class="footer-col__head mono">Our Firm</h3>
-          <a href="#firm">About</a>
-          <a href="#careers">Careers</a>
-          <a href="#subscribe">Contact</a>
-          <a href="#firm">Worldwide</a>
+          <a href="our-firm.html">About</a>
+          <a href="our-firm.html#careers">Careers</a>
+          <a href="insights.html#subscribe">Contact</a>
+          <a href="our-firm.html#locations">Worldwide</a>
         </nav>
 
         <nav class="footer-col" aria-label="Legal">
@@ -1011,7 +1250,7 @@ button { font: inherit; cursor: pointer; }
 
       <div class="footer-base mono">
         <span>© <span data-year>2026</span> Meridian. All rights reserved.</span>
-        <span>Strategy · Design · Development</span>
+        <span>Strategy · Execution · Development</span>
       </div>
     </div>
   </footer>
