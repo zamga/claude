@@ -90,6 +90,63 @@
     update();
   }
 
+  /* --- Effortel motion layer (GSAP + ScrollTrigger) --- */
+  var gsap = window.gsap;
+  var ScrollTrigger = window.ScrollTrigger;
+
+  if (gsap && !prefersReduced) {
+    if (ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+    // Hero: stagger the eyebrow, headline, dek, and button up into place on load.
+    var heroItems = gsap.utils.toArray(".hero__content [data-anim]");
+    if (heroItems.length) {
+      gsap.set(heroItems, { opacity: 0, y: 30 });
+      gsap.to(heroItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        ease: "power3.out",
+        delay: 0.15
+      });
+    }
+
+    // "Firm in Action" cards: scale up and fade in as they scroll into view.
+    var cards = gsap.utils.toArray(".proof-card");
+    if (cards.length && ScrollTrigger) {
+      // Suppress the CSS hover transition during entry so GSAP owns the tween,
+      // then restore it once each card has landed.
+      gsap.set(cards, { opacity: 0, scale: 0.95, y: 20, transition: "none" });
+      ScrollTrigger.batch(cards, {
+        start: "top 85%",
+        once: true,
+        onEnter: function (batch) {
+          gsap.to(batch, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: "power2.out",
+            overwrite: true,
+            onComplete: function () {
+              batch.forEach(function (el) { el.style.transition = ""; });
+            }
+          });
+        }
+      });
+    }
+
+    // Recalculate trigger positions once fonts/images settle.
+    window.addEventListener("load", function () { ScrollTrigger && ScrollTrigger.refresh(); });
+  } else {
+    // No GSAP available, or reduced motion requested: show everything immediately.
+    document.querySelectorAll("[data-anim]").forEach(function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+  }
+
   /* --- subscription form (client-side validation) --- */
   var form = document.querySelector("[data-subscribe-form]");
   if (form) {

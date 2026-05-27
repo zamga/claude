@@ -5,7 +5,7 @@ A premium agency homepage built from the Master Web Design Blueprint:
 
 - **Structure** — Header → Hero lead → Editorial proof rail → Capability/Thinking/Careers band → Firm identity → Subscription → Compact footer.
 - **Surface** — Effortel's two-anchor system: electric cyan (`#66E8FA`) on deep charcoal (`#1B2123`), alternating dark atmospheric chapters with pale rounded inversion shells. Satoshi for display/body, a monospace face for micro-labels.
-- **Motion** — "Depth, not spectacle": load-in reveal, IntersectionObserver scroll reveals, shallow scrub parallax, tactile button hovers, an animated data plate. Fully respects `prefers-reduced-motion`.
+- **Motion** — "Depth, not spectacle": GSAP powers the hero stagger (load-in fade + rise) and a ScrollTrigger scale/fade on the "Firm in Action" cards; IntersectionObserver handles the remaining scroll reveals, with shallow scrub parallax, tactile hovers, and an animated data plate. Fully respects `prefers-reduced-motion`.
 
 ## Stack
 

@@ -653,6 +653,10 @@ button { font: inherit; cursor: pointer; }
 }
 [data-reveal].is-visible { opacity: 1; transform: none; }
 
+/* GSAP-driven elements: hidden until the motion layer animates them in.
+   No transition here so GSAP has sole control of the tween. */
+[data-anim] { opacity: 0; will-change: transform, opacity; }
+
 /* --------------------------- responsive --------------------------- */
 @media (max-width: 1024px) {
   .hero__inner { grid-template-columns: 1fr; }
@@ -710,5 +714,6 @@ button { font: inherit; cursor: pointer; }
     transition-duration: 0.001ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  [data-anim] { opacity: 1 !important; transform: none !important; }
   [data-parallax] { transform: none !important; }
 }
