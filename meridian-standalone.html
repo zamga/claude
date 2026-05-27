@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meridian — A global execution firm</title>
   <meta name="description" content="Meridian deploys creative capital across scalable digital assets, delivering attractive digital returns for enterprise partners throughout an execution cycle." />
+  <meta name="theme-color" content="#1B2123" />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
   <style>
 /* =====================================================================
    MERIDIAN — visual system
@@ -318,6 +317,12 @@ button { font: inherit; cursor: pointer; }
 }
 
 .hero__atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* WebGL hero image layer (canvas swaps in over the static <img> fallback) */
+.hero__distortion { position: absolute; inset: 0; opacity: 0.5; }
+.hero__distortion img,
+.hero__distortion-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero__distortion img { object-fit: cover; filter: grayscale(1) contrast(1.05) brightness(0.5); transition: opacity 0.6s var(--ease-out); }
+.hero__distortion-canvas { display: block; }
 .hero__glow {
   position: absolute;
   top: -20%; right: -10%;
@@ -935,6 +940,12 @@ button { font: inherit; cursor: pointer; }
 }
 
 </style>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
+  </noscript>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -984,6 +995,9 @@ button { font: inherit; cursor: pointer; }
     <!-- ============================ HERO ============================ -->
     <section class="hero" data-parallax-root>
       <div class="hero__atmosphere" aria-hidden="true">
+        <div class="hero__distortion" data-hero-distortion>
+          <img src="assets/architecture.svg" alt="" width="1200" height="900" decoding="async" />
+        </div>
         <div class="hero__glow" data-parallax="0.18"></div>
         <svg class="hero__lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" data-parallax="0.06">
           <defs>
@@ -1348,40 +1362,51 @@ button { font: inherit; cursor: pointer; }
     revealEls.forEach(function (el) { observer.observe(el); });
   }
 
-  /* --- shallow parallax (rAF, scrub feel) --- */
+  /* --- scroll physics + motion layer (GSAP ScrollTrigger) --- */
+  var gsap = window.gsap;
+  var ScrollTrigger = window.ScrollTrigger;
+  var hasGSAP = !!gsap && !prefersReduced;
   var parallaxEls = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
-  if (!prefersReduced && parallaxEls.length) {
+
+  // Fallback parallax (only used when ScrollTrigger is unavailable).
+  function rafParallax() {
     var ticking = false;
-    var update = function () {
+    function update() {
       var vh = window.innerHeight;
       parallaxEls.forEach(function (el) {
         var rect = el.getBoundingClientRect();
         if (rect.bottom < -vh || rect.top > vh * 2) return;
         var speed = parseFloat(el.getAttribute("data-parallax")) || 0;
-        // progress: -1 (below) .. 1 (above) relative to viewport center
         var progress = (rect.top + rect.height / 2 - vh / 2) / vh;
-        var shift = progress * speed * 100;
-        el.style.transform = "translate3d(0," + shift.toFixed(2) + "px,0)";
+        el.style.transform = "translate3d(0," + (progress * speed * 100).toFixed(2) + "px,0)";
       });
       ticking = false;
-    };
-    var onScroll = function () {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(update);
-      }
-    };
+    }
+    function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     update();
   }
 
-  /* --- Effortel motion layer (GSAP + ScrollTrigger) --- */
-  var gsap = window.gsap;
-  var ScrollTrigger = window.ScrollTrigger;
-
-  if (gsap && !prefersReduced) {
+  if (hasGSAP) {
     if (ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+    // Scroll physics: frame-synced, eased (scrubbed) parallax. The scrub value
+    // adds an inertia-like lag so layers settle behind the scroll position.
+    if (ScrollTrigger && parallaxEls.length) {
+      parallaxEls.forEach(function (el) {
+        var speed = parseFloat(el.getAttribute("data-parallax")) || 0;
+        gsap.fromTo(el,
+          { yPercent: -speed * 50 },
+          {
+            yPercent: speed * 50,
+            ease: "none",
+            scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1 }
+          });
+      });
+    } else if (parallaxEls.length) {
+      rafParallax();
+    }
 
     // Hero: stagger the eyebrow, headline, dek, and button up into place on load.
     var heroItems = gsap.utils.toArray(".hero__content [data-anim]");
@@ -1400,8 +1425,6 @@ button { font: inherit; cursor: pointer; }
     // "Firm in Action" cards: scale up and fade in as they scroll into view.
     var cards = gsap.utils.toArray(".proof-card");
     if (cards.length && ScrollTrigger) {
-      // Suppress the CSS hover transition during entry so GSAP owns the tween,
-      // then restore it once each card has landed.
       gsap.set(cards, { opacity: 0, scale: 0.95, y: 20, transition: "none" });
       ScrollTrigger.batch(cards, {
         start: "top 85%",
@@ -1424,13 +1447,14 @@ button { font: inherit; cursor: pointer; }
     }
 
     // Recalculate trigger positions once fonts/images settle.
-    window.addEventListener("load", function () { ScrollTrigger && ScrollTrigger.refresh(); });
+    if (ScrollTrigger) window.addEventListener("load", function () { ScrollTrigger.refresh(); });
   } else {
-    // No GSAP available, or reduced motion requested: show everything immediately.
+    // No GSAP, or reduced motion: reveal animated elements immediately.
     document.querySelectorAll("[data-anim]").forEach(function (el) {
       el.style.opacity = "1";
       el.style.transform = "none";
     });
+    if (!prefersReduced && parallaxEls.length) rafParallax();
   }
 
   /* --- subscription form (client-side validation) --- */
@@ -1453,6 +1477,157 @@ button { font: inherit; cursor: pointer; }
       form.reset();
     });
   }
+})();
+
+</script>
+<script>
+/* =====================================================================
+   MERIDIAN — hero WebGL distortion (progressive enhancement)
+   Renders [data-hero-distortion] > img through a displacement shader.
+   Degrades silently to the static image on any failure, on reduced
+   motion, or where WebGL is unavailable. Pauses when offscreen/hidden.
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  var root = document.querySelector("[data-hero-distortion]");
+  if (!root) return;
+  var img = root.querySelector("img");
+  if (!img) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  function start() {
+    var canvas = document.createElement("canvas");
+    var gl;
+    try {
+      gl = canvas.getContext("webgl", { antialias: false, alpha: false, premultipliedAlpha: false })
+        || canvas.getContext("experimental-webgl");
+    } catch (e) { gl = null; }
+    if (!gl) return; // keep static <img> fallback
+
+    var VERT = "attribute vec2 p;varying vec2 vUv;void main(){vUv=p*0.5+0.5;gl_Position=vec4(p,0.0,1.0);}";
+    var FRAG = [
+      "precision mediump float;",
+      "uniform sampler2D uTex;uniform float uTime;uniform vec2 uMouse;uniform vec2 uRatio;",
+      "varying vec2 vUv;",
+      "void main(){",
+      "  vec2 uv = vUv*uRatio + (1.0-uRatio)*0.5;", // cover-fit
+      "  float t = uTime;",
+      "  vec2 d = vec2(sin(uv.y*8.0+t*0.6)*0.006 + sin(uv.y*3.0-t*0.4)*0.010,",
+      "                cos(uv.x*8.0+t*0.5)*0.006);",
+      "  float dist = distance(uv, uMouse);",
+      "  float ripple = sin(dist*28.0 - t*3.0) * 0.014 * smoothstep(0.45,0.0,dist);",
+      "  d += normalize(uv - uMouse + 0.0001) * ripple;",
+      "  vec3 col = texture2D(uTex, clamp(uv+d,0.0,1.0)).rgb;",
+      "  float g = dot(col, vec3(0.299,0.587,0.114));",
+      "  vec3 graded = mix(vec3(0.105,0.129,0.137), vec3(g), 0.55);",
+      "  graded += vec3(0.40,0.91,0.98) * clamp(length(d)*18.0,0.0,1.0) * 0.12;",
+      "  gl_FragColor = vec4(graded, 1.0);",
+      "}"
+    ].join("\n");
+
+    function compile(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+
+    var prog, loc = {}, tex, raf = 0, running = false, startT = 0;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+      gl.useProgram(prog);
+
+      var buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+      var pLoc = gl.getAttribLocation(prog, "p");
+      gl.enableVertexAttribArray(pLoc);
+      gl.vertexAttribPointer(pLoc, 2, gl.FLOAT, false, 0, 0);
+
+      loc.time = gl.getUniformLocation(prog, "uTime");
+      loc.mouse = gl.getUniformLocation(prog, "uMouse");
+      loc.ratio = gl.getUniformLocation(prog, "uRatio");
+
+      tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    } catch (e) {
+      return; // shader/texture failed -> static fallback remains
+    }
+
+    canvas.className = "hero__distortion-canvas";
+    root.appendChild(canvas);
+    img.style.opacity = "0"; // canvas now provides the visual
+
+    var mouse = { x: 0.5, y: 0.5 };
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      var w = root.clientWidth, h = root.clientHeight;
+      if (!w || !h) return;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      var tw = img.naturalWidth || 1200, th = img.naturalHeight || 900;
+      var cA = canvas.width / canvas.height, tA = tw / th;
+      gl.uniform2f(loc.ratio, Math.min(cA / tA, 1), Math.min((1 / cA) / (1 / tA), 1));
+    }
+
+    function frame(now) {
+      if (!running) return;
+      if (!startT) startT = now;
+      gl.uniform1f(loc.time, (now - startT) / 1000);
+      gl.uniform2f(loc.mouse, mouse.x, mouse.y);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      raf = window.requestAnimationFrame(frame);
+    }
+    function play() { if (!running) { running = true; raf = window.requestAnimationFrame(frame); } }
+    function stop() { running = false; if (raf) window.cancelAnimationFrame(raf); raf = 0; }
+
+    root.addEventListener("pointermove", function (e) {
+      var r = root.getBoundingClientRect();
+      mouse.x = (e.clientX - r.left) / r.width;
+      mouse.y = 1 - (e.clientY - r.top) / r.height;
+    }, { passive: true });
+
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else play();
+    });
+
+    // Only animate while the hero is on screen.
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { en.isIntersecting ? play() : stop(); });
+      }, { threshold: 0 }).observe(root);
+    }
+
+    resize();
+    play();
+  }
+
+  // Defer init until idle so it never blocks first paint / hurts TBT.
+  function boot() {
+    if (img.complete && img.naturalWidth) {
+      (window.requestIdleCallback || window.setTimeout)(start, 1);
+    } else {
+      img.addEventListener("load", function () {
+        (window.requestIdleCallback || window.setTimeout)(start, 1);
+      }, { once: true });
+      img.addEventListener("error", function () {}, { once: true });
+    }
+  }
+  if (document.readyState === "complete") boot();
+  else window.addEventListener("load", boot);
 })();
 
 </script>

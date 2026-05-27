@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meridian — A global execution firm</title>
   <meta name="description" content="Meridian deploys creative capital across scalable digital assets, delivering attractive digital returns for enterprise partners throughout an execution cycle." />
+  <meta name="theme-color" content="#1B2123" />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
+  </noscript>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -60,6 +65,9 @@
     <!-- ============================ HERO ============================ -->
     <section class="hero" data-parallax-root>
       <div class="hero__atmosphere" aria-hidden="true">
+        <div class="hero__distortion" data-hero-distortion>
+          <img src="assets/architecture.svg" alt="" width="1200" height="900" decoding="async" />
+        </div>
         <div class="hero__glow" data-parallax="0.18"></div>
         <svg class="hero__lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" data-parallax="0.06">
           <defs>
@@ -334,5 +342,6 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/hero-distortion.js" defer></script>
 </body>
 </html>
