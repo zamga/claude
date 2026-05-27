@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hark Capital — Creative Capital, Globally Executed</title>
+
+  <!-- ============================================================
+       FONTS  (Google Fonts)
+       Display : Fraunces  — high-contrast editorial serif (opsz)
+       Text    : Inter     — neo-grotesque for UI / body / labels
+       ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- ============================================================
+       TAILWIND  (Play CDN)
+       ============================================================ -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* ----------------------------------------------------------
+       TAILWIND CONFIG — Hark Capital design tokens
+       NOTE: These hex codes are a faithful reconstruction of the
+       harkcap.com editorial palette (warm bone + warm ink + a
+       single clay accent). To make it a verified 1:1, paste the
+       site's real hex codes over the values below — everything
+       downstream is wired to these tokens.
+       ---------------------------------------------------------- */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            hark: {
+              paper:  "#EDEAE3", /* primary warm bone background      */
+              panel:  "#E4E0D7", /* slightly deeper panel / cards     */
+              ink:    "#15140F", /* near-black warm — primary text     */
+              dark:   "#1A1915", /* dark section background           */
+              muted:  "#6F6B62", /* warm grey — secondary text         */
+              line:   "#C7C2B6", /* hairline borders                  */
+              accent: "#B5471F", /* clay / burnt-orange accent         */
+              cream:  "#F6F4EE", /* lightest tint (text on dark)       */
+            },
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            sans:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: {
+            tightest: '-0.04em',
+            label:    '0.22em',
+          },
+          maxWidth: { '8xl': '92rem' },
+        },
+      },
+    };
+  </script>
+
+  <!-- ============================================================
+       CUSTOM CSS
+       ============================================================ -->
+  <style>
+    :root { --ease: cubic-bezier(0.16, 1, 0.3, 1); }
+
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { background: #EDEAE3; color: #15140F; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    ::selection { background: #B5471F; color: #F6F4EE; }
+
+    /* ---- Type primitives ------------------------------------- */
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: clamp(0.62rem, 0.78vw, 0.74rem);
+      font-weight: 500;
+    }
+    .display-1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      line-height: 0.97;
+      letter-spacing: -0.025em;
+      font-size: clamp(2.7rem, 7vw, 7.6rem);
+    }
+    .display-2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      font-size: clamp(2.1rem, 4.6vw, 4.4rem);
+    }
+    .serif-em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; }
+    .index-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      font-size: clamp(2.6rem, 6vw, 5.4rem);
+      line-height: 1;
+    }
+
+    /* ---- Styled placeholder media ---------------------------- */
+    .media {
+      position: relative;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(45deg, rgba(21,20,15,0.025) 0 2px, transparent 2px 9px),
+        linear-gradient(135deg, #D9D4C8 0%, #CBC5B7 100%);
+      border: 1px solid rgba(21,20,15,0.08);
+    }
+    .media::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 1.1rem; bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.62rem;
+      color: rgba(21,20,15,0.45);
+    }
+    .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media.on-dark {
+      background:
+        repeating-linear-gradient(45deg, rgba(246,244,238,0.04) 0 2px, transparent 2px 9px),
+        linear-gradient(135deg, #2A281F 0%, #201E18 100%);
+      border-color: rgba(246,244,238,0.10);
+    }
+    .media.on-dark::after { color: rgba(246,244,238,0.40); }
+
+    /* ---- Hero line masking for GSAP reveal ------------------- */
+    .line-mask { display: block; overflow: hidden; }
+    .line-mask > span { display: block; will-change: transform; }
+
+    /* ---- Marquee --------------------------------------------- */
+    .marquee { display: flex; width: max-content; will-change: transform; }
+    .marquee span {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      letter-spacing: -0.02em;
+      padding: 0 2.5rem;
+      white-space: nowrap;
+    }
+    .marquee .dot { color: #B5471F; }
+
+    /* ---- Hairline ------------------------------------------- */
+    .hair { height: 1px; background: #C7C2B6; }
+    .hair-dark { height: 1px; background: rgba(246,244,238,0.16); }
+
+    /* ---- Nav link underline --------------------------------- */
+    .navlink { position: relative; }
+    .navlink::after {
+      content: ""; position: absolute; left: 0; bottom: -3px;
+      width: 100%; height: 1px; background: currentColor;
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.5s var(--ease);
+    }
+    .navlink:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    /* keep content visible if JS fails to run */
+    .no-js-safe { opacity: 1; }
+  </style>
+</head>
+
+<body class="bg-hark-paper text-hark-ink antialiased">
+
+  <!-- =========================================================
+       NAV
+       ========================================================= -->
+  <header id="nav" class="fixed top-0 inset-x-0 z-50">
+    <div class="max-w-8xl mx-auto px-[5vw] py-6 flex items-center justify-between">
+      <a href="#" class="font-display text-2xl tracking-tightest leading-none">Hark<span class="text-hark-accent">.</span></a>
+      <nav class="hidden md:flex items-center gap-10 eyebrow">
+        <a href="#capabilities" class="navlink">Capabilities</a>
+        <a href="#firm" class="navlink">Our Firm</a>
+        <a href="#contact" class="navlink">Contact</a>
+      </nav>
+      <a href="#contact" class="eyebrow border border-hark-ink/30 rounded-full px-5 py-2.5 hover:bg-hark-ink hover:text-hark-cream transition-colors duration-500">Get in touch</a>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       HERO  — asymmetric, overlapping, massive padding
+       ========================================================= -->
+  <section id="hero" class="relative max-w-8xl mx-auto px-[5vw] pt-44 md:pt-56 pb-28 md:pb-40">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-12 items-end">
+
+      <!-- eyebrow, offset into column 1 -->
+      <div class="col-span-12 md:col-span-3 self-start" data-reveal>
+        <p class="eyebrow text-hark-accent mb-4">(01) — Global Execution</p>
+        <p class="eyebrow text-hark-muted">Est. — Creative Capital</p>
+      </div>
+
+      <!-- headline, wide and offset -->
+      <h1 class="col-span-12 md:col-span-9 display-1">
+        <span class="line-mask"><span>We are a global execution firm</span></span>
+        <span class="line-mask"><span>deploying <span class="serif-em text-hark-accent">creative capital</span></span></span>
+        <span class="line-mask"><span>across scalable digital assets.</span></span>
+      </h1>
+    </div>
+
+    <!-- overlapping media + subtext row -->
+    <div class="grid grid-cols-12 gap-x-6 mt-16 md:mt-24 items-start">
+      <!-- tall media bleeding up & overlapping, pushed right -->
+      <div class="col-span-12 md:col-span-5 md:col-start-8 md:-mt-72 relative z-10 order-1 md:order-2" data-reveal>
+        <div class="media hero-media aspect-[4/5]" data-label="Hark — Index 01">
+          <img data-ph alt="" />
+        </div>
+      </div>
+
+      <!-- subtext, narrow column, low -->
+      <div class="col-span-12 md:col-span-4 md:col-start-1 order-2 md:order-1" data-reveal>
+        <div class="hair mb-6"></div>
+        <p class="text-hark-muted text-lg leading-relaxed">
+          Our business today is exceptionally diversified across platforms,
+          geographies, and distribution channels. We advise enterprise clients
+          who invest across the spectrum of digital architecture.
+        </p>
+        <a href="#capabilities" class="eyebrow inline-flex items-center gap-3 mt-8 group">
+          <span>Explore capabilities</span>
+          <span class="text-hark-accent transition-transform duration-500 group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MARQUEE
+       ========================================================= -->
+  <section class="py-10 md:py-14 border-y border-hark-line overflow-hidden">
+    <div class="marquee" id="marquee">
+      <span>Brand Equity</span><span class="dot">/</span>
+      <span>Digital Platforms</span><span class="dot">/</span>
+      <span>User Experience</span><span class="dot">/</span>
+      <span>Operational Alpha</span><span class="dot">/</span>
+      <span>Brand Equity</span><span class="dot">/</span>
+      <span>Digital Platforms</span><span class="dot">/</span>
+      <span>User Experience</span><span class="dot">/</span>
+      <span>Operational Alpha</span><span class="dot">/</span>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       CAPABILITIES — staggered asymmetric grid
+       ========================================================= -->
+  <section id="capabilities" class="max-w-8xl mx-auto px-[5vw] py-28 md:py-44">
+
+    <div class="grid grid-cols-12 gap-6 mb-20 md:mb-32">
+      <p class="col-span-12 md:col-span-3 eyebrow text-hark-accent" data-reveal>(02) — What We Do</p>
+      <h2 class="col-span-12 md:col-span-8 md:col-start-4 display-2" data-reveal>
+        Three businesses, one <span class="serif-em">creative</span> mandate.
+      </h2>
+    </div>
+
+    <!-- Item 01 — image left, text right, offset down -->
+    <article class="grid grid-cols-12 gap-x-6 gap-y-8 items-center mb-24 md:mb-40">
+      <div class="col-span-12 md:col-span-5" data-reveal>
+        <div class="media aspect-[5/4]" data-label="Brand Equity"><img data-ph alt="" /></div>
+      </div>
+      <div class="col-span-12 md:col-span-6 md:col-start-7" data-reveal>
+        <span class="index-num text-hark-line block mb-4">01</span>
+        <h3 class="display-2 mb-5">Brand Equity</h3>
+        <p class="text-hark-muted text-lg leading-relaxed max-w-md">
+          We build durable brand value as a balance-sheet asset — positioning,
+          identity, and narrative engineered to compound over decades.
+        </p>
+      </div>
+    </article>
+
+    <!-- Item 02 — text left, image right pushed UP to overlap (asymmetry) -->
+    <article class="grid grid-cols-12 gap-x-6 gap-y-8 items-center mb-24 md:mb-40">
+      <div class="col-span-12 md:col-span-6 order-2 md:order-1" data-reveal>
+        <span class="index-num text-hark-line block mb-4">02</span>
+        <h3 class="display-2 mb-5">Digital Platforms</h3>
+        <p class="text-hark-muted text-lg leading-relaxed max-w-md">
+          We architect and scale the platforms that distribute value — resilient
+          systems built for global throughput and long-horizon ownership.
+        </p>
+      </div>
+      <div class="col-span-12 md:col-span-5 md:col-start-8 md:-mt-24 order-1 md:order-2" data-reveal>
+        <div class="media aspect-[4/5]" data-label="Digital Platforms"><img data-ph alt="" /></div>
+      </div>
+    </article>
+
+    <!-- Item 03 — wide image, caption offset -->
+    <article class="grid grid-cols-12 gap-x-6 gap-y-8 items-end">
+      <div class="col-span-12 md:col-span-7" data-reveal>
+        <div class="media aspect-[16/10]" data-label="User Experience Solutions"><img data-ph alt="" /></div>
+      </div>
+      <div class="col-span-12 md:col-span-4 md:col-start-9" data-reveal>
+        <span class="index-num text-hark-line block mb-4">03</span>
+        <h3 class="display-2 mb-5">User Experience Solutions</h3>
+        <p class="text-hark-muted text-lg leading-relaxed">
+          Experience is the interface between capital and customer. We design it
+          end to end — measured, tested, and relentlessly refined.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <!-- =========================================================
+       OUR FIRM — dark section, overlapping media, pillars
+       ========================================================= -->
+  <section id="firm" class="relative bg-hark-dark text-hark-cream py-28 md:py-48 overflow-hidden">
+    <div class="max-w-8xl mx-auto px-[5vw]">
+
+      <div class="grid grid-cols-12 gap-x-6 gap-y-16 items-start">
+
+        <!-- statement -->
+        <div class="col-span-12 md:col-span-7" data-reveal>
+          <p class="eyebrow text-hark-accent mb-8">(03) — Our Firm</p>
+          <h2 class="display-1 text-hark-cream" style="font-size:clamp(2.2rem,5vw,5.2rem)">
+            We generate <span class="serif-em text-hark-accent">operational alpha</span>
+            over a long time horizon.
+          </h2>
+        </div>
+
+        <!-- overlapping media, pushed right and down -->
+        <div class="col-span-12 md:col-span-4 md:col-start-9 md:mt-10" data-reveal>
+          <div class="media on-dark aspect-[3/4]" data-label="The Firm"><img data-ph alt="" /></div>
+        </div>
+      </div>
+
+      <!-- pillars -->
+      <div class="hair-dark mt-24 mb-16"></div>
+      <div class="grid grid-cols-12 gap-x-6 gap-y-14">
+        <div class="col-span-12 md:col-span-4" data-reveal>
+          <span class="eyebrow text-hark-accent">i.</span>
+          <p class="display-2 mt-3 text-hark-cream" style="font-size:clamp(1.5rem,2.4vw,2.2rem)">Sticky, long-term structures</p>
+        </div>
+        <div class="col-span-12 md:col-span-4" data-reveal>
+          <span class="eyebrow text-hark-accent">ii.</span>
+          <p class="display-2 mt-3 text-hark-cream" style="font-size:clamp(1.5rem,2.4vw,2.2rem)">Deep industry specialization</p>
+        </div>
+        <div class="col-span-12 md:col-span-4" data-reveal>
+          <span class="eyebrow text-hark-accent">iii.</span>
+          <p class="display-2 mt-3 text-hark-cream" style="font-size:clamp(1.5rem,2.4vw,2.2rem)">True global integration</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FOOTER / CONTACT
+       ========================================================= -->
+  <footer id="contact" class="max-w-8xl mx-auto px-[5vw] py-24 md:py-36">
+    <div class="grid grid-cols-12 gap-y-12 items-end">
+      <div class="col-span-12 md:col-span-8" data-reveal>
+        <p class="eyebrow text-hark-accent mb-6">Get in touch</p>
+        <a href="#" class="display-1 block" style="font-size:clamp(2.6rem,9vw,9rem)">Let's build<span class="text-hark-accent">.</span></a>
+      </div>
+      <div class="col-span-12 md:col-span-4 md:text-right" data-reveal>
+        <a href="#" class="navlink text-lg">hello@harkcap.com</a>
+        <p class="text-hark-muted mt-3">New York · London · Singapore</p>
+      </div>
+    </div>
+
+    <div class="hair mt-20 mb-8"></div>
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 eyebrow text-hark-muted">
+      <span>© <span id="year"></span> Hark Capital — Creative Capital, Globally Executed</span>
+      <span>Reconstruction · Built with Tailwind + GSAP</span>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       SCRIPTS — GSAP + ScrollTrigger
+       ========================================================= -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    /* ---- styled SVG placeholder injected into all <img data-ph> ---- */
+    (function () {
+      const svg =
+        "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='1250'>" +
+        "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>" +
+        "<stop offset='0' stop-color='%23D9D4C8'/><stop offset='1' stop-color='%23CBC5B7'/>" +
+        "</linearGradient></defs>" +
+        "<rect width='100%' height='100%' fill='url(%23g)'/>" +
+        "<line x1='0' y1='0' x2='1000' y2='1250' stroke='%2315140F' stroke-opacity='0.06'/>" +
+        "<line x1='1000' y1='0' x2='0' y2='1250' stroke='%2315140F' stroke-opacity='0.06'/>" +
+        "</svg>";
+      const uri = "data:image/svg+xml," + svg.replace(/#/g, "%23");
+      document.querySelectorAll("img[data-ph]").forEach((img) => (img.src = uri));
+      document.getElementById("year").textContent = new Date().getFullYear();
+    })();
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!window.gsap) return; // graceful no-anim fallback
+      gsap.registerPlugin(ScrollTrigger);
+
+      const ease = "power3.out";
+
+      /* ---- Nav fade-in ---- */
+      gsap.from("#nav", { y: -24, opacity: 0, duration: 1, ease, delay: 0.1 });
+
+      /* ---- Hero headline: masked line reveal ---- */
+      gsap.set(".line-mask > span", { yPercent: 110 });
+      gsap.to(".line-mask > span", {
+        yPercent: 0, duration: 1.2, ease, stagger: 0.12, delay: 0.25,
+      });
+
+      /* ---- Hero media: clip + scale reveal, then parallax ---- */
+      gsap.fromTo(".hero-media",
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        { clipPath: "inset(0% 0% 0% 0%)", duration: 1.3, ease, delay: 0.4 });
+      gsap.fromTo(".hero-media img",
+        { scale: 1.25 }, { scale: 1, duration: 1.6, ease, delay: 0.4 });
+      gsap.to(".hero-media img", {
+        yPercent: 14, ease: "none",
+        scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+      });
+
+      /* ---- Generic scroll reveals (fade + slide up) ---- */
+      gsap.set("[data-reveal]", { opacity: 0, y: 48 });
+      ScrollTrigger.batch("[data-reveal]", {
+        start: "top 85%",
+        onEnter: (els) =>
+          gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease, stagger: 0.12, overwrite: true }),
+      });
+
+      /* ---- Parallax drift on all section media ---- */
+      gsap.utils.toArray(".media").forEach((m) => {
+        if (m.classList.contains("hero-media")) return;
+        const img = m.querySelector("img");
+        if (!img) return;
+        gsap.fromTo(img, { yPercent: -8 }, {
+          yPercent: 8, ease: "none",
+          scrollTrigger: { trigger: m, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      });
+
+      /* ---- Infinite marquee ---- */
+      const mq = document.getElementById("marquee");
+      if (mq) {
+        gsap.to(mq, { xPercent: -50, duration: 24, ease: "none", repeat: -1 });
+      }
+
+      ScrollTrigger.refresh();
+    });
+  </script>
+</body>
+</html>
