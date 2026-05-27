@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian — Design conviction for consequential moments</title>
+  <meta name="description" content="Meridian connects strategy, design, and development to shape perception, strengthen digital performance, and position businesses for long-term growth." />
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" />
+  <style>
+/* =====================================================================
+   MERIDIAN — design system
+   Goldman structure · Effortel surface & motion · Carlyle language
+   ===================================================================== */
+
+:root {
+  /* Brand anchors */
+  --color-bg: #1B2123;
+  --color-accent: #66E8FA;
+
+  /* Neutral ramp */
+  --color-bg-elevated: #252B2E;
+  --color-surface-dark: #384146;
+  --color-surface-slate: #9EB1BA;
+  --color-surface-panel: #B0C2CB;
+  --color-surface-soft: #EBF3F6;
+
+  /* Text */
+  --color-text-primary: #F3F6F7;
+  --color-text-secondary: #B7C3C9;
+  --color-text-muted: #8D9AA2;
+  --color-text-dark: #1F262A;
+
+  /* Lines / glow */
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-border-accent: rgba(102, 232, 250, 0.60);
+  --color-glow-accent: rgba(102, 232, 250, 0.22);
+
+  /* Type */
+  --font-sans: "Satoshi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", "Supply Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display-xl: clamp(4rem, 7vw, 6.5rem);
+  --text-display-lg: clamp(3rem, 5vw, 5rem);
+  --text-heading-lg: clamp(2.25rem, 3.5vw, 3.75rem);
+  --text-heading-md: clamp(1.75rem, 2.4vw, 2.5rem);
+  --text-body-lg: 1.125rem;
+  --text-body-md: 1rem;
+  --text-label: 0.75rem;
+
+  /* Geometry */
+  --radius-button: 12px;
+  --radius-card: 18px;
+  --radius-panel: 24px;
+  --radius-shell: 28px;
+  --radius-pill: 999px;
+
+  /* Layout rhythm */
+  --container-max: 90rem;
+  --container-pad: clamp(1.25rem, 4vw, 3.5rem);
+  --space-section: clamp(6rem, 8vw, 10rem);
+  --space-block: clamp(1.25rem, 2vw, 2rem);
+
+  /* Depth */
+  --shadow-soft: 0 16px 48px rgba(0, 0, 0, 0.22);
+  --shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.18);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --------------------------- reset --------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; }
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  margin-bottom: 1.25rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+  background: var(--color-accent);
+  color: var(--color-text-dark);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--radius-button) 0;
+  font-weight: 700;
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------------------------- buttons --------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 0.85rem 0.85rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  transition: transform 0.22s var(--ease-out),
+              background-color 0.22s var(--ease-out),
+              border-color 0.22s var(--ease-out),
+              box-shadow 0.22s var(--ease-out),
+              color 0.22s var(--ease-out);
+}
+
+.btn__capsule,
+.btn__arrow {
+  display: inline-grid;
+  place-items: center;
+  transition: transform 0.22s var(--ease-out);
+}
+.btn__capsule {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+}
+
+.btn--accent {
+  background: var(--color-accent);
+  color: var(--color-text-dark);
+}
+.btn--accent .btn__capsule { background: var(--color-text-dark); color: var(--color-accent); }
+.btn--accent:hover {
+  box-shadow: 0 0 0 4px var(--color-glow-accent);
+  transform: translateY(-1px);
+}
+
+.btn--dark {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
+}
+.btn--dark .btn__capsule { background: var(--color-accent); color: var(--color-text-dark); }
+.btn--dark:hover { border-color: var(--color-border-accent); transform: translateY(-1px); }
+
+.btn--ghost {
+  padding: 0.6rem 1.1rem;
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+}
+.btn--ghost:hover { border-color: var(--color-border-accent); color: var(--color-accent); }
+
+.btn:hover .btn__capsule,
+.btn:hover .btn__arrow { transform: translateX(4px); }
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  transition: gap 0.22s var(--ease-out);
+}
+.link-arrow span { transition: transform 0.22s var(--ease-out); }
+.link-arrow:hover { gap: 0.85rem; }
+
+/* --------------------------- header --------------------------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  transition: background-color 0.4s var(--ease-out),
+              border-color 0.4s var(--ease-out),
+              backdrop-filter 0.4s var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+.site-header[data-scrolled] {
+  background: rgba(27, 33, 35, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--color-border-subtle);
+}
+
+.utility-rail {
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: rgba(0, 0, 0, 0.18);
+}
+.utility-rail__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 38px;
+}
+.utility-rail__locale { color: var(--color-text-muted); }
+.utility-nav { display: flex; gap: 1.6rem; }
+.utility-nav a { color: var(--color-text-secondary); transition: color 0.2s var(--ease-out); }
+.utility-nav a:hover { color: var(--color-accent); }
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  font-size: 1.05rem;
+}
+.brand__mark {
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 30% 30%, var(--color-accent), transparent 60%),
+    var(--color-surface-dark);
+  border: 1px solid var(--color-border-accent);
+  box-shadow: 0 0 18px var(--color-glow-accent);
+}
+
+.primary-nav { display: flex; gap: 2.2rem; }
+.primary-nav a {
+  position: relative;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.2s var(--ease-out);
+}
+.primary-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s var(--ease-out);
+}
+.primary-nav a:hover { color: var(--color-text-primary); }
+.primary-nav a:hover::after { transform: scaleX(1); }
+
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 42px;
+  height: 38px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-button);
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--color-text-primary);
+  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+}
+
+/* --------------------------- hero --------------------------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 150px;
+  padding-bottom: 4rem;
+  overflow: hidden;
+}
+
+.hero__atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero__glow {
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 70vw; height: 70vw;
+  max-width: 1000px; max-height: 1000px;
+  background: radial-gradient(circle, var(--color-glow-accent) 0%, transparent 62%);
+  filter: blur(20px);
+}
+.hero__lines { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.9; }
+.hero__horizon {
+  position: absolute;
+  left: 50%; bottom: -55%;
+  width: 150vw; height: 110vw;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 0%, rgba(102, 232, 250, 0.10), transparent 45%);
+  border-top: 1px solid var(--color-border-accent);
+  box-shadow: 0 -1px 60px var(--color-glow-accent);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.hero__title {
+  font-size: var(--text-display-lg);
+  font-weight: 900;
+  line-height: 0.98;
+  max-width: 16ch;
+  margin-bottom: 1.6rem;
+}
+.hero__dek {
+  font-size: var(--text-body-lg);
+  color: var(--color-text-secondary);
+  max-width: 52ch;
+  margin-bottom: 2.4rem;
+}
+.hero__dek strong { color: var(--color-text-primary); font-weight: 700; }
+
+/* hero data plate */
+.hero__panel { justify-self: end; width: 100%; max-width: 420px; }
+.data-plate {
+  position: relative;
+  padding: 1.6rem;
+  border-radius: var(--radius-panel);
+  background: linear-gradient(160deg, rgba(56, 65, 70, 0.65), rgba(27, 33, 35, 0.85));
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(6px);
+}
+.data-plate__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-muted);
+  margin-bottom: 1.6rem;
+}
+.data-plate__dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent);
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+.data-plate__metric { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.data-plate__value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.data-plate__value small { font-size: 1.6rem; color: var(--color-accent); }
+.data-plate__label { color: var(--color-text-muted); }
+.data-plate__spark { width: 100%; height: 90px; margin: 0.6rem 0 1.4rem; }
+.data-plate__sparkline { stroke-dasharray: 700; stroke-dashoffset: 700; }
+.is-visible .data-plate__sparkline { animation: draw 1.6s var(--ease-out) 0.4s forwards; }
+.data-plate__rows { display: flex; flex-direction: column; gap: 0.75rem; }
+.data-plate__row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--color-text-secondary);
+}
+.data-plate__row i { flex: 1; height: 1px; background: var(--color-border-subtle); }
+.data-plate__row span:last-child { color: var(--color-accent); }
+
+.hero__scroll {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text-muted);
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+.hero__scroll-line {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+}
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* --------------------------- sections --------------------------- */
+.section { position: relative; padding-block: var(--space-section); }
+.section--dark { background: var(--color-bg); }
+.section--pale { background: var(--color-bg); }
+
+/* large rounded inversion shells */
+.shell {
+  background: var(--color-surface-soft);
+  color: var(--color-text-dark);
+  border-radius: var(--radius-shell);
+  padding: clamp(2rem, 5vw, 4.5rem);
+  box-shadow: var(--shadow-panel);
+}
+
+.section-head { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+.section-head .eyebrow { color: var(--color-surface-dark); }
+.section-title {
+  font-size: var(--text-heading-lg);
+  color: var(--color-text-dark);
+  max-width: 18ch;
+}
+
+/* proof rail */
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.proof-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+.proof-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+.card-label {
+  display: inline-block;
+  color: var(--color-accent);
+  padding-bottom: 1.4rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.proof-card__title {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.proof-card__copy {
+  color: var(--color-text-secondary);
+  font-size: 0.98rem;
+  margin-bottom: 1.6rem;
+  flex: 1;
+}
+
+/* capability / thinking / careers band */
+.band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.band__col { padding-top: 2rem; border-top: 1px solid var(--color-border-subtle); }
+.band__heading {
+  font-size: var(--text-heading-md);
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+.band__copy { color: var(--color-text-secondary); margin-bottom: 1.6rem; }
+
+.band__col--careers {
+  grid-column: 1 / -1;
+  padding-top: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(1rem, 2vw, 2rem);
+}
+.band__col--careers .band__heading { max-width: 22ch; }
+.band__col--careers .band__copy { max-width: 70ch; }
+
+.proof-points {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+}
+.proof-points li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--color-border-accent);
+}
+.proof-points__title { font-weight: 700; }
+.proof-points__copy { color: var(--color-text-secondary); font-size: 0.95rem; }
+
+.band__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.band__links { display: flex; gap: 1.4rem; }
+.band__links a { color: var(--color-text-secondary); transition: color 0.2s var(--ease-out); }
+.band__links a:hover { color: var(--color-accent); }
+
+/* firm identity */
+.shell--firm { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+.firm-head__title {
+  font-size: var(--text-heading-lg);
+  color: var(--color-text-dark);
+  line-height: 1.05;
+  max-width: 22ch;
+  margin-bottom: 1.6rem;
+}
+.firm-head__intro {
+  font-size: var(--text-body-lg);
+  color: var(--color-surface-dark);
+  max-width: 60ch;
+}
+.firm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.firm-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(27, 33, 35, 0.04);
+  border: 1px solid rgba(31, 38, 42, 0.12);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out), background-color 0.4s var(--ease-out);
+}
+.firm-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-border-accent);
+  background: rgba(102, 232, 250, 0.06);
+}
+.firm-card__index {
+  color: var(--color-surface-dark);
+  font-size: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+.firm-card__title {
+  font-size: 1.35rem;
+  color: var(--color-text-dark);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.firm-card__copy { color: var(--color-surface-dark); font-size: 0.98rem; margin-bottom: 1.6rem; flex: 1; }
+.firm-card .link-arrow { color: var(--color-text-dark); }
+.firm-card .link-arrow span { color: var(--color-accent); }
+
+/* subscription */
+.section--subscribe {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(102, 232, 250, 0.10), transparent 50%),
+    var(--color-bg-elevated);
+  overflow: hidden;
+}
+.subscribe__glow { top: auto; bottom: -40%; right: -5%; opacity: 0.7; }
+.subscribe {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.subscribe__title { font-size: var(--text-heading-lg); margin-bottom: 1.4rem; }
+.subscribe__copy { color: var(--color-text-secondary); font-size: var(--text-body-lg); max-width: 48ch; }
+
+.subscribe__form { display: grid; gap: 1.2rem; }
+.subscribe__field { display: grid; gap: 0.6rem; }
+.subscribe__field span { color: var(--color-text-muted); }
+.subscribe__field input {
+  background: rgba(27, 33, 35, 0.6);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-button);
+  padding: 1rem 1.2rem;
+  color: var(--color-text-primary);
+  font: inherit;
+  transition: border-color 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
+}
+.subscribe__field input::placeholder { color: var(--color-text-muted); }
+.subscribe__field input:focus {
+  outline: none;
+  border-color: var(--color-border-accent);
+  box-shadow: 0 0 0 3px var(--color-glow-accent);
+}
+.subscribe__form .btn { justify-self: start; }
+.subscribe__consent { color: var(--color-text-muted); font-size: 0.82rem; max-width: 50ch; }
+.subscribe__status { min-height: 1rem; color: var(--color-accent); }
+.subscribe__status[data-error] { color: #ff8585; }
+
+/* --------------------------- footer --------------------------- */
+.site-footer {
+  background: #161b1d;
+  border-top: 1px solid var(--color-border-subtle);
+  padding-block: clamp(3rem, 5vw, 5rem) 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(4, 1fr);
+  gap: clamp(2rem, 4vw, 3rem);
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.footer-brand__line {
+  color: var(--color-text-secondary);
+  margin-top: 1.2rem;
+  max-width: 28ch;
+}
+.footer-col { display: flex; flex-direction: column; gap: 0.85rem; }
+.footer-col__head { color: var(--color-text-muted); margin-bottom: 0.4rem; }
+.footer-col a { color: var(--color-text-secondary); font-size: 0.95rem; transition: color 0.2s var(--ease-out); }
+.footer-col a:hover { color: var(--color-accent); }
+.footer-base {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 2rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------- motion --------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* --------------------------- responsive --------------------------- */
+@media (max-width: 1024px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__panel { justify-self: stretch; max-width: 480px; margin-top: 1rem; }
+  .band { grid-template-columns: 1fr; }
+  .band__col--careers { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .primary-nav,
+  .header-actions .btn--ghost { display: none; }
+  .nav-toggle { display: flex; }
+
+  .primary-nav {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(27, 33, 35, 0.97);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 0.5rem var(--container-pad) 1.5rem;
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0;
+    transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+  }
+  .site-header[data-nav-open] .primary-nav {
+    display: flex;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  .primary-nav a { padding: 1rem 0; border-bottom: 1px solid var(--color-border-subtle); font-size: 1.1rem; }
+
+  .utility-nav { display: none; }
+  .proof-grid,
+  .firm-grid { grid-template-columns: 1fr; }
+  .proof-points { grid-template-columns: 1fr 1fr; }
+  .subscribe { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .data-plate__value { font-size: 2.6rem; }
+  .proof-points { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+/* --------------------------- reduced motion --------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+  [data-parallax] { transform: none !important; }
+}
+
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============================ HEADER ============================ -->
+  <header class="site-header" id="siteHeader" data-header>
+    <div class="utility-rail">
+      <div class="container utility-rail__inner">
+        <span class="utility-rail__locale mono">GLOBAL — EST. SINCE INCEPTION</span>
+        <nav class="utility-nav mono" aria-label="Utility">
+          <a href="#proof">Case Studies</a>
+          <a href="#firm">Pressroom</a>
+          <a href="#firm">Worldwide</a>
+          <a href="#firm">Alumni</a>
+          <a href="#subscribe">Client Portal</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container header-bar">
+      <a class="brand" href="#main" aria-label="Meridian home">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span class="brand__word">MERIDIAN</span>
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="#capabilities">What We Do</a>
+        <a href="#thinking">Insights</a>
+        <a href="#firm">Our Firm</a>
+        <a href="#careers">Careers</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="#subscribe">
+          <span>Get in touch</span>
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================ HERO ============================ -->
+    <section class="hero" data-parallax-root>
+      <div class="hero__atmosphere" aria-hidden="true">
+        <div class="hero__glow" data-parallax="0.18"></div>
+        <svg class="hero__lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" data-parallax="0.06">
+          <defs>
+            <linearGradient id="lineFade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#66E8FA" stop-opacity="0" />
+              <stop offset="0.5" stop-color="#66E8FA" stop-opacity="0.5" />
+              <stop offset="1" stop-color="#66E8FA" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="M-100 720 C 360 560, 760 560, 1540 660" fill="none" stroke="url(#lineFade)" stroke-width="1.2" />
+          <path d="M-100 770 C 360 600, 820 620, 1540 700" fill="none" stroke="url(#lineFade)" stroke-width="1" opacity="0.6" />
+          <path d="M-100 830 C 420 660, 860 690, 1540 760" fill="none" stroke="url(#lineFade)" stroke-width="1" opacity="0.4" />
+        </svg>
+        <div class="hero__horizon" data-parallax="0.1"></div>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__content" data-reveal-group>
+          <p class="eyebrow mono" data-reveal>BRAND, PRODUCT, DIGITAL SYSTEMS</p>
+          <h1 class="hero__title" data-reveal>Design conviction for companies entering consequential moments</h1>
+          <p class="hero__dek" data-reveal>
+            Built on close partnership with founders, executive teams, and investors,
+            <strong>Meridian</strong> connects strategy, design, and development to shape
+            perception, strengthen digital performance, and position businesses for long-term growth.
+          </p>
+          <div class="hero__actions" data-reveal>
+            <a class="btn btn--accent" href="#capabilities">
+              <span>Explore Our Capabilities</span>
+              <span class="btn__capsule" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__panel" data-reveal data-parallax="-0.08" aria-hidden="true">
+          <div class="data-plate">
+            <div class="data-plate__head">
+              <span class="mono">[ ENGAGEMENT — LIVE ]</span>
+              <span class="data-plate__dot"></span>
+            </div>
+            <div class="data-plate__metric">
+              <span class="data-plate__value">+38<small>%</small></span>
+              <span class="mono data-plate__label">CONVERSION LIFT / POST-LAUNCH</span>
+            </div>
+            <svg class="data-plate__spark" viewBox="0 0 320 90" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#66E8FA" stop-opacity="0.35" />
+                  <stop offset="1" stop-color="#66E8FA" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path class="data-plate__sparkfill" d="M0 70 L40 64 L80 66 L120 48 L160 52 L200 30 L240 34 L280 16 L320 12 L320 90 L0 90 Z" fill="url(#sparkFill)" />
+              <path class="data-plate__sparkline" d="M0 70 L40 64 L80 66 L120 48 L160 52 L200 30 L240 34 L280 16 L320 12" fill="none" stroke="#66E8FA" stroke-width="2" />
+            </svg>
+            <div class="data-plate__rows mono">
+              <div class="data-plate__row"><span>NARRATIVE</span><i></i><span>ALIGNED</span></div>
+              <div class="data-plate__row"><span>IDENTITY</span><i></i><span>SHIPPED</span></div>
+              <div class="data-plate__row"><span>INTERFACE</span><i></i><span>IN MOTION</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container hero__scroll mono" aria-hidden="true">
+        <span>SCROLL</span>
+        <span class="hero__scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ====================== EDITORIAL PROOF RAIL ====================== -->
+    <section class="section section--pale" id="proof">
+      <div class="container">
+        <div class="shell" data-reveal-group data-parallax="0.04">
+          <header class="section-head" data-reveal>
+            <p class="eyebrow mono">(Stay Informed)</p>
+            <h2 class="section-title">The Firm in Action</h2>
+          </header>
+
+          <div class="proof-grid">
+            <article class="proof-card" data-reveal>
+              <span class="card-label mono">Awards and Recognition</span>
+              <h3 class="proof-card__title">Recognized by clients who value precision over noise</h3>
+              <p class="proof-card__copy">
+                Our work is built for businesses operating under scrutiny, complexity, and ambition.
+                We design systems that present the quality of the business with greater clarity,
+                confidence, and control.
+              </p>
+              <a class="link-arrow mono" href="#firm">See Our Recognition <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="proof-card" data-reveal>
+              <span class="card-label mono">Transformation Spotlight</span>
+              <h3 class="proof-card__title">Reframing a category leader for its next phase of growth</h3>
+              <p class="proof-card__copy">
+                We partnered with leadership to align narrative, identity, user experience, and digital
+                execution around a clearer expression of value — creating a stronger platform for
+                clients, talent, and investors.
+              </p>
+              <a class="link-arrow mono" href="#firm">Read the Case Study <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="proof-card" data-reveal>
+              <span class="card-label mono">Launch Spotlight</span>
+              <h3 class="proof-card__title">From strategic intent to digital launch, built to move with certainty</h3>
+              <p class="proof-card__copy">
+                For companies entering new markets, launching new platforms, or preparing for a new
+                chapter of growth, we create design systems that are disciplined in structure and
+                decisive in market impact.
+              </p>
+              <a class="link-arrow mono" href="#capabilities">See the Engagement <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== CAPABILITY / THINKING / CAREERS BAND ============== -->
+    <section class="section section--dark" id="capabilities">
+      <div class="container band" data-reveal-group>
+        <div class="band__col" data-reveal>
+          <p class="eyebrow mono">What We Do</p>
+          <h2 class="band__heading">Delivering for Our Clients</h2>
+          <p class="band__copy">
+            We build brands, websites, product experiences, and design systems for companies that need
+            more than visual polish. Our work is designed to bring clarity to complexity and momentum to
+            growth.
+          </p>
+        </div>
+
+        <div class="band__col" id="thinking" data-reveal>
+          <p class="eyebrow mono">Our Thinking</p>
+          <h2 class="band__heading">Perspectives on brand, UX, and digital performance</h2>
+          <p class="band__copy">
+            Our insights examine how design influences trust, conversion, adoption, positioning, and
+            enterprise value across high-stakes digital environments.
+          </p>
+          <a class="link-arrow mono" href="#subscribe">Explore All Insights <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="band__col band__col--careers" id="careers" data-reveal>
+          <p class="eyebrow mono">Careers</p>
+          <h2 class="band__heading">Where exceptional talent compounds</h2>
+          <p class="band__copy">
+            Our culture is shaped by close collaboration, high standards, and meaningful responsibility.
+            Teams work across strategy, identity, UX, motion, and development alongside senior leaders on
+            consequential assignments.
+          </p>
+
+          <ul class="proof-points">
+            <li>
+              <span class="proof-points__title">Senior-Led</span>
+              <span class="proof-points__copy">Strategic and creative direction remains close to the work.</span>
+            </li>
+            <li>
+              <span class="proof-points__title">Integrated</span>
+              <span class="proof-points__copy">From narrative and interface to motion and code, execution happens within one system.</span>
+            </li>
+            <li>
+              <span class="proof-points__title">Built for Range</span>
+              <span class="proof-points__copy">We support launches, rebrands, product evolution, and digital transformation across sectors.</span>
+            </li>
+          </ul>
+
+          <div class="band__actions">
+            <a class="btn btn--dark" href="#subscribe">
+              <span>Explore Life at Meridian</span>
+              <span class="btn__capsule" aria-hidden="true">→</span>
+            </a>
+            <span class="band__links mono">
+              <a href="#firm">Our People</a>
+              <a href="#careers">Careers</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== INSTITUTIONAL IDENTITY ===================== -->
+    <section class="section section--pale" id="firm">
+      <div class="container">
+        <div class="shell shell--firm" data-reveal-group data-parallax="0.04">
+          <header class="firm-head" data-reveal>
+            <p class="eyebrow mono">(Our Firm)</p>
+            <h2 class="firm-head__title">We aspire to be the most trusted creative partner for companies with something meaningful at stake</h2>
+            <p class="firm-head__intro">
+              The best design partnerships do more than improve appearance. They help leadership teams
+              communicate with greater authority, create better user experiences, and move through moments
+              of change with discipline and confidence.
+            </p>
+          </header>
+
+          <div class="firm-grid">
+            <article class="firm-card" data-reveal>
+              <span class="firm-card__index mono">01</span>
+              <h3 class="firm-card__title">Built for defining moments</h3>
+              <p class="firm-card__copy">
+                We partner with organizations at moments that reshape perception and trajectory — entering
+                market, evolving product, repositioning brand, or preparing for scale.
+              </p>
+              <a class="link-arrow mono" href="#capabilities">Discover Our Approach <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="firm-card" data-reveal>
+              <span class="firm-card__index mono">02</span>
+              <h3 class="firm-card__title">Executing with system-level rigor</h3>
+              <p class="firm-card__copy">
+                Our model brings together strategic thinking, brand architecture, UX clarity, motion
+                language, and creative development so that every layer works as part of a coherent whole.
+              </p>
+              <a class="link-arrow mono" href="#capabilities">How We Work <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="firm-card" data-reveal>
+              <span class="firm-card__index mono">03</span>
+              <h3 class="firm-card__title">Designing for measurable business impact</h3>
+              <p class="firm-card__copy">
+                We focus on outcomes that matter: stronger positioning, clearer communication, better
+                conversion performance, sharper user journeys, and digital systems that hold up over time.
+              </p>
+              <a class="link-arrow mono" href="#firm">Review Our Initiatives <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= SUBSCRIPTION BAND ======================= -->
+    <section class="section section--subscribe" id="subscribe">
+      <div class="hero__glow subscribe__glow" aria-hidden="true"></div>
+      <div class="container subscribe" data-reveal-group>
+        <div class="subscribe__intro" data-reveal>
+          <p class="eyebrow mono">(Briefings)</p>
+          <h2 class="subscribe__title">Subscribe to Briefings</h2>
+          <p class="subscribe__copy">
+            Our briefing shares perspectives on brand transformation, product experience, digital
+            performance, and the decisions shaping durable growth across modern businesses.
+          </p>
+        </div>
+
+        <form class="subscribe__form" data-reveal data-subscribe-form novalidate>
+          <label class="subscribe__field">
+            <span class="mono">Email</span>
+            <input type="email" name="email" placeholder="name@company.com" autocomplete="email" required />
+          </label>
+          <button class="btn btn--accent" type="submit">
+            <span>Subscribe</span>
+            <span class="btn__capsule" aria-hidden="true">→</span>
+          </button>
+          <p class="subscribe__consent">
+            By submitting your information, you agree to receive occasional updates, analysis, and
+            invitations from Meridian. You may unsubscribe at any time.
+          </p>
+          <p class="subscribe__status mono" data-subscribe-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="#main" aria-label="Meridian home">
+            <span class="brand__mark" aria-hidden="true"></span>
+            <span class="brand__word">MERIDIAN</span>
+          </a>
+          <p class="footer-brand__line">Design with conviction. Build for long-term value.</p>
+        </div>
+
+        <nav class="footer-col" aria-label="Capabilities">
+          <h3 class="footer-col__head mono">Capabilities</h3>
+          <a href="#capabilities">Brand Strategy</a>
+          <a href="#capabilities">Identity Systems</a>
+          <a href="#capabilities">UX Strategy</a>
+          <a href="#capabilities">Product Design</a>
+          <a href="#capabilities">Creative Development</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Insights">
+          <h3 class="footer-col__head mono">Insights</h3>
+          <a href="#subscribe">Briefings</a>
+          <a href="#proof">Case Studies</a>
+          <a href="#proof">News</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Our Firm">
+          <h3 class="footer-col__head mono">Our Firm</h3>
+          <a href="#firm">About</a>
+          <a href="#careers">Careers</a>
+          <a href="#subscribe">Contact</a>
+          <a href="#firm">Worldwide</a>
+        </nav>
+
+        <nav class="footer-col" aria-label="Legal">
+          <h3 class="footer-col__head mono">Legal</h3>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+        </nav>
+      </div>
+
+      <div class="footer-base mono">
+        <span>© <span data-year>2026</span> Meridian. All rights reserved.</span>
+        <span>Strategy · Design · Development</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+/* =====================================================================
+   MERIDIAN — interaction layer
+   Depth, not spectacle: scroll reveals, shallow parallax, tactile UI.
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- footer year --- */
+  var yearEl = document.querySelector("[data-year]");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  /* --- header: condense on scroll --- */
+  var header = document.querySelector("[data-header]");
+  var setScrolled = function () {
+    if (!header) return;
+    if (window.scrollY > 24) header.setAttribute("data-scrolled", "");
+    else header.removeAttribute("data-scrolled");
+  };
+  setScrolled();
+  window.addEventListener("scroll", setScrolled, { passive: true });
+
+  /* --- mobile navigation --- */
+  var toggle = document.querySelector("[data-nav-toggle]");
+  if (toggle && header) {
+    toggle.addEventListener("click", function () {
+      var open = header.toggleAttribute("data-nav-open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    header.querySelectorAll(".primary-nav a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        header.removeAttribute("data-nav-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  /* --- scroll reveals via IntersectionObserver --- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  } else {
+    // stagger siblings within a group
+    document.querySelectorAll("[data-reveal-group]").forEach(function (group) {
+      var items = group.querySelectorAll("[data-reveal]");
+      items.forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.08).toFixed(2) + "s";
+      });
+    });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+    revealEls.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* --- shallow parallax (rAF, scrub feel) --- */
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
+  if (!prefersReduced && parallaxEls.length) {
+    var ticking = false;
+    var update = function () {
+      var vh = window.innerHeight;
+      parallaxEls.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.bottom < -vh || rect.top > vh * 2) return;
+        var speed = parseFloat(el.getAttribute("data-parallax")) || 0;
+        // progress: -1 (below) .. 1 (above) relative to viewport center
+        var progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+        var shift = progress * speed * 100;
+        el.style.transform = "translate3d(0," + shift.toFixed(2) + "px,0)";
+      });
+      ticking = false;
+    };
+    var onScroll = function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+
+  /* --- subscription form (client-side validation) --- */
+  var form = document.querySelector("[data-subscribe-form]");
+  if (form) {
+    var status = form.querySelector("[data-subscribe-status]");
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[name="email"]');
+      var value = (input && input.value || "").trim();
+      if (!emailRe.test(value)) {
+        status.textContent = "Please enter a valid email address.";
+        status.setAttribute("data-error", "");
+        if (input) input.focus();
+        return;
+      }
+      status.removeAttribute("data-error");
+      status.textContent = "Thank you — your subscription is confirmed.";
+      form.reset();
+    });
+  }
+})();
+
+</script>
+</body>
+</html>
