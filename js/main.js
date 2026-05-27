@@ -108,7 +108,7 @@
       rafParallax();
     }
 
-    // Hero: stagger the eyebrow, headline, dek, and button up into place on load.
+    // Hero: on load, the left-column text fades in and slides up (y: 30 -> 0).
     var heroItems = gsap.utils.toArray(".hero__content [data-anim]");
     if (heroItems.length) {
       gsap.set(heroItems, { opacity: 0, y: 30 });
@@ -118,8 +118,14 @@
         duration: 0.9,
         stagger: 0.12,
         ease: "power3.out",
-        delay: 0.15
+        delay: 0
       });
+    }
+
+    // Hero orb: 0.5s after load, scale the glass asset up from 90% to 100%.
+    var orb = document.querySelector("[data-hero-orb]");
+    if (orb) {
+      gsap.from(orb, { scale: 0.9, autoAlpha: 0, duration: 1.5, delay: 0.5, ease: "power2.out" });
     }
 
     // "Firm in Action" cards: scale up and fade in as they scroll into view.
@@ -142,6 +148,20 @@
               batch.forEach(function (el) { el.style.transition = ""; });
             }
           });
+        }
+      });
+    }
+
+    // "Firm in Action" cards: when the rail hits 80% of the viewport, fade and
+    // slide each card up in sequence (0.2s apart).
+    var actionCards = gsap.utils.toArray(".action-card");
+    if (actionCards.length && ScrollTrigger) {
+      gsap.set(actionCards, { opacity: 0, y: 30 });
+      ScrollTrigger.batch(actionCards, {
+        start: "top 80%",
+        once: true,
+        onEnter: function (batch) {
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: "power2.out", overwrite: true });
         }
       });
     }

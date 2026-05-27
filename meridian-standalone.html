@@ -347,7 +347,7 @@ button { font: inherit; cursor: pointer; }
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 }
@@ -926,6 +926,152 @@ button { font: inherit; cursor: pointer; }
   .team-grid { grid-template-columns: 1fr 1fr; }
 }
 
+/* =====================================================================
+   Institutional (capital markets) components — built on the dark DNA
+   ===================================================================== */
+.tnum { font-variant-numeric: tabular-nums; }
+.delta-up { color: var(--color-accent); }
+.delta-down { color: #E0917F; }
+
+/* ticker in the utility rail */
+.ticker { display: flex; align-items: center; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; }
+.ticker::-webkit-scrollbar { display: none; }
+.ticker__item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; color: var(--color-text-secondary); }
+.ticker__item .lbl { color: var(--color-text-muted); }
+
+/* multi-tier mega menu */
+.nav-group { position: static; display: flex; align-items: center; }
+.mega-panel {
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-panel);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0.2s;
+  z-index: 90;
+}
+.mega-panel__inner {
+  width: 100%; max-width: var(--container-max); margin-inline: auto;
+  padding: 1.25rem var(--container-pad) 1.75rem;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.mega-col { padding: 0.25rem 1.5rem; border-left: 1px solid var(--color-border-subtle); }
+.mega-col:first-child { border-left: 0; padding-left: 0; }
+.mega-link { display: block; padding: 0.7rem 0; }
+.mega-link b { display: block; font-weight: 600; color: var(--color-text-primary); }
+.mega-link span { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.2rem; }
+.mega-link:hover b { color: var(--color-accent); }
+@media (min-width: 861px) {
+  .nav-group:hover .mega-panel,
+  .nav-group:focus-within .mega-panel { opacity: 1; visibility: visible; transform: none; }
+}
+
+/* thought-leadership grid (4-up) */
+.tl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.proof-card__meta { display: flex; gap: 0.8rem; color: var(--color-text-muted); margin-top: auto; padding-top: 1.2rem; }
+.tl-chart { width: 100%; height: auto; margin: 0.5rem 0 1.2rem; }
+
+/* KPI strip */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--color-border-subtle); border-left: 1px solid var(--color-border-subtle); }
+.kpi { padding: 1.6rem; border-right: 1px solid var(--color-border-subtle); border-bottom: 1px solid var(--color-border-subtle); }
+.kpi__label { color: var(--color-text-muted); margin-bottom: 0.9rem; }
+.kpi__value { font-size: clamp(2rem, 3.2vw, 2.85rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.kpi__value small { font-size: 1rem; color: var(--color-text-muted); font-weight: 500; }
+.kpi__delta { font-size: 0.8rem; margin-top: 0.5rem; }
+
+/* data table */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.data-table thead th { text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--color-border-strong); color: var(--color-text-muted); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.data-table th.num, .data-table td.num { text-align: right; }
+.data-table td { padding: 0.85rem 0; border-bottom: 1px solid var(--color-border-subtle); }
+.data-table tr:last-child td { border-bottom: 0; }
+.bar-track { display: block; width: 120px; margin-left: auto; height: 6px; background: rgba(255, 255, 255, 0.08); }
+.bar-track i { display: block; height: 100%; background: var(--color-accent); }
+
+@media (max-width: 1024px) {
+  .tl-grid { grid-template-columns: repeat(2, 1fr); }
+  .mega-panel__inner { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .tl-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr; }
+}
+
+/* =====================================================================
+   Spatial orchestration — homepage layout & depth
+   ===================================================================== */
+/* Hero: text sits low/heavy on the left, circular glass asset on the right */
+.hero__content { padding-top: clamp(3rem, 8vw, 12rem); }
+.hero__orb {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-accent);
+  background: radial-gradient(circle at 30% 25%, rgba(102, 232, 250, 0.12), transparent 60%), var(--color-bg-elevated);
+  box-shadow: 0 0 90px var(--color-glow-accent), inset 0 0 70px rgba(0, 0, 0, 0.55);
+}
+.hero__orb .hero__distortion { opacity: 0.9; }
+.hero__orb .hero__distortion img { filter: grayscale(1) contrast(1.05) brightness(0.72); }
+.hero__orb-glow {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.16), transparent 40%);
+  box-shadow: inset 0 0 40px rgba(102, 232, 250, 0.16);
+}
+
+/* Firm in Action: 3 cards, image top / text bottom */
+.action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.action-card {
+  display: flex; flex-direction: column;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.4s var(--ease-out), transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+.action-card:hover { border-color: var(--color-border-accent); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35); }
+.action-card__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+.action-card__media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05) brightness(0.85); transition: transform 0.6s var(--ease-out); }
+.action-card__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(40, 52, 66, 0.35), rgba(27, 33, 35, 0.7)); mix-blend-mode: multiply; }
+.action-card:hover .action-card__media img { transform: scale(1.04); }
+.action-card__body { padding: 2.5rem; display: flex; flex-direction: column; }
+
+/* Capability band: breathing room + tactile hover zones */
+.band { margin-block: clamp(3rem, 7vw, 7rem); }
+.band__col { padding: 2rem 1.5rem; border-radius: 14px; transition: background-color 0.3s var(--ease-out); }
+.band__col:hover { background: rgba(255, 255, 255, 0.03); }
+.band__copy { margin-top: 2rem; }
+
+/* Institutional identity: full-width section, dark-slate rounded shell with depth */
+.shell--slate {
+  background: var(--color-surface-dark);
+  color: var(--color-text-primary);
+  width: 90%;
+  max-width: 100rem;
+  margin-inline: auto;
+  border-radius: 32px;
+  box-shadow: var(--shadow-panel);
+}
+.shell__inner { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+.shell--slate .eyebrow { color: var(--color-accent); }
+.shell--slate .firm-head__title { color: var(--color-text-primary); }
+.shell--slate .firm-head__intro { color: var(--color-text-secondary); }
+.shell--slate .firm-card { background: rgba(255, 255, 255, 0.035); border-color: var(--color-border-strong); }
+.shell--slate .firm-card:hover { background: rgba(102, 232, 250, 0.06); border-color: var(--color-border-accent); }
+.shell--slate .firm-card__title { color: var(--color-text-primary); }
+.shell--slate .firm-card__copy { color: var(--color-text-secondary); }
+.shell--slate .firm-card__index { color: var(--color-accent); }
+
+@media (max-width: 900px) {
+  .action-grid { grid-template-columns: 1fr; }
+}
+
 /* --------------------------- reduced motion --------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -995,9 +1141,6 @@ button { font: inherit; cursor: pointer; }
     <!-- ============================ HERO ============================ -->
     <section class="hero" data-parallax-root>
       <div class="hero__atmosphere" aria-hidden="true">
-        <div class="hero__distortion" data-hero-distortion>
-          <img src="assets/architecture.svg" alt="" width="1200" height="900" decoding="async" />
-        </div>
         <div class="hero__glow" data-parallax="0.18"></div>
         <svg class="hero__lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" data-parallax="0.06">
           <defs>
@@ -1032,31 +1175,12 @@ button { font: inherit; cursor: pointer; }
           </div>
         </div>
 
-        <div class="hero__panel" data-reveal data-parallax="-0.08" aria-hidden="true">
-          <div class="data-plate">
-            <div class="data-plate__head">
-              <span class="mono">[ ENGAGEMENT — LIVE ]</span>
-              <span class="data-plate__dot"></span>
+        <div class="hero__panel" data-reveal data-parallax="-0.06" aria-hidden="true">
+          <div class="hero__orb" data-hero-orb>
+            <div class="hero__distortion" data-hero-distortion>
+              <img src="assets/architecture.svg" alt="" width="1200" height="900" decoding="async" />
             </div>
-            <div class="data-plate__metric">
-              <span class="data-plate__value">+38<small>%</small></span>
-              <span class="mono data-plate__label">CONVERSION LIFT / POST-LAUNCH</span>
-            </div>
-            <svg class="data-plate__spark" viewBox="0 0 320 90" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#66E8FA" stop-opacity="0.35" />
-                  <stop offset="1" stop-color="#66E8FA" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-              <path class="data-plate__sparkfill" d="M0 70 L40 64 L80 66 L120 48 L160 52 L200 30 L240 34 L280 16 L320 12 L320 90 L0 90 Z" fill="url(#sparkFill)" />
-              <path class="data-plate__sparkline" d="M0 70 L40 64 L80 66 L120 48 L160 52 L200 30 L240 34 L280 16 L320 12" fill="none" stroke="#66E8FA" stroke-width="2" />
-            </svg>
-            <div class="data-plate__rows mono">
-              <div class="data-plate__row"><span>NARRATIVE</span><i></i><span>ALIGNED</span></div>
-              <div class="data-plate__row"><span>IDENTITY</span><i></i><span>SHIPPED</span></div>
-              <div class="data-plate__row"><span>INTERFACE</span><i></i><span>IN MOTION</span></div>
-            </div>
+            <span class="hero__orb-glow"></span>
           </div>
         </div>
       </div>
@@ -1076,26 +1200,42 @@ button { font: inherit; cursor: pointer; }
             <h2 class="section-title">The Firm in Action</h2>
           </header>
 
-          <div class="proof-grid">
-            <article class="proof-card" data-anim>
-              <span class="card-label mono">Transformation Spotlight</span>
-              <h3 class="proof-card__title">Delivering performance excellence across global platforms.</h3>
-              <p class="proof-card__copy">
-                We mobilized our efforts around improving digital operations and delivering performance
-                excellence. We have strong momentum in areas we strategically identified for growth,
-                creating scalable digital assets for our partners.
-              </p>
+          <div class="action-grid">
+            <!-- Media is a placeholder — swap in the dark-marble boardroom asset -->
+            <article class="action-card" data-action>
+              <div class="action-card__media"><img src="assets/architecture.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" /></div>
+              <div class="action-card__body">
+                <span class="card-label mono">Transformation Spotlight</span>
+                <h3 class="proof-card__title">Delivering performance excellence across global platforms.</h3>
+                <p class="proof-card__copy">
+                  We mobilized our efforts around improving digital operations and delivering performance
+                  excellence, creating scalable digital assets for our partners.
+                </p>
+              </div>
             </article>
 
-            <article class="proof-card" data-anim>
-              <span class="card-label mono">Launch Spotlight</span>
-              <h3 class="proof-card__title">Navigating complex markets with institutional discipline.</h3>
-              <p class="proof-card__copy">
-                We continue to navigate complex digital markets. While organizations are not deploying
-                capital at the same frequency as prior years, their core needs have not changed. They need
-                robust digital platforms to grow and outpace competitors. This is where our execution takes
-                market share.
-              </p>
+            <article class="action-card" data-action>
+              <div class="action-card__media"><img src="assets/architecture.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" /></div>
+              <div class="action-card__body">
+                <span class="card-label mono">Launch Spotlight</span>
+                <h3 class="proof-card__title">Navigating complex markets with institutional discipline.</h3>
+                <p class="proof-card__copy">
+                  Their core needs have not changed: robust digital platforms to grow and outpace
+                  competitors. This is where our execution takes market share.
+                </p>
+              </div>
+            </article>
+
+            <article class="action-card" data-action>
+              <div class="action-card__media"><img src="assets/architecture.svg" alt="" width="1200" height="900" loading="lazy" decoding="async" /></div>
+              <div class="action-card__body">
+                <span class="card-label mono">Performance Spotlight</span>
+                <h3 class="proof-card__title">Generating operational alpha across the cycle.</h3>
+                <p class="proof-card__copy">
+                  Our digital returns for enterprise partners have outperformed comparable benchmarks,
+                  compounding value through periods of market volatility.
+                </p>
+              </div>
             </article>
           </div>
         </div>
@@ -1141,9 +1281,9 @@ button { font: inherit; cursor: pointer; }
     </section>
 
     <!-- ===================== INSTITUTIONAL IDENTITY ===================== -->
-    <section class="section section--pale" id="firm">
-      <div class="container">
-        <div class="shell shell--firm" data-reveal-group data-parallax="0.04">
+    <section class="section section--dark" id="firm">
+      <div class="shell shell--slate shell--firm" data-reveal-group data-parallax="0.12">
+        <div class="shell__inner" data-parallax="-0.06">
           <header class="firm-head" data-reveal>
             <p class="eyebrow mono">Our Firm</p>
             <h2 class="firm-head__title">We generate operational alpha over a long time horizon.</h2>
@@ -1408,7 +1548,7 @@ button { font: inherit; cursor: pointer; }
       rafParallax();
     }
 
-    // Hero: stagger the eyebrow, headline, dek, and button up into place on load.
+    // Hero: on load, the left-column text fades in and slides up (y: 30 -> 0).
     var heroItems = gsap.utils.toArray(".hero__content [data-anim]");
     if (heroItems.length) {
       gsap.set(heroItems, { opacity: 0, y: 30 });
@@ -1418,8 +1558,14 @@ button { font: inherit; cursor: pointer; }
         duration: 0.9,
         stagger: 0.12,
         ease: "power3.out",
-        delay: 0.15
+        delay: 0
       });
+    }
+
+    // Hero orb: 0.5s after load, scale the glass asset up from 90% to 100%.
+    var orb = document.querySelector("[data-hero-orb]");
+    if (orb) {
+      gsap.from(orb, { scale: 0.9, autoAlpha: 0, duration: 1.5, delay: 0.5, ease: "power2.out" });
     }
 
     // "Firm in Action" cards: scale up and fade in as they scroll into view.
@@ -1442,6 +1588,20 @@ button { font: inherit; cursor: pointer; }
               batch.forEach(function (el) { el.style.transition = ""; });
             }
           });
+        }
+      });
+    }
+
+    // "Firm in Action" cards: when the rail hits 80% of the viewport, fade and
+    // slide each card up in sequence (0.2s apart).
+    var actionCards = gsap.utils.toArray(".action-card");
+    if (actionCards.length && ScrollTrigger) {
+      gsap.set(actionCards, { opacity: 0, y: 30 });
+      ScrollTrigger.batch(actionCards, {
+        start: "top 80%",
+        once: true,
+        onEnter: function (batch) {
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: "power2.out", overwrite: true });
         }
       });
     }
