@@ -1,0 +1,5 @@
+gotoOk=true
+finalUrl=https://www.harkcap.com/
+title=Hark Capital
+bodyBg=rgb(243, 243, 243)
+bodyColor=rgb(24, 24, 24)
