@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bergweiss — Pioneers in NAV financing</title>
+<meta name="description" content="We execute digital capital." />
+
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="preconnect" href="https://cdn.tailwindcss.com" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          display: ['"Fraunces"', '"Söhne"', 'Georgia', 'serif'],
+        },
+        colors: {
+          ink: { 950: '#04101c', 900: '#062541', 800: '#0a3258', 700: '#114167', 600: '#235e80' },
+          mist: { 50: '#f3f3f3', 100: '#e9eaec', 200: '#d4d4d4' },
+          glacier: '#00f2e5',
+        },
+        letterSpacing: { tightest: '-0.04em' },
+      },
+    },
+  };
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+
+<style>
+  html, body { background: #04101c; color: #f3f3f3; }
+  ::selection { background: #00f2e5; color: #062541; }
+  /* Lenis hooks */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: clip; }
+
+  /* Asymmetric grid utilities preserved as plain CSS */
+  .grid-asymmetric {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1rem, 2vw, 2.25rem);
+    row-gap: clamp(2rem, 4vw, 4.5rem);
+  }
+
+  /* Parallax frame: image is taller than its container; GSAP yPercent-shifts it */
+  .parallax-frame { overflow: hidden; }
+  .parallax-frame > img { will-change: transform; transform: translate3d(0,0,0); }
+
+  /* Marquee */
+  @keyframes marquee {
+    from { transform: translate3d(0,0,0); }
+    to   { transform: translate3d(-50%,0,0); }
+  }
+  .marquee-track { animation: marquee 38s linear infinite; }
+
+  /* Reveal default: hidden until GSAP enters */
+  [data-reveal] { opacity: 0; transform: translate3d(0,40px,0); }
+</style>
+</head>
+
+<body class="font-sans antialiased text-mist-50 bg-ink-950">
+
+<!-- ============================================================ NAV -->
+<header class="fixed top-0 inset-x-0 z-50 mix-blend-difference">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 py-5 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-3 text-mist-50">
+      <svg viewBox="0 0 44 35" width="36" height="29" fill="currentColor" aria-hidden="true">
+        <path d="M0 35C12.9 35 20.2 24.2 20.2 10.8V0H0V35Z"/>
+        <path d="M40.5 0C27.6 0 20.3 10.8 20.3 24.2V35H40.5V0Z"/>
+      </svg>
+      <span class="font-display text-xl tracking-tightest leading-none">Bergweiss</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-mist-50/80">
+      <a href="#solutions"   class="hover:text-mist-50 transition-colors">Solutions</a>
+      <a href="#capabilities" class="hover:text-mist-50 transition-colors">Capabilities</a>
+      <a href="#work"        class="hover:text-mist-50 transition-colors">Selected Work</a>
+      <a href="#about"       class="hover:text-mist-50 transition-colors">About</a>
+    </nav>
+    <a href="#contact" class="inline-flex items-center gap-2 rounded-full border border-mist-50/25 px-4 py-2 text-sm hover:bg-mist-50 hover:text-ink-950 transition-colors">
+      <span>+ Menu</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================================================ HERO -->
+<section class="relative min-h-[100svh] pt-32 pb-24 overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="parallax-frame absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=1200&auto=format&fit=crop"
+        alt=""
+        class="h-[130%] w-full object-cover opacity-40"
+        data-parallax="0.18" />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/55 to-ink-950"></div>
+  </div>
+
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+
+    <!-- eyebrow, sits on col 1-4 -->
+    <p data-reveal class="col-span-12 md:col-span-4 self-start text-xs uppercase tracking-[0.32em] text-mist-50/60 mt-4">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Our Practice
+    </p>
+
+    <!-- Hero title, sits on col 1-10, intentional negative top -->
+    <h1 data-reveal class="col-span-12 md:col-span-10 md:-mt-6 font-display text-[clamp(2.75rem,9vw,9.5rem)] leading-[0.92] tracking-tightest">
+      We execute<br/>
+      <span class="italic text-glacier">digital</span> capital.
+    </h1>
+
+    <!-- Subtext, sits on col 7-12, intentional overlap with title bottom -->
+    <p data-reveal class="col-span-12 md:col-span-6 md:col-start-7 md:-mt-12 text-base md:text-lg leading-relaxed text-mist-50/75 max-w-[44ch]">
+      Our business today is exceptionally diversified across platforms, geographies, and distribution channels.
+      We advise enterprise clients who invest across the spectrum of digital architecture.
+    </p>
+
+    <!-- Hero ticker, sits on col 1-6 -->
+    <div data-reveal class="col-span-12 md:col-span-6 flex items-baseline gap-4 mt-2">
+      <div class="font-display text-5xl md:text-7xl tracking-tightest">$40B+</div>
+      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 max-w-[18ch]">
+        in assets under management across portfolios
+      </div>
+    </div>
+
+    <!-- Hero CTA cluster -->
+    <div data-reveal class="col-span-12 md:col-span-6 flex items-center md:justify-end gap-3 self-end">
+      <a href="#capabilities" class="group inline-flex items-center gap-2 rounded-full bg-mist-50 text-ink-950 px-6 py-3 text-sm font-medium">
+        Explore the practice
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-0.5"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#contact" class="inline-flex items-center gap-2 rounded-full border border-mist-50/20 px-6 py-3 text-sm">
+        Speak with the team
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="absolute bottom-6 right-6 md:bottom-10 md:right-10 text-[10px] uppercase tracking-[0.32em] text-mist-50/45">
+    <span class="inline-block w-px h-10 bg-mist-50/30 align-middle mr-3"></span>scroll
+  </div>
+</section>
+
+<!-- ============================================================ MARQUEE -->
+<section aria-hidden="true" class="border-y border-mist-50/10 py-6 overflow-hidden">
+  <div class="marquee-track flex gap-16 whitespace-nowrap text-mist-50/60 text-sm uppercase tracking-[0.32em]">
+    <span>Non-dilutive capital</span><span>·</span>
+    <span>Cross-border</span><span>·</span>
+    <span>NAV-based facilities</span><span>·</span>
+    <span>Platforms · Geographies · Channels</span><span>·</span>
+    <span>Non-dilutive capital</span><span>·</span>
+    <span>Cross-border</span><span>·</span>
+    <span>NAV-based facilities</span><span>·</span>
+    <span>Platforms · Geographies · Channels</span><span>·</span>
+  </div>
+</section>
+
+<!-- ============================================================ ABOUT (asymmetric) -->
+<section id="about" class="py-32 md:py-48">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+
+    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      About
+    </p>
+
+    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] tracking-tightest -mt-2">
+      A purpose-built practice for capital that <span class="italic">moves carefully</span>, deploys decisively, and compounds across cycles.
+    </h2>
+
+    <!-- Stacked stats column, intentionally narrow, hugs left -->
+    <div class="col-span-12 md:col-span-4 space-y-10 mt-8">
+      <div data-reveal>
+        <div class="font-display text-6xl md:text-7xl tracking-tightest text-glacier">12</div>
+        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
+          years building the category
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="font-display text-6xl md:text-7xl tracking-tightest">47</div>
+        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
+          institutional partners across three continents
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="font-display text-6xl md:text-7xl tracking-tightest">9 / 10</div>
+        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
+          NAV facilities renewed or upsized in the last cycle
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlapping image, sits across col 6-12 with negative top to bite into the heading row -->
+    <figure data-reveal class="col-span-12 md:col-span-7 md:col-start-6 md:-mt-24 parallax-frame relative aspect-[4/5] md:aspect-[5/6]">
+      <img
+        src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1200&auto=format&fit=crop"
+        alt="Alpine ridge at first light"
+        class="h-[120%] w-full object-cover"
+        data-parallax="0.14" />
+      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+        Fig. 01 — Conviction at altitude
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ CAPABILITIES -->
+<section id="capabilities" class="py-32 md:py-48 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+
+    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Capabilities
+    </p>
+
+    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5vw,4.25rem)] leading-[1.04] tracking-tightest -mt-2">
+      Three disciplines, one continuous architecture.
+    </h2>
+
+    <!-- Three capability cards on an asymmetric staircase: col 1-5, 5-9, 8-12 with stepped top margins -->
+    <article data-reveal class="col-span-12 md:col-span-5 mt-10 group">
+      <div class="parallax-frame aspect-[4/5] relative">
+        <img
+          src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          data-parallax="0.10" />
+      </div>
+      <div class="mt-6 flex items-baseline justify-between">
+        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">Brand Equity</h3>
+        <span class="text-xs tracking-[0.28em] text-mist-50/50">01</span>
+      </div>
+      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+        Long-horizon stewardship of name, narrative, and category position — the compounding asset that survives every product cycle.
+      </p>
+    </article>
+
+    <article data-reveal class="col-span-12 md:col-span-5 md:col-start-5 md:mt-32 group">
+      <div class="parallax-frame aspect-[4/5] relative">
+        <img
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          data-parallax="0.13" />
+      </div>
+      <div class="mt-6 flex items-baseline justify-between">
+        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">Digital Platforms</h3>
+        <span class="text-xs tracking-[0.28em] text-mist-50/50">02</span>
+      </div>
+      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+        Infrastructure that earns scale instead of subsidising it — designed for the operators, paid for by the unit economics.
+      </p>
+    </article>
+
+    <article data-reveal class="col-span-12 md:col-span-5 md:col-start-8 md:mt-16 group">
+      <div class="parallax-frame aspect-[4/5] relative">
+        <img
+          src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          data-parallax="0.16" />
+      </div>
+      <div class="mt-6 flex items-baseline justify-between">
+        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">User Experience Solutions</h3>
+        <span class="text-xs tracking-[0.28em] text-mist-50/50">03</span>
+      </div>
+      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+        The interface where conviction meets execution — research-grade product work for the moments that decide trust.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================ SELECTED WORK (asymmetric image grid w/ parallax) -->
+<section id="work" class="py-32 md:py-48 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+
+    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Selected Work
+    </p>
+
+    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5vw,4.25rem)] leading-[1.04] tracking-tightest -mt-2">
+      A short list. Each one rebuilt the floor under itself.
+    </h2>
+
+    <!-- Asymmetric grid: large left, two stacked right, then one wide centered -->
+    <figure data-reveal class="col-span-12 md:col-span-7 mt-12 parallax-frame relative aspect-[5/6]">
+      <img
+        src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1200&auto=format&fit=crop"
+        alt=""
+        class="h-[120%] w-full object-cover"
+        data-parallax="0.12" />
+      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+        Case 04 · Alpine Manufacturing — €240M follow-on
+      </figcaption>
+    </figure>
+
+    <div class="col-span-12 md:col-span-5 mt-12 md:mt-24 flex flex-col gap-8">
+      <figure data-reveal class="parallax-frame relative aspect-square">
+        <img
+          src="https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+          class="h-[118%] w-full object-cover"
+          data-parallax="0.10" />
+        <figcaption class="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+          Case 05 · Cross-border platform consolidation
+        </figcaption>
+      </figure>
+
+      <figure data-reveal class="parallax-frame relative aspect-[4/3]">
+        <img
+          src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+          class="h-[120%] w-full object-cover"
+          data-parallax="0.15" />
+        <figcaption class="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+          Case 06 · Distribution architecture, three geographies
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Wide centered image, intentionally offset col 3-11 with negative top -->
+    <figure data-reveal class="col-span-12 md:col-span-9 md:col-start-3 md:-mt-12 parallax-frame relative aspect-[16/7]">
+      <img
+        src="https://images.unsplash.com/photo-1465447142348-e9952c393450?q=80&w=1600&auto=format&fit=crop"
+        alt=""
+        class="h-[120%] w-full object-cover"
+        data-parallax="0.18" />
+      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+        Case 07 · NAV facility, multi-strategy fund vehicle
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ INSIGHTS / QUOTE -->
+<section class="py-32 md:py-48 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+    <blockquote data-reveal class="col-span-12 md:col-span-10 md:col-start-2 font-display text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-tightest">
+      <span class="text-glacier">“</span>
+      In a cash-constrained environment, NAV lending is increasingly proving itself as a vital component of fund performance — purpose-built capital, deployed with the patience the asset class requires.
+      <span class="text-glacier">”</span>
+    </blockquote>
+    <footer data-reveal class="col-span-12 md:col-span-6 md:col-start-2 mt-8 text-xs uppercase tracking-[0.28em] text-mist-50/60">
+      Doug Cruikshank — Managing Partner
+    </footer>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT / CTA -->
+<section id="contact" class="py-32 md:py-48 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+
+    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Get in touch
+    </p>
+
+    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2.25rem,6vw,5.5rem)] leading-[0.98] tracking-tightest -mt-2">
+      Bring us the question.<br/>We'll bring the structure.
+    </h2>
+
+    <div data-reveal class="col-span-12 md:col-span-6 md:col-start-7 mt-6 flex flex-col gap-4">
+      <a href="mailto:hello@bergweiss.com" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
+        <span>hello@bergweiss.com</span>
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
+        <span>Investor portal</span>
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
+        <span>LinkedIn</span>
+        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ FOOTER -->
+<footer class="border-t border-mist-50/10 py-16 md:py-24">
+  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric items-end">
+    <div class="col-span-12 md:col-span-6">
+      <div class="flex items-center gap-4">
+        <svg viewBox="0 0 110 92" width="64" height="54" fill="currentColor" class="text-mist-50" aria-hidden="true">
+          <path d="M3.2,91.7c33.9,0,53-28.4,53-63.3V0H3.2v91.7Z"/>
+          <path d="M109.4,0C75.5,0,56.4,28.4,56.4,63.3v28.3h53V0Z"/>
+        </svg>
+        <span class="font-display text-5xl md:text-6xl tracking-tightest">Bergweiss</span>
+      </div>
+      <div class="mt-4 pt-3 border-t border-mist-50/15 text-xs uppercase tracking-[0.28em] text-mist-50/70">
+        A <span class="font-semibold text-mist-50">Ridgepost Capital</span> Strategy
+      </div>
+      <p class="mt-8 max-w-[62ch] text-sm leading-relaxed text-mist-50/65">
+        Bergweiss is a strategy of Ridgepost Capital (NYSE: RPC), a leading private markets solutions provider with over $40 billion in assets under management as of September 30, 2025. Ridgepost Capital invests across private equity, private credit, and venture capital in access-constrained strategies, with a focus on the middle and lower-middle market.
+      </p>
+    </div>
+
+    <nav class="col-span-6 md:col-span-3 text-sm">
+      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/45 mb-4">Navigation</div>
+      <ul class="space-y-2">
+        <li><a href="#top"          class="hover:text-glacier transition-colors">Home</a></li>
+        <li><a href="#capabilities" class="hover:text-glacier transition-colors">Capabilities</a></li>
+        <li><a href="#about"        class="hover:text-glacier transition-colors">About</a></li>
+        <li><a href="#work"         class="hover:text-glacier transition-colors">Selected Work</a></li>
+        <li><a href="#contact"      class="hover:text-glacier transition-colors">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav class="col-span-6 md:col-span-3 text-sm">
+      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/45 mb-4">Links</div>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-glacier transition-colors">LinkedIn</a></li>
+        <li><a href="#" class="hover:text-glacier transition-colors">Investor Login</a></li>
+        <li><a href="#" class="hover:text-glacier transition-colors">Data Room</a></li>
+      </ul>
+    </nav>
+
+    <div class="col-span-12 mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-mist-50/45">
+      <span>© 2026 Bergweiss Advisors, LLC.</span>
+      <span>Past performance is not necessarily indicative of future results.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ MOTION: Lenis + GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script>
+(() => {
+  // ----- Lenis: buttery smooth scroll -----
+  const lenis = new Lenis({
+    duration: 1.35,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out
+    smoothWheel: true,
+    smoothTouch: false,
+    wheelMultiplier: 1.0,
+    touchMultiplier: 1.2,
+  });
+
+  // Bridge Lenis with GSAP's ticker so scroll-driven tweens stay in lockstep
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  // ----- Reveal headers/blocks (y: 40, opacity: 0 → 0,1) -----
+  gsap.utils.toArray('[data-reveal]').forEach((el) => {
+    gsap.fromTo(el,
+      { y: 40, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 1.0,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      }
+    );
+  });
+
+  // ----- Parallax: shift each image inside its frame as the frame moves through viewport -----
+  // amount comes from data-parallax (fraction of viewport height to drift)
+  gsap.utils.toArray('.parallax-frame > img').forEach((img) => {
+    const frame = img.parentElement;
+    const amount = parseFloat(img.dataset.parallax || '0.12'); // 0..0.3 typical
+    gsap.fromTo(img,
+      { yPercent: -amount * 50 }, // start slightly drifted up
+      {
+        yPercent:  amount * 50,   // drift down through scroll
+        ease: 'none',
+        scrollTrigger: {
+          trigger: frame,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      }
+    );
+  });
+
+  // ----- Refresh ScrollTrigger after fonts/images settle -----
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+  // Re-measure if Lenis tweaks layout
+  ScrollTrigger.addEventListener('refreshInit', () => lenis.scrollTo(window.scrollY, { immediate: true }));
+})();
+</script>
+
+</body>
+</html>
