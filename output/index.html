@@ -1,14 +1,15 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bergweiss — Pioneers in NAV financing</title>
 <meta name="description" content="We execute digital capital." />
 
-<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-<link rel="preconnect" href="https://cdn.tailwindcss.com" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -16,32 +17,36 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-          display: ['"Fraunces"', '"Söhne"', 'Georgia', 'serif'],
+          sans:    ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          display: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
+          mono:    ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
         },
         colors: {
-          ink: { 950: '#04101c', 900: '#062541', 800: '#0a3258', 700: '#114167', 600: '#235e80' },
-          mist: { 50: '#f3f3f3', 100: '#e9eaec', 200: '#d4d4d4' },
+          ink:     { 950:'#03101e', 900:'#062541', 850:'#072b4a', 800:'#0a3258', 700:'#114167', 600:'#235e80' },
+          mist:    { 50:'#f6f5f2', 100:'#ecebe6', 200:'#d4d4d4', 300:'#9aa6b2' },
           glacier: '#00f2e5',
+          ember:   '#d3a26d',
         },
-        letterSpacing: { tightest: '-0.04em' },
+        letterSpacing: { tightest: '-0.04em', tighter2: '-0.025em' },
       },
     },
   };
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <style>
-  html, body { background: #04101c; color: #f3f3f3; }
-  ::selection { background: #00f2e5; color: #062541; }
+  html, body { background:#03101e; color:#f6f5f2; }
+  body { font-feature-settings: "ss01","ss02","cv11"; -webkit-font-smoothing: antialiased; }
+  ::selection { background:#00f2e5; color:#062541; }
+
   /* Lenis hooks */
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
   .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
   .lenis.lenis-stopped { overflow: clip; }
 
-  /* Asymmetric grid utilities preserved as plain CSS */
+  /* 12-col asymmetric grid */
   .grid-asymmetric {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -49,44 +54,83 @@
     row-gap: clamp(2rem, 4vw, 4.5rem);
   }
 
+  /* Display kerning: Fraunces variable axis */
+  .fr-display { font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'wght' 500; }
+  .fr-display-light { font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'wght' 350; }
+
   /* Parallax frame: image is taller than its container; GSAP yPercent-shifts it */
-  .parallax-frame { overflow: hidden; }
+  .parallax-frame { overflow: hidden; position: relative; background: #072b4a; }
   .parallax-frame > img { will-change: transform; transform: translate3d(0,0,0); }
 
-  /* Marquee */
-  @keyframes marquee {
-    from { transform: translate3d(0,0,0); }
-    to   { transform: translate3d(-50%,0,0); }
-  }
-  .marquee-track { animation: marquee 38s linear infinite; }
+  /* Hero image overlay */
+  .vignette { background:
+    radial-gradient(ellipse at 30% 20%, rgba(3,16,30,0) 0%, rgba(3,16,30,0.85) 80%),
+    linear-gradient(180deg, rgba(3,16,30,0.55) 0%, rgba(3,16,30,0.95) 100%); }
 
-  /* Reveal default: ONLY hide once GSAP has confirmed it loaded
-     (the `gsap-ready` class is added by the script below).
-     Without this guard, a missing CDN script would leave the page invisible. */
-  html.gsap-ready [data-reveal] { opacity: 0; transform: translate3d(0,40px,0); }
+  /* Animated underline link */
+  .link-line { position: relative; }
+  .link-line::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+    background: currentColor; transform-origin: right; transform: scaleX(0);
+    transition: transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .link-line:hover::after { transform-origin: left; transform: scaleX(1); }
+
+  /* Marquee */
+  @keyframes marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  .marquee-track { animation: marquee 42s linear infinite; }
+  .marquee-track:hover { animation-play-state: paused; }
+
+  /* Reveal default: ONLY hidden once the script confirms GSAP loaded */
+  html.gsap-ready [data-reveal]    { opacity: 0; transform: translate3d(0,40px,0); }
+  html.gsap-ready [data-reveal-x]  { opacity: 0; transform: translate3d(-40px,0,0); }
+  html.gsap-ready [data-split] .ch { display: inline-block; transform: translate3d(0,110%,0); opacity: 0; }
+
+  /* Magnetic hover container does not crop child */
+  .magnetic { display: inline-block; will-change: transform; }
+
+  /* Number ticker font */
+  .num { font-family: 'Fraunces', serif; font-variation-settings: 'opsz' 144, 'wght' 400; font-feature-settings: 'tnum'; letter-spacing: -0.03em; }
+
+  /* Subtle hairline */
+  .hairline { background: linear-gradient(90deg, transparent, rgba(246,245,242,.18) 20%, rgba(246,245,242,.18) 80%, transparent); height: 1px; }
+
+  /* Capability card border */
+  .cap-card { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .cap-card:hover .cap-img { transform: scale(1.03); }
+  .cap-img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+
+  /* Cursor */
+  .cursor { position: fixed; top: 0; left: 0; width: 8px; height: 8px; border-radius: 999px; background: #00f2e5; mix-blend-mode: difference; pointer-events: none; z-index: 100; transform: translate3d(-50%,-50%,0); transition: width .25s ease, height .25s ease, opacity .25s ease; opacity: 0; }
+  @media (hover: hover) { .cursor { opacity: 1; } }
+  .cursor.hot { width: 36px; height: 36px; }
 </style>
 </head>
 
 <body class="font-sans antialiased text-mist-50 bg-ink-950">
 
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
 <!-- ============================================================ NAV -->
 <header class="fixed top-0 inset-x-0 z-50 mix-blend-difference">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 py-5 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-3 text-mist-50">
-      <svg viewBox="0 0 44 35" width="36" height="29" fill="currentColor" aria-hidden="true">
-        <path d="M0 35C12.9 35 20.2 24.2 20.2 10.8V0H0V35Z"/>
-        <path d="M40.5 0C27.6 0 20.3 10.8 20.3 24.2V35H40.5V0Z"/>
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 py-5 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-3 text-mist-50" data-cursor="hot">
+      <svg viewBox="0 0 110 92" width="28" height="24" fill="currentColor" aria-hidden="true">
+        <path d="M3.2,91.7c33.9,0,53-28.4,53-63.3V0H3.2v91.7Z"/>
+        <path d="M109.4,0C75.5,0,56.4,28.4,56.4,63.3v28.3h53V0Z"/>
       </svg>
-      <span class="font-display text-xl tracking-tightest leading-none">Bergweiss</span>
+      <span class="font-display fr-display text-[22px] tracking-tightest leading-none">Bergweiss</span>
     </a>
-    <nav class="hidden md:flex items-center gap-8 text-sm text-mist-50/80">
-      <a href="#solutions"   class="hover:text-mist-50 transition-colors">Solutions</a>
-      <a href="#capabilities" class="hover:text-mist-50 transition-colors">Capabilities</a>
-      <a href="#work"        class="hover:text-mist-50 transition-colors">Selected Work</a>
-      <a href="#about"       class="hover:text-mist-50 transition-colors">About</a>
+    <nav class="hidden md:flex items-center gap-9 text-[13px] text-mist-50/85">
+      <a href="#solutions"    class="link-line" data-cursor="hot">Solutions</a>
+      <a href="#capabilities" class="link-line" data-cursor="hot">Capabilities</a>
+      <a href="#work"         class="link-line" data-cursor="hot">Selected Work</a>
+      <a href="#insights"     class="link-line" data-cursor="hot">Insights</a>
+      <a href="#about"        class="link-line" data-cursor="hot">About</a>
     </nav>
-    <a href="#contact" class="inline-flex items-center gap-2 rounded-full border border-mist-50/25 px-4 py-2 text-sm hover:bg-mist-50 hover:text-ink-950 transition-colors">
-      <span>+ Menu</span>
+    <a href="#contact" class="magnetic inline-flex items-center gap-2 rounded-full border border-mist-50/25 px-4 py-2 text-[13px] hover:bg-mist-50 hover:text-ink-950 transition-colors" data-cursor="hot" data-magnetic>
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-glacier"></span>
+      <span>Contact</span>
     </a>
   </div>
 </header>
@@ -94,296 +138,402 @@
 <main id="top">
 
 <!-- ============================================================ HERO -->
-<section class="relative min-h-[100svh] pt-32 pb-24 overflow-hidden">
+<section class="relative min-h-[100svh] pt-36 pb-28 overflow-hidden">
+  <!-- Background image + vignette -->
   <div class="absolute inset-0 -z-10">
     <div class="parallax-frame absolute inset-0">
       <img
-        src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=1200&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2000&auto=format&fit=crop"
         alt=""
-        class="h-[130%] w-full object-cover opacity-40"
-        data-parallax="0.18" />
+        class="h-[125%] w-full object-cover opacity-55"
+        data-parallax="0.16" />
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/55 to-ink-950"></div>
+    <div class="absolute inset-0 vignette"></div>
   </div>
 
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
+    <!-- Eyebrow -->
+    <div data-reveal class="col-span-12 md:col-span-5 self-start text-[11px] uppercase tracking-[0.36em] text-mist-50/65 mt-4 font-mono">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3 shadow-[0_0_24px_rgba(0,242,229,0.65)]"></span>
+      The Practice · Est. 2014
+    </div>
 
-    <!-- eyebrow, sits on col 1-4 -->
-    <p data-reveal class="col-span-12 md:col-span-4 self-start text-xs uppercase tracking-[0.32em] text-mist-50/60 mt-4">
-      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
-      Our Practice
-    </p>
-
-    <!-- Hero title, sits on col 1-10, intentional negative top -->
-    <h1 data-reveal class="col-span-12 md:col-span-10 md:-mt-6 font-display text-[clamp(2.75rem,9vw,9.5rem)] leading-[0.92] tracking-tightest">
-      We execute<br/>
-      <span class="italic text-glacier">digital</span> capital.
+    <!-- Hero title with split-letter reveal -->
+    <h1 class="col-span-12 md:col-span-12 md:-mt-6 fr-display-light text-[clamp(3rem,11.2vw,12rem)] leading-[0.9] tracking-tightest" data-split>
+      <span class="block">We <em class="not-italic"><span class="text-glacier italic">execute</span></em></span>
+      <span class="block">digital capital.</span>
     </h1>
 
-    <!-- Subtext, sits on col 7-12, intentional overlap with title bottom -->
-    <p data-reveal class="col-span-12 md:col-span-6 md:col-start-7 md:-mt-12 text-base md:text-lg leading-relaxed text-mist-50/75 max-w-[44ch]">
+    <!-- Subtext, intentionally overlaps the title -->
+    <p data-reveal class="col-span-12 md:col-span-6 md:col-start-7 md:-mt-10 text-[15px] md:text-[17px] leading-[1.55] text-mist-50/80 max-w-[48ch]">
       Our business today is exceptionally diversified across platforms, geographies, and distribution channels.
       We advise enterprise clients who invest across the spectrum of digital architecture.
     </p>
 
-    <!-- Hero ticker, sits on col 1-6 -->
-    <div data-reveal class="col-span-12 md:col-span-6 flex items-baseline gap-4 mt-2">
-      <div class="font-display text-5xl md:text-7xl tracking-tightest">$40B+</div>
-      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 max-w-[18ch]">
-        in assets under management across portfolios
+    <!-- Hero stat -->
+    <div data-reveal class="col-span-12 md:col-span-6 flex items-end gap-5 mt-12 md:mt-2">
+      <div class="num text-[clamp(3.5rem,7vw,6.5rem)] leading-none">$<span data-counter="40">0</span>B<span class="text-glacier">+</span></div>
+      <div class="text-[11px] uppercase tracking-[0.32em] text-mist-50/55 max-w-[22ch] font-mono pb-2">
+        AUM under management<br/>across portfolios
       </div>
     </div>
 
     <!-- Hero CTA cluster -->
-    <div data-reveal class="col-span-12 md:col-span-6 flex items-center md:justify-end gap-3 self-end">
-      <a href="#capabilities" class="group inline-flex items-center gap-2 rounded-full bg-mist-50 text-ink-950 px-6 py-3 text-sm font-medium">
+    <div data-reveal class="col-span-12 md:col-span-6 flex items-center md:justify-end gap-3 self-end mt-6 md:mt-2">
+      <a href="#capabilities" class="magnetic group inline-flex items-center gap-2 rounded-full bg-mist-50 text-ink-950 px-6 py-3 text-[13px] font-medium" data-cursor="hot" data-magnetic>
         Explore the practice
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-0.5"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <a href="#contact" class="inline-flex items-center gap-2 rounded-full border border-mist-50/20 px-6 py-3 text-sm">
+      <a href="#contact" class="magnetic inline-flex items-center gap-2 rounded-full border border-mist-50/25 px-6 py-3 text-[13px] hover:bg-mist-50/5 transition-colors" data-cursor="hot" data-magnetic>
         Speak with the team
       </a>
     </div>
   </div>
 
-  <!-- Scroll cue -->
-  <div class="absolute bottom-6 right-6 md:bottom-10 md:right-10 text-[10px] uppercase tracking-[0.32em] text-mist-50/45">
-    <span class="inline-block w-px h-10 bg-mist-50/30 align-middle mr-3"></span>scroll
+  <!-- Bottom hairline + scroll cue -->
+  <div class="absolute bottom-0 inset-x-0">
+    <div class="mx-auto max-w-[1480px] px-6 md:px-10 pb-6 flex items-end justify-between">
+      <div class="text-[10px] uppercase tracking-[0.36em] text-mist-50/45 font-mono">
+        <span class="inline-block w-px h-10 bg-mist-50/30 align-middle mr-3"></span>
+        Scroll to begin
+      </div>
+      <div class="text-[10px] uppercase tracking-[0.36em] text-mist-50/45 font-mono hidden md:block">
+        NY · LDN · ZRH · SGP
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============================================================ MARQUEE -->
-<section aria-hidden="true" class="border-y border-mist-50/10 py-6 overflow-hidden">
-  <div class="marquee-track flex gap-16 whitespace-nowrap text-mist-50/60 text-sm uppercase tracking-[0.32em]">
-    <span>Non-dilutive capital</span><span>·</span>
-    <span>Cross-border</span><span>·</span>
-    <span>NAV-based facilities</span><span>·</span>
-    <span>Platforms · Geographies · Channels</span><span>·</span>
-    <span>Non-dilutive capital</span><span>·</span>
-    <span>Cross-border</span><span>·</span>
-    <span>NAV-based facilities</span><span>·</span>
-    <span>Platforms · Geographies · Channels</span><span>·</span>
+<section aria-hidden="true" class="border-y border-mist-50/10 py-7 overflow-hidden">
+  <div class="marquee-track flex gap-12 whitespace-nowrap text-mist-50/65 text-[13px] uppercase tracking-[0.36em] font-mono">
+    <span>NAV-based facilities</span><span class="text-glacier">✦</span>
+    <span>Non-dilutive capital</span><span class="text-glacier">✦</span>
+    <span>Cross-border structuring</span><span class="text-glacier">✦</span>
+    <span>Platforms · Geographies · Channels</span><span class="text-glacier">✦</span>
+    <span>Institutional architecture</span><span class="text-glacier">✦</span>
+    <span>NAV-based facilities</span><span class="text-glacier">✦</span>
+    <span>Non-dilutive capital</span><span class="text-glacier">✦</span>
+    <span>Cross-border structuring</span><span class="text-glacier">✦</span>
+    <span>Platforms · Geographies · Channels</span><span class="text-glacier">✦</span>
+    <span>Institutional architecture</span><span class="text-glacier">✦</span>
+  </div>
+</section>
+
+<!-- ============================================================ SOLUTIONS / STATEMENT -->
+<section id="solutions" class="py-32 md:py-44">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Solutions
+    </p>
+
+    <div class="col-span-12 md:col-span-9 -mt-2">
+      <h2 data-reveal class="fr-display-light text-[clamp(2rem,5.5vw,5.25rem)] leading-[1.02] tracking-tightest">
+        Purpose-built financing for <em class="italic text-glacier">private markets</em> — designed for the operators, sized for the asset class, deployed with the patience capital requires.
+      </h2>
+      <div data-reveal class="mt-12 flex flex-wrap gap-3 text-[12px] tracking-[0.18em] uppercase font-mono text-mist-50/70">
+        <span class="rounded-full border border-mist-50/25 px-4 py-1.5">NAV-based loans</span>
+        <span class="rounded-full border border-mist-50/25 px-4 py-1.5">GP financings</span>
+        <span class="rounded-full border border-mist-50/25 px-4 py-1.5">Fund-level liquidity</span>
+        <span class="rounded-full border border-mist-50/25 px-4 py-1.5">Structured equity</span>
+        <span class="rounded-full border border-mist-50/25 px-4 py-1.5">Sponsor solutions</span>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============================================================ ABOUT (asymmetric) -->
-<section id="about" class="py-32 md:py-48">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+<section id="about" class="py-32 md:py-44 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
 
-    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
       <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
-      About
+      About — 01
     </p>
 
-    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] tracking-tightest -mt-2">
-      A purpose-built practice for capital that <span class="italic">moves carefully</span>, deploys decisively, and compounds across cycles.
+    <h2 data-reveal class="col-span-12 md:col-span-9 fr-display-light text-[clamp(1.85rem,4.5vw,4.5rem)] leading-[1.05] tracking-tightest -mt-2">
+      A purpose-built practice for capital that <em class="italic">moves carefully</em>, deploys decisively, and compounds across cycles.
     </h2>
 
-    <!-- Stacked stats column, intentionally narrow, hugs left -->
-    <div class="col-span-12 md:col-span-4 space-y-10 mt-8">
-      <div data-reveal>
-        <div class="font-display text-6xl md:text-7xl tracking-tightest text-glacier">12</div>
-        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
-          years building the category
+    <!-- Stat column -->
+    <div class="col-span-12 md:col-span-5 space-y-12 mt-10">
+      <div data-reveal class="flex items-end gap-6 border-t border-mist-50/15 pt-6">
+        <div class="num text-[clamp(3.5rem,7vw,6rem)] leading-none text-glacier"><span data-counter="12">0</span></div>
+        <div class="text-[11px] uppercase tracking-[0.32em] text-mist-50/60 font-mono pb-2 max-w-[22ch]">
+          Years building the category
         </div>
       </div>
-      <div data-reveal>
-        <div class="font-display text-6xl md:text-7xl tracking-tightest">47</div>
-        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
-          institutional partners across three continents
+      <div data-reveal class="flex items-end gap-6 border-t border-mist-50/15 pt-6">
+        <div class="num text-[clamp(3.5rem,7vw,6rem)] leading-none"><span data-counter="47">0</span></div>
+        <div class="text-[11px] uppercase tracking-[0.32em] text-mist-50/60 font-mono pb-2 max-w-[24ch]">
+          Institutional partners across three continents
         </div>
       </div>
-      <div data-reveal>
-        <div class="font-display text-6xl md:text-7xl tracking-tightest">9 / 10</div>
-        <div class="text-xs uppercase tracking-[0.28em] text-mist-50/55 mt-2">
-          NAV facilities renewed or upsized in the last cycle
+      <div data-reveal class="flex items-end gap-6 border-t border-mist-50/15 pt-6">
+        <div class="num text-[clamp(3.5rem,7vw,6rem)] leading-none"><span data-counter="9">0</span>/<span class="text-mist-50/50">10</span></div>
+        <div class="text-[11px] uppercase tracking-[0.32em] text-mist-50/60 font-mono pb-2 max-w-[26ch]">
+          NAV facilities renewed or upsized last cycle
         </div>
       </div>
     </div>
 
-    <!-- Overlapping image, sits across col 6-12 with negative top to bite into the heading row -->
-    <figure data-reveal class="col-span-12 md:col-span-7 md:col-start-6 md:-mt-24 parallax-frame relative aspect-[4/5] md:aspect-[5/6]">
+    <!-- Overlapping portrait image -->
+    <figure data-reveal class="col-span-12 md:col-span-6 md:col-start-7 md:-mt-24 parallax-frame relative aspect-[5/6]">
       <img
-        src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1200&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1400&auto=format&fit=crop"
         alt="Alpine ridge at first light"
         class="h-[120%] w-full object-cover"
         data-parallax="0.14" />
-      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
+      <div class="absolute inset-0 bg-gradient-to-tr from-ink-950/30 via-transparent to-transparent"></div>
+      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.36em] text-mist-50/80 font-mono">
         Fig. 01 — Conviction at altitude
       </figcaption>
+      <div class="absolute top-4 right-4 text-[10px] tracking-[0.36em] text-mist-50/80 font-mono">N 47° 33′</div>
     </figure>
   </div>
 </section>
 
 <!-- ============================================================ CAPABILITIES -->
-<section id="capabilities" class="py-32 md:py-48 border-t border-mist-50/10">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+<section id="capabilities" class="py-32 md:py-44 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
 
-    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
       <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
-      Capabilities
+      Capabilities — 02
     </p>
 
-    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5vw,4.25rem)] leading-[1.04] tracking-tightest -mt-2">
-      Three disciplines, one continuous architecture.
+    <h2 data-reveal class="col-span-12 md:col-span-9 fr-display-light text-[clamp(1.85rem,4.5vw,4.25rem)] leading-[1.05] tracking-tightest -mt-2">
+      Three disciplines, <em class="italic">one continuous architecture</em>.
     </h2>
 
-    <!-- Three capability cards on an asymmetric staircase: col 1-5, 5-9, 8-12 with stepped top margins -->
-    <article data-reveal class="col-span-12 md:col-span-5 mt-10 group">
+    <!-- Capability staircase: col 1-5, 5-9, 8-12 with stepped offsets -->
+    <article data-reveal class="cap-card col-span-12 md:col-span-5 mt-10 group" data-cursor="hot">
       <div class="parallax-frame aspect-[4/5] relative">
         <img
-          src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=1200&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop"
           alt=""
-          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          class="cap-img h-[118%] w-full object-cover"
           data-parallax="0.10" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/55 to-transparent"></div>
+        <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] tracking-[0.36em] text-mist-50/80 font-mono">
+          <span>01</span><span>BE</span>
+        </div>
       </div>
-      <div class="mt-6 flex items-baseline justify-between">
-        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">Brand Equity</h3>
-        <span class="text-xs tracking-[0.28em] text-mist-50/50">01</span>
+      <div class="mt-7 flex items-baseline justify-between gap-4">
+        <h3 class="fr-display-light text-[clamp(1.85rem,2.6vw,2.6rem)] leading-[1] tracking-tightest">Brand <em class="italic">Equity</em></h3>
+        <span class="text-[10px] tracking-[0.36em] text-mist-50/45 font-mono whitespace-nowrap">→ 01</span>
       </div>
-      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+      <p class="mt-4 text-[14px] leading-[1.6] text-mist-50/70 max-w-[42ch]">
         Long-horizon stewardship of name, narrative, and category position — the compounding asset that survives every product cycle.
       </p>
     </article>
 
-    <article data-reveal class="col-span-12 md:col-span-5 md:col-start-5 md:mt-32 group">
+    <article data-reveal class="cap-card col-span-12 md:col-span-5 md:col-start-5 md:mt-36 group" data-cursor="hot">
       <div class="parallax-frame aspect-[4/5] relative">
         <img
-          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1486718448742-163732cd1544?q=80&w=1200&auto=format&fit=crop"
           alt=""
-          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          class="cap-img h-[118%] w-full object-cover"
           data-parallax="0.13" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/55 to-transparent"></div>
+        <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] tracking-[0.36em] text-mist-50/80 font-mono">
+          <span>02</span><span>DP</span>
+        </div>
       </div>
-      <div class="mt-6 flex items-baseline justify-between">
-        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">Digital Platforms</h3>
-        <span class="text-xs tracking-[0.28em] text-mist-50/50">02</span>
+      <div class="mt-7 flex items-baseline justify-between gap-4">
+        <h3 class="fr-display-light text-[clamp(1.85rem,2.6vw,2.6rem)] leading-[1] tracking-tightest">Digital <em class="italic">Platforms</em></h3>
+        <span class="text-[10px] tracking-[0.36em] text-mist-50/45 font-mono whitespace-nowrap">→ 02</span>
       </div>
-      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+      <p class="mt-4 text-[14px] leading-[1.6] text-mist-50/70 max-w-[42ch]">
         Infrastructure that earns scale instead of subsidising it — designed for the operators, paid for by the unit economics.
       </p>
     </article>
 
-    <article data-reveal class="col-span-12 md:col-span-5 md:col-start-8 md:mt-16 group">
+    <article data-reveal class="cap-card col-span-12 md:col-span-5 md:col-start-8 md:mt-20 group" data-cursor="hot">
       <div class="parallax-frame aspect-[4/5] relative">
         <img
-          src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?q=80&w=1200&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1200&auto=format&fit=crop"
           alt=""
-          class="h-[118%] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          class="cap-img h-[118%] w-full object-cover"
           data-parallax="0.16" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/55 to-transparent"></div>
+        <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-[10px] tracking-[0.36em] text-mist-50/80 font-mono">
+          <span>03</span><span>UX</span>
+        </div>
       </div>
-      <div class="mt-6 flex items-baseline justify-between">
-        <h3 class="font-display text-3xl md:text-4xl tracking-tightest">User Experience Solutions</h3>
-        <span class="text-xs tracking-[0.28em] text-mist-50/50">03</span>
+      <div class="mt-7 flex items-baseline justify-between gap-4">
+        <h3 class="fr-display-light text-[clamp(1.85rem,2.6vw,2.6rem)] leading-[1] tracking-tightest">User Experience <em class="italic">Solutions</em></h3>
+        <span class="text-[10px] tracking-[0.36em] text-mist-50/45 font-mono whitespace-nowrap">→ 03</span>
       </div>
-      <p class="mt-3 text-sm leading-relaxed text-mist-50/70 max-w-[42ch]">
+      <p class="mt-4 text-[14px] leading-[1.6] text-mist-50/70 max-w-[42ch]">
         The interface where conviction meets execution — research-grade product work for the moments that decide trust.
       </p>
     </article>
   </div>
 </section>
 
-<!-- ============================================================ SELECTED WORK (asymmetric image grid w/ parallax) -->
-<section id="work" class="py-32 md:py-48 border-t border-mist-50/10">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+<!-- ============================================================ SELECTED WORK -->
+<section id="work" class="py-32 md:py-44 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
 
-    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
       <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
-      Selected Work
+      Selected Work — 03
     </p>
 
-    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2rem,5vw,4.25rem)] leading-[1.04] tracking-tightest -mt-2">
-      A short list. Each one rebuilt the floor under itself.
+    <h2 data-reveal class="col-span-12 md:col-span-9 fr-display-light text-[clamp(1.85rem,4.5vw,4.25rem)] leading-[1.05] tracking-tightest -mt-2">
+      A short list. Each one <em class="italic">rebuilt the floor</em> under itself.
     </h2>
 
-    <!-- Asymmetric grid: large left, two stacked right, then one wide centered -->
-    <figure data-reveal class="col-span-12 md:col-span-7 mt-12 parallax-frame relative aspect-[5/6]">
+    <!-- Big left -->
+    <figure data-reveal class="col-span-12 md:col-span-7 mt-12 parallax-frame relative aspect-[5/6] group" data-cursor="hot">
       <img
-        src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1200&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1400&auto=format&fit=crop"
         alt=""
-        class="h-[120%] w-full object-cover"
+        class="cap-img h-[120%] w-full object-cover"
         data-parallax="0.12" />
-      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
-        Case 04 · Alpine Manufacturing — €240M follow-on
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent"></div>
+      <figcaption class="absolute bottom-5 left-5 right-5 flex items-baseline justify-between gap-4 text-[10px] uppercase tracking-[0.36em] text-mist-50/85 font-mono">
+        <span>Case 04 · Alpine Manufacturing — €240M follow-on</span>
+        <span class="hidden md:inline">2025</span>
       </figcaption>
     </figure>
 
+    <!-- Two stacked right -->
     <div class="col-span-12 md:col-span-5 mt-12 md:mt-24 flex flex-col gap-8">
-      <figure data-reveal class="parallax-frame relative aspect-square">
+      <figure data-reveal class="parallax-frame relative aspect-square group" data-cursor="hot">
         <img
-          src="https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?q=80&w=1200&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1517090504586-fde19ea6066f?q=80&w=1200&auto=format&fit=crop"
           alt=""
-          class="h-[118%] w-full object-cover"
+          class="cap-img h-[118%] w-full object-cover"
           data-parallax="0.10" />
-        <figcaption class="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
-          Case 05 · Cross-border platform consolidation
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent"></div>
+        <figcaption class="absolute bottom-4 left-4 right-4 flex items-baseline justify-between text-[10px] uppercase tracking-[0.36em] text-mist-50/85 font-mono">
+          <span>Case 05 · Cross-border platform</span><span>2025</span>
         </figcaption>
       </figure>
 
-      <figure data-reveal class="parallax-frame relative aspect-[4/3]">
+      <figure data-reveal class="parallax-frame relative aspect-[4/3] group" data-cursor="hot">
         <img
           src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=1200&auto=format&fit=crop"
           alt=""
-          class="h-[120%] w-full object-cover"
+          class="cap-img h-[120%] w-full object-cover"
           data-parallax="0.15" />
-        <figcaption class="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
-          Case 06 · Distribution architecture, three geographies
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent"></div>
+        <figcaption class="absolute bottom-4 left-4 right-4 flex items-baseline justify-between text-[10px] uppercase tracking-[0.36em] text-mist-50/85 font-mono">
+          <span>Case 06 · Distribution architecture</span><span>2024</span>
         </figcaption>
       </figure>
     </div>
 
-    <!-- Wide centered image, intentionally offset col 3-11 with negative top -->
-    <figure data-reveal class="col-span-12 md:col-span-9 md:col-start-3 md:-mt-12 parallax-frame relative aspect-[16/7]">
+    <!-- Wide bottom -->
+    <figure data-reveal class="col-span-12 md:col-span-10 md:col-start-2 md:-mt-12 parallax-frame relative aspect-[16/7] group" data-cursor="hot">
       <img
-        src="https://images.unsplash.com/photo-1465447142348-e9952c393450?q=80&w=1600&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1483366774565-c783b9f70e2c?q=80&w=1800&auto=format&fit=crop"
         alt=""
-        class="h-[120%] w-full object-cover"
+        class="cap-img h-[120%] w-full object-cover"
         data-parallax="0.18" />
-      <figcaption class="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.32em] text-mist-50/70">
-        Case 07 · NAV facility, multi-strategy fund vehicle
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-950/55 via-transparent to-transparent"></div>
+      <figcaption class="absolute bottom-5 left-5 right-5 flex items-baseline justify-between text-[10px] uppercase tracking-[0.36em] text-mist-50/85 font-mono">
+        <span>Case 07 · NAV facility — multi-strategy fund vehicle</span><span>2024</span>
       </figcaption>
     </figure>
+
+    <!-- Index footer for the section -->
+    <div data-reveal class="col-span-12 mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.36em] text-mist-50/45 font-mono">
+      <span>04 — 07 of 24 selected transactions</span>
+      <a href="#" class="link-line text-mist-50/85" data-cursor="hot">View the index →</a>
+    </div>
   </div>
 </section>
 
 <!-- ============================================================ INSIGHTS / QUOTE -->
-<section class="py-32 md:py-48 border-t border-mist-50/10">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
-    <blockquote data-reveal class="col-span-12 md:col-span-10 md:col-start-2 font-display text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-tightest">
-      <span class="text-glacier">“</span>
-      In a cash-constrained environment, NAV lending is increasingly proving itself as a vital component of fund performance — purpose-built capital, deployed with the patience the asset class requires.
-      <span class="text-glacier">”</span>
+<section id="insights" class="py-32 md:py-44 border-t border-mist-50/10 relative overflow-hidden">
+  <div class="absolute -top-24 right-0 w-[60vw] h-[60vw] rounded-full bg-glacier/5 blur-3xl pointer-events-none"></div>
+
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric relative">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
+      <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+      Insights — 04
+    </p>
+
+    <blockquote data-reveal class="col-span-12 md:col-span-9 fr-display-light text-[clamp(1.75rem,3.6vw,3.25rem)] leading-[1.14] tracking-tightest -mt-2">
+      <span class="text-glacier mr-2">“</span>In a cash-constrained environment, NAV lending is increasingly proving itself as a <em class="italic">vital component</em> of fund performance — purpose-built capital, deployed with the patience the asset class requires.<span class="text-glacier ml-1">”</span>
     </blockquote>
-    <footer data-reveal class="col-span-12 md:col-span-6 md:col-start-2 mt-8 text-xs uppercase tracking-[0.28em] text-mist-50/60">
-      Doug Cruikshank — Managing Partner
-    </footer>
+
+    <div class="col-span-12 md:col-span-9 md:col-start-4 mt-10 flex items-center gap-5">
+      <div class="w-12 h-12 rounded-full bg-mist-50/15 backdrop-blur grid place-items-center text-[11px] uppercase tracking-[0.2em] font-mono">DC</div>
+      <div>
+        <div class="text-[13px] font-medium">Doug Cruikshank</div>
+        <div class="text-[11px] uppercase tracking-[0.32em] text-mist-50/55 font-mono mt-0.5">Managing Partner</div>
+      </div>
+      <a href="#" class="ml-auto link-line text-[12px] uppercase tracking-[0.32em] font-mono text-mist-50/80" data-cursor="hot">Read the essay →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TEAM STRIP -->
+<section class="py-24 md:py-32 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric items-center">
+    <div class="col-span-12 md:col-span-4">
+      <p data-reveal class="text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
+        <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
+        The Team — 05
+      </p>
+      <h2 data-reveal class="mt-4 fr-display-light text-[clamp(1.6rem,3vw,2.6rem)] leading-[1.1] tracking-tightest">
+        Operators who have built and bought the businesses we now finance.
+      </h2>
+      <a data-reveal href="#" class="mt-6 inline-flex link-line text-[12px] uppercase tracking-[0.32em] font-mono text-mist-50/80" data-cursor="hot">Meet the practice →</a>
+    </div>
+
+    <div data-reveal class="col-span-12 md:col-span-8 grid grid-cols-4 gap-3 md:gap-5">
+      <!-- 4 portrait cards -->
+      <figure class="parallax-frame relative aspect-[3/4] group" data-cursor="hot">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=600&auto=format&fit=crop" alt="" class="cap-img h-[115%] w-full object-cover" data-parallax="0.08" />
+        <figcaption class="absolute bottom-2 left-2 right-2 text-[9px] tracking-[0.28em] uppercase font-mono text-mist-50/85">Doug C.</figcaption>
+      </figure>
+      <figure class="parallax-frame relative aspect-[3/4] mt-6 md:mt-10 group" data-cursor="hot">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="" class="cap-img h-[115%] w-full object-cover" data-parallax="0.10" />
+        <figcaption class="absolute bottom-2 left-2 right-2 text-[9px] tracking-[0.28em] uppercase font-mono text-mist-50/85">Diane M.</figcaption>
+      </figure>
+      <figure class="parallax-frame relative aspect-[3/4] group" data-cursor="hot">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop" alt="" class="cap-img h-[115%] w-full object-cover" data-parallax="0.12" />
+        <figcaption class="absolute bottom-2 left-2 right-2 text-[9px] tracking-[0.28em] uppercase font-mono text-mist-50/85">Rafael C.</figcaption>
+      </figure>
+      <figure class="parallax-frame relative aspect-[3/4] mt-6 md:mt-10 group" data-cursor="hot">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop" alt="" class="cap-img h-[115%] w-full object-cover" data-parallax="0.09" />
+        <figcaption class="absolute bottom-2 left-2 right-2 text-[9px] tracking-[0.28em] uppercase font-mono text-mist-50/85">Caitlin H.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
 <!-- ============================================================ CONTACT / CTA -->
-<section id="contact" class="py-32 md:py-48 border-t border-mist-50/10">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric">
+<section id="contact" class="py-32 md:py-44 border-t border-mist-50/10">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric">
 
-    <p data-reveal class="col-span-12 md:col-span-3 text-xs uppercase tracking-[0.32em] text-mist-50/55">
+    <p data-reveal class="col-span-12 md:col-span-3 text-[11px] uppercase tracking-[0.36em] text-mist-50/55 font-mono">
       <span class="inline-block w-2 h-2 rounded-full bg-glacier align-middle mr-3"></span>
-      Get in touch
+      Get in touch — 06
     </p>
 
-    <h2 data-reveal class="col-span-12 md:col-span-9 font-display text-[clamp(2.25rem,6vw,5.5rem)] leading-[0.98] tracking-tightest -mt-2">
-      Bring us the question.<br/>We'll bring the structure.
+    <h2 data-reveal class="col-span-12 md:col-span-9 fr-display-light text-[clamp(2.25rem,6.6vw,6.5rem)] leading-[0.96] tracking-tightest -mt-2">
+      Bring us the question.<br/>We'll bring the <em class="italic text-glacier">structure</em>.
     </h2>
 
-    <div data-reveal class="col-span-12 md:col-span-6 md:col-start-7 mt-6 flex flex-col gap-4">
-      <a href="mailto:hello@bergweiss.com" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
-        <span>hello@bergweiss.com</span>
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+    <div data-reveal class="col-span-12 md:col-span-7 md:col-start-6 mt-10 flex flex-col gap-1">
+      <a href="mailto:hello@bergweiss.com" class="group inline-flex items-center justify-between border-b border-mist-50/15 hover:border-glacier transition-colors py-5 text-[18px] md:text-[22px]" data-cursor="hot">
+        <span class="flex items-center gap-4"><span class="text-mist-50/40 text-[11px] uppercase tracking-[0.32em] font-mono">01</span><span>hello@bergweiss.com</span></span>
+        <svg width="22" height="22" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
-        <span>Investor portal</span>
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/15 hover:border-glacier transition-colors py-5 text-[18px] md:text-[22px]" data-cursor="hot">
+        <span class="flex items-center gap-4"><span class="text-mist-50/40 text-[11px] uppercase tracking-[0.32em] font-mono">02</span><span>Investor portal</span></span>
+        <svg width="22" height="22" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/25 py-4 text-lg">
-        <span>LinkedIn</span>
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <a href="#" class="group inline-flex items-center justify-between border-b border-mist-50/15 hover:border-glacier transition-colors py-5 text-[18px] md:text-[22px]" data-cursor="hot">
+        <span class="flex items-center gap-4"><span class="text-mist-50/40 text-[11px] uppercase tracking-[0.32em] font-mono">03</span><span>LinkedIn</span></span>
+        <svg width="22" height="22" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:translate-x-1"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
     </div>
   </div>
@@ -392,46 +542,59 @@
 </main>
 
 <!-- ============================================================ FOOTER -->
-<footer class="border-t border-mist-50/10 py-16 md:py-24">
-  <div class="mx-auto max-w-[1440px] px-6 md:px-10 grid-asymmetric items-end">
-    <div class="col-span-12 md:col-span-6">
-      <div class="flex items-center gap-4">
-        <svg viewBox="0 0 110 92" width="64" height="54" fill="currentColor" class="text-mist-50" aria-hidden="true">
+<footer class="border-t border-mist-50/10 py-16 md:py-24 relative overflow-hidden">
+  <div class="mx-auto max-w-[1480px] px-6 md:px-10 grid-asymmetric items-end">
+
+    <!-- Brand block -->
+    <div class="col-span-12 md:col-span-7">
+      <div class="flex items-center gap-5">
+        <svg viewBox="0 0 110 92" width="72" height="60" fill="currentColor" class="text-mist-50" aria-hidden="true">
           <path d="M3.2,91.7c33.9,0,53-28.4,53-63.3V0H3.2v91.7Z"/>
           <path d="M109.4,0C75.5,0,56.4,28.4,56.4,63.3v28.3h53V0Z"/>
         </svg>
-        <span class="font-display text-5xl md:text-6xl tracking-tightest">Bergweiss</span>
+        <span class="fr-display text-[clamp(3rem,6.5vw,6rem)] tracking-tightest leading-none">Bergweiss</span>
       </div>
-      <div class="mt-4 pt-3 border-t border-mist-50/15 text-xs uppercase tracking-[0.28em] text-mist-50/70">
+      <div class="mt-5 pt-4 border-t border-mist-50/15 text-[11px] uppercase tracking-[0.36em] text-mist-50/70 font-mono">
         A <span class="font-semibold text-mist-50">Ridgepost Capital</span> Strategy
       </div>
-      <p class="mt-8 max-w-[62ch] text-sm leading-relaxed text-mist-50/65">
+      <p class="mt-8 max-w-[62ch] text-[13px] leading-[1.7] text-mist-50/65">
         Bergweiss is a strategy of Ridgepost Capital (NYSE: RPC), a leading private markets solutions provider with over $40 billion in assets under management as of September 30, 2025. Ridgepost Capital invests across private equity, private credit, and venture capital in access-constrained strategies, with a focus on the middle and lower-middle market.
       </p>
     </div>
 
-    <nav class="col-span-6 md:col-span-3 text-sm">
-      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/45 mb-4">Navigation</div>
-      <ul class="space-y-2">
-        <li><a href="#top"          class="hover:text-glacier transition-colors">Home</a></li>
-        <li><a href="#capabilities" class="hover:text-glacier transition-colors">Capabilities</a></li>
-        <li><a href="#about"        class="hover:text-glacier transition-colors">About</a></li>
-        <li><a href="#work"         class="hover:text-glacier transition-colors">Selected Work</a></li>
-        <li><a href="#contact"      class="hover:text-glacier transition-colors">Contact</a></li>
+    <nav class="col-span-6 md:col-span-2 text-[13px]">
+      <div class="text-[10px] uppercase tracking-[0.36em] text-mist-50/45 mb-5 font-mono">Navigation</div>
+      <ul class="space-y-2.5">
+        <li><a href="#top"          class="link-line" data-cursor="hot">Home</a></li>
+        <li><a href="#capabilities" class="link-line" data-cursor="hot">Capabilities</a></li>
+        <li><a href="#about"        class="link-line" data-cursor="hot">About</a></li>
+        <li><a href="#work"         class="link-line" data-cursor="hot">Selected Work</a></li>
+        <li><a href="#insights"     class="link-line" data-cursor="hot">Insights</a></li>
+        <li><a href="#contact"      class="link-line" data-cursor="hot">Contact</a></li>
       </ul>
     </nav>
 
-    <nav class="col-span-6 md:col-span-3 text-sm">
-      <div class="text-xs uppercase tracking-[0.28em] text-mist-50/45 mb-4">Links</div>
-      <ul class="space-y-2">
-        <li><a href="#" class="hover:text-glacier transition-colors">LinkedIn</a></li>
-        <li><a href="#" class="hover:text-glacier transition-colors">Investor Login</a></li>
-        <li><a href="#" class="hover:text-glacier transition-colors">Data Room</a></li>
+    <nav class="col-span-6 md:col-span-3 text-[13px]">
+      <div class="text-[10px] uppercase tracking-[0.36em] text-mist-50/45 mb-5 font-mono">Links</div>
+      <ul class="space-y-2.5">
+        <li><a href="#" class="link-line" data-cursor="hot">LinkedIn</a></li>
+        <li><a href="#" class="link-line" data-cursor="hot">Investor Login</a></li>
+        <li><a href="#" class="link-line" data-cursor="hot">Data Room</a></li>
+        <li><a href="#" class="link-line" data-cursor="hot">Legal Disclosure</a></li>
+        <li><a href="#" class="link-line" data-cursor="hot">Privacy Statement</a></li>
+        <li><a href="#" class="link-line" data-cursor="hot">Accessibility</a></li>
       </ul>
     </nav>
 
-    <div class="col-span-12 mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-mist-50/45">
-      <span>© 2026 Bergweiss Advisors, LLC.</span>
+    <!-- Massive ghost wordmark -->
+    <div aria-hidden="true" class="col-span-12 mt-20 select-none pointer-events-none">
+      <div class="fr-display text-[clamp(5rem,22vw,22rem)] leading-[0.85] tracking-tightest text-mist-50/[0.07] whitespace-nowrap overflow-hidden">
+        Bergweiss<sup class="text-glacier/40">®</sup>
+      </div>
+    </div>
+
+    <div class="col-span-12 mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-[11px] text-mist-50/45 font-mono uppercase tracking-[0.28em]">
+      <span>© 2026 Bergweiss Advisors, LLC. · NY · LDN · ZRH · SGP</span>
       <span>Past performance is not necessarily indicative of future results.</span>
     </div>
   </div>
@@ -444,23 +607,21 @@
 
 <script>
 (() => {
-  // Bail gracefully if any library failed to load — page stays fully visible.
+  // Bail gracefully if libs are missing — page stays fully visible.
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.warn('[bergweiss] GSAP/ScrollTrigger not available — motion disabled.');
+    console.warn('[bergweiss] GSAP missing — motion disabled.');
     return;
   }
 
-  // Flag the HTML root so the CSS reveal-guard kicks in (until now, nothing has been hidden).
   document.documentElement.classList.add('gsap-ready');
-
   gsap.registerPlugin(ScrollTrigger);
 
-  // ----- Lenis: buttery smooth scroll (optional — page still works without it) -----
+  // ----- Lenis: buttery smooth scroll (optional) -----
   let lenis = null;
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({
-      duration: 1.35,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out
+      duration: 1.45,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       smoothTouch: false,
       wheelMultiplier: 1.0,
@@ -471,44 +632,127 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  // ----- Reveal headers/blocks (y: 40, opacity: 0 → 0,1) -----
+  // ----- Split-letter reveal for [data-split] headings -----
+  // Wrap each character in <span class="ch"> while preserving inline element structure.
+  function splitChars(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const textNodes = [];
+    let n; while ((n = walker.nextNode())) textNodes.push(n);
+    textNodes.forEach((node) => {
+      const text = node.nodeValue;
+      if (!text || !text.trim()) return;
+      const frag = document.createDocumentFragment();
+      [...text].forEach((c) => {
+        if (c === ' ') { frag.appendChild(document.createTextNode(' ')); return; }
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        frag.appendChild(s);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  document.querySelectorAll('[data-split]').forEach(splitChars);
+
+  // Hero split reveal — runs immediately on load, with a small stagger
+  const splitHeads = document.querySelectorAll('[data-split]');
+  splitHeads.forEach((h) => {
+    const chars = h.querySelectorAll('.ch');
+    gsap.to(chars, {
+      y: 0, opacity: 1,
+      duration: 1.1,
+      ease: 'power4.out',
+      stagger: { each: 0.02, from: 'start' },
+      delay: 0.15,
+    });
+  });
+
+  // ----- Reveal: fade-up on every [data-reveal] -----
   gsap.utils.toArray('[data-reveal]').forEach((el) => {
     gsap.fromTo(el,
       { y: 40, opacity: 0 },
       {
         y: 0, opacity: 1,
-        duration: 1.0,
+        duration: 1.05,
         ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 90%',
-          toggleActions: 'play none none reverse',
-        },
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' },
       }
     );
   });
 
-  // ----- Parallax: shift each image inside its frame as the frame moves through viewport -----
-  // amount comes from data-parallax (fraction of viewport height to drift)
+  // ----- Reveal: slide-in from left for [data-reveal-x] -----
+  gsap.utils.toArray('[data-reveal-x]').forEach((el) => {
+    gsap.fromTo(el,
+      { x: -40, opacity: 0 },
+      {
+        x: 0, opacity: 1,
+        duration: 1.05,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' },
+      }
+    );
+  });
+
+  // ----- Parallax: every .parallax-frame > img -----
   gsap.utils.toArray('.parallax-frame > img').forEach((img) => {
     const frame = img.parentElement;
-    const amount = parseFloat(img.dataset.parallax || '0.12'); // 0..0.3 typical
+    const amount = parseFloat(img.dataset.parallax || '0.12');
     gsap.fromTo(img,
-      { yPercent: -amount * 50 }, // start slightly drifted up
+      { yPercent: -amount * 50 },
       {
-        yPercent:  amount * 50,   // drift down through scroll
+        yPercent: amount * 50,
         ease: 'none',
-        scrollTrigger: {
-          trigger: frame,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
+        scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true },
       }
     );
   });
 
-  // ----- Refresh ScrollTrigger after fonts/images settle -----
+  // ----- Number counters [data-counter="40"] -----
+  gsap.utils.toArray('[data-counter]').forEach((el) => {
+    const target = parseFloat(el.dataset.counter);
+    const obj = { v: 0 };
+    gsap.to(obj, {
+      v: target,
+      duration: 1.8,
+      ease: 'power2.out',
+      onUpdate: () => { el.textContent = Math.round(obj.v); },
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+    });
+  });
+
+  // ----- Magnetic CTAs -----
+  document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+    const strength = 18;
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width / 2);
+      const y = e.clientY - (r.top + r.height / 2);
+      gsap.to(btn, { x: (x / r.width) * strength, y: (y / r.height) * strength, duration: 0.4, ease: 'power3.out' });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+
+  // ----- Custom cursor follower -----
+  const cursor = document.getElementById('cursor');
+  if (cursor && matchMedia('(hover: hover)').matches) {
+    const pos = { x: -50, y: -50 };
+    let raf = null;
+    document.addEventListener('mousemove', (e) => {
+      pos.x = e.clientX; pos.y = e.clientY;
+      if (!raf) raf = requestAnimationFrame(() => {
+        gsap.to(cursor, { x: pos.x, y: pos.y, duration: 0.25, ease: 'power3.out' });
+        raf = null;
+      });
+    });
+    document.querySelectorAll('[data-cursor="hot"]').forEach((el) => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hot'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hot'));
+    });
+  }
+
+  // ----- Refresh on load + Lenis bridge -----
   window.addEventListener('load', () => ScrollTrigger.refresh());
   if (lenis) {
     ScrollTrigger.addEventListener('refreshInit', () => lenis.scrollTo(window.scrollY, { immediate: true }));
