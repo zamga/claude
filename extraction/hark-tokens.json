@@ -1,0 +1,197 @@
+{
+  "title": "Hark Capital",
+  "bodyBackground": "rgb(243, 243, 243)",
+  "bodyColor": "rgb(24, 24, 24)",
+  "topTextColors": [
+    [
+      "#181818",
+      903
+    ],
+    [
+      "#ffffff",
+      294
+    ],
+    [
+      "#062541",
+      69
+    ],
+    [
+      "#000000",
+      41
+    ],
+    [
+      "#00f2e5",
+      30
+    ],
+    [
+      "#919598",
+      26
+    ],
+    [
+      "#114167",
+      22
+    ],
+    [
+      "#232323",
+      11
+    ],
+    [
+      "#010101",
+      1
+    ]
+  ],
+  "topBackgroundsByArea": [
+    [
+      "#f3f3f3",
+      31832932.283203125
+    ],
+    [
+      "#ffffff",
+      21946963.913330078
+    ],
+    [
+      "#d4d4d4",
+      16983889.805631936
+    ],
+    [
+      "#181818",
+      4040727.8741630763
+    ],
+    [
+      "#235e80",
+      2254636.380945077
+    ],
+    [
+      "#000000",
+      555671.4770507812
+    ],
+    [
+      "#232323",
+      187065.05493164062
+    ],
+    [
+      "#114167",
+      92480.5
+    ],
+    [
+      "#919598",
+      6559.21875
+    ],
+    [
+      "#00f2e5",
+      0
+    ]
+  ],
+  "topFontFamilies": [
+    [
+      "Aeonikpro, Arial, sans-serif",
+      1349
+    ],
+    [
+      "sans-serif",
+      23
+    ],
+    [
+      "\"Suisseworks Webs\", Georgia, sans-serif",
+      23
+    ],
+    [
+      "\"Times New Roman\"",
+      2
+    ]
+  ],
+  "fontWeightsUsed": [
+    [
+      "400",
+      1389
+    ],
+    [
+      "500",
+      8
+    ]
+  ],
+  "letterSpacingsUsed": [],
+  "samples": {
+    "body": {
+      "text": ":root {\n  --grid-breakout: [full-start] minmax(0, 1fr) [content-start]",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18.1538px",
+      "lineHeight": "25.4154px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(24, 24, 24)",
+      "backgroundColor": "rgb(243, 243, 243)"
+    },
+    "h1": null,
+    "h2": null,
+    "h3": null,
+    "h4": null,
+    "p": {
+      "text": "Doug Cruikshank is the Founder and Managing Partner of Hark Capital. P",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "14px",
+      "lineHeight": "18.2px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(24, 24, 24)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    "nav": {
+      "text": "MenuClick to ExpandOur SolutionsAbout UsNews & Insights010203040506Hom",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18.1538px",
+      "lineHeight": "25.4154px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(24, 24, 24)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    "header": null,
+    "a": {
+      "text": "",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18.1538px",
+      "lineHeight": "25.4154px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    "button": null,
+    "li": null,
+    "footer": {
+      "text": "Back To TopNavigationHomeOur SolutionsAbout UsRecent TransactionsInsig",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18.1538px",
+      "lineHeight": "25.4154px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(24, 24, 24)",
+      "backgroundColor": "rgb(24, 24, 24)"
+    },
+    "section": {
+      "text": "Pioneers in NAV financingWe provide purpose-built NAV and GP financing",
+      "fontFamily": "Aeonikpro, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18.1538px",
+      "lineHeight": "25.4154px",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(24, 24, 24)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  },
+  "fontLinks": [
+    "https://cdn.prod.website-files.com/",
+    "https://cdn.prod.website-files.com/686f86887081059cf424730d/css/hark-capital.shared.4b99fe152.css",
+    "https://cdn.prod.website-files.com/686f86887081059cf424730d/6877a4fd4048e7160a954c7b_Hark_Capital_FAV_Icon.jpg",
+    "https://cdn.prod.website-files.com/686f86887081059cf424730d/6877a50242578d89b647507e_Hark_Capital_Web_Clip.jpg",
+    "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  ],
+  "headings": []
+}

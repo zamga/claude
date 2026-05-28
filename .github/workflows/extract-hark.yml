@@ -1,0 +1,43 @@
+name: Extract Hark
+# run 4 — playwright container + bash grouped-redirect logging
+
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-hark.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.44.1-jammy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract (logged)
+        shell: bash
+        run: |
+          mkdir -p extraction
+          {
+            set -x
+            node -v
+            npm -v
+            npm init -y
+            npm i playwright@1.44.1
+            node extract-hark.mjs
+          } > extraction/build.log 2>&1 || echo "BLOCK_FAILED rc=$?" >> extraction/build.log
+          echo "----- build.log tail -----"
+          tail -40 extraction/build.log
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A extraction
+          git commit -m "Hark extraction output [skip ci]" || { echo "nothing to commit"; exit 0; }
+          git push origin "HEAD:${GITHUB_REF_NAME}"
