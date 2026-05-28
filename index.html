@@ -5,57 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hark Capital — Creative Capital, Globally Executed</title>
 
-  <!-- ============================================================
-       FONTS
-       Live site uses  Aeonik Pro (sans) + Suisse Works (serif).
-       Both are commercial; closest free Google substitutes used:
-         Aeonik Pro   -> Hanken Grotesk
-         Suisse Works -> Source Serif 4
-       ============================================================ -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,400&display=swap"
-    rel="stylesheet" />
+  <!--
+    Self-contained build. No external CDN, no remote fonts.
+    Design tokens (colors, type scale, spacing) are the exact values
+    extracted from the live harkcap.com Webflow stylesheet.
+    Fonts use the system stack as a free substitute for Aeonik Pro
+    (sans) and Suisse Works (serif). Drop in @font-face for the real
+    licensed faces if available.
+  -->
 
-  <!-- TAILWIND (Play CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    /* ----------------------------------------------------------
-       TAILWIND CONFIG — Hark Capital tokens (EXACT, extracted
-       from the live harkcap.com Webflow stylesheet variables).
-       ---------------------------------------------------------- */
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            hark: {
-              bg:        "#F3F3F3", /* --_theme background          */
-              charcoal:  "#181818", /* --swatch--charcoal (text)    */
-              charcoal2: "#232323", /* --swatch--charcoal-light     */
-              pewter:    "#919598", /* --swatch--pewter (muted)     */
-              gray:      "#D4D4D4", /* --swatch--gray-3             */
-              cobalt:    "#235E80", /* --swatch--brand-cobalt       */
-              navy:      "#114167", /* mid navy                     */
-              navydeep:  "#062541", /* deep navy (dark sections)    */
-              cyan:      "#00F2E5", /* accent — electric cyan       */
-              white:     "#FFFFFF",
-            },
-          },
-          fontFamily: {
-            sans:  ['"Hanken Grotesk"', 'Arial', 'sans-serif'],
-            serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-          },
-          maxWidth: { site: '96rem' },
-        },
-      },
-    };
-  </script>
-
-  <!-- CUSTOM CSS -->
   <style>
+    /* =====================================================
+       TOKENS — extracted verbatim from harkcap.com Webflow
+       ===================================================== */
     :root {
-      /* fluid type scale — reproduces the site's clamp ramps (vw 20→150) */
+      --bg:         #F3F3F3;
+      --charcoal:   #181818;
+      --charcoal2:  #232323;
+      --pewter:     #919598;
+      --gray:       #D4D4D4;
+      --cobalt:     #235E80;
+      --navy:       #114167;
+      --navydeep:   #062541;
+      --cyan:       #00F2E5;
+      --white:      #FFFFFF;
+
+      /* fluid type scale — matches the site's clamp ramps (vw 20→150) */
       --fs-display: clamp(7rem, 8.558rem + 7.212vw, 19.375rem);
       --fs-h1:      clamp(3.25rem, 5.385rem + 3.077vw, 10rem);
       --fs-h2:      clamp(2.6rem, 2.702rem + 3.365vw, 7.75rem);
@@ -66,36 +41,84 @@
       --section:    clamp(6rem, 4.5rem + 7.5vw, 11.25rem);
       --margin:     clamp(1.25rem, 0.5rem + 3.75vw, 5rem);
       --ease:       cubic-bezier(0.16, 1, 0.3, 1);
+
+      --sans: system-ui, -apple-system, "Segoe UI", Inter, Roboto,
+              "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Apple Garamond", Georgia,
+               "Times New Roman", serif;
     }
 
+    /* =====================================================
+       RESET / BASE
+       ===================================================== */
+    *,*::before,*::after { box-sizing: border-box; }
+    html,body { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
     body {
-      background: #F3F3F3; color: #181818;
-      font-family: 'Hanken Grotesk', Arial, sans-serif;
-      font-weight: 400; line-height: 1.4; overflow-x: hidden;
+      background: var(--bg);
+      color: var(--charcoal);
+      font-family: var(--sans);
+      font-size: var(--fs-main);
+      line-height: 1.4;
+      font-weight: 400;
+      overflow-x: hidden;
     }
-    ::selection { background: #00F2E5; color: #062541; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    ::selection { background: var(--cyan); color: var(--navydeep); }
 
+    /* =====================================================
+       LAYOUT
+       ===================================================== */
     .wrap { max-width: 96rem; margin-inline: auto; padding-inline: var(--margin); }
     .section { padding-block: var(--section); }
+    .grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem 1.5rem; }
+    .col-3  { grid-column: span 3; }
+    .col-4  { grid-column: span 4; }
+    .col-5  { grid-column: span 5; }
+    .col-7  { grid-column: span 7; }
+    .col-8  { grid-column: span 8; }
+    .col-9  { grid-column: span 9; }
+    .col-12 { grid-column: span 12; }
+    .start-4 { grid-column-start: 4; }
+    .grid-3-card { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .stack-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 
-    /* ---- type primitives ---- */
-    .display { font-size: var(--fs-display); line-height: 0.86; letter-spacing: -0.03em; font-weight: 500; }
-    .h1 { font-size: var(--fs-h1); line-height: 0.9;  letter-spacing: -0.03em; font-weight: 500; }
-    .h2 { font-size: var(--fs-h2); line-height: 0.92; letter-spacing: -0.03em; font-weight: 500; }
-    .h3 { font-size: var(--fs-h3); line-height: 1.0;  letter-spacing: -0.02em; font-weight: 500; }
-    .lead { font-size: var(--fs-large); line-height: 1.4; }
-    .num  { font-family: 'Source Serif 4', Georgia, serif; font-weight: 300; font-size: var(--fs-num); line-height: 0.8; letter-spacing: -0.02em; }
-    .serif-em { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-weight: 400; }
+    /* =====================================================
+       TYPE
+       ===================================================== */
+    .display { font-size: var(--fs-display); line-height: 0.86; letter-spacing: -0.03em; font-weight: 600; }
+    .h1 { font-size: var(--fs-h1); line-height: 0.9;  letter-spacing: -0.03em; font-weight: 600; }
+    .h2 { font-size: var(--fs-h2); line-height: 0.92; letter-spacing: -0.03em; font-weight: 600; margin: 0; }
+    .h3 { font-size: var(--fs-h3); line-height: 1.0;  letter-spacing: -0.02em; font-weight: 600; margin: 0; }
+    .lead { font-size: var(--fs-large); line-height: 1.45; }
+    .num  { font-family: var(--serif); font-weight: 300; font-size: var(--fs-num); line-height: 0.8; letter-spacing: -0.02em; }
+    .serif-em { font-family: var(--serif); font-style: italic; font-weight: 400; }
     .eyebrow {
-      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.04em;
-      text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.8125rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      color: var(--charcoal);
     }
-    .eyebrow::before { content: ""; width: 0.5rem; height: 0.5rem; background: #00F2E5; border-radius: 999px; display: inline-block; }
+    .eyebrow::before {
+      content: ""; width: 0.5rem; height: 0.5rem; background: var(--cyan);
+      border-radius: 999px; display: inline-block;
+    }
+    .text-cyan   { color: var(--cyan); }
+    .text-cobalt { color: var(--cobalt); }
+    .text-white  { color: var(--white); }
+    .text-muted  { color: var(--pewter); }
+    .text-w70    { color: rgba(255,255,255,0.7); }
+    .text-w55    { color: rgba(255,255,255,0.55); }
+    .text-w40    { color: rgba(255,255,255,0.4); }
 
-    /* ---- glass render placeholder (stands in for site imagery) ---- */
+    /* =====================================================
+       COMPONENTS
+       ===================================================== */
     .glass {
-      position: relative; overflow: hidden; background-color: #062541;
+      position: relative; overflow: hidden;
+      background-color: var(--navydeep);
       background-image:
         radial-gradient(120% 90% at 78% 12%, rgba(0,242,229,0.30), transparent 45%),
         radial-gradient(90% 120% at 22% 88%, rgba(6,37,65,0.95), transparent 55%),
@@ -103,7 +126,7 @@
         linear-gradient(125deg, #1b4f74 0%, #114167 38%, #062541 78%, #0a2f52 100%);
     }
     .glass::before {
-      content: ""; position: absolute; inset: -20% -10%;
+      content: ""; position: absolute; inset: -20% -10%; pointer-events: none;
       background:
         linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.35) 47%, rgba(255,255,255,0.05) 52%, transparent 60%),
         linear-gradient(80deg, transparent 60%, rgba(0,242,229,0.25) 72%, transparent 80%);
@@ -111,75 +134,253 @@
     }
     .glass::after {
       content: attr(data-label); position: absolute; left: 1.25rem; bottom: 1.1rem; z-index: 2;
-      font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.55);
+      font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
     }
     .glass > * { position: relative; z-index: 2; }
 
-    /* ---- light image placeholder (cards) ---- */
     .plate {
-      position: relative; overflow: hidden; background: #D4D4D4;
-      background-image: linear-gradient(135deg, #e2e2e2, #cfcfcf);
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #E2E2E2, #CFCFCF);
+      aspect-ratio: 16 / 10;
+      border-radius: 4px;
     }
     .plate::after {
       content: attr(data-label); position: absolute; left: 1rem; bottom: 0.85rem;
-      font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(24,24,24,0.4);
+      font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(24,24,24,0.4);
     }
 
-    .line-mask { display: block; overflow: hidden; }
-    .line-mask > span { display: block; will-change: transform; }
-    .hair { height: 1px; background: rgba(24,24,24,0.14); }
-    .hair-on-dark { height: 1px; background: rgba(255,255,255,0.16); }
+    .card {
+      background: var(--white);
+      border-radius: 6px;
+      padding: 2rem;
+      display: flex; flex-direction: column;
+    }
+    .card.offset-down { margin-top: 3rem; }
 
-    .link-u { position: relative; }
-    .link-u::after { content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+    .hair { height: 1px; background: rgba(24,24,24,0.14); }
+    .hair-dark { height: 1px; background: rgba(255,255,255,0.16); }
+
+    .link-u { position: relative; display: inline-block; }
+    .link-u::after {
+      content: ""; position: absolute; left: 0; bottom: -2px;
+      width: 100%; height: 1px; background: currentColor;
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.5s var(--ease);
+    }
     .link-u:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    /* =====================================================
+       NAV
+       ===================================================== */
+    .nav-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      padding-top: 1.5rem;
+    }
+    .nav-inner { display: flex; align-items: flex-start; justify-content: space-between; }
+    .logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      color: var(--white); mix-blend-mode: difference;
+      font-weight: 500; letter-spacing: -0.01em; font-size: 1.05rem;
+    }
+    .logo .mark {
+      display: inline-grid; place-items: center;
+      width: 2.25rem; height: 2.25rem;
+      background: var(--white); color: var(--navydeep);
+      font-weight: 700; font-size: 1.15rem; border-radius: 3px;
+    }
+    .nav-panel {
+      background: rgba(35,94,128,0.85);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: var(--white);
+      border-radius: 4px; padding: 1rem 1.25rem; width: 15rem;
+    }
+    .nav-panel .row1 {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.8rem; color: rgba(255,255,255,0.8); margin-bottom: 0.75rem;
+    }
+    .nav-panel .plus { color: var(--cyan); font-size: 1.25rem; line-height: 1; }
+    .nav-panel nav { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem; }
+    .nav-panel nav a { display: flex; justify-content: space-between; }
+    .nav-panel nav a .idx { color: rgba(255,255,255,0.4); }
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      height: 100vh;
+    }
+    #hero .glass { position: absolute; inset: 0; }
+    #hero .hero-floor {
+      position: absolute; inset: auto 0 0 0; height: 66%;
+      background: linear-gradient(to top, rgba(6,37,65,0.85), rgba(6,37,65,0.25) 55%, transparent);
+      pointer-events: none;
+    }
+    #hero .hero-content {
+      position: relative; height: 100%;
+      display: flex; align-items: flex-end;
+      padding-bottom: clamp(2.5rem, 5vw, 5rem);
+    }
+    #hero .hero-content .inner { max-width: 60rem; }
+    #hero .hero-strip {
+      position: absolute; left: var(--margin); right: var(--margin); bottom: 1.5rem;
+      display: flex; justify-content: space-between;
+      color: rgba(255,255,255,0.7); font-size: 0.8rem; letter-spacing: 0.04em;
+    }
+
+    /* line-mask reveal (hero headline) */
+    .line-mask { display: block; overflow: hidden; }
+    .line-mask > span {
+      display: block;
+      transform: translateY(115%);
+      animation: lineUp 1.25s var(--ease) forwards;
+    }
+    .line-mask:nth-child(1) > span { animation-delay: 0.35s; }
+    .line-mask:nth-child(2) > span { animation-delay: 0.50s; }
+    .line-mask:nth-child(3) > span { animation-delay: 0.65s; }
+    @keyframes lineUp {
+      from { transform: translateY(115%); }
+      to   { transform: translateY(0%); }
+    }
+
+    /* =====================================================
+       SECTION-SPECIFIC
+       ===================================================== */
+    .stats-band .glass {
+      border-radius: 6px;
+      padding: clamp(2rem, 4vw, 4.5rem);
+      color: var(--white);
+    }
+    .stats-band .stack-stats { color: var(--white); }
+    .stats-band .stack-stats .num { color: var(--cyan); display: block; margin-bottom: 0.75rem; }
+    .stats-band .stack-stats .lead-name { font-size: var(--fs-h3); line-height: 1; letter-spacing: -0.02em; font-weight: 600; margin-bottom: 0.5rem; }
+    .stats-band .stack-stats p { color: rgba(255,255,255,0.7); max-width: 26ch; margin: 0; }
+
+    #capabilities { background: var(--navydeep); color: var(--white); }
+    #capabilities .head { margin-bottom: clamp(3rem, 6vw, 7rem); align-items: flex-start; }
+    #capabilities .rows { border-top: 1px solid rgba(255,255,255,0.15); }
+    #capabilities .row {
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem;
+      align-items: center;
+      padding-block: clamp(2rem, 4vw, 4rem);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    #capabilities .row .num {
+      grid-column: span 3; color: rgba(255,255,255,0.3);
+      transition: color 0.5s var(--ease);
+    }
+    #capabilities .row:hover .num { color: var(--cyan); }
+    #capabilities .row h3 { grid-column: span 4; }
+    #capabilities .row p { grid-column: span 5; color: rgba(255,255,255,0.7); max-width: 40ch; margin: 0 0 0 auto; }
+
+    #firm .head { margin-bottom: clamp(3rem, 5vw, 6rem); }
+    #firm .pillars .card .num { color: var(--gray); font-size: clamp(2.5rem,4vw,4rem); margin-bottom: 1rem; display: block; }
+    #firm .pillars .card .plate { margin-bottom: 2rem; }
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    footer { background: var(--charcoal); color: var(--white); }
+    footer .cta { border-radius: 6px; overflow: hidden; }
+    footer .cta .pad {
+      padding-inline: clamp(1.5rem, 4vw, 4.5rem);
+      padding-block:  clamp(4rem, 8vw, 9rem);
+    }
+    footer .cta .display { display: block; line-height: 0.85; color: var(--white); margin-top: 0.5rem; }
+    footer .nav-foot { padding-bottom: 3rem; }
+    footer .nav-foot .grid {
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 2.5rem 1.5rem;
+    }
+    footer .col-brand { grid-column: span 5; }
+    footer .col-nav   { grid-column: span 3; }
+    footer .col-offices { grid-column: span 4; text-align: right; }
+    footer .col-nav a { display: block; margin-bottom: 0.5rem; color: rgba(255,255,255,0.75); width: max-content; }
+    footer .col-offices p { color: rgba(255,255,255,0.75); margin: 0.25rem 0; }
+    footer .row-end {
+      display: flex; justify-content: space-between; gap: 0.75rem;
+      color: rgba(255,255,255,0.45); font-size: 0.8rem;
+    }
+
+    /* =====================================================
+       SCROLL REVEAL
+       ===================================================== */
+    [data-reveal] {
+      opacity: 0; transform: translateY(46px);
+      transition: opacity 1.05s var(--ease), transform 1.05s var(--ease);
+      will-change: opacity, transform;
+    }
+    [data-reveal].in { opacity: 1; transform: none; }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+    @media (max-width: 900px) {
+      .col-3, .col-4, .col-5, .col-7, .col-8, .col-9 { grid-column: span 12; }
+      .start-4 { grid-column-start: auto; }
+      .grid-3-card { grid-template-columns: 1fr; }
+      .stack-stats { grid-template-columns: 1fr; gap: 2.5rem; }
+      .card.offset-down { margin-top: 0; }
+      .nav-panel { display: none; }
+      #capabilities .row { grid-template-columns: 1fr; gap: 0.75rem; }
+      #capabilities .row .num,
+      #capabilities .row h3,
+      #capabilities .row p { grid-column: 1; }
+      #capabilities .row p { margin: 0; }
+      footer .col-brand, footer .col-nav, footer .col-offices { grid-column: span 12; text-align: left; }
+      footer .row-end { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .line-mask > span { animation: none; transform: none; }
+      [data-reveal] { transition: none; opacity: 1; transform: none; }
+    }
   </style>
 </head>
 
 <body>
 
   <!-- ============================================================ NAV -->
-  <header id="nav" class="fixed top-0 inset-x-0 z-50">
-    <div class="wrap flex items-start justify-between pt-6">
-      <!-- logo -->
-      <a href="#" class="flex items-center gap-3 text-white mix-blend-difference">
-        <span class="inline-grid place-items-center w-9 h-9 bg-white text-hark-navydeep font-semibold text-lg leading-none rounded-[3px]">H</span>
-        <span class="font-medium tracking-tight text-[1.05rem]">Hark Capital</span>
+  <header class="nav-bar">
+    <div class="wrap nav-inner">
+      <a class="logo" href="#">
+        <span class="mark">H</span>
+        <span>Hark Capital</span>
       </a>
 
-      <!-- cobalt expand panel (mirrors the live nav) -->
-      <div class="hidden sm:block bg-hark-cobalt/85 backdrop-blur-md text-white rounded-[4px] px-5 py-4 w-[15rem]">
-        <div class="flex items-center justify-between text-[0.8rem] tracking-wide text-white/80 mb-3">
+      <div class="nav-panel">
+        <div class="row1">
           <span>Menu — Click to Expand</span>
-          <span class="text-hark-cyan text-lg leading-none">+</span>
+          <span class="plus">+</span>
         </div>
-        <nav class="flex flex-col gap-1.5 text-[0.95rem]">
-          <a href="#capabilities" class="flex justify-between link-u"><span>Our Solutions</span><span class="text-white/40">01</span></a>
-          <a href="#firm" class="flex justify-between link-u"><span>Our Firm</span><span class="text-white/40">02</span></a>
-          <a href="#contact" class="flex justify-between link-u"><span>Contact</span><span class="text-white/40">03</span></a>
+        <nav>
+          <a href="#capabilities" class="link-u"><span>Our Solutions</span><span class="idx">01</span></a>
+          <a href="#firm" class="link-u"><span>Our Firm</span><span class="idx">02</span></a>
+          <a href="#contact" class="link-u"><span>Contact</span><span class="idx">03</span></a>
         </nav>
       </div>
     </div>
   </header>
 
   <!-- ============================================================ HERO -->
-  <section id="hero" class="relative h-[100svh] min-h-[640px] w-full">
-    <div class="glass absolute inset-0" data-label="Hark — Creative Capital"></div>
-    <!-- gradient floor for headline legibility -->
-    <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-hark-navydeep/85 via-hark-navydeep/25 to-transparent"></div>
+  <section id="hero">
+    <div class="glass" data-label="Hark — Creative Capital"></div>
+    <div class="hero-floor"></div>
 
-    <div class="wrap relative h-full flex items-end pb-[clamp(2.5rem,5vw,5rem)]">
-      <div class="max-w-[60rem]">
-        <p class="eyebrow text-white/80 mb-6" data-reveal>Global Execution Firm</p>
-        <h1 class="h2 text-white">
+    <div class="wrap hero-content">
+      <div class="inner">
+        <p class="eyebrow text-white" data-reveal style="color: rgba(255,255,255,0.85);">Global Execution Firm</p>
+        <h1 class="h2 text-white" style="margin: 1.5rem 0 0;">
           <span class="line-mask"><span>We are a global execution firm</span></span>
-          <span class="line-mask"><span>deploying <span class="serif-em text-hark-cyan">creative capital</span></span></span>
+          <span class="line-mask"><span>deploying <span class="serif-em text-cyan">creative capital</span></span></span>
           <span class="line-mask"><span>across scalable digital assets.</span></span>
         </h1>
       </div>
     </div>
 
-    <div class="wrap absolute inset-x-0 bottom-6 flex items-center justify-between text-white/70 text-[0.8rem] tracking-wide">
+    <div class="hero-strip">
       <span data-reveal>Scroll to explore</span>
       <span data-reveal>Brand Equity — Digital Platforms — Experience</span>
     </div>
@@ -187,89 +388,78 @@
 
   <!-- ============================================================ INTRO STATEMENT -->
   <section class="section">
-    <div class="wrap grid grid-cols-12 gap-x-6 gap-y-10">
-      <div class="col-span-12 md:col-span-3" data-reveal>
-        <p class="eyebrow text-hark-charcoal">Our Approach</p>
+    <div class="wrap grid12">
+      <div class="col-3" data-reveal>
+        <p class="eyebrow">Our Approach</p>
       </div>
-      <div class="col-span-12 md:col-span-9">
-        <p class="h3 max-w-[44ch]" data-reveal>
+      <div class="col-9">
+        <p class="h3" data-reveal style="max-width: 44ch;">
           Our business today is exceptionally diversified across platforms,
           geographies, and distribution channels. We advise enterprise clients
-          who invest across the spectrum of <span class="serif-em text-hark-cobalt">digital architecture</span>.
+          who invest across the spectrum of <span class="serif-em text-cobalt">digital architecture</span>.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================ STATS BAND (glass) -->
-  <section class="section relative">
+  <!-- ============================================================ STATS BAND -->
+  <section class="section stats-band">
     <div class="wrap">
-      <div class="glass rounded-[6px] p-[clamp(2rem,4vw,4.5rem)]" data-label="Diversified Platform">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8 text-white">
+      <div class="glass" data-label="Diversified Platform">
+        <div class="stack-stats">
           <div data-reveal>
-            <span class="num block text-hark-cyan mb-3">01</span>
-            <p class="h3 mb-2">Platforms</p>
-            <p class="text-white/70 max-w-[26ch]">Operating businesses engineered to scale across the digital spectrum.</p>
+            <span class="num">01</span>
+            <p class="lead-name">Platforms</p>
+            <p>Operating businesses engineered to scale across the digital spectrum.</p>
           </div>
           <div data-reveal>
-            <span class="num block text-hark-cyan mb-3">02</span>
-            <p class="h3 mb-2">Geographies</p>
-            <p class="text-white/70 max-w-[26ch]">Truly global integration spanning every major market we serve.</p>
+            <span class="num">02</span>
+            <p class="lead-name">Geographies</p>
+            <p>Truly global integration spanning every major market we serve.</p>
           </div>
           <div data-reveal>
-            <span class="num block text-hark-cyan mb-3">03</span>
-            <p class="h3 mb-2">Channels</p>
-            <p class="text-white/70 max-w-[26ch]">Distribution reach that compounds value across the network.</p>
+            <span class="num">03</span>
+            <p class="lead-name">Channels</p>
+            <p>Distribution reach that compounds value across the network.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================ CAPABILITIES (dark) -->
-  <section id="capabilities" class="section bg-hark-navydeep text-white relative">
+  <!-- ============================================================ CAPABILITIES -->
+  <section id="capabilities" class="section">
     <div class="wrap">
-      <div class="grid grid-cols-12 gap-x-6 gap-y-10 items-start mb-[clamp(3rem,6vw,7rem)]">
-        <div class="col-span-12 md:col-span-7">
-          <p class="eyebrow text-white/80 mb-6" data-reveal>Our Solutions</p>
-          <h2 class="h2" data-reveal>Three businesses,<br />one <span class="serif-em text-hark-cyan">creative</span> mandate.</h2>
+      <div class="grid12 head">
+        <div class="col-7">
+          <p class="eyebrow text-white" data-reveal style="color: rgba(255,255,255,0.85);">Our Solutions</p>
+          <h2 class="h2" data-reveal style="margin-top: 1.5rem;">
+            Three businesses,<br />one <span class="serif-em text-cyan">creative</span> mandate.
+          </h2>
         </div>
-        <div class="col-span-12 md:col-span-5 md:text-right self-end" data-reveal>
-          <p class="lead text-white/70 max-w-[36ch] md:ml-auto">
+        <div class="col-5" data-reveal style="align-self: flex-end; text-align: right;">
+          <p class="lead text-w70" style="max-width: 36ch; margin-left: auto;">
             Purpose-built operating platforms for enterprises investing across
             the full architecture of digital value.
           </p>
         </div>
       </div>
 
-      <!-- capability rows: giant serif index pushed asymmetrically -->
-      <div class="border-t border-white/15">
-        <!-- 01 -->
-        <article class="group grid grid-cols-12 gap-x-6 gap-y-4 items-center py-[clamp(2rem,4vw,4rem)] border-b border-white/15" data-reveal>
-          <span class="num col-span-12 md:col-span-3 text-white/30 group-hover:text-hark-cyan transition-colors duration-500">01</span>
-          <h3 class="h3 col-span-12 md:col-span-4">Brand Equity</h3>
-          <p class="col-span-12 md:col-span-5 text-white/70 max-w-[40ch] md:ml-auto">
-            We build durable brand value as a balance-sheet asset — positioning,
-            identity, and narrative engineered to compound over decades.
-          </p>
+      <div class="rows">
+        <article class="row" data-reveal>
+          <span class="num">01</span>
+          <h3 class="h3">Brand Equity</h3>
+          <p>We build durable brand value as a balance-sheet asset — positioning, identity, and narrative engineered to compound over decades.</p>
         </article>
-        <!-- 02 -->
-        <article class="group grid grid-cols-12 gap-x-6 gap-y-4 items-center py-[clamp(2rem,4vw,4rem)] border-b border-white/15" data-reveal>
-          <span class="num col-span-12 md:col-span-3 text-white/30 group-hover:text-hark-cyan transition-colors duration-500">02</span>
-          <h3 class="h3 col-span-12 md:col-span-4">Digital Platforms</h3>
-          <p class="col-span-12 md:col-span-5 text-white/70 max-w-[40ch] md:ml-auto">
-            We architect and scale the platforms that distribute value — resilient
-            systems built for global throughput and long-horizon ownership.
-          </p>
+        <article class="row" data-reveal>
+          <span class="num">02</span>
+          <h3 class="h3">Digital Platforms</h3>
+          <p>We architect and scale the platforms that distribute value — resilient systems built for global throughput and long-horizon ownership.</p>
         </article>
-        <!-- 03 -->
-        <article class="group grid grid-cols-12 gap-x-6 gap-y-4 items-center py-[clamp(2rem,4vw,4rem)] border-b border-white/15" data-reveal>
-          <span class="num col-span-12 md:col-span-3 text-white/30 group-hover:text-hark-cyan transition-colors duration-500">03</span>
-          <h3 class="h3 col-span-12 md:col-span-4">User Experience Solutions</h3>
-          <p class="col-span-12 md:col-span-5 text-white/70 max-w-[40ch] md:ml-auto">
-            Experience is the interface between capital and customer. We design it
-            end to end — measured, tested, and relentlessly refined.
-          </p>
+        <article class="row" data-reveal>
+          <span class="num">03</span>
+          <h3 class="h3">User Experience Solutions</h3>
+          <p>Experience is the interface between capital and customer. We design it end to end — measured, tested, and relentlessly refined.</p>
         </article>
       </div>
     </div>
@@ -278,135 +468,122 @@
   <!-- ============================================================ OUR FIRM -->
   <section id="firm" class="section">
     <div class="wrap">
-      <div class="grid grid-cols-12 gap-x-6 gap-y-10 mb-[clamp(3rem,5vw,6rem)]">
-        <div class="col-span-12 md:col-span-3" data-reveal>
-          <p class="eyebrow text-hark-charcoal">Our Firm</p>
+      <div class="grid12 head">
+        <div class="col-3" data-reveal>
+          <p class="eyebrow">Our Firm</p>
         </div>
-        <h2 class="col-span-12 md:col-span-9 h2" data-reveal>
-          We generate <span class="serif-em text-hark-cobalt">operational alpha</span> over a long time horizon.
+        <h2 class="h2 col-9" data-reveal>
+          We generate <span class="serif-em text-cobalt">operational alpha</span> over a long time horizon.
         </h2>
       </div>
 
-      <!-- pillar cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-[6px] p-8 flex flex-col" data-reveal>
-          <div class="plate aspect-[16/10] rounded-[4px] mb-8" data-label="Structures"></div>
-          <span class="num text-hark-gray mb-4" style="font-size:clamp(2.5rem,4vw,4rem)">i</span>
-          <h3 class="h3" style="font-size:clamp(1.5rem,2vw,2rem)">Sticky, long-term structures</h3>
+      <div class="grid-3-card pillars">
+        <div class="card" data-reveal>
+          <div class="plate" data-label="Structures"></div>
+          <span class="num" style="margin-top: 2rem;">i</span>
+          <h3 class="h3" style="font-size: clamp(1.5rem, 2vw, 2rem);">Sticky, long-term structures</h3>
         </div>
-        <div class="bg-white rounded-[6px] p-8 flex flex-col md:mt-12" data-reveal>
-          <div class="plate aspect-[16/10] rounded-[4px] mb-8" data-label="Specialization"></div>
-          <span class="num text-hark-gray mb-4" style="font-size:clamp(2.5rem,4vw,4rem)">ii</span>
-          <h3 class="h3" style="font-size:clamp(1.5rem,2vw,2rem)">Deep industry specialization</h3>
+        <div class="card offset-down" data-reveal>
+          <div class="plate" data-label="Specialization"></div>
+          <span class="num" style="margin-top: 2rem;">ii</span>
+          <h3 class="h3" style="font-size: clamp(1.5rem, 2vw, 2rem);">Deep industry specialization</h3>
         </div>
-        <div class="bg-white rounded-[6px] p-8 flex flex-col" data-reveal>
-          <div class="plate aspect-[16/10] rounded-[4px] mb-8" data-label="Integration"></div>
-          <span class="num text-hark-gray mb-4" style="font-size:clamp(2.5rem,4vw,4rem)">iii</span>
-          <h3 class="h3" style="font-size:clamp(1.5rem,2vw,2rem)">True global integration</h3>
+        <div class="card" data-reveal>
+          <div class="plate" data-label="Integration"></div>
+          <span class="num" style="margin-top: 2rem;">iii</span>
+          <h3 class="h3" style="font-size: clamp(1.5rem, 2vw, 2rem);">True global integration</h3>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================ FOOTER CTA -->
-  <footer id="contact" class="relative bg-hark-charcoal text-white">
-    <!-- glass CTA -->
+  <!-- ============================================================ FOOTER -->
+  <footer id="contact">
     <div class="section">
       <div class="wrap">
-        <div class="relative glass rounded-[6px] overflow-hidden" data-label="Partner with Hark">
-          <div class="relative px-[clamp(1.5rem,4vw,4.5rem)] py-[clamp(4rem,8vw,9rem)]">
-            <p class="eyebrow text-white/80 mb-6" data-reveal>Get in touch</p>
-            <a href="#" class="display block leading-[0.85]" data-reveal>Let's<br />build<span class="text-hark-cyan">.</span></a>
-            <a href="mailto:hello@harkcap.com" class="link-u inline-block mt-10 text-[1.15rem]" data-reveal>hello@harkcap.com</a>
+        <div class="glass cta" data-label="Partner with Hark">
+          <div class="pad">
+            <p class="eyebrow" data-reveal style="color: rgba(255,255,255,0.85);">Get in touch</p>
+            <a href="#" class="display" data-reveal>Let's<br />build<span class="text-cyan">.</span></a>
+            <a href="mailto:hello@harkcap.com" class="link-u" data-reveal style="display: inline-block; margin-top: 2.5rem; font-size: 1.15rem;">hello@harkcap.com</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- footer nav -->
-    <div class="wrap pb-12">
-      <div class="hair-on-dark mb-10"></div>
-      <div class="grid grid-cols-12 gap-y-10 gap-x-6">
-        <div class="col-span-12 md:col-span-5">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="inline-grid place-items-center w-9 h-9 bg-white text-hark-navydeep font-semibold rounded-[3px]">H</span>
-            <span class="font-medium tracking-tight text-[1.05rem]">Hark Capital</span>
+    <div class="wrap nav-foot">
+      <div class="hair-dark" style="margin-bottom: 2.5rem;"></div>
+      <div class="grid">
+        <div class="col-brand">
+          <div class="logo" style="color: var(--white); mix-blend-mode: normal; margin-bottom: 1rem;">
+            <span class="mark">H</span>
+            <span>Hark Capital</span>
           </div>
-          <p class="text-white/55 max-w-[34ch]">A global execution firm deploying creative capital across scalable digital assets.</p>
+          <p class="text-w55" style="max-width: 34ch;">A global execution firm deploying creative capital across scalable digital assets.</p>
         </div>
-        <nav class="col-span-6 md:col-span-3 flex flex-col gap-2 text-white/75">
-          <span class="eyebrow text-white/40 mb-2">Navigation</span>
-          <a href="#hero" class="link-u w-fit">Home</a>
-          <a href="#capabilities" class="link-u w-fit">Our Solutions</a>
-          <a href="#firm" class="link-u w-fit">Our Firm</a>
-          <a href="#contact" class="link-u w-fit">Contact</a>
+        <nav class="col-nav">
+          <span class="eyebrow text-w40" style="margin-bottom: 0.5rem;">Navigation</span>
+          <div style="height: 0.75rem;"></div>
+          <a href="#hero" class="link-u">Home</a>
+          <a href="#capabilities" class="link-u">Our Solutions</a>
+          <a href="#firm" class="link-u">Our Firm</a>
+          <a href="#contact" class="link-u">Contact</a>
         </nav>
-        <div class="col-span-6 md:col-span-4 md:text-right">
-          <span class="eyebrow text-white/40 mb-2">Offices</span>
-          <p class="text-white/75 mt-2">New York</p>
-          <p class="text-white/75">London</p>
-          <p class="text-white/75">Singapore</p>
+        <div class="col-offices">
+          <span class="eyebrow text-w40">Offices</span>
+          <p>New York</p>
+          <p>London</p>
+          <p>Singapore</p>
         </div>
       </div>
-      <div class="hair-on-dark mt-10 mb-6"></div>
-      <div class="flex flex-col md:flex-row justify-between gap-3 text-white/45 text-[0.8rem]">
+      <div class="hair-dark" style="margin: 2.5rem 0 1.5rem;"></div>
+      <div class="row-end">
         <span>© <span id="year"></span> Hark Capital. All rights reserved.</span>
         <a href="#hero" class="link-u">Back to top ↑</a>
       </div>
     </div>
   </footer>
 
-  <!-- ============================================================ SCRIPTS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- ============================================================ JS (no deps) -->
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!window.gsap) return;
-      gsap.registerPlugin(ScrollTrigger);
-      const ease = 'power3.out';
+    /* Scroll reveal via IntersectionObserver */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 
-      /* nav in */
-      gsap.from('#nav', { y: -22, opacity: 0, duration: 1, ease, delay: 0.15 });
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    } else {
+      /* Fallback: just show everything */
+      document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('in'));
+    }
 
-      /* hero headline masked line reveal */
-      gsap.set('.line-mask > span', { yPercent: 115 });
-      gsap.to('.line-mask > span', { yPercent: 0, duration: 1.25, ease, stagger: 0.12, delay: 0.35 });
-
-      /* hero glass: slow scale + scroll parallax */
-      gsap.fromTo('#hero .glass', { scale: 1.18 }, { scale: 1, duration: 1.8, ease });
-      gsap.to('#hero .glass', {
-        yPercent: 18, ease: 'none',
-        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
-      });
-
-      /* generic reveal (fade + rise) */
-      gsap.set('[data-reveal]', { opacity: 0, y: 46 });
-      ScrollTrigger.batch('[data-reveal]', {
-        start: 'top 86%',
-        onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 1.05, ease, stagger: 0.1, overwrite: true }),
-      });
-
-      /* big serif numbers: subtle scale-in on the capability rows */
-      gsap.utils.toArray('#capabilities .num').forEach((n) => {
-        gsap.fromTo(n, { scale: 0.82, opacity: 0 }, {
-          scale: 1, opacity: 1, duration: 1.1, ease,
-          scrollTrigger: { trigger: n, start: 'top 88%' },
-        });
-      });
-
-      /* parallax drift on the stat-band + footer glass */
-      gsap.utils.toArray('section .glass').forEach((g) => {
-        if (g.closest('#hero')) return;
-        gsap.fromTo(g, { backgroundPositionY: '-30px' }, {
-          backgroundPositionY: '30px', ease: 'none',
-          scrollTrigger: { trigger: g, start: 'top bottom', end: 'bottom top', scrub: true },
-        });
-      });
-
-      ScrollTrigger.refresh();
-    });
+    /* Hero glass parallax (rAF-throttled) */
+    (function () {
+      const g = document.querySelector('#hero .glass');
+      if (!g) return;
+      let y = 0, ticking = false;
+      const onScroll = () => {
+        y = window.scrollY;
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const max = window.innerHeight;
+            const t = Math.min(y, max);
+            g.style.transform = `translate3d(0, ${t * 0.18}px, 0) scale(${1 + t * 0.0001})`;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
   </script>
 </body>
 </html>
