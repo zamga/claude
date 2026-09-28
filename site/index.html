@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project Triglav Offer</title>
+<meta name="description" content="Share offer of [Issuer] d.d. under the EU €12 million prospectus exemption, funding the acquisition of a profitable company with €11.0M revenue and €1.9M EBITDA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ink:#0F1C1F; --ink-2:#3A4B4E; --muted:#66787A;
+  --paper:#EEF1EC; --paper-2:#E3E8E2; --line:#C9D2CC;
+  --soca:#0E7A6C; --soca-soft:#D3E9E3; --brass:#8A6A2B;
+  --good:#1D7A4C; --warn:#A3471F;
+  --bg:var(--paper); --fg:var(--ink);
+  --serif:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#E6EDE8; --ink-2:#B4C2BD; --muted:#8A9B97;
+    --paper:#0C1719; --paper-2:#122124; --line:#24393C;
+    --soca:#3CC4AE; --soca-soft:#123A36; --brass:#D2B06A;
+    --good:#58C48C; --warn:#F08A5D;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E6EDE8; --ink-2:#B4C2BD; --muted:#8A9B97;
+  --paper:#0C1719; --paper-2:#122124; --line:#24393C;
+  --soca:#3CC4AE; --soca-soft:#123A36; --brass:#D2B06A;
+  --good:#58C48C; --warn:#F08A5D;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding-inline:clamp(16px,4vw,56px)}
+a{color:var(--soca)}
+:focus-visible{outline:2px solid var(--soca);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1180px;margin-inline:auto}
+.label{font:500 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+h1,h2,h3{font-family:var(--serif);font-weight:500;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(34px,4.6vw,58px);line-height:1.04}
+h3{font-size:24px;line-height:1.2}
+p{margin:0;max-width:64ch}
+.lede{font-size:clamp(18px,1.6vw,21px);color:var(--ink-2)}
+
+/* notice bar */
+.notice{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1*clamp(16px,4vw,56px));padding:10px clamp(16px,4vw,56px);background:var(--ink);color:var(--paper);font-size:13.5px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.notice p{max-width:none}
+.notice button{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--paper);border:1px solid color-mix(in srgb,var(--paper) 50%,transparent);padding:6px 12px;cursor:pointer}
+
+/* nav */
+nav.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:var(--serif);font-size:22px;color:var(--fg);text-decoration:none}
+.brand small{font:500 11px var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.navlinks{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.navlinks a{color:var(--ink-2);text-decoration:none;font-size:14.5px}
+.navlinks a:hover{color:var(--soca)}
+.lang{display:inline-flex;border:1px solid var(--line)}
+.lang button{font:500 12px var(--mono);background:transparent;color:var(--muted);border:0;padding:6px 10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+@media (max-width:820px){.navlinks a{display:none}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(28px,5vw,72px);padding-block:clamp(48px,8vw,104px) clamp(40px,6vw,72px);align-items:end}
+.hero h1{font-size:clamp(44px,7.4vw,104px);line-height:.96;letter-spacing:-.025em}
+.hero h1 em{font-style:italic;color:var(--soca)}
+.hero .lede{margin-top:28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font:600 15px var(--sans);text-decoration:none;border:1px solid var(--fg);color:var(--fg);background:transparent;cursor:pointer}
+.btn.primary{background:var(--fg);color:var(--bg)}
+.btn:hover{border-color:var(--soca)}
+.btn.primary:hover{background:var(--soca);border-color:var(--soca);color:var(--paper)}
+@media (max-width:900px){.hero{grid-template-columns:1fr}}
+
+/* ceiling gauge */
+.gauge{border-top:2px solid var(--fg);padding-top:18px}
+.gauge .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.gauge .big{font:500 clamp(56px,7vw,88px)/1 var(--serif);letter-spacing:-.03em}
+.gauge .big sup{font-size:.38em;vertical-align:.95em;margin-right:4px}
+.bar{position:relative;height:14px;background:var(--paper-2);margin-top:22px;border:1px solid var(--line)}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--soca);width:0;transition:width 1.4s cubic-bezier(.2,.7,.1,1)}
+.ticks{display:flex;justify-content:space-between;margin-top:8px}
+.gauge dl{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin:26px 0 0}
+.gauge dt{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gauge dd{margin:4px 0 0;font:500 26px var(--serif)}
+
+/* sections */
+section{padding-block:clamp(64px,9vw,120px);border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:220px 1fr;gap:24px 48px;margin-bottom:clamp(36px,5vw,60px)}
+.sec-head .lede{margin-top:18px}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+
+/* target P&L sheet */
+.sheet{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--fg);border-bottom:1px solid var(--line)}
+.sheet > div{padding:26px 22px 26px 0;border-right:1px solid var(--line)}
+.sheet > div + div{padding-left:22px}
+.sheet > div:last-child{border-right:0}
+.sheet .v{font:500 clamp(40px,4.6vw,60px)/1 var(--serif);letter-spacing:-.02em;margin-top:14px}
+.sheet .v small{font-size:.45em;margin-left:2px}
+.sheet p{font-size:14.5px;color:var(--muted);margin-top:10px}
+@media (max-width:820px){.sheet{grid-template-columns:1fr 1fr}.sheet > div:nth-child(2){border-right:0}.sheet > div:nth-child(3){padding-left:0}.sheet > div:nth-child(n+3){border-top:1px solid var(--line)}}
+.thesis{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:56px}
+.thesis h3{margin-bottom:10px}
+.thesis p{color:var(--ink-2);font-size:16px}
+@media (max-width:820px){.thesis{grid-template-columns:1fr}}
+
+/* structure / calculator */
+.calc{display:grid;grid-template-columns:360px 1fr;gap:clamp(28px,4vw,56px);align-items:start}
+.calc > *{min-width:0}
+@media (max-width:900px){.calc{grid-template-columns:1fr}}
+.controls{display:grid;gap:26px;padding:26px;background:var(--paper-2);border:1px solid var(--line)}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;font-weight:500}
+.ctl output{font:500 14px var(--mono);color:var(--soca)}
+.ctl input[type=range]{width:100%;margin-top:10px;accent-color:var(--soca)}
+.ctl .hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+.assump{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+.readout{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--fg)}
+.readout > div{padding:20px 16px 20px 0}
+.readout .v{font:500 clamp(30px,3.2vw,42px)/1.05 var(--serif);margin-top:8px}
+@media (max-width:620px){.readout{grid-template-columns:1fr 1fr}}
+.pill{display:inline-block;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;margin-top:10px;border:1px solid currentColor}
+.pill.ok{color:var(--good)} .pill.no{color:var(--warn)}
+.su{margin-top:30px}
+.su-wrap{overflow-x:auto}
+.su svg{display:block;width:100%;min-width:520px;height:auto}
+.su text{font-family:var(--mono);font-size:11px;fill:var(--ink-2)}
+.su .t-strong{font-family:var(--serif);font-size:15px;fill:var(--fg)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:14px;font-size:13px;color:var(--ink-2)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px;background:var(--c)}
+
+/* protection */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:2px solid var(--fg)}
+.grid2 > div{padding:30px 32px 30px 0;border-bottom:1px solid var(--line)}
+.grid2 > div:nth-child(odd){border-right:1px solid var(--line)}
+.grid2 > div:nth-child(even){padding-left:32px}
+.grid2 h3{margin-bottom:10px}
+.grid2 p{color:var(--ink-2);font-size:16px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}.grid2 > div:nth-child(odd){border-right:0}.grid2 > div:nth-child(even){padding-left:0}}
+
+/* legal frame */
+.law{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px)}
+@media (max-width:900px){.law{grid-template-columns:1fr}}
+.law blockquote{margin:0;padding:26px 28px;border-left:3px solid var(--soca);background:var(--soca-soft);font:italic 400 clamp(20px,2vw,25px)/1.4 var(--serif)}
+.law blockquote cite{display:block;margin-top:16px;font:500 11.5px var(--mono);letter-spacing:.08em;font-style:normal;text-transform:uppercase;color:var(--ink-2)}
+.law ul{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.law li{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+.law li b{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+
+/* timeline */
+ol.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);border-top:2px solid var(--fg);counter-reset:s}
+ol.steps li{padding:22px 18px 0 0;counter-increment:s;position:relative}
+ol.steps li::before{content:counter(s,decimal-leading-zero);display:block;font:500 12px var(--mono);color:var(--soca);margin-bottom:14px}
+ol.steps h3{font-size:19px;margin-bottom:8px}
+ol.steps p{font-size:14.5px;color:var(--ink-2)}
+ol.steps .when{font:500 11.5px var(--mono);color:var(--muted);margin-top:10px;letter-spacing:.06em}
+@media (max-width:1000px){ol.steps{grid-template-columns:1fr 1fr 1fr;row-gap:28px}}
+@media (max-width:620px){ol.steps{grid-template-columns:1fr}}
+
+/* faq */
+.faq details{border-bottom:1px solid var(--line);padding-block:20px}
+.faq details:first-child{border-top:2px solid var(--fg)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font:500 clamp(19px,1.8vw,23px)/1.3 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--soca)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin-top:12px;color:var(--ink-2)}
+
+/* interest form */
+.eoi{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(28px,5vw,72px)}
+@media (max-width:900px){.eoi{grid-template-columns:1fr}}
+form{display:grid;gap:18px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:560px){.f2{grid-template-columns:1fr}}
+.field label{display:block;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input,.field select{width:100%;padding:13px 14px;font:400 16px var(--sans);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:0}
+.field input:focus,.field select:focus{border-color:var(--soca);outline:none}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink-2)}
+.check input{margin-top:4px;accent-color:var(--soca)}
+.formmsg{font-size:14.5px;padding:14px 16px;border:1px solid var(--good);color:var(--good)}
+.formmsg.err{border-color:var(--warn);color:var(--warn)}
+
+footer{border-top:2px solid var(--fg);padding-block:40px 64px;font-size:13px;color:var(--muted);display:grid;gap:18px}
+footer p{max-width:110ch}
+.reveal{transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+.reveal.pre{transform:translateY(14px)}
+</style>
+</head>
+<body>
+
+<div class="notice" id="notice" role="region" aria-label="Legal notice">
+  <p data-i18n="notice">Marketing communication. This is not a prospectus. The offer is made under the EU prospectus exemption for offers below €12,000,000 over 12 months. Investing in shares carries risk, including loss of capital.</p>
+  <button type="button" id="noticeOk" data-i18n="noticeOk">Understood</button>
+</div>
+
+<div class="wrap">
+<nav class="top" aria-label="Main">
+  <a class="brand" href="#top"><span>[Issuer] d.d.</span><small>Project Triglav</small></a>
+  <div class="navlinks">
+    <a href="#target" data-i18n="navTarget">The target</a>
+    <a href="#structure" data-i18n="navStructure">Structure</a>
+    <a href="#protection" data-i18n="navProtection">Protection</a>
+    <a href="#timeline" data-i18n="navTimeline">Timeline</a>
+    <a href="#faq">FAQ</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="sl" aria-pressed="false">SL</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div>
+    <p class="label" data-i18n="heroEyebrow">Share offer · Slovenia · Q4 2026</p>
+    <h1 data-i18n="heroTitle">Twelve million euros. One company that already <em>earns.</em></h1>
+    <p class="lede" data-i18n="heroLede">[Issuer] d.d. is raising up to €12 million in new shares to acquire an established, profitable business: €11.0 million in revenue and €1.9 million in EBITDA. Your capital buys cash flow that exists today.</p>
+    <div class="cta">
+      <a class="btn primary" href="#interest" data-i18n="ctaInterest">Register interest</a>
+      <a class="btn" href="#structure" data-i18n="ctaModel">Model the deal</a>
+    </div>
+  </div>
+  <aside class="gauge" aria-label="Offer size against the exemption ceiling">
+    <div class="row"><span class="label" data-i18n="gaugeLabel">Target raise vs. €12M ceiling</span><span class="label num" id="gPct">54%</span></div>
+    <div class="big num"><sup>€</sup><span id="gRaise">6.52</span>M</div>
+    <div class="bar"><i id="gBar"></i></div>
+    <div class="ticks label num"><span>€0</span><span>€6M</span><span>€12M</span></div>
+    <dl>
+      <div><dt data-i18n="gRev">Target revenue</dt><dd class="num">€11.0M</dd></div>
+      <div><dt>EBITDA</dt><dd class="num">€1.9M</dd></div>
+      <div><dt data-i18n="gMargin">EBITDA margin</dt><dd class="num">17.3%</dd></div>
+      <div><dt data-i18n="gPrice">Price per share</dt><dd class="num">€[x.xx]</dd></div>
+    </dl>
+  </aside>
+</header>
+
+<section id="target" class="reveal">
+  <div class="sec-head">
+    <p class="label" data-i18n="s1Label">The target</p>
+    <div>
+      <h2 data-i18n="s1Title">A profitable business, bought at a disciplined multiple.</h2>
+      <p class="lede" data-i18n="s1Lede">The acquisition target is identified and under exclusive negotiation. Its name is disclosed to investors who sign a confidentiality undertaking.</p>
+    </div>
+  </div>
+  <div class="sheet">
+    <div><span class="label" data-i18n="kRev">Revenue, last FY</span><div class="v num">11.0<small>€M</small></div><p data-i18n="kRevP">Audited, [FY 2025]</p></div>
+    <div><span class="label">EBITDA</span><div class="v num">1.9<small>€M</small></div><p data-i18n="kEbP">Before owner adjustments</p></div>
+    <div><span class="label" data-i18n="kMar">Margin</span><div class="v num">17.3<small>%</small></div><p data-i18n="kMarP">EBITDA / revenue</p></div>
+    <div><span class="label" data-i18n="kMult">Entry multiple</span><div class="v num" id="kMultV">5.5<small>×</small></div><p data-i18n="kMultP">EV / EBITDA, base case</p></div>
+  </div>
+  <div class="thesis">
+    <div><h3 data-i18n="t1">Cash flow from day one</h3><p data-i18n="t1p">The target earns €1.9M EBITDA a year. The raise funds an asset that already produces cash, instead of a plan that hopes to.</p></div>
+    <div><h3 data-i18n="t2">Multiple arbitrage</h3><p data-i18n="t2p">Private businesses of this size change hands at lower multiples than larger groups. Consolidating the target into [Issuer] d.d. puts its earnings inside a bigger, more liquid platform.</p></div>
+    <div><h3 data-i18n="t3">Less equity, less dilution</h3><p data-i18n="t3p">Senior bank debt and a vendor loan fund part of the price. Shareholders contribute only the equity the deal needs, which keeps the raise well inside the €12M ceiling.</p></div>
+  </div>
+</section>
+
+<section id="structure" class="reveal">
+  <div class="sec-head">
+    <p class="label" data-i18n="s2Label">Structure</p>
+    <div>
+      <h2 data-i18n="s2Title">Model the transaction yourself.</h2>
+      <p class="lede" data-i18n="s2Lede">Move the levers to see how the price, bank debt and vendor financing change the equity the offer must raise. The base case is shown on load. All figures are illustrative until the share purchase agreement is signed.</p>
+    </div>
+  </div>
+  <div class="calc">
+    <div class="controls">
+      <div class="ctl">
+        <label for="mult"><span data-i18n="cMult">Purchase multiple (EV/EBITDA)</span><output id="multO" for="mult">5.50×</output></label>
+        <input type="range" id="mult" min="4" max="8" step="0.25" value="5.5">
+        <p class="hint" data-i18n="cMultH">Range seen in Slovenian and CEE mid-market deals of this size.</p>
+      </div>
+      <div class="ctl">
+        <label for="debt"><span data-i18n="cDebt">Senior bank debt (× EBITDA)</span><output id="debtO" for="debt">2.00×</output></label>
+        <input type="range" id="debt" min="0" max="3" step="0.25" value="2">
+        <p class="hint" data-i18n="cDebtH">Secured on the target's cash flow.</p>
+      </div>
+      <div class="ctl">
+        <label for="vend"><span data-i18n="cVend">Vendor loan (% of price)</span><output id="vendO" for="vend">10%</output></label>
+        <input type="range" id="vend" min="0" max="25" step="1" value="10">
+        <p class="hint" data-i18n="cVendH">Deferred payment to the seller keeps the seller aligned after closing.</p>
+      </div>
+      <p class="assump" data-i18n="assump">Fixed assumptions: EBITDA €1.9M; transaction costs 4% of EV; €0.5M cash buffer; bank debt at 6.5%; vendor loan at 5.0%. Yield is before tax, capex and working-capital changes.</p>
+    </div>
+    <div>
+      <div class="readout">
+        <div><span class="label" data-i18n="rEv">Enterprise value</span><div class="v num" id="rEv">€10.45M</div></div>
+        <div><span class="label" data-i18n="rEq">Equity to raise</span><div class="v num" id="rEq">€6.52M</div><span class="pill ok" id="rCap">Within €12M cap</span></div>
+        <div><span class="label" data-i18n="rHead">Cap headroom</span><div class="v num" id="rHead">€5.48M</div></div>
+        <div><span class="label" data-i18n="rLev">Total leverage</span><div class="v num" id="rLev">2.55×</div></div>
+        <div><span class="label" data-i18n="rInt">Annual interest</span><div class="v num" id="rInt">€0.30M</div></div>
+        <div><span class="label" data-i18n="rYield">Cash yield on equity</span><div class="v num" id="rYield">24.5%</div></div>
+      </div>
+      <div class="su">
+        <p class="label" data-i18n="suLabel">Sources and uses, drawn to scale</p>
+        <div class="su-wrap"><svg id="suSvg" viewBox="0 0 760 170" role="img" aria-label="Sources and uses of funds"></svg></div>
+        <div class="legend">
+          <span style="--c:var(--soca)" data-i18n="lgEq">New equity (this offer)</span>
+          <span style="--c:var(--brass)" data-i18n="lgDebt">Senior bank debt</span>
+          <span style="--c:var(--muted)" data-i18n="lgVend">Vendor loan</span>
+          <span style="--c:var(--ink)" data-i18n="lgUse">Price, costs, cash buffer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="protection" class="reveal">
+  <div class="sec-head">
+    <p class="label" data-i18n="s3Label">Investor protection</p>
+    <div>
+      <h2 data-i18n="s3Title">Your money moves only if the deal closes.</h2>
+      <p class="lede" data-i18n="s3Lede">The offer is built so that subscribers never fund an empty shell.</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div><h3 data-i18n="p1">Conditional subscription</h3><p data-i18n="p1p">Subscription payments go to a dedicated account at [Bank]. The capital increase is registered only once the share purchase agreement is signed and its conditions are met.</p></div>
+    <div><h3 data-i18n="p2">Full refund at the long-stop date</h3><p data-i18n="p2p">If the acquisition has not closed by [long-stop date], every subscriber is repaid in full. No fees are deducted.</p></div>
+    <div><h3 data-i18n="p3">Anchor commitment</h3><p data-i18n="p3p">[Anchor investor(s)] commit €[x]M on the same terms as every other subscriber. Management invests alongside you.</p></div>
+    <div><h3 data-i18n="p4">Registered, dematerialised shares</h3><p data-i18n="p4p">New shares are issued in book-entry form through KDD, the Slovenian central securities depository, and credited to your securities account.</p></div>
+  </div>
+</section>
+
+<section id="legal" class="reveal">
+  <div class="sec-head">
+    <p class="label" data-i18n="s4Label">Legal frame</p>
+    <div>
+      <h2 data-i18n="s4Title">Why no prospectus is required.</h2>
+    </div>
+  </div>
+  <div class="law">
+    <blockquote><span data-i18n="quote">Offers of securities to the public with a total consideration in the Union of less than €12,000,000, calculated over 12 months, are exempt from the obligation to publish a prospectus.</span>
+      <cite>Regulation (EU) 2017/1129, as amended by Regulation (EU) 2024/2809 (EU Listing Act) · applies from 5 June 2026</cite></blockquote>
+    <ul>
+      <li><b data-i18n="lw1">Ceiling</b><span data-i18n="lw1v">€12,000,000 per issuer, counting every offer made in the EU in the preceding 12 months.</span></li>
+      <li><b data-i18n="lw2">Regulator</b><span data-i18n="lw2v">Agencija za trg vrednostnih papirjev (ATVP). National treatment confirmed: [ATVP reference].</span></li>
+      <li><b data-i18n="lw3">Corporate</b><span data-i18n="lw3v">Capital increase approved by the general meeting of [Issuer] d.d. on [date] under ZGD-1, with [pre-emptive rights / exclusion of pre-emptive rights].</span></li>
+      <li><b data-i18n="lw4">Documents</b><span data-i18n="lw4v">Information memorandum, audited accounts of the target and subscription form, available in the data room.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="timeline" class="reveal">
+  <div class="sec-head">
+    <p class="label" data-i18n="s5Label">Timeline</p>
+    <div><h2 data-i18n="s5Title">From first call to first dividend.</h2></div>
+  </div>
+  <ol class="steps">
+    <li><h3 data-i18n="st1">Interest</h3><p data-i18n="st1p">Register interest and sign the NDA to see the target's name and data room.</p><p class="when">[Oct 2026]</p></li>
+    <li><h3 data-i18n="st2">General meeting</h3><p data-i18n="st2p">Shareholders approve the capital increase.</p><p class="when">[Nov 2026]</p></li>
+    <li><h3 data-i18n="st3">Subscription</h3><p data-i18n="st3p">Offer window opens. Payments go to the dedicated account.</p><p class="when">[Nov–Dec 2026]</p></li>
+    <li><h3 data-i18n="st4">SPA and financing</h3><p data-i18n="st4p">Share purchase agreement signed; bank facility and vendor loan documented.</p><p class="when">[Dec 2026]</p></li>
+    <li><h3 data-i18n="st5">Closing</h3><p data-i18n="st5p">Capital increase registered, shares credited through KDD, target acquired.</p><p class="when">[Q1 2027]</p></li>
+    <li><h3 data-i18n="st6">Integration</h3><p data-i18n="st6p">First consolidated results and investor report.</p><p class="when">[H1 2027]</p></li>
+  </ol>
+</section>
+
+<section id="faq" class="reveal faq">
+  <div class="sec-head">
+    <p class="label">FAQ</p>
+    <div><h2 data-i18n="s6Title">Questions investors ask first.</h2></div>
+  </div>
+  <div>
+    <details><summary data-i18n="q1">Who can subscribe?</summary><p data-i18n="a1">Natural persons and legal entities, subject to the eligibility rules in the information memorandum. The minimum subscription is €[x].</p></details>
+    <details><summary data-i18n="q2">What happens if the acquisition fails?</summary><p data-i18n="a2">The capital increase is not registered and all subscription payments are refunded in full by [long-stop date].</p></details>
+    <details><summary data-i18n="q3">Why is there no prospectus?</summary><p data-i18n="a3">EU law exempts offers below €12 million over 12 months from the prospectus requirement. You still receive an information memorandum and access to the data room.</p></details>
+    <details><summary data-i18n="q4">How are the shares held?</summary><p data-i18n="a4">In book-entry form at KDD. You need a securities account with a Slovenian or EU broker, or an account opened directly with KDD.</p></details>
+    <details><summary data-i18n="q5">Is the price per share fixed?</summary><p data-i18n="a5">Yes. All subscribers, including anchor investors and management, pay €[x.xx] per share.</p></details>
+  </div>
+</section>
+
+<section id="interest" class="reveal">
+  <div class="eoi">
+    <div>
+      <p class="label" data-i18n="s7Label">Register interest</p>
+      <h2 style="margin-top:18px" data-i18n="s7Title">Get the information memorandum.</h2>
+      <p class="lede" style="margin-top:18px" data-i18n="s7Lede">Registration is non-binding. We send the NDA, then the memorandum and data room access. We never ask for payment or bank details through this form.</p>
+    </div>
+    <form id="eoiForm" novalidate>
+      <div class="f2">
+        <div class="field"><label for="fName" data-i18n="fName">Full name</label><input id="fName" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="fEmail" data-i18n="fEmail">Email</label><input id="fEmail" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="f2">
+        <div class="field"><label for="fCountry" data-i18n="fCountry">Country of residence</label>
+          <select id="fCountry" name="country"><option>Slovenija</option><option>Hrvaška / Croatia</option><option>Avstrija / Austria</option><option>Italija / Italy</option><option data-i18n="fOtherEU">Other EU country</option></select></div>
+        <div class="field"><label for="fAmt" data-i18n="fAmt">Indicative amount</label>
+          <select id="fAmt" name="amount"><option>€5,000 – €25,000</option><option>€25,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000+</option></select></div>
+      </div>
+      <label class="check"><input type="checkbox" id="fAck" required><span data-i18n="fAck">I understand this registration is non-binding and that investing in shares can lead to the loss of the capital invested.</span></label>
+      <div><button class="btn primary" type="submit" data-i18n="fSubmit">Request the memorandum</button></div>
+      <p class="formmsg" id="formMsg" hidden></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p><strong>[Issuer] d.d.</strong> · [Address], Slovenija · <span data-i18n="ftReg">Registration no.</span> [xxxxxxx] · <span data-i18n="ftVat">VAT ID</span> SI[xxxxxxxx]</p>
+  <p data-i18n="ftDisc">This website is a marketing communication and does not constitute a prospectus or an offer in any jurisdiction where such an offer would be unlawful. Target figures are based on unaudited management information unless stated otherwise and will be confirmed in due diligence. Projections and illustrative calculations are not guarantees of future results. The value of shares can fall as well as rise, and shares of an unlisted company may be difficult to sell. Read the information memorandum in full and seek independent advice before investing.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var EBITDA = 1.9, COSTS = 0.04, BUFFER = 0.5, R_DEBT = 0.065, R_VEND = 0.05, CAP = 12;
+  var lang = "en";
+  var $ = function(id){ return document.getElementById(id); };
+  var eur = function(v){ return "€" + v.toFixed(2) + "M"; };
+
+  var SL = {
+    notice:"Tržno sporočilo. To ni prospekt. Ponudba se izvaja na podlagi izjeme EU od obveznosti objave prospekta za ponudbe pod 12.000.000 EUR v 12 mesecih. Naložba v delnice je tvegana, vključno z izgubo vloženega kapitala.",
+    noticeOk:"Razumem",
+    navTarget:"Tarča", navStructure:"Struktura", navProtection:"Zaščita", navTimeline:"Časovnica",
+    heroEyebrow:"Ponudba delnic · Slovenija · 4. četrtletje 2026",
+    heroTitle:"Dvanajst milijonov evrov. Ena družba, ki že <em>zasluži.</em>",
+    heroLede:"[Issuer] d.d. z izdajo novih delnic zbira do 12 milijonov EUR za prevzem uveljavljenega, dobičkonosnega podjetja: 11,0 milijona EUR prihodkov in 1,9 milijona EUR EBITDA. Vaš kapital kupi denarni tok, ki obstaja že danes.",
+    ctaInterest:"Izrazite interes", ctaModel:"Modelirajte posel",
+    gaugeLabel:"Ciljni znesek glede na prag 12 mio EUR", gRev:"Prihodki tarče", gMargin:"EBITDA marža", gPrice:"Cena delnice",
+    s1Label:"Tarča", s1Title:"Dobičkonosno podjetje, kupljeno po discipliniranem multiplikatorju.",
+    s1Lede:"Prevzemna tarča je določena in v ekskluzivnih pogajanjih. Ime razkrijemo vlagateljem, ki podpišejo zavezo o zaupnosti.",
+    kRev:"Prihodki, zadnje leto", kRevP:"Revidirano, [PL 2025]", kEbP:"Pred prilagoditvami lastnika", kMar:"Marža", kMarP:"EBITDA / prihodki", kMult:"Vstopni multiplikator", kMultP:"EV / EBITDA, osnovni scenarij",
+    t1:"Denarni tok od prvega dne", t1p:"Tarča ustvari 1,9 mio EUR EBITDA letno. Zbrana sredstva financirajo sredstvo, ki denar že ustvarja, namesto načrta, ki to šele obljublja.",
+    t2:"Arbitraža multiplikatorjev", t2p:"Zasebna podjetja te velikosti se prodajajo po nižjih multiplikatorjih kot večje skupine. Konsolidacija v [Issuer] d.d. prenese njen dobiček v večjo in likvidnejšo platformo.",
+    t3:"Manj kapitala, manj razvodenitve", t3p:"Del kupnine financirata bančni kredit in prodajalčev kredit. Delničarji prispevajo le kapital, ki ga posel potrebuje, zato ostane izdaja precej pod pragom 12 mio EUR.",
+    s2Label:"Struktura", s2Title:"Transakcijo modelirajte sami.",
+    s2Lede:"Premaknite drsnike in poglejte, kako cena, bančni dolg in prodajalčevo financiranje spremenijo potrebni lastniški kapital. Ob nalaganju je prikazan osnovni scenarij. Vse številke so ilustrativne do podpisa pogodbe o prodaji deležev.",
+    cMult:"Nakupni multiplikator (EV/EBITDA)", cMultH:"Razpon v slovenskih in srednjeevropskih poslih te velikosti.",
+    cDebt:"Bančni kredit (× EBITDA)", cDebtH:"Zavarovan z denarnim tokom tarče.",
+    cVend:"Prodajalčev kredit (% kupnine)", cVendH:"Odloženo plačilo ohrani prodajalčev interes tudi po zaključku.",
+    assump:"Fiksne predpostavke: EBITDA 1,9 mio EUR; transakcijski stroški 4 % EV; 0,5 mio EUR denarne rezerve; bančni kredit 6,5 %; prodajalčev kredit 5,0 %. Donos je pred davki, naložbami in spremembami obratnega kapitala.",
+    rEv:"Vrednost podjetja", rEq:"Potreben kapital", rHead:"Prostor do praga", rLev:"Skupni dolg", rInt:"Letne obresti", rYield:"Denarni donos na kapital",
+    suLabel:"Viri in uporaba sredstev v merilu",
+    lgEq:"Nov kapital (ta ponudba)", lgDebt:"Bančni kredit", lgVend:"Prodajalčev kredit", lgUse:"Kupnina, stroški, rezerva",
+    s3Label:"Zaščita vlagateljev", s3Title:"Vaš denar se premakne le, če se posel zaključi.", s3Lede:"Ponudba je zasnovana tako, da vpisniki nikoli ne financirajo prazne lupine.",
+    p1:"Pogojni vpis", p1p:"Vplačila gredo na namenski račun pri [Bank]. Povečanje osnovnega kapitala se vpiše šele, ko je pogodba o prodaji podpisana in so izpolnjeni njeni pogoji.",
+    p2:"Polno vračilo ob skrajnem roku", p2p:"Če prevzem ni zaključen do [skrajni rok], se vsem vpisnikom vrne celotno vplačilo. Brez odbitkov.",
+    p3:"Sidrna zaveza", p3p:"[Sidrni vlagatelj(i)] se zavežejo k [x] mio EUR pod enakimi pogoji kot vsi vpisniki. Uprava vlaga skupaj z vami.",
+    p4:"Imenske nematerializirane delnice", p4p:"Nove delnice se izdajo v nematerializirani obliki prek KDD, centralne depotne družbe, in knjižijo na vaš račun nematerializiranih vrednostnih papirjev.",
+    s4Label:"Pravni okvir", s4Title:"Zakaj prospekt ni potreben.",
+    quote:"Ponudbe vrednostnih papirjev javnosti s skupno vrednostjo v Uniji manj kot 12.000.000 EUR, izračunano za obdobje 12 mesecev, so izvzete iz obveznosti objave prospekta.",
+    lw1:"Prag", lw1v:"12.000.000 EUR na izdajatelja, ob upoštevanju vseh ponudb v EU v preteklih 12 mesecih.",
+    lw2:"Nadzornik", lw2v:"Agencija za trg vrednostnih papirjev (ATVP). Nacionalna obravnava potrjena: [sklic ATVP].",
+    lw3:"Korporacijsko", lw3v:"Povečanje osnovnega kapitala je odobrila skupščina [Issuer] d.d. dne [datum] po ZGD-1, [s prednostno pravico / z izključitvijo prednostne pravice].",
+    lw4:"Dokumenti", lw4v:"Informativni memorandum, revidirani računovodski izkazi tarče in vpisni obrazec so na voljo v podatkovni sobi.",
+    s5Label:"Časovnica", s5Title:"Od prvega klica do prve dividende.",
+    st1:"Interes", st1p:"Izrazite interes in podpišite NDA za vpogled v ime tarče in podatkovno sobo.",
+    st2:"Skupščina", st2p:"Delničarji odobrijo povečanje osnovnega kapitala.",
+    st3:"Vpis", st3p:"Odpre se vpisno obdobje. Vplačila gredo na namenski račun.",
+    st4:"Pogodba in financiranje", st4p:"Podpis pogodbe o prodaji; dokumentiranje bančnega in prodajalčevega kredita.",
+    st5:"Zaključek", st5p:"Vpis povečanja kapitala, knjiženje delnic prek KDD, prevzem tarče.",
+    st6:"Integracija", st6p:"Prvi konsolidirani rezultati in poročilo vlagateljem.",
+    s6Title:"Vprašanja, ki jih vlagatelji postavijo najprej.",
+    q1:"Kdo lahko vpiše delnice?", a1:"Fizične in pravne osebe, skladno s pogoji v informativnem memorandumu. Najnižji vpis je [x] EUR.",
+    q2:"Kaj se zgodi, če prevzem ne uspe?", a2:"Povečanje kapitala se ne vpiše, vsa vplačila pa se v celoti vrnejo do [skrajni rok].",
+    q3:"Zakaj ni prospekta?", a3:"Pravo EU izvzema ponudbe pod 12 mio EUR v 12 mesecih iz obveznosti prospekta. Kljub temu prejmete informativni memorandum in dostop do podatkovne sobe.",
+    q4:"Kako so delnice vodene?", a4:"V nematerializirani obliki pri KDD. Potrebujete račun vrednostnih papirjev pri slovenskem ali EU borznem posredniku ali račun, odprt neposredno pri KDD.",
+    q5:"Ali je cena delnice fiksna?", a5:"Da. Vsi vpisniki, vključno s sidrnimi vlagatelji in upravo, plačajo [x,xx] EUR na delnico.",
+    s7Label:"Izrazite interes", s7Title:"Pridobite informativni memorandum.",
+    s7Lede:"Prijava ni zavezujoča. Poslali vam bomo NDA, nato memorandum in dostop do podatkovne sobe. Prek tega obrazca nikoli ne zahtevamo plačila ali bančnih podatkov.",
+    fName:"Ime in priimek", fEmail:"E-pošta", fCountry:"Država prebivališča", fAmt:"Okvirni znesek", fOtherEU:"Druga država EU",
+    fAck:"Razumem, da prijava ni zavezujoča in da lahko naložba v delnice privede do izgube vloženega kapitala.",
+    fSubmit:"Zahtevam memorandum",
+    ftReg:"Matična št.", ftVat:"ID za DDV",
+    ftDisc:"Ta spletna stran je tržno sporočilo in ni prospekt niti ponudba v jurisdikcijah, kjer bi bila taka ponudba nezakonita. Podatki o tarči temeljijo na nerevidiranih informacijah uprave, razen če je navedeno drugače, in bodo potrjeni v skrbnem pregledu. Projekcije in ilustrativni izračuni niso jamstvo za prihodnje rezultate. Vrednost delnic lahko pada ali raste, delnice neuvrščene družbe pa je lahko težko prodati. Pred naložbo preberite celoten informativni memorandum in se posvetujte z neodvisnim svetovalcem."
+  };
+  var UI = {
+    en:{within:"Within €12M cap", over:"Exceeds €12M cap", ok:"Thank you. We will send the NDA to {e} within one business day.", err:"Enter your name and a valid email, and confirm the acknowledgement.", equity:"Equity", debt:"Bank debt", vendor:"Vendor", sources:"SOURCES", uses:"USES", price:"Purchase price", costs:"Costs", buffer:"Buffer"},
+    sl:{within:"Pod pragom 12 mio EUR", over:"Nad pragom 12 mio EUR", ok:"Hvala. NDA vam pošljemo na {e} v enem delovnem dnevu.", err:"Vnesite ime in veljaven e-naslov ter potrdite izjavo.", equity:"Kapital", debt:"Bančni kredit", vendor:"Prodajalec", sources:"VIRI", uses:"UPORABA", price:"Kupnina", costs:"Stroški", buffer:"Rezerva"}
+  };
+
+  var EN = {};
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ EN[el.dataset.i18n] = el.innerHTML; });
+
+  function fmt(v){ var s = eur(v); return lang === "sl" ? s.replace(".", ",") : s; }
+  function pct(v, d){ var s = v.toFixed(d); return (lang === "sl" ? s.replace(".", ",") + " %" : s + "%"); }
+
+  function setLang(l){
+    lang = l;
+    document.documentElement.lang = l;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.dataset.i18n, v = l === "sl" ? SL[k] : EN[k];
+      if (v !== undefined) el.innerHTML = v;
+    });
+    document.querySelectorAll(".lang button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
+    try { localStorage.setItem("triglav-lang", l); } catch(e) {}
+    calc();
+  }
+
+  function rect(x, y, w, h, fill){ return '<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+Math.max(w,0).toFixed(1)+'" height="'+h+'" fill="'+fill+'"/>'; }
+  function txt(x, y, s, cls, anchor){ return '<text x="'+x.toFixed(1)+'" y="'+y+'"'+(cls?' class="'+cls+'"':'')+(anchor?' text-anchor="'+anchor+'"':'')+'>'+s+'</text>'; }
+
+  function drawSU(eq, debt, vend, ev, costs){
+    var u = UI[lang], total = ev + costs + BUFFER, X0 = 90, W = 660, sc = W / total, h = 38;
+    var cs = getComputedStyle(document.documentElement);
+    var c = function(n){ return cs.getPropertyValue(n).trim(); };
+    var out = "";
+    out += txt(0, 44, u.sources) + txt(0, 124, u.uses);
+    var parts = [[eq, c("--soca"), u.equity], [debt, c("--brass"), u.debt], [vend, c("--muted"), u.vendor]], x = X0;
+    parts.forEach(function(p){
+      out += rect(x, 20, p[0]*sc, h, p[1]);
+      if (p[0]*sc > 70) out += txt(x + 8, 16, p[2] + " " + fmt(p[0]), "", "start");
+      x += p[0]*sc;
+    });
+    var up = [[ev, c("--ink"), u.price], [costs, c("--ink-2"), u.costs], [BUFFER, c("--line"), u.buffer]]; x = X0;
+    up.forEach(function(p, i){
+      out += rect(x, 100, p[0]*sc, h, p[1]);
+      var w = p[0]*sc;
+      if (i === 0) out += txt(x + 8, 156, u.price + " " + fmt(p[0]), "", "start");
+      else if (i === 2) out += txt(X0 + W, 156, u.costs + " + " + u.buffer + " " + fmt(costs + BUFFER), "", "end");
+      x += w;
+    });
+    out += txt(X0 + W, 16, fmt(total), "t-strong", "end");
+    $("suSvg").innerHTML = out;
+  }
+
+  function calc(){
+    var m = +$("mult").value, d = +$("debt").value, vp = +$("vend").value / 100;
+    var ev = EBITDA * m, costs = ev * COSTS, debt = EBITDA * d, vend = ev * vp;
+    var eq = Math.max(ev + costs + BUFFER - debt - vend, 0);
+    var interest = debt * R_DEBT + vend * R_VEND;
+    var yieldEq = eq > 0 ? (EBITDA - interest) / eq * 100 : 0;
+    var within = eq < CAP, u = UI[lang];
+    $("multO").textContent = m.toFixed(2) + "×";
+    $("debtO").textContent = d.toFixed(2) + "×";
+    $("vendO").textContent = Math.round(vp * 100) + (lang === "sl" ? " %" : "%");
+    $("rEv").textContent = fmt(ev);
+    $("rEq").textContent = fmt(eq);
+    $("rHead").textContent = within ? fmt(CAP - eq) : "–" + fmt(eq - CAP);
+    $("rLev").textContent = ((debt + vend) / EBITDA).toFixed(2) + "×";
+    $("rInt").textContent = fmt(interest);
+    $("rYield").textContent = pct(yieldEq, 1);
+    var pill = $("rCap"); pill.textContent = within ? u.within : u.over; pill.className = "pill " + (within ? "ok" : "no");
+    $("kMultV").innerHTML = (lang === "sl" ? m.toFixed(1).replace(".", ",") : m.toFixed(1)) + "<small>×</small>";
+    $("gRaise").textContent = (lang === "sl" ? eq.toFixed(2).replace(".", ",") : eq.toFixed(2));
+    $("gPct").textContent = pct(Math.min(eq / CAP * 100, 100), 0);
+    $("gBar").style.width = Math.min(eq / CAP * 100, 100) + "%";
+    drawSU(eq, debt, vend, ev, costs);
+  }
+
+  ["mult", "debt", "vend"].forEach(function(id){ $(id).addEventListener("input", calc); });
+  document.querySelectorAll(".lang button").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.lang); }); });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", calc);
+  new MutationObserver(calc).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  $("noticeOk").addEventListener("click", function(){
+    $("notice").hidden = true;
+    try { sessionStorage.setItem("triglav-notice", "1"); } catch(e) {}
+  });
+  try { if (sessionStorage.getItem("triglav-notice") === "1") $("notice").hidden = true; } catch(e) {}
+
+  $("eoiForm").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var name = $("fName").value.trim(), email = $("fEmail").value.trim(), msg = $("formMsg");
+    var ok = name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && $("fAck").checked;
+    msg.hidden = false;
+    msg.className = "formmsg" + (ok ? "" : " err");
+    msg.textContent = ok ? UI[lang].ok.replace("{e}", email) : UI[lang].err;
+    // TODO: POST to the issuer's CRM endpoint once hosting is chosen.
+  });
+
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } }); }, { threshold: .08 });
+    document.querySelectorAll(".reveal").forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top > innerHeight) { el.classList.add("pre"); io.observe(el); }
+    });
+  }
+
+  var saved = null; try { saved = localStorage.getItem("triglav-lang"); } catch(e) {}
+  setLang(saved === "sl" ? "sl" : "en");
+})();
+</script>
+</body>
+</html>
