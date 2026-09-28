@@ -57,6 +57,10 @@ Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Con
 6. **Legal review of all copy.** The Slovenian text is a draft written for this site. The regulation box is a summary, not the official wording.
 7. **Fill every `[placeholder]`** (`[Izdajatelj]`, `[banka]`, `[skrajni rok]` and so on): issuer, price per share, minimum ticket, anchor amount, bank, dates, ATVP reference and registry details.
 8. **Wire the form** (see the `TODO` in the script) to a GDPR-compliant CRM, and add a privacy notice.
+10. **New company, commitments phase.** The issuer is a new d.d. that does not exist yet, and the site now collects commitments. Counsel should decide:
+   - how the company is founded under ZGD-1: simultaneous founding by the committed investors, or successive founding with public subscription (the latter has its own disclosure rules);
+   - whether collecting commitments from the public on this page is itself an offer of securities to the public, and so already counts under the €12M exemption and its advertising rules;
+   - the form of the commitment letter ("pismo o zavezi"): binding or conditional, the price per share, and the long-stop date.
 9. **Named parties.** The site names Alzetta Capital d.o.o. as anchor investor (€2.2M) and Bergweiss and Oaklins as transaction advisors. Before launch:
    - Get written consent from all three to be named, and have each approve the exact wording of its role. Oaklins, as an international network, will have brand-use rules. No logos are used for that reason.
    - Hold a signed, unconditional subscription commitment from Alzetta Capital d.o.o. for €2.2M. The site says the commitment is made on the same terms and at the same price as every other subscriber, so disclose any fee, side letter or preferential right, or remove that claim.
