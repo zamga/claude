@@ -24,7 +24,7 @@ Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Con
   - The site honours `prefers-reduced-motion`: no loader, no smooth scroll and no pinning, with a static terrain frame.
   - Without JavaScript, the full content still renders.
   - Semantic sections, a skip link, labelled controls and visible focus states.
-  - EN/SL language switch with Slovenian number formats (`12.000.000 €`, `17,3 %`).
+  - The site is in Slovenian only (`lang="sl"`), with Slovenian number formats (`12.000.000 €`, `17,3 %`) and full č/š/ž support.
   - The WebGL scene pauses when it is off-screen.
 
 ## Base case (illustrative)
@@ -50,8 +50,8 @@ Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Con
 3. **National information document or notification.** Confirm whether ATVP requires one for an offer below the threshold.
 4. **General meeting resolution under ZGD-1.** It must approve the capital increase, including any exclusion of pre-emptive rights.
 5. **Escrow and conditionality.** Counsel and the bank must document the dedicated account, the conditions for registering the capital increase, and the refund at the long-stop date.
-6. **Legal review of all copy, including the Slovenian translation.** The SL text is a draft.
-7. **Fill every `[placeholder]`:** issuer, price per share, minimum ticket, anchor amount, bank, dates, ATVP reference and registry details.
+6. **Legal review of all copy.** The Slovenian text is a draft written for this site. The regulation box is a summary, not the official wording.
+7. **Fill every `[placeholder]`** (`[Izdajatelj]`, `[banka]`, `[skrajni rok]` and so on): issuer, price per share, minimum ticket, anchor amount, bank, dates, ATVP reference and registry details.
 8. **Wire the form** (see the `TODO` in the script) to a GDPR-compliant CRM, and add a privacy notice.
 
 ## Naming and IP checks already applied

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="sl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Project VRH</title>
-<meta name="description" content="Share offer of [Issuer] d.d. under the EU €12 million prospectus exemption, funding the acquisition of a profitable company with €11.0M revenue and €1.9M EBITDA.">
+<title>Projekt VRH</title>
+<meta name="description" content="Ponudba delnic družbe [Izdajatelj] d.d. na podlagi izjeme EU od obveznosti objave prospekta za ponudbe pod 12 milijonov EUR. Sredstva so namenjena nakupu dobičkonosnega podjetja z 11,0 mio EUR prihodkov in 1,9 mio EUR EBITDA.">
 <meta name="theme-color" content="#08141A">
 <!-- assets:start -->
 <link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -93,15 +93,11 @@ main,.foot{position:relative;z-index:1}
 .brand span{font:400 13px/1 var(--sans);opacity:.7}
 .hdr-mid{justify-self:center;opacity:.65}
 .hdr-r{justify-self:end;display:flex;gap:10px;align-items:center}
-.lang{display:inline-flex;border:1px solid currentColor;border-radius:999px;padding:2px}
-.lang button{font:500 11px/1 var(--mono);letter-spacing:.1em;color:inherit;background:transparent;border:0;border-radius:999px;padding:7px 10px;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--snow);color:var(--night)}
-.hdr.on-light .lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .hdr-cta{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--sans);text-decoration:none;padding:12px 18px;border-radius:999px;background:var(--snow);color:var(--night);transition:background-color .4s,color .4s}
 .hdr.on-light .hdr-cta{background:var(--ink);color:var(--paper)}
 .hdr-cta:hover{background:var(--soca);color:var(--night)}
 @media (max-width:860px){.hdr-mid,.brand span{display:none}.hdr{grid-template-columns:auto 1fr}.hdr-cta{padding:10px 14px}}
-@media (max-width:420px){.hdr-cta{display:none}}
+@media (max-width:420px){.hdr-cta{padding:9px 12px;font-size:12px}}
 .alt{display:none}
 @media (min-width:1100px){.anim .alt{display:flex}.anim .wrap{padding-right:calc(var(--gutter) + 34px)}}
 .alt{position:fixed;right:calc(var(--gutter)*.45);top:50%;transform:translateY(-50%);z-index:55;flex-direction:column;align-items:center;gap:12px;color:var(--snow);transition:color .5s;pointer-events:none}
@@ -122,6 +118,7 @@ h2{font:360 clamp(40px,6.2vw,104px)/.95 var(--serif);letter-spacing:-.03em;font-
 h2 em,h1 em{font-style:italic}
 .lede{font-size:clamp(18px,1.45vw,22px);line-height:1.5;max-width:56ch}
 .ln{padding-bottom:.06em}
+.ln-mask{padding-top:.2em;margin-top:-.2em}
 .dark{color:var(--snow)}
 .dark h2 em{color:var(--soca)}
 .light{background:var(--paper);color:var(--ink)}
@@ -381,7 +378,7 @@ h2 em,h1 em{font-style:italic}
 (function(){var h=document.documentElement;h.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches){h.classList.add("anim")}
 setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("loader");if(l)l.remove();}},5000);})();
 </script>
-<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<a class="skip" href="#main">Preskoči na vsebino</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <symbol id="trig" viewBox="0 0 24 24"><path d="M12 2.8 22.4 20.6H1.6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="14.6" r="2.5" fill="currentColor"/></symbol>
@@ -392,9 +389,9 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <div class="loader" id="loader" aria-hidden="true">
   <div class="ld-in">
     <svg class="ld-mark"><use href="#trig"/></svg>
-    <div class="ld-count" id="ldCount">€0</div>
+    <div class="ld-count" id="ldCount">0 €</div>
     <div class="ld-bar"><i></i></div>
-    <p class="label ld-cap" data-i18n="ldCap">Offer ceiling without a prospectus</p>
+    <p class="label ld-cap">Prag ponudbe brez prospekta</p>
   </div>
 </div>
 
@@ -403,52 +400,48 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <div class="cursor" aria-hidden="true"><div class="c-ring"><span class="c-label"></span></div><div class="c-dot"></div></div>
 
 <header class="hdr" id="hdr">
-  <a class="brand" href="#top" aria-label="Project VRH, back to top"><svg><use href="#trig"/></svg><b>VRH</b><span>[Issuer] d.d.</span></a>
-  <span class="hdr-mid label" data-i18n="hdrMid">Share offer · Q4 2026</span>
+  <a class="brand" href="#top" aria-label="Projekt VRH, na vrh strani"><svg><use href="#trig"/></svg><b>VRH</b><span>[Izdajatelj] d.d.</span></a>
+  <span class="hdr-mid label">Ponudba delnic · 4. četrtletje 2026</span>
   <div class="hdr-r">
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="en" aria-pressed="true">EN</button>
-      <button type="button" data-lang="sl" aria-pressed="false">SL</button>
-    </div>
-    <a class="hdr-cta" href="#interest" data-magnetic data-i18n="hdrCta">Register interest</a>
+    <a class="hdr-cta" href="#interest" data-magnetic>Izrazite interes</a>
   </div>
 </header>
 
 <div class="alt" id="alt" aria-hidden="true">
-  <span class="label alt-t">€12M</span>
+  <span class="label alt-t">12 mio €</span>
   <div class="alt-rail"><i class="alt-cap"></i><i class="alt-tick"></i><i class="alt-mk" id="altMk"></i></div>
-  <span class="label">€0</span>
+  <span class="label">0 €</span>
 </div>
 
 <main id="main">
 <section class="hero dark" id="top" data-tone="dark" data-terrain>
   <div class="wrap hero-in">
-    <div class="hero-eyebrow label" data-hero><span data-i18n="heL">Share offer · [Issuer] d.d. · Slovenia</span><span data-i18n="heR">Reg. (EU) 2017/1129 as amended by 2024/2809</span></div>
-    <h1 class="hero-title" id="heroTitle" data-i18n="heroTitle">Twelve million euros. One company that already <em>earns.</em></h1>
-    <p class="lede hero-lede" data-hero data-i18n="heroLede">We are raising up to €12 million in new shares to buy an established, profitable business with <strong>€11.0M revenue</strong> and <strong>€1.9M EBITDA</strong>. Your capital buys cash flow that exists today.</p>
+    <div class="hero-eyebrow label" data-hero><span>Ponudba delnic · [Izdajatelj] d.d. · Slovenija</span><span>Uredba (EU) 2017/1129, kot jo spreminja 2024/2809</span></div>
+    <h1 class="hero-title" id="heroTitle">Dvanajst milijonov evrov. Ena družba, ki že <em>zasluži.</em></h1>
+    <p class="lede hero-lede" data-hero>Z izdajo novih delnic zbiramo do 12 milijonov EUR za nakup uveljavljenega, dobičkonosnega podjetja z <strong>11,0 mio EUR prihodkov</strong> in <strong>1,9 mio EUR EBITDA</strong>. Vaš kapital kupi denarni tok, ki obstaja že danes.</p>
     <div class="hero-cta" data-hero>
-      <a class="btn solid" href="#interest" data-magnetic data-cursor="go"><span data-i18n="ctaInterest">Register interest</span><svg><use href="#arr"/></svg></a>
-      <a class="btn" href="#model" data-magnetic><span data-i18n="ctaModel">Model the deal</span></a>
+      <a class="btn solid" href="#interest" data-magnetic data-cursor="go"><span>Izrazite interes</span><svg><use href="#arr"/></svg></a>
+      <a class="btn" href="#model" data-magnetic><span>Modelirajte posel</span></a>
     </div>
     <dl class="stats" data-hero>
-      <div><dt class="label" data-i18n="st1">Offer ceiling</dt><dd data-stat="12" data-fmt="m0">€12M</dd></div>
-      <div><dt class="label" data-i18n="st2">Target revenue</dt><dd data-stat="11" data-fmt="m1">€11.0M</dd></div>
-      <div><dt class="label" data-i18n="st3">Target EBITDA</dt><dd data-stat="1.9" data-fmt="m1">€1.9M</dd></div>
-      <div><dt class="label" data-i18n="st4">EBITDA margin</dt><dd data-stat="17.3" data-fmt="p1">17.3%</dd></div>
-      <p class="label legal" data-i18n="heLegal">Marketing communication. Not a prospectus. Capital at risk.</p>
+      <div><dt class="label">Prag ponudbe</dt><dd data-stat="12" data-fmt="m0">12 mio €</dd></div>
+      <div><dt class="label">Prihodki tarče</dt><dd data-stat="11" data-fmt="m1">11,0 mio €</dd></div>
+      <div><dt class="label">EBITDA tarče</dt><dd data-stat="1.9" data-fmt="m1">1,9 mio €</dd></div>
+      <div><dt class="label">EBITDA marža</dt><dd data-stat="17.3" data-fmt="p1">17,3 %</dd></div>
+      <p class="label legal">Tržno sporočilo. Ni prospekt. Kapital je izpostavljen tveganju.</p>
     </dl>
   </div>
 </section>
 
 <section class="ascent dark" id="ascent" data-tone="dark" data-terrain aria-labelledby="ascTitle">
   <div class="wrap ascent-in">
-    <div class="ascent-head label"><span id="ascTitle" data-i18n="ascHead">The ascent · four numbers that matter</span><span class="ascent-idx" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span></span></div>
-    <div class="ascent-num" id="bigNum" aria-hidden="true">€12,000,000</div>
+    <div class="ascent-head label"><span id="ascTitle">Vzpon · štiri številke, ki štejejo</span><span class="ascent-idx" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><span>04</span></span></div>
+    <div class="ascent-num" id="bigNum" aria-hidden="true">12.000.000 €</div>
     <div class="ascent-steps">
-      <article class="step"><p class="label"><span data-i18n="a1k">01 · The ceiling</span><b class="step-num" data-val="12000000">€12,000,000</b></p><p data-i18n="a1">EU law lets a company offer shares to the public without a prospectus up to €12 million over 12 months. We built the deal to sit well inside that limit.</p></article>
-      <article class="step"><p class="label"><span data-i18n="a2k">02 · Revenue</span><b class="step-num" data-val="11000000">€11,000,000</b></p><p data-i18n="a2">Annual revenue of the business we are buying: an established operator with audited accounts.</p></article>
-      <article class="step"><p class="label"><span data-i18n="a3k">03 · EBITDA</span><b class="step-num" data-val="1900000">€1,900,000</b></p><p data-i18n="a3">Earnings before interest, tax, depreciation and amortisation. A 17.3% margin, earned every year.</p></article>
-      <article class="step"><p class="label"><span data-i18n="a4k">04 · Your part</span><b class="step-num" data-val="6523000">€6,523,000</b></p><p data-i18n="a4">The equity this offer needs in the base case. Bank debt and a vendor loan fund the rest, and €5.48M of the ceiling stays unused.</p></article>
+      <article class="step"><p class="label"><span>01 · Prag</span><b class="step-num" data-val="12000000">12.000.000 €</b></p><p>Pravo EU družbi dovoljuje javno ponudbo delnic brez prospekta do 12 milijonov EUR v 12 mesecih. Posel smo zasnovali tako, da ostane varno pod to mejo.</p></article>
+      <article class="step"><p class="label"><span>02 · Prihodki</span><b class="step-num" data-val="11000000">11.000.000 €</b></p><p>Letni prihodki podjetja, ki ga kupujemo: uveljavljen poslovni subjekt z revidiranimi računovodskimi izkazi.</p></article>
+      <article class="step"><p class="label"><span>03 · EBITDA</span><b class="step-num" data-val="1900000">1.900.000 €</b></p><p>Dobiček pred obrestmi, davki in amortizacijo. 17,3-odstotna marža, zaslužena vsako leto.</p></article>
+      <article class="step"><p class="label"><span>04 · Vaš delež</span><b class="step-num" data-val="6523000">6.523.000 €</b></p><p>Lastniški kapital, ki ga ta ponudba potrebuje v osnovnem scenariju. Preostanek financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.</p></article>
     </div>
     <div class="ascent-bar" aria-hidden="true"><i id="ascBar"></i></div>
   </div>
@@ -456,26 +449,26 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 
 <div class="marquee" data-tone="dark" aria-hidden="true">
   <div class="mq-row"><div class="mq-track">
-    <span class="mq-item"><span data-i18n="mq1">Revenue €11.0M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq2">EBITDA €1.9M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq3">Margin 17.3%</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq4">Entry 5.5× EBITDA</span><svg><use href="#trig"/></svg></span>
-    <span class="mq-item"><span data-i18n="mq1">Revenue €11.0M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq2">EBITDA €1.9M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq3">Margin 17.3%</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq4">Entry 5.5× EBITDA</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prihodki 11,0 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>EBITDA 1,9 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Marža 17,3 %</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Vstop 5,5× EBITDA</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prihodki 11,0 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>EBITDA 1,9 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Marža 17,3 %</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Vstop 5,5× EBITDA</span><svg><use href="#trig"/></svg></span>
   </div></div>
   <div class="mq-row rev"><div class="mq-track">
-    <span class="mq-item"><span data-i18n="mq5">Ceiling €12M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq6">Raise €6.52M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq7">Headroom €5.48M</span><svg><use href="#trig"/></svg></span>
-    <span class="mq-item"><span data-i18n="mq5">Ceiling €12M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq6">Raise €6.52M</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span data-i18n="mq7">Headroom €5.48M</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
   </div></div>
 </div>
 
 <section class="light sec" id="case" data-tone="light">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label" data-i18n="caseL">Investment case</p>
-      <h2 data-split data-i18n="caseT">We are buying cash flow, <em>not a story.</em></h2>
+      <p class="label">Naložbena teza</p>
+      <h2 data-split>Kupujemo denarni tok, <em>ne zgodbe.</em></h2>
     </div>
     <ul class="rows">
-      <li class="row" data-reveal><span class="label" data-i18n="r1k">Cash flow</span><h3 data-i18n="r1h">Cash flow from day one</h3><p data-i18n="r1p">The target already earns €1.9M EBITDA a year. The raise funds an asset that produces cash, not a plan that hopes to.</p></li>
-      <li class="row" data-reveal><span class="label" data-i18n="r2k">Valuation</span><h3 data-i18n="r2h">Bought below platform value</h3><p data-i18n="r2p">Private companies of this size trade at lower multiples than larger groups. Bringing the target into [Issuer] d.d. places its earnings inside a larger, more liquid platform.</p></li>
-      <li class="row" data-reveal><span class="label" data-i18n="r3k">Dilution</span><h3 data-i18n="r3h">Only the equity the deal needs</h3><p data-i18n="r3p">Senior debt and a vendor loan carry part of the price, so shareholders fund less and dilution stays low.</p></li>
-      <li class="row" data-reveal><span class="label" data-i18n="r4k">Alignment</span><h3 data-i18n="r4h">The seller stays invested</h3><p data-i18n="r4p">The seller defers [10]% of the price as a loan to the company, which keeps their interest tied to a smooth handover.</p></li>
+      <li class="row" data-reveal><span class="label">Denarni tok</span><h3>Denarni tok od prvega dne</h3><p>Tarča že ustvari 1,9 mio EUR EBITDA letno. Zbrana sredstva financirajo sredstvo, ki denar že ustvarja, ne načrta, ki to šele obljublja.</p></li>
+      <li class="row" data-reveal><span class="label">Vrednotenje</span><h3>Nakup pod vrednostjo platforme</h3><p>Zasebna podjetja te velikosti se prodajajo po nižjih multiplikatorjih kot večje skupine. Z vključitvijo v [Izdajatelj] d.d. njen dobiček postane del večje in likvidnejše platforme.</p></li>
+      <li class="row" data-reveal><span class="label">Razvodenitev</span><h3>Le toliko kapitala, kot ga posel potrebuje</h3><p>Del kupnine nosita bančni in prodajalčev kredit, zato delničarji prispevajo manj, razvodenitev pa ostane nizka.</p></li>
+      <li class="row" data-reveal><span class="label">Usklajenost</span><h3>Prodajalec ostaja vpet</h3><p>Prodajalec [10] % kupnine odloži kot posojilo družbi, zato ostane zainteresiran za nemoten prenos poslovanja.</p></li>
     </ul>
   </div>
 </section>
@@ -483,43 +476,43 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <section class="instrument sec" id="model" data-tone="dark">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label" data-i18n="mdL">Deal model</p>
-      <h2 data-split data-i18n="mdT">Move the numbers <em>yourself.</em></h2>
-      <p class="lede" data-reveal data-i18n="mdLede">Change the price, the bank debt and the vendor loan. The model shows how much equity the offer must raise and where it sits against the €12M ceiling. Figures are illustrative until the share purchase agreement is signed.</p>
+      <p class="label">Model posla</p>
+      <h2 data-split>Številke premaknite <em>sami.</em></h2>
+      <p class="lede" data-reveal>Spremenite kupnino, bančni dolg in prodajalčev kredit. Model pokaže, koliko kapitala mora zbrati ponudba in kje je glede na prag 12 mio EUR. Številke so ilustrativne do podpisa pogodbe o nakupu deleža.</p>
     </div>
     <div class="inst">
       <div class="dials" data-reveal>
         <div class="dial">
-          <div class="dial-top"><label for="mult" data-i18n="cMult">Purchase multiple (EV/EBITDA)</label><output id="multO" for="mult">5.50<span class="x">×</span></output></div>
+          <div class="dial-top"><label for="mult">Nakupni multiplikator (EV/EBITDA)</label><output id="multO" for="mult">5,50<span class="x">×</span></output></div>
           <input type="range" id="mult" min="4" max="8" step="0.25" value="5.5" data-cursor="drag">
           <div class="dial-scale label"><span>4×</span><span>6×</span><span>8×</span></div>
-          <p class="hint" data-i18n="cMultH">Slider range 4× to 8×. The base case uses 5.5×.</p>
+          <p class="hint">Razpon drsnika od 4× do 8×. Osnovni scenarij uporablja 5,5×.</p>
         </div>
         <div class="dial">
-          <div class="dial-top"><label for="debt" data-i18n="cDebt">Senior bank debt (× EBITDA)</label><output id="debtO" for="debt">2.00<span class="x">×</span></output></div>
+          <div class="dial-top"><label for="debt">Bančni kredit (× EBITDA)</label><output id="debtO" for="debt">2,00<span class="x">×</span></output></div>
           <input type="range" id="debt" min="0" max="3" step="0.25" value="2" data-cursor="drag">
-          <div class="dial-scale label"><span>0×</span><span>1.5×</span><span>3×</span></div>
-          <p class="hint" data-i18n="cDebtH">Secured on the target's cash flow. The base case uses 2.0×.</p>
+          <div class="dial-scale label"><span>0×</span><span>1,5×</span><span>3×</span></div>
+          <p class="hint">Zavarovan z denarnim tokom tarče. Osnovni scenarij uporablja 2,0×.</p>
         </div>
         <div class="dial">
-          <div class="dial-top"><label for="vend" data-i18n="cVend">Vendor loan (% of price)</label><output id="vendO" for="vend">10%</output></div>
+          <div class="dial-top"><label for="vend">Prodajalčev kredit (% kupnine)</label><output id="vendO" for="vend">10 %</output></div>
           <input type="range" id="vend" min="0" max="25" step="1" value="10" data-cursor="drag">
-          <div class="dial-scale label"><span>0%</span><span>12%</span><span>25%</span></div>
-          <p class="hint" data-i18n="cVendH">Paid to the seller after closing. The base case uses 10%.</p>
+          <div class="dial-scale label"><span>0 %</span><span>12 %</span><span>25 %</span></div>
+          <p class="hint">Plačan prodajalcu po zaključku. Osnovni scenarij uporablja 10 %.</p>
         </div>
-        <p class="assump" data-i18n="assump">Fixed assumptions: EBITDA €1.9M; transaction costs 4% of EV; €0.5M cash buffer; bank debt at 6.5%; vendor loan at 5.0%. Yield is before tax, capex and working-capital changes.</p>
+        <p class="assump">Fiksne predpostavke: EBITDA 1,9 mio EUR; transakcijski stroški 4 % EV; 0,5 mio EUR denarne rezerve; bančni kredit po 6,5 %; prodajalčev kredit po 5,0 %. Donos je pred davki, naložbami in spremembami obratnega kapitala.</p>
       </div>
-      <div class="chart" data-reveal><svg id="chart" viewBox="0 0 450 510" role="img" aria-label="Uses of funds, sources of funds and the offer compared with the €12M ceiling"></svg></div>
+      <div class="chart" data-reveal><svg id="chart" viewBox="0 0 450 510" role="img" aria-label="Uporaba sredstev, viri sredstev in ponudba v primerjavi s pragom 12 mio EUR"></svg></div>
       <div class="ro-wrap" data-reveal>
         <div class="ro-list">
-          <div class="ro"><span class="label" data-i18n="rEv">Enterprise value</span><b id="rEv">€10.45M</b></div>
-          <div class="ro key"><span class="label" data-i18n="rEq">Equity to raise</span><b id="rEq">€6.52M</b></div>
-          <div class="ro"><span class="label" data-i18n="rHead">Headroom to ceiling</span><b id="rHead">€5.48M</b></div>
-          <div class="ro"><span class="label" data-i18n="rLev">Debt / EBITDA</span><b id="rLev">2.55<span class="x">×</span></b></div>
-          <div class="ro"><span class="label" data-i18n="rInt">Annual interest</span><b id="rInt">€0.30M</b></div>
-          <div class="ro"><span class="label" data-i18n="rYield">Cash yield on equity</span><b id="rYield">24.5%</b></div>
+          <div class="ro"><span class="label">Vrednost podjetja (EV)</span><b id="rEv">10,45 mio €</b></div>
+          <div class="ro key"><span class="label">Kapital za zbiranje</span><b id="rEq">6,52 mio €</b></div>
+          <div class="ro"><span class="label">Rezerva do praga</span><b id="rHead">5,48 mio €</b></div>
+          <div class="ro"><span class="label">Dolg / EBITDA</span><b id="rLev">2,55<span class="x">×</span></b></div>
+          <div class="ro"><span class="label">Letne obresti</span><b id="rInt">0,30 mio €</b></div>
+          <div class="ro"><span class="label">Denarni donos na kapital</span><b id="rYield">24,5 %</b></div>
         </div>
-        <span class="pill ok" id="rCap">Within €12M ceiling</span>
+        <span class="pill ok" id="rCap">Pod pragom 12 mio €</span>
       </div>
     </div>
   </div>
@@ -529,19 +522,19 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
   <div class="route-in">
     <div class="wrap route-head">
       <div class="sec-head" style="margin-bottom:0">
-        <p class="label" data-i18n="rtL">Timeline</p>
-        <h2 data-split data-i18n="rtT">The route to <em>closing.</em></h2>
+        <p class="label">Časovnica</p>
+        <h2 data-split>Pot do <em>zaključka.</em></h2>
       </div>
     </div>
     <div class="route-track" id="routeTrack">
       <svg class="route-svg" id="routeSvg" aria-hidden="true"></svg>
       <ol class="wps">
-        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label" data-i18n="w1k">01 · Base camp</p><h3 data-i18n="w1h">Register interest</h3><p data-i18n="w1p">Register, sign the NDA, then receive the memorandum and data room access.</p><time>[Oct 2026]</time></li>
-        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">02</p><h3 data-i18n="w2h">General meeting</h3><p data-i18n="w2p">Shareholders approve the capital increase.</p><time>[Nov 2026]</time></li>
-        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">03</p><h3 data-i18n="w3h">Subscription window</h3><p data-i18n="w3p">You subscribe and pay into the dedicated account.</p><time>[Nov–Dec 2026]</time></li>
-        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">04</p><h3 data-i18n="w4h">SPA and financing</h3><p data-i18n="w4p">Share purchase agreement signed; bank facility and vendor loan documented.</p><time>[Dec 2026]</time></li>
-        <li class="wp summit"><svg class="wp-mk"><use href="#trig"/></svg><p class="label" data-i18n="w5k">05 · Summit</p><h3 data-i18n="w5h">Closing</h3><p data-i18n="w5p">Capital increase registered, shares credited through KDD, target acquired.</p><time>[Q1 2027]</time></li>
-        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">06</p><h3 data-i18n="w6h">Integration</h3><p data-i18n="w6p">First consolidated results and investor report.</p><time>[H1 2027]</time></li>
+        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">01 · Bazni tabor</p><h3>Izrazite interes</h3><p>Prijavite se, podpišite NDA in prejmite memorandum ter dostop do podatkovne sobe.</p><time>[okt. 2026]</time></li>
+        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">02</p><h3>Skupščina</h3><p>Delničarji odobrijo povečanje osnovnega kapitala.</p><time>[nov. 2026]</time></li>
+        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">03</p><h3>Vpisno obdobje</h3><p>Vpišete delnice in vplačate na namenski račun.</p><time>[nov.–dec. 2026]</time></li>
+        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">04</p><h3>Pogodba in financiranje</h3><p>Podpis pogodbe o nakupu deleža; dokumentiranje bančnega in prodajalčevega kredita.</p><time>[dec. 2026]</time></li>
+        <li class="wp summit"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">05 · Vrh</p><h3>Zaključek</h3><p>Vpis povečanja kapitala, knjiženje delnic prek KDD, prevzem tarče.</p><time>[1. četrtletje 2027]</time></li>
+        <li class="wp"><svg class="wp-mk"><use href="#trig"/></svg><p class="label">06</p><h3>Integracija</h3><p>Prvi konsolidirani rezultati in poročilo vlagateljem.</p><time>[1. polletje 2027]</time></li>
       </ol>
     </div>
   </div>
@@ -550,23 +543,23 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <section class="protect sec" id="protection" data-tone="dark">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label" data-i18n="prL">Investor protection</p>
-      <h2 data-split data-i18n="prT">Your money moves <em>only if the deal closes.</em></h2>
+      <p class="label">Zaščita vlagateljev</p>
+      <h2 data-split>Vaš denar se premakne <em>le, če se posel zaključi.</em></h2>
     </div>
-    <div class="flow" aria-label="Flow of subscription money">
-      <div class="node" data-reveal><span class="label" data-i18n="f1k">Step 1</span><strong data-i18n="f1h">You subscribe</strong><p data-i18n="f1p">Payment goes to the dedicated account.</p></div>
+    <div class="flow" aria-label="Pot vplačanih sredstev">
+      <div class="node" data-reveal><span class="label">Korak 1</span><strong>Vpišete delnice</strong><p>Vplačilo gre na namenski račun.</p></div>
       <div class="link" aria-hidden="true"></div>
-      <div class="node" data-reveal><span class="label" data-i18n="f2k">Step 2</span><strong data-i18n="f2h">Dedicated account at [Bank]</strong><p data-i18n="f2p">Funds stay there until the closing conditions are met.</p></div>
+      <div class="node" data-reveal><span class="label">Korak 2</span><strong>Namenski račun pri [banka]</strong><p>Sredstva ostanejo tam, dokler niso izpolnjeni pogoji za zaključek.</p></div>
       <div class="fork">
-        <div class="branch ok"><div class="link" aria-hidden="true"></div><div class="node ok" data-reveal><span class="label" data-i18n="f3k">Outcome A</span><strong data-i18n="f3h">The deal closes</strong><p data-i18n="f3p">Shares credited through KDD. Target acquired.</p></div></div>
-        <div class="branch back"><div class="link" aria-hidden="true"></div><div class="node back" data-reveal><span class="label" data-i18n="f4k">Outcome B</span><strong data-i18n="f4h">Long-stop date missed</strong><p data-i18n="f4p">100% refunded. No deductions.</p></div></div>
+        <div class="branch ok"><div class="link" aria-hidden="true"></div><div class="node ok" data-reveal><span class="label">Izid A</span><strong>Posel se zaključi</strong><p>Delnice knjižene prek KDD. Tarča prevzeta.</p></div></div>
+        <div class="branch back"><div class="link" aria-hidden="true"></div><div class="node back" data-reveal><span class="label">Izid B</span><strong>Skrajni rok zamujen</strong><p>100-odstotno vračilo. Brez odbitkov.</p></div></div>
       </div>
     </div>
     <div class="guards">
-      <div data-reveal><h3 data-i18n="p1">Conditional subscription</h3><p data-i18n="p1p">The capital increase is registered only once the share purchase agreement is signed and its conditions are met.</p></div>
-      <div data-reveal><h3 data-i18n="p2">Full refund at the long-stop date</h3><p data-i18n="p2p">If the acquisition has not closed by [long-stop date], every subscriber is repaid in full.</p></div>
-      <div data-reveal><h3 data-i18n="p3">Anchor commitment</h3><p data-i18n="p3p">[Anchor investor(s)] commit €[x]M on the same terms as every other subscriber. Management invests alongside you.</p></div>
-      <div data-reveal><h3 data-i18n="p4">Book-entry shares</h3><p data-i18n="p4p">New shares are issued in book-entry form through KDD, the Slovenian central securities depository, and credited to your securities account.</p></div>
+      <div data-reveal><h3>Pogojni vpis</h3><p>Povečanje osnovnega kapitala se vpiše šele, ko je pogodba o nakupu podpisana in so izpolnjeni njeni pogoji.</p></div>
+      <div data-reveal><h3>Polno vračilo ob skrajnem roku</h3><p>Če prevzem ni zaključen do [skrajni rok], se vsem vpisnikom vrne celotno vplačilo.</p></div>
+      <div data-reveal><h3>Sidrna zaveza</h3><p>[Sidrni vlagatelj(i)] se zavežejo k [x] mio EUR pod enakimi pogoji kot vsi vpisniki. Uprava vlaga skupaj z vami.</p></div>
+      <div data-reveal><h3>Nematerializirane delnice</h3><p>Nove delnice se izdajo v nematerializirani obliki prek KDD – Centralne klirinško depotne družbe – in knjižijo na vaš račun vrednostnih papirjev.</p></div>
     </div>
   </div>
 </section>
@@ -574,17 +567,17 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <section class="light sec" id="legal" data-tone="light">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label" data-i18n="lgL">Legal frame</p>
-      <h2 data-split data-i18n="lgT">Why no prospectus <em>is required.</em></h2>
+      <p class="label">Pravni okvir</p>
+      <h2 data-split>Zakaj prospekt <em>ni potreben.</em></h2>
     </div>
     <div class="law">
-      <blockquote data-reveal><span data-i18n="quote">Offers of securities to the public with a total consideration in the Union of less than €12,000,000, calculated over a period of 12 months, are exempt from the obligation to publish a prospectus.</span>
-        <cite data-i18n="cite">Regulation (EU) 2017/1129, as amended by Regulation (EU) 2024/2809 (EU Listing Act). Applies from 5 June 2026.</cite></blockquote>
+      <blockquote data-reveal><span>Ponudbe vrednostnih papirjev javnosti s skupnim nadomestilom v Uniji, manjšim od 12.000.000 EUR, izračunanim za obdobje 12 mesecev, so izvzete iz obveznosti objave prospekta.</span>
+        <cite>Povzetek pravila iz Uredbe (EU) 2017/1129, kot jo spreminja Uredba (EU) 2024/2809. Velja od 5. junija 2026.</cite></blockquote>
       <ul data-reveal>
-        <li><b data-i18n="lw1">Ceiling</b><span data-i18n="lw1v">€12,000,000 per issuer, counting every offer made in the EU in the preceding 12 months.</span></li>
-        <li><b data-i18n="lw2">Regulator</b><span data-i18n="lw2v">Agencija za trg vrednostnih papirjev (ATVP). National treatment confirmed: [ATVP reference].</span></li>
-        <li><b data-i18n="lw3">Corporate</b><span data-i18n="lw3v">Capital increase approved by the general meeting of [Issuer] d.d. on [date] under ZGD-1, [with / excluding] pre-emptive rights.</span></li>
-        <li><b data-i18n="lw4">Documents</b><span data-i18n="lw4v">Information memorandum, audited accounts of the target and the subscription form, available in the data room.</span></li>
+        <li><b>Prag</b><span>12.000.000 EUR na izdajatelja, ob upoštevanju vseh ponudb v EU v preteklih 12 mesecih.</span></li>
+        <li><b>Nadzornik</b><span>Agencija za trg vrednostnih papirjev (ATVP). Nacionalna obravnava potrjena: [sklic ATVP].</span></li>
+        <li><b>Korporacijsko</b><span>Povečanje osnovnega kapitala je odobrila skupščina [Izdajatelj] d.d. dne [datum] po ZGD-1, [s prednostno pravico / z izključitvijo prednostne pravice].</span></li>
+        <li><b>Dokumenti</b><span>Informativni memorandum, revidirani računovodski izkazi tarče in vpisni obrazec so na voljo v podatkovni sobi.</span></li>
       </ul>
     </div>
   </div>
@@ -593,15 +586,15 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <section class="light sec faq" id="faq" data-tone="light">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label">FAQ</p>
-      <h2 data-split data-i18n="fqT">Questions investors <em>ask first.</em></h2>
+      <p class="label">Pogosta vprašanja</p>
+      <h2 data-split>Vprašanja, ki jih vlagatelji <em>postavijo najprej.</em></h2>
     </div>
     <div class="faq-list">
-      <details><summary><span data-i18n="q1">Who can subscribe?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p data-i18n="a1q">Natural persons and legal entities, subject to the eligibility rules in the information memorandum. The minimum subscription is €[x].</p></div></details>
-      <details><summary><span data-i18n="q2">What happens if the acquisition fails?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p data-i18n="a2q">The capital increase is not registered and all subscription payments are refunded in full by [long-stop date].</p></div></details>
-      <details><summary><span data-i18n="q3">Why is there no prospectus?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p data-i18n="a3q">EU law exempts offers below €12 million over 12 months from the prospectus requirement. You still receive an information memorandum and access to the data room.</p></div></details>
-      <details><summary><span data-i18n="q4">How are the shares held?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p data-i18n="a4q">In book-entry form at KDD. You need a securities account with a Slovenian or EU broker, or an account opened directly with KDD.</p></div></details>
-      <details><summary><span data-i18n="q5">Is the price per share fixed?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p data-i18n="a5q">Yes. Every subscriber, including anchor investors and management, pays €[x.xx] per share.</p></div></details>
+      <details><summary><span>Kdo lahko vpiše delnice?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Fizične in pravne osebe, skladno s pogoji v informativnem memorandumu. Najnižji vpis je [x] EUR.</p></div></details>
+      <details><summary><span>Kaj se zgodi, če prevzem ne uspe?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Povečanje kapitala se ne vpiše, vsa vplačila pa se v celoti vrnejo do [skrajni rok].</p></div></details>
+      <details><summary><span>Zakaj ni prospekta?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Pravo EU ponudbe pod 12 mio EUR v 12 mesecih izvzema iz obveznosti prospekta. Kljub temu prejmete informativni memorandum in dostop do podatkovne sobe.</p></div></details>
+      <details><summary><span>Kako so delnice vodene?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>V nematerializirani obliki pri KDD. Potrebujete račun vrednostnih papirjev pri slovenskem ali EU borznem posredniku ali račun, odprt neposredno pri KDD.</p></div></details>
+      <details><summary><span>Ali je cena delnice fiksna?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Da. Vsi vpisniki, vključno s sidrnimi vlagatelji in upravo, plačajo [x,xx] EUR na delnico.</p></div></details>
     </div>
   </div>
 </section>
@@ -609,22 +602,22 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <section class="interest dark sec" id="interest" data-tone="dark" data-terrain>
   <div class="wrap eoi">
     <div class="eoi-l">
-      <p class="label" data-i18n="eoiL">Register interest · non-binding</p>
-      <h2 data-split data-i18n="eoiT">Request the <em>memorandum.</em></h2>
-      <p class="lede" data-reveal data-i18n="eoiLede">Registration is non-binding. We send the NDA, then the memorandum and data room access. We never ask for payment or bank details through this form.</p>
+      <p class="label">Izrazite interes · nezavezujoče</p>
+      <h2 data-split>Zahtevajte <em>memorandum.</em></h2>
+      <p class="lede" data-reveal>Prijava ni zavezujoča. Poslali vam bomo NDA, nato memorandum in dostop do podatkovne sobe. Prek tega obrazca nikoli ne zahtevamo plačila ali bančnih podatkov.</p>
     </div>
     <form id="eoiForm" novalidate data-reveal>
       <div class="f2">
-        <div class="fld"><input id="fName" name="name" autocomplete="name" placeholder=" " required><label for="fName" data-i18n="fName">Full name</label><i></i></div>
-        <div class="fld"><input id="fEmail" name="email" type="email" autocomplete="email" placeholder=" " required><label for="fEmail" data-i18n="fEmail">Email</label><i></i></div>
+        <div class="fld"><input id="fName" name="name" autocomplete="name" placeholder=" " required><label for="fName">Ime in priimek</label><i></i></div>
+        <div class="fld"><input id="fEmail" name="email" type="email" autocomplete="email" placeholder=" " required><label for="fEmail">E-pošta</label><i></i></div>
       </div>
       <div class="f2">
-        <div class="fld sel"><select id="fCountry" name="country"><option>Slovenija</option><option>Hrvaška / Croatia</option><option>Avstrija / Austria</option><option>Italija / Italy</option><option data-i18n="fOther">Other EU country</option></select><label for="fCountry" data-i18n="fCountry">Country of residence</label><i></i></div>
-        <div class="fld sel"><select id="fAmt" name="amount"><option>€5,000 – €25,000</option><option>€25,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000+</option></select><label for="fAmt" data-i18n="fAmt">Indicative amount</label><i></i></div>
+        <div class="fld sel"><select id="fCountry" name="country"><option>Slovenija</option><option>Hrvaška</option><option>Avstrija</option><option>Italija</option><option>Druga država EU</option></select><label for="fCountry">Država prebivališča</label><i></i></div>
+        <div class="fld sel"><select id="fAmt" name="amount"><option>5.000–25.000 €</option><option>25.000–100.000 €</option><option>100.000–500.000 €</option><option>več kot 500.000 €</option></select><label for="fAmt">Okvirni znesek</label><i></i></div>
       </div>
-      <label class="check"><input type="checkbox" id="fAck" required><span data-i18n="fAck">I understand this registration is non-binding and that investing in shares can lead to the loss of the capital invested.</span></label>
+      <label class="check"><input type="checkbox" id="fAck" required><span>Razumem, da prijava ni zavezujoča in da lahko naložba v delnice privede do izgube vloženega kapitala.</span></label>
       <div class="submit-row">
-        <button class="btn solid" type="submit" data-magnetic data-cursor="send"><span data-i18n="fSubmit">Request the memorandum</span><svg><use href="#arr"/></svg></button>
+        <button class="btn solid" type="submit" data-magnetic data-cursor="send"><span>Zahtevam memorandum</span><svg><use href="#arr"/></svg></button>
         <p class="formmsg" id="formMsg" role="status" hidden></p>
       </div>
     </form>
@@ -636,9 +629,9 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
   <div class="wrap">
     <p class="wordmark" id="wordmark" aria-hidden="true">VRH</p>
     <div class="foot-grid">
-      <div class="ft1"><strong>[Issuer] d.d.</strong><br>[Address], Slovenija<br><span data-i18n="ftReg">Registration no.</span> [xxxxxxx] · <span data-i18n="ftVat">VAT ID</span> SI[xxxxxxxx]</div>
-      <div class="ft2"><span class="label">Project VRH</span><span data-i18n="ftVrh">Vrh is Slovenian for summit.</span></div>
-      <div class="ft3"><p data-i18n="ftDisc">This website is a marketing communication and does not constitute a prospectus or an offer in any jurisdiction where such an offer would be unlawful. Target figures are based on management information and will be confirmed in due diligence. Projections and illustrative calculations are not guarantees of future results. The value of shares can fall as well as rise, and shares of an unlisted company may be difficult to sell. Read the information memorandum in full and seek independent advice before investing.</p></div>
+      <div class="ft1"><strong>[Izdajatelj] d.d.</strong><br>[naslov], Slovenija<br><span>Matična št.</span> [xxxxxxx] · <span>ID za DDV</span> SI[xxxxxxxx]</div>
+      <div class="ft2"><span class="label">Projekt VRH</span><span>Vrh: najvišja točka poti.</span></div>
+      <div class="ft3"><p>Ta spletna stran je tržno sporočilo in ni prospekt niti ponudba v jurisdikcijah, kjer bi bila taka ponudba nezakonita. Podatki o tarči temeljijo na informacijah uprave in bodo potrjeni v skrbnem pregledu. Projekcije in ilustrativni izračuni niso jamstvo za prihodnje rezultate. Vrednost delnic lahko pada ali raste, delnice neuvrščene družbe pa je lahko težko prodati. Pred naložbo preberite celoten informativni memorandum in se posvetujte z neodvisnim svetovalcem.</p></div>
     </div>
   </div>
 </footer>
@@ -664,89 +657,18 @@ var lerp = function (a, b, t) { return a + (b - a) * t; };
 var smooth = function (a, b, v) { var t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t); };
 
 /* ================= i18n ================= */
-var lang = "en";
-var SL = {
-  skip: "Preskoči na vsebino",
-  ldCap: "Prag ponudbe brez prospekta",
-  hdrMid: "Ponudba delnic · 4. četrtletje 2026",
-  hdrCta: "Izrazite interes",
-  heL: "Ponudba delnic · [Issuer] d.d. · Slovenija",
-  heR: "Uredba (EU) 2017/1129, kot jo spreminja 2024/2809",
-  heroTitle: "Dvanajst milijonov evrov. Ena družba, ki že <em>zasluži.</em>",
-  heroLede: "Z izdajo novih delnic zbiramo do 12 milijonov EUR za nakup uveljavljenega, dobičkonosnega podjetja z <strong>11,0 mio EUR prihodkov</strong> in <strong>1,9 mio EUR EBITDA</strong>. Vaš kapital kupi denarni tok, ki obstaja že danes.",
-  ctaInterest: "Izrazite interes", ctaModel: "Modelirajte posel",
-  st1: "Prag ponudbe", st2: "Prihodki tarče", st3: "EBITDA tarče", st4: "EBITDA marža",
-  heLegal: "Tržno sporočilo. Ni prospekt. Kapital je izpostavljen tveganju.",
-  ascHead: "Vzpon · štiri številke, ki štejejo",
-  a1k: "01 · Prag", a1: "Pravo EU družbi dovoljuje javno ponudbo delnic brez prospekta do 12 milijonov EUR v 12 mesecih. Posel smo zasnovali tako, da ostane varno pod to mejo.",
-  a2k: "02 · Prihodki", a2: "Letni prihodki podjetja, ki ga kupujemo: uveljavljen poslovni subjekt z revidiranimi računovodskimi izkazi.",
-  a3k: "03 · EBITDA", a3: "Dobiček pred obrestmi, davki in amortizacijo. 17,3-odstotna marža, zaslužena vsako leto.",
-  a4k: "04 · Vaš delež", a4: "Lastniški kapital, ki ga ta ponudba potrebuje v osnovnem scenariju. Preostanek financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.",
-  mq1: "Prihodki 11,0 mio €", mq2: "EBITDA 1,9 mio €", mq3: "Marža 17,3 %", mq4: "Vstop 5,5× EBITDA", mq5: "Prag 12 mio €", mq6: "Zbiramo 6,52 mio €", mq7: "Rezerva 5,48 mio €",
-  caseL: "Naložbena teza", caseT: "Kupujemo denarni tok, <em>ne zgodbe.</em>",
-  r1k: "Denarni tok", r1h: "Denarni tok od prvega dne", r1p: "Tarča že ustvari 1,9 mio EUR EBITDA letno. Zbrana sredstva financirajo sredstvo, ki denar že ustvarja, ne načrta, ki to šele obljublja.",
-  r2k: "Vrednotenje", r2h: "Nakup pod vrednostjo platforme", r2p: "Zasebna podjetja te velikosti se prodajajo po nižjih multiplikatorjih kot večje skupine. Z vključitvijo v [Issuer] d.d. njen dobiček postane del večje in likvidnejše platforme.",
-  r3k: "Razvodenitev", r3h: "Le toliko kapitala, kot ga posel potrebuje", r3p: "Del kupnine nosita bančni in prodajalčev kredit, zato delničarji prispevajo manj, razvodenitev pa ostane nizka.",
-  r4k: "Usklajenost", r4h: "Prodajalec ostaja vpet", r4p: "Prodajalec [10] % kupnine odloži kot posojilo družbi, zato ostane zainteresiran za nemoten prenos poslovanja.",
-  mdL: "Model posla", mdT: "Številke premaknite <em>sami.</em>",
-  mdLede: "Spremenite kupnino, bančni dolg in prodajalčev kredit. Model pokaže, koliko kapitala mora zbrati ponudba in kje je glede na prag 12 mio EUR. Številke so ilustrativne do podpisa pogodbe o nakupu deleža.",
-  cMult: "Nakupni multiplikator (EV/EBITDA)", cMultH: "Razpon drsnika od 4× do 8×. Osnovni scenarij uporablja 5,5×.",
-  cDebt: "Bančni kredit (× EBITDA)", cDebtH: "Zavarovan z denarnim tokom tarče. Osnovni scenarij uporablja 2,0×.",
-  cVend: "Prodajalčev kredit (% kupnine)", cVendH: "Plačan prodajalcu po zaključku. Osnovni scenarij uporablja 10 %.",
-  assump: "Fiksne predpostavke: EBITDA 1,9 mio EUR; transakcijski stroški 4 % EV; 0,5 mio EUR denarne rezerve; bančni kredit po 6,5 %; prodajalčev kredit po 5,0 %. Donos je pred davki, naložbami in spremembami obratnega kapitala.",
-  rEv: "Vrednost podjetja (EV)", rEq: "Kapital za zbiranje", rHead: "Rezerva do praga", rLev: "Dolg / EBITDA", rInt: "Letne obresti", rYield: "Denarni donos na kapital",
-  rtL: "Časovnica", rtT: "Pot do <em>zaključka.</em>",
-  w1k: "01 · Bazni tabor", w1h: "Izrazite interes", w1p: "Prijavite se, podpišite NDA in prejmite memorandum ter dostop do podatkovne sobe.",
-  w2h: "Skupščina", w2p: "Delničarji odobrijo povečanje osnovnega kapitala.",
-  w3h: "Vpisno obdobje", w3p: "Vpišete delnice in vplačate na namenski račun.",
-  w4h: "Pogodba in financiranje", w4p: "Podpis pogodbe o nakupu deleža; dokumentiranje bančnega in prodajalčevega kredita.",
-  w5k: "05 · Vrh", w5h: "Zaključek", w5p: "Vpis povečanja kapitala, knjiženje delnic prek KDD, prevzem tarče.",
-  w6h: "Integracija", w6p: "Prvi konsolidirani rezultati in poročilo vlagateljem.",
-  prL: "Zaščita vlagateljev", prT: "Vaš denar se premakne <em>le, če se posel zaključi.</em>",
-  f1k: "Korak 1", f1h: "Vpišete delnice", f1p: "Vplačilo gre na namenski račun.",
-  f2k: "Korak 2", f2h: "Namenski račun pri [Bank]", f2p: "Sredstva ostanejo tam, dokler niso izpolnjeni pogoji za zaključek.",
-  f3k: "Izid A", f3h: "Posel se zaključi", f3p: "Delnice knjižene prek KDD. Tarča prevzeta.",
-  f4k: "Izid B", f4h: "Skrajni rok zamujen", f4p: "100-odstotno vračilo. Brez odbitkov.",
-  p1: "Pogojni vpis", p1p: "Povečanje osnovnega kapitala se vpiše šele, ko je pogodba o nakupu podpisana in so izpolnjeni njeni pogoji.",
-  p2: "Polno vračilo ob skrajnem roku", p2p: "Če prevzem ni zaključen do [skrajni rok], se vsem vpisnikom vrne celotno vplačilo.",
-  p3: "Sidrna zaveza", p3p: "[Sidrni vlagatelj(i)] se zavežejo k [x] mio EUR pod enakimi pogoji kot vsi vpisniki. Uprava vlaga skupaj z vami.",
-  p4: "Nematerializirane delnice", p4p: "Nove delnice se izdajo v nematerializirani obliki prek KDD, centralne depotne družbe, in knjižijo na vaš račun vrednostnih papirjev.",
-  lgL: "Pravni okvir", lgT: "Zakaj prospekt <em>ni potreben.</em>",
-  quote: "Ponudbe vrednostnih papirjev javnosti s skupnim nadomestilom v Uniji, manjšim od 12.000.000 EUR, izračunanim za obdobje 12 mesecev, so izvzete iz obveznosti objave prospekta.",
-  cite: "Uredba (EU) 2017/1129, kot jo spreminja Uredba (EU) 2024/2809 (akt EU o uvrstitvi). Velja od 5. junija 2026.",
-  lw1: "Prag", lw1v: "12.000.000 EUR na izdajatelja, ob upoštevanju vseh ponudb v EU v preteklih 12 mesecih.",
-  lw2: "Nadzornik", lw2v: "Agencija za trg vrednostnih papirjev (ATVP). Nacionalna obravnava potrjena: [sklic ATVP].",
-  lw3: "Korporacijsko", lw3v: "Povečanje osnovnega kapitala je odobrila skupščina [Issuer] d.d. dne [datum] po ZGD-1, [s prednostno pravico / z izključitvijo prednostne pravice].",
-  lw4: "Dokumenti", lw4v: "Informativni memorandum, revidirani računovodski izkazi tarče in vpisni obrazec so na voljo v podatkovni sobi.",
-  fqT: "Vprašanja, ki jih vlagatelji <em>postavijo najprej.</em>",
-  q1: "Kdo lahko vpiše delnice?", a1q: "Fizične in pravne osebe, skladno s pogoji v informativnem memorandumu. Najnižji vpis je [x] EUR.",
-  q2: "Kaj se zgodi, če prevzem ne uspe?", a2q: "Povečanje kapitala se ne vpiše, vsa vplačila pa se v celoti vrnejo do [skrajni rok].",
-  q3: "Zakaj ni prospekta?", a3q: "Pravo EU ponudbe pod 12 mio EUR v 12 mesecih izvzema iz obveznosti prospekta. Kljub temu prejmete informativni memorandum in dostop do podatkovne sobe.",
-  q4: "Kako so delnice vodene?", a4q: "V nematerializirani obliki pri KDD. Potrebujete račun vrednostnih papirjev pri slovenskem ali EU borznem posredniku ali račun, odprt neposredno pri KDD.",
-  q5: "Ali je cena delnice fiksna?", a5q: "Da. Vsi vpisniki, vključno s sidrnimi vlagatelji in upravo, plačajo [x,xx] EUR na delnico.",
-  eoiL: "Izrazite interes · nezavezujoče", eoiT: "Zahtevajte <em>memorandum.</em>",
-  eoiLede: "Prijava ni zavezujoča. Poslali vam bomo NDA, nato memorandum in dostop do podatkovne sobe. Prek tega obrazca nikoli ne zahtevamo plačila ali bančnih podatkov.",
-  fName: "Ime in priimek", fEmail: "E-pošta", fCountry: "Država prebivališča", fAmt: "Okvirni znesek", fOther: "Druga država EU",
-  fAck: "Razumem, da prijava ni zavezujoča in da lahko naložba v delnice privede do izgube vloženega kapitala.",
-  fSubmit: "Zahtevam memorandum",
-  ftReg: "Matična št.", ftVat: "ID za DDV", ftVrh: "Vrh: najvišja točka poti.",
-  ftDisc: "Ta spletna stran je tržno sporočilo in ni prospekt niti ponudba v jurisdikcijah, kjer bi bila taka ponudba nezakonita. Podatki o tarči temeljijo na informacijah uprave in bodo potrjeni v skrbnem pregledu. Projekcije in ilustrativni izračuni niso jamstvo za prihodnje rezultate. Vrednost delnic lahko pada ali raste, delnice neuvrščene družbe pa je lahko težko prodati. Pred naložbo preberite celoten informativni memorandum in se posvetujte z neodvisnim svetovalcem."
-};
+var lang = "sl";
 var UI = {
-  en: { within: "Within €12M ceiling", over: "Exceeds €12M ceiling", ok: "Thank you. We will send the NDA to {e} within one business day.", err: "Enter your name and a valid email, and confirm the statement above.", uses: "USES", src: "SOURCES", offer: "OFFER", ceiling: "CEILING €12M", unit: "€M", go: "Go", drag: "Drag", send: "Send" },
   sl: { within: "Pod pragom 12 mio €", over: "Nad pragom 12 mio €", ok: "Hvala. NDA vam pošljemo na {e} v enem delovnem dnevu.", err: "Vnesite ime in veljaven e-naslov ter potrdite zgornjo izjavo.", uses: "UPORABA", src: "VIRI", offer: "PONUDBA", ceiling: "PRAG 12 MIO €", unit: "mio €", go: "Naprej", drag: "Povleci", send: "Pošlji" }
 };
 var U = function () { return UI[lang]; };
-var EN = {};
-$$("[data-i18n]").forEach(function (el) { EN[el.dataset.i18n] = el.innerHTML; });
 
 var NF = {
-  en: new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }),
   sl: new Intl.NumberFormat("sl-SI", { style: "currency", currency: "EUR", maximumFractionDigits: 0 })
 };
-var dec = function (v, n) { var s = v.toFixed(n); return lang === "sl" ? s.replace(".", ",") : s; };
-var fmtM = function (v, n) { n = n == null ? 2 : n; return lang === "sl" ? dec(v, n) + " mio €" : "€" + dec(v, n) + "M"; };
-var pct = function (v, n) { return lang === "sl" ? dec(v, n) + " %" : dec(v, n) + "%"; };
+var dec = function (v, n) { return v.toFixed(n).replace(".", ","); };
+var fmtM = function (v, n) { return dec(v, n == null ? 2 : n) + "\u00a0mio\u00a0€"; };
+var pct = function (v, n) { return dec(v, n) + "\u00a0%"; };
 var eur = function (v) { return NF[lang].format(Math.round(v / 1000) * 1000); };
 var fmtStat = function (v, f) { return f === "p1" ? pct(v, 1) : fmtM(v, f === "m0" ? 0 : 1); };
 
@@ -956,7 +878,7 @@ var Calc = (function () {
   }
   function update(anim) {
     var m = +inp[0].value, dx = +inp[1].value, vp = +inp[2].value / 100;
-    out[0].innerHTML = dec(m, 2) + '<span class="x">×</span>'; out[1].innerHTML = dec(dx, 2) + '<span class="x">×</span>'; out[2].textContent = Math.round(vp * 100) + (lang === "sl" ? " %" : "%");
+    out[0].innerHTML = dec(m, 2) + '<span class="x">×</span>'; out[1].innerHTML = dec(dx, 2) + '<span class="x">×</span>'; out[2].textContent = Math.round(vp * 100) + "\u00a0%";
     inp.forEach(function (x) { x.style.setProperty("--fill", ((x.value - x.min) / (x.max - x.min) * 100) + "%"); });
     var r = model(m, dx, vp), tgt = { ev: r.ev, eq: r.eq, head: r.head, lev: r.lev, interest: r.interest, yld: r.yld };
     if (anim && G) G.to(cur, Object.assign({ duration: 0.6, ease: "power3.out", overwrite: true, onUpdate: paint }, tgt)); else { Object.assign(cur, tgt); paint(); }
@@ -995,7 +917,7 @@ var Route = (function () {
   return { build: build, wps: wps, track: track, len: function () { return len; } };
 })();
 
-/* ================= language ================= */
+/* ================= numbers ================= */
 var splits = [];
 function paintNumbers() {
   $$("[data-stat]").forEach(function (dd2) { dd2.textContent = fmtStat(+dd2.dataset.stat, dd2.dataset.fmt); });
@@ -1003,20 +925,10 @@ function paintNumbers() {
   if (window.__paintBig) window.__paintBig(); else { var bn = $("#bigNum"); if (bn) bn.textContent = eur(12e6); }
   var lc = $("#ldCount"); if (lc && lc.dataset.done) lc.textContent = eur(12e6);
 }
-function setLang(l, initial) {
-  lang = l; html.lang = l;
-  if (!initial) { splits.forEach(function (s) { s.revert(); }); splits = []; }
-  $$("[data-i18n]").forEach(function (el) { var key = el.dataset.i18n, v = l === "sl" ? SL[key] : EN[key]; if (v != null) el.innerHTML = v; });
-  $$(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === l)); });
-  paintNumbers();
-  if (Chart) Chart.labels();
-  if (Calc) Calc.update(false);
-  try { localStorage.setItem("vrh-lang", l); } catch (e) {}
-  if (!initial && ST) ST.refresh();
-}
-$$(".lang button").forEach(function (b) { b.addEventListener("click", function () { if (b.dataset.lang !== lang) setLang(b.dataset.lang); }); });
-var saved = null; try { saved = localStorage.getItem("vrh-lang"); } catch (e) {}
-setLang(saved === "sl" ? "sl" : "en", true);
+paintNumbers();
+if (Chart) Chart.labels();
+if (Calc) Calc.update(false);
+
 
 /* ================= header tone + altimeter ================= */
 var routeEl = $("#route"), hdr = $("#hdr"), alt = $("#alt"), altMk = $("#altMk"), tones = $$("[data-tone]");
