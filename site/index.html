@@ -218,7 +218,7 @@ h2 em,h1 em{font-style:italic}
 .seg{display:block;height:100%;width:calc(var(--v)/12*100%);position:relative}
 .seg + .seg{box-shadow:inset 2px 0 0 var(--night-2)}
 .s-price{background:var(--ink)}.s-cost{background:#5C7479}.s-buf{background:#AEBDBE}
-.s-eq{background:var(--soca)}.s-debt{background:var(--ice)}.s-vend{background:var(--sand)}
+.s-eq{background:var(--soca)}.s-anchor{background:#064E41}.s-debt{background:var(--ice)}.s-vend{background:var(--sand)}
 .s-head{background:repeating-linear-gradient(135deg,rgba(11,26,32,.28) 0 1.5px,transparent 1.5px 7px);outline:1px dashed rgba(11,26,32,.35);outline-offset:-1px}
 .cap-line{position:absolute;right:0;top:-10px;bottom:-10px;width:2px;background:var(--red)}
 .cap-line span{position:absolute;right:8px;top:-22px;white-space:nowrap;font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
@@ -256,6 +256,21 @@ h2 em,h1 em{font-style:italic}
 @media (max-width:760px){.ratios{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}.ratios > div:nth-child(3){border-left:0;padding-left:0}}
 .x{font-family:var(--mono);font-weight:300;font-size:.6em;margin-left:.1em;vertical-align:.22em;letter-spacing:0}
 .assump{font-size:13px;line-height:1.55;color:var(--fog);margin-top:36px;max-width:90ch}
+
+/* ---------- partners ---------- */
+.partners{background:var(--night);color:var(--ink)}
+.partners .sec-head > .label{color:var(--ink-2)}
+.partners h2 em{color:var(--soca)}
+.partners .lede{color:var(--ink-2)}
+.pt-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;border-top:1px solid var(--ink)}
+.pt{padding:28px 32px 8px 0;display:flex;flex-direction:column;gap:14px}
+.pt + .pt{border-left:1px solid var(--rule-l);padding-left:32px}
+.pt .label{color:var(--ink-2)}
+.pt h3{font:360 clamp(30px,3.2vw,52px)/1.02 var(--serif);letter-spacing:-.025em;font-variation-settings:"opsz" 36}
+.pt p:last-child{color:var(--ink-2);max-width:34ch}
+.pt-fig{font:250 clamp(18px,1.4vw,22px)/1 var(--sans);font-stretch:118%;color:var(--soca);margin-top:6px}
+.pt-fig b{font-weight:200;font-size:clamp(64px,7vw,112px);letter-spacing:-.045em;line-height:.85;margin-right:.12em}
+@media (max-width:900px){.pt-grid{grid-template-columns:minmax(0,1fr)}.pt + .pt{border-left:0;padding-left:0;border-top:1px solid var(--rule-l)}.pt{padding-bottom:28px}}
 
 /* ---------- route ---------- */
 .route{position:relative;overflow:hidden}
@@ -431,7 +446,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 <main id="main">
 <section class="hero dark" id="top" data-tone="dark" data-terrain>
   <div class="wrap hero-in">
-    <div class="hero-eyebrow label" data-hero><span>Ponudba delnic · [Izdajatelj] d.d. · Slovenija</span><span>Uredba (EU) 2017/1129, kot jo spreminja 2024/2809</span></div>
+    <div class="hero-eyebrow label" data-hero><span>Ponudba delnic · [Izdajatelj] d.d. · Slovenija</span><span>Sidrni vlagatelj Alzetta Capital · Svetovalca Bergweiss in Oaklins</span></div>
     <h1 class="hero-title" id="heroTitle">Dvanajst milijonov evrov. Ena družba, ki že <em>zasluži.</em></h1>
     <p class="lede hero-lede" data-hero>Z izdajo novih delnic zbiramo do 12 milijonov EUR za nakup uveljavljenega, dobičkonosnega podjetja z <strong>11,0 mio EUR prihodkov</strong> in <strong>1,9 mio EUR EBITDA</strong>. Vaš kapital kupi denarni tok, ki obstaja že danes.</p>
     <div class="hero-cta" data-hero>
@@ -456,7 +471,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
       <article class="step"><p class="label"><span>01 · Prag</span><b class="step-num" data-val="12000000">12.000.000 €</b></p><p>Pravo EU družbi dovoljuje javno ponudbo delnic brez prospekta do 12 milijonov EUR v 12 mesecih. Posel smo zasnovali tako, da ostane varno pod to mejo.</p></article>
       <article class="step"><p class="label"><span>02 · Prihodki</span><b class="step-num" data-val="11000000">11.000.000 €</b></p><p>Letni prihodki podjetja, ki ga kupujemo: uveljavljen poslovni subjekt z revidiranimi računovodskimi izkazi.</p></article>
       <article class="step"><p class="label"><span>03 · EBITDA</span><b class="step-num" data-val="1900000">1.900.000 €</b></p><p>Dobiček pred obrestmi, davki in amortizacijo. 17,3-odstotna marža, zaslužena vsako leto.</p></article>
-      <article class="step"><p class="label"><span>04 · Vaš delež</span><b class="step-num" data-val="6523000">6.523.000 €</b></p><p>Lastniški kapital, ki ga ta ponudba potrebuje v načrtovani strukturi. Preostanek financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.</p></article>
+      <article class="step"><p class="label"><span>04 · Vaš delež</span><b class="step-num" data-val="6523000">6.523.000 €</b></p><p>Lastniški kapital, ki ga ta ponudba potrebuje v načrtovani strukturi. Od tega je 2,2 mio EUR zavezala Alzetta Capital d.o.o. Preostanek kupnine financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.</p></article>
     </div>
     <div class="ascent-bar" aria-hidden="true"><i id="ascBar"></i></div>
   </div>
@@ -468,8 +483,8 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
     <span class="mq-item"><span>Prihodki 11,0 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>EBITDA 1,9 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Marža 17,3 %</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Vstop 5,5× EBITDA</span><svg><use href="#trig"/></svg></span>
   </div></div>
   <div class="mq-row rev"><div class="mq-track">
-    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
-    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Sidrni vlagatelj 2,2 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
+    <span class="mq-item"><span>Prag 12 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Zbiramo 6,52 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Sidrni vlagatelj 2,2 mio €</span><svg><use href="#trig"/></svg></span><span class="mq-item"><span>Rezerva 5,48 mio €</span><svg><use href="#trig"/></svg></span>
   </div></div>
 </div>
 
@@ -493,7 +508,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
     <div class="sec-head">
       <p class="label">Struktura posla</p>
       <h2 data-split>Kapital, zložen <em>natančno.</em></h2>
-      <p class="lede" data-reveal>Kupnino financirajo trije viri. Delničarji prispevajo 57 % sredstev, preostanek nosita bančni in prodajalčev kredit. Vrednosti so v milijonih evrov, vse vrstice so narisane v enakem merilu do praga 12 mio €.</p>
+      <p class="lede" data-reveal>Kupnino financirajo trije viri. Delničarji prispevajo 57 % sredstev, od tega 2,2 mio € sidrni vlagatelj Alzetta Capital d.o.o. Preostanek nosita bančni in prodajalčev kredit. Vrednosti so v milijonih evrov, vse vrstice so narisane v enakem merilu do praga 12 mio €.</p>
     </div>
 
     <div class="su">
@@ -508,16 +523,16 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
       <div class="su-row" data-bars>
         <p class="label su-k">Viri sredstev</p>
         <div class="su-main">
-          <div class="bar" role="img" aria-label="Viri sredstev: novi kapital 6,52, bančni kredit 3,80, prodajalčev kredit 1,05 mio €"><span class="seg s-eq" style="--v:6.523"></span><span class="seg s-debt" style="--v:3.8"></span><span class="seg s-vend" style="--v:1.045"></span></div>
-          <ul class="su-leg"><li><i class="s-eq"></i>Novi kapital – ta ponudba <b>6,52</b></li><li><i class="s-debt"></i>Bančni kredit (2,0× EBITDA) <b>3,80</b></li><li><i class="s-vend"></i>Prodajalčev kredit (10 % kupnine) <b>1,05</b></li></ul>
+          <div class="bar" role="img" aria-label="Viri sredstev: sidrni vlagatelj 2,20, javni del ponudbe 4,32, bančni kredit 3,80, prodajalčev kredit 1,05 mio €"><span class="seg s-anchor" style="--v:2.2"></span><span class="seg s-eq" style="--v:4.323"></span><span class="seg s-debt" style="--v:3.8"></span><span class="seg s-vend" style="--v:1.045"></span></div>
+          <ul class="su-leg"><li><i class="s-anchor"></i>Alzetta Capital d.o.o. – sidrni vlagatelj <b>2,20</b></li><li><i class="s-eq"></i>Javni del ponudbe <b>4,32</b></li><li><i class="s-debt"></i>Bančni kredit (2,0× EBITDA) <b>3,80</b></li><li><i class="s-vend"></i>Prodajalčev kredit (10 % kupnine) <b>1,05</b></li></ul>
         </div>
         <p class="su-t">11,37</p>
       </div>
       <div class="su-row" data-bars>
         <p class="label su-k">Ponudba in prag</p>
         <div class="su-main">
-          <div class="bar" role="img" aria-label="Ponudba 6,52 mio € in neizkoriščen prag 5,48 mio € do meje 12 mio €"><span class="seg s-eq" style="--v:6.523"></span><span class="seg s-head" style="--v:5.477"></span><i class="cap-line"><span>Prag 12 mio €</span></i></div>
-          <ul class="su-leg"><li><i class="s-eq"></i>Ta ponudba <b>6,52</b></li><li><i class="s-head"></i>Neizkoriščen prag <b>5,48</b></li></ul>
+          <div class="bar" role="img" aria-label="Ponudba 6,52 mio €, od tega 2,20 mio € sidrni vlagatelj, in neizkoriščen prag 5,48 mio € do meje 12 mio €"><span class="seg s-anchor" style="--v:2.2"></span><span class="seg s-eq" style="--v:4.323"></span><span class="seg s-head" style="--v:5.477"></span><i class="cap-line"><span>Prag 12 mio €</span></i></div>
+          <ul class="su-leg"><li><i class="s-anchor"></i>Sidrna zaveza <b>2,20</b></li><li><i class="s-eq"></i>Javni del <b>4,32</b></li><li><i class="s-head"></i>Neizkoriščen prag <b>5,48</b></li></ul>
         </div>
         <p class="su-t cap">12,00</p>
       </div>
@@ -547,11 +562,39 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
 
     <div class="ratios" data-reveal>
       <div><b>5,5<span class="x">×</span></b><span>Vstopni multiplikator EV / EBITDA</span></div>
-      <div><b>57 %</b><span>Delež lastniškega kapitala v virih</span></div>
+      <div><b>34 %</b><span>Delež ponudbe, ki ga je že zavezal sidrni vlagatelj</span></div>
       <div><b>2,55<span class="x">×</span></b><span>Skupni dolg / EBITDA ob zaključku</span></div>
       <div><b>5,48</b><span>Mio € praga, ki ostane neizkoriščen</span></div>
     </div>
     <p class="assump">Ilustrativna struktura na podlagi EBITDA 1,9 mio €. Transakcijski stroški 4 % vrednosti podjetja, denarna rezerva 0,5 mio €, bančni kredit po 6,5 %, prodajalčev kredit po 5,0 %. Končni zneski bodo določeni s pogodbo o nakupu deleža in pogodbami o financiranju.</p>
+  </div>
+</section>
+
+<section class="partners sec" id="partnerji" data-tone="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">Partnerji transakcije</p>
+      <h2 data-split>Kapital in nasvet <em>iz prve vrste.</em></h2>
+      <p class="lede" data-reveal>Tretjino ponudbe je že zavezal sidrni vlagatelj. Transakcijo vodita svetovalca, ki sta odgovorna za strukturo, skrbni pregled in izvedbo ponudbe.</p>
+    </div>
+    <div class="pt-grid">
+      <article class="pt pt-anchor" data-reveal>
+        <p class="label">Sidrni vlagatelj</p>
+        <h3>Alzetta Capital d.o.o.</h3>
+        <p class="pt-fig"><b>2,2</b> mio €</p>
+        <p>Zaveza k vpisu pod enakimi pogoji in po enaki ceni na delnico kot vsi drugi vpisniki.</p>
+      </article>
+      <article class="pt" data-reveal>
+        <p class="label">Svetovalec pri transakciji</p>
+        <h3>Bergweiss</h3>
+        <p>Svetovanje pri strukturi posla, financiranju in ponudbi delnic.</p>
+      </article>
+      <article class="pt" data-reveal>
+        <p class="label">Svetovalec pri transakciji</p>
+        <h3>Oaklins</h3>
+        <p>Svetovanje pri prevzemu. Oaklins je mednarodna mreža svetovalcev za prevzeme in združitve.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -595,7 +638,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
     <div class="guards">
       <div data-reveal><h3>Pogojni vpis</h3><p>Povečanje osnovnega kapitala se vpiše šele, ko je pogodba o nakupu podpisana in so izpolnjeni njeni pogoji.</p></div>
       <div data-reveal><h3>Polno vračilo ob skrajnem roku</h3><p>Če prevzem ni zaključen do [skrajni rok], se vsem vpisnikom vrne celotno vplačilo.</p></div>
-      <div data-reveal><h3>Sidrna zaveza</h3><p>[Sidrni vlagatelj(i)] se zavežejo k [x] mio EUR pod enakimi pogoji kot vsi vpisniki. Uprava vlaga skupaj z vami.</p></div>
+      <div data-reveal><h3>Sidrna zaveza 2,2 mio €</h3><p>Alzetta Capital d.o.o. vpiše 2,2 mio EUR pod enakimi pogoji in po enaki ceni kot vsi drugi vpisniki.</p></div>
       <div data-reveal><h3>Nematerializirane delnice</h3><p>Nove delnice se izdajo v nematerializirani obliki prek KDD – Centralne klirinško depotne družbe – in knjižijo na vaš račun vrednostnih papirjev.</p></div>
     </div>
   </div>
@@ -631,7 +674,8 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
       <details><summary><span>Kaj se zgodi, če prevzem ne uspe?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Povečanje kapitala se ne vpiše, vsa vplačila pa se v celoti vrnejo do [skrajni rok].</p></div></details>
       <details><summary><span>Zakaj ni prospekta?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Pravo EU ponudbe pod 12 mio EUR v 12 mesecih izvzema iz obveznosti prospekta. Kljub temu prejmete informativni memorandum in dostop do podatkovne sobe.</p></div></details>
       <details><summary><span>Kako so delnice vodene?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>V nematerializirani obliki pri KDD. Potrebujete račun vrednostnih papirjev pri slovenskem ali EU borznem posredniku ali račun, odprt neposredno pri KDD.</p></div></details>
-      <details><summary><span>Ali je cena delnice fiksna?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Da. Vsi vpisniki, vključno s sidrnimi vlagatelji in upravo, plačajo [x,xx] EUR na delnico.</p></div></details>
+      <details><summary><span>Kdo je sidrni vlagatelj in kdo svetuje pri poslu?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Sidrni vlagatelj je Alzetta Capital d.o.o., ki vpiše 2,2 mio EUR. Svetovalca pri transakciji sta Bergweiss in Oaklins.</p></div></details>
+      <details><summary><span>Ali je cena delnice fiksna?</span><i aria-hidden="true"></i></summary><div class="faq-a"><p>Da. Vsi vpisniki, vključno s sidrnim vlagateljem Alzetta Capital d.o.o. in upravo, plačajo [x,xx] EUR na delnico.</p></div></details>
     </div>
   </div>
 </section>
@@ -667,7 +711,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
     <p class="wordmark" id="wordmark" aria-hidden="true">VRH</p>
     <div class="foot-grid">
       <div class="ft1"><strong>[Izdajatelj] d.d.</strong><br>[naslov], Slovenija<br><span>Matična št.</span> [xxxxxxx] · <span>ID za DDV</span> SI[xxxxxxxx]</div>
-      <div class="ft2"><span class="label">Projekt VRH</span><span>Vrh: najvišja točka poti.</span></div>
+      <div class="ft2"><span class="label">Projekt VRH</span><span>Sidrni vlagatelj: Alzetta Capital d.o.o.<br>Svetovalca pri transakciji: Bergweiss, Oaklins</span></div>
       <div class="ft3"><p>Ta spletna stran je tržno sporočilo in ni prospekt niti ponudba v jurisdikcijah, kjer bi bila taka ponudba nezakonita. Podatki o tarči temeljijo na informacijah uprave in bodo potrjeni v skrbnem pregledu. Projekcije in ilustrativni izračuni niso jamstvo za prihodnje rezultate. Vrednost delnic lahko pada ali raste, delnice neuvrščene družbe pa je lahko težko prodati. Pred naložbo preberite celoten informativni memorandum in se posvetujte z neodvisnim svetovalcem.</p></div>
     </div>
   </div>
