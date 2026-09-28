@@ -1,39 +1,67 @@
-# Project Triglav: offer website
+# Project VRH: offer website
 
-This is a single-file investor site (`index.html`) for a share offer by [Issuer] d.d. under the EU €12M prospectus exemption. The money raised funds the acquisition of a target with €11.0M revenue and €1.9M EBITDA.
+An investor site for a share offer by [Issuer] d.d. under the EU €12M prospectus exemption. The raise funds the acquisition of a target with €11.0M revenue and €1.9M EBITDA.
 
-The page has no build step and no dependencies apart from Google Fonts. To preview it, open `index.html` in a browser. To host it, deploy the folder to any static host (Netlify, Cloudflare Pages, S3).
+*Vrh* is Slovenian for "summit". The site tells the deal as an ascent: the €12M ceiling is the summit line, and the raise is the level the capital reaches.
 
-## What's on the page
+## Run it
 
-- **Hero**: the thesis, plus a gauge that tracks the target raise against the €12M ceiling. The gauge is driven by the model below it.
-- **Target**: the P&L tiles (revenue, EBITDA, margin, entry multiple) and three investment theses.
-- **Deal model**: interactive sliders for the purchase multiple, senior debt and vendor loan. It outputs EV, the equity needed, headroom under the cap, leverage, interest and cash yield, and draws a sources-and-uses bar to scale.
-- **Investor protection**: conditional subscription, escrow, a refund at the long-stop date, an anchor commitment and book-entry shares through KDD.
-- **Legal frame**, **Timeline**, **FAQ**, and a non-binding **register interest** form. The form asks for no payment or bank data.
-- An EN/SL language toggle, light and dark themes, a responsive layout down to 390px, and support for reduced motion.
+There is no build step. Serve the folder with any static server, for example `python3 -m http.server` in `site/`, and open `index.html`. Every library and font is self-hosted in `assets/`, so the page makes no third-party requests.
+
+## What award juries reward, and where this site answers it
+
+Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Content (10%). Winning sites, and a Developer Award, also need responsive, fast, accessible and bug-free motion. Recent Sites of the Year and fintech Site of the Day winners share a few patterns:
+
+- **One signature interactive centrepiece that embodies the brand concept.** Lando Norris (Site of the Year 2025) uses a 3D helmet, Igloo Inc (Site of the Year 2024) a procedural ice world, and Jeton (fintech Site of the Day) a coin that is always in motion. Here, the centrepiece is a live WebGL topographic terrain. A red contour marks the €12M ceiling, and a jade fill rises to the €6.52M raise.
+- **Cinematic scroll.** Lenis smooth scrolling, and GSAP ScrollTrigger scenes that are pinned and scrubbed by the scroll position:
+  - **The Ascent:** four numbers, with the camera tilting from a map view to a 3D view.
+  - **The Route:** a horizontal timeline drawn along an elevation profile.
+- **Kinetic, variable typography.** The big figures compress and stretch through Archivo's width axis (62–125%) as they count. The footer wordmark stretches as you scroll into it. Headlines reveal line by line through a mask.
+- **Tension in the type pairing.** Newsreader, a high-contrast serif, carries the emotional lines. Archivo in extended light cuts carries the numbers. JetBrains Mono is used for survey-style labels.
+- **Micro-interactions.** A surveyor's reticle cursor, magnetic buttons, a marquee whose direction follows the scroll direction, hover fills on the investment-case rows, and a progress meter on the right edge showing the ascent from €0 to €12M.
+- **Trust signals next to the creative work, as in fintech winners.** An escrow flow diagram, the regulation quoted verbatim, a working deal model, a legal line in the first screen, and a non-binding form that asks for no payment data.
+- **Craft for the Developer Award.**
+  - The site honours `prefers-reduced-motion`: no loader, no smooth scroll and no pinning, with a static terrain frame.
+  - Without JavaScript, the full content still renders.
+  - Semantic sections, a skip link, labelled controls and visible focus states.
+  - EN/SL language switch with Slovenian number formats (`12.000.000 €`, `17,3 %`).
+  - The WebGL scene pauses when it is off-screen.
 
 ## Base case (illustrative)
 
 | Item | € M |
 |---|---|
 | EV at 5.5× EBITDA 1.9 | 10.45 |
-| Transaction costs (4% EV) | 0.42 |
+| Transaction costs (4% of EV) | 0.42 |
 | Cash buffer | 0.50 |
 | **Total uses** | **11.37** |
-| Senior debt 2.0× EBITDA | 3.80 |
-| Vendor loan 10% EV | 1.05 |
+| Senior debt at 2.0× EBITDA | 3.80 |
+| Vendor loan at 10% of EV | 1.05 |
 | **New equity (this offer)** | **6.52** |
-| Headroom under €12M cap | 5.48 |
-| Pre-tax cash yield on equity (EBITDA − interest) / equity | 24.5% |
+| Headroom under the €12M ceiling | 5.48 |
+| Pre-tax cash yield on equity: (EBITDA − interest) / equity | 24.5% |
 
 ## Launch blockers: resolve before going live
 
-1. **Slovenia's national threshold.** Regulation (EU) 2024/2809 sets the exemption at €12M from 5 June 2026, but each Member State may opt for €5M instead. Slovenia previously applied €5M (ZTFI-1, Art. 72). Get written confirmation of the threshold currently applied from ATVP or counsel. If Slovenia opted for €5M, the offer must be capped at €5M or a prospectus is required. The base-case equity of €6.52M would then fail.
-2. **12-month aggregation.** The cap counts every public offer by the issuer in the EU over the preceding 12 months.
-3. **National information document or notification.** Confirm whether ATVP requires one for offers below the threshold.
-4. **General meeting resolution under ZGD-1** approving the capital increase, including any exclusion of pre-emptive rights.
-5. **Escrow and conditionality mechanics.** Set up the dedicated account, the conditions for registering the capital increase, and the refund at the long-stop date. Documentation comes from counsel and the bank.
-6. **Marketing copy review.** Counsel must review the page, including the Slovenian translation. The SL text is a draft.
-7. **Fill every `[placeholder]`**: issuer name, price per share, minimum ticket, anchor amount, dates, ATVP reference, company registration details.
+1. **Slovenia's national threshold.** Regulation (EU) 2024/2809 sets the exemption at €12M from 5 June 2026. Each Member State may instead opt for €5M, and Slovenia previously applied €5M (ZTFI-1, Art. 72).
+   - Get written confirmation of the current threshold from ATVP or counsel.
+   - If the threshold is €5M, the base-case equity of €6.52M needs a prospectus. The alternative is to redesign the raise below €5M.
+2. **12-month aggregation.** The ceiling counts every public offer by the issuer in the EU over the preceding 12 months.
+3. **National information document or notification.** Confirm whether ATVP requires one for an offer below the threshold.
+4. **General meeting resolution under ZGD-1.** It must approve the capital increase, including any exclusion of pre-emptive rights.
+5. **Escrow and conditionality.** Counsel and the bank must document the dedicated account, the conditions for registering the capital increase, and the refund at the long-stop date.
+6. **Legal review of all copy, including the Slovenian translation.** The SL text is a draft.
+7. **Fill every `[placeholder]`:** issuer, price per share, minimum ticket, anchor amount, bank, dates, ATVP reference and registry details.
 8. **Wire the form** (see the `TODO` in the script) to a GDPR-compliant CRM, and add a privacy notice.
+
+## Naming and IP checks already applied
+
+- **Codename changed from "Triglav" to "VRH".** Zavarovalnica Triglav d.d. is a listed Slovenian insurer. A share-offer page named "Triglav" risks confusion with a real issuer.
+- **No Knafelc trail marker.** The red-ring-with-white-dot trail blaze is protected as a national symbol. The site uses the generic cartographic triangulation-point symbol instead.
+- **Fonts are self-hosted, not loaded from Google.** In 2022, LG München (3 O 17493/20) awarded damages under the GDPR for loading Google Fonts from Google's servers.
+
+## Licences
+
+- GSAP 3.15 (including ScrollTrigger and SplitText) is used under GreenSock's no-charge standard licence.
+- Lenis is MIT-licensed (`assets/vendor/LICENSE-lenis.txt`).
+- Archivo, Newsreader and JetBrains Mono are under the SIL Open Font License (`assets/fonts/OFL-*.txt`).
