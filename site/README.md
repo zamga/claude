@@ -61,6 +61,13 @@ Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Con
    - how the company is founded under ZGD-1: simultaneous founding by the committed investors, or successive founding with public subscription (the latter has its own disclosure rules);
    - whether collecting commitments from the public on this page is itself an offer of securities to the public, and so already counts under the €12M exemption and its advertising rules;
    - the form of the commitment letter ("pismo o zavezi"): binding or conditional, the price per share, and the long-stop date.
+11. **Client-supplied facts shown on the site.** These come from the client and must be backed by documents before launch:
+   - the target's 11% average annual revenue growth (and the period it covers);
+   - the dividend policy of 15% of total profit;
+   - the plan to act as a platform for further acquisitions;
+   - the goal of listing on a stock exchange by the end of Q4 2027 (which exchange is not yet stated on the site);
+   - escrow with Odvetniška družba Rojs, Peljhan, Prelesnik & partnerji o.p., d.o.o. (Tivolska cesta 48, Ljubljana) and audit by Grant Thornton Audit revizijska družba, d.o.o. (Linhartova cesta 11A, Ljubljana). Names and addresses were checked against public company registers.
+   The site no longer names ATVP as supervisor, because the project is only collecting commitments. Counsel should still confirm that collecting commitments is not itself a public offer (item 10).
 9. **Named parties.** The site names Alzetta Capital d.o.o. as anchor investor (€2.2M) and Bergweiss and Oaklins as transaction advisors. Before launch:
    - Get written consent from all three to be named, and have each approve the exact wording of its role. Oaklins, as an international network, will have brand-use rules. No logos are used for that reason.
    - Hold a signed, unconditional subscription commitment from Alzetta Capital d.o.o. for €2.2M. The site says the commitment is made on the same terms and at the same price as every other subscriber, so disclose any fee, side letter or preferential right, or remove that claim.
