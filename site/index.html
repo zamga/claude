@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Projekt VRH</title>
 <meta name="description" content="Ponudba delnic družbe [Izdajatelj] d.d. na podlagi izjeme EU od obveznosti objave prospekta za ponudbe pod 12 milijonov EUR. Sredstva so namenjena nakupu dobičkonosnega podjetja z 11,0 mio EUR prihodkov in 1,9 mio EUR EBITDA.">
-<meta name="theme-color" content="#08141A">
+<meta name="theme-color" content="#F5F7F6">
 <!-- assets:start -->
 <link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -22,17 +22,17 @@
 <!-- assets:end -->
 <style>
 :root{
-  --night:#08141A; --night-2:#0D1B22; --night-3:#13242C;
-  --snow:#EAF0EE; --mist:#8FA3A6; --fog:#4E6166;
-  --paper:#E7ECEA; --paper-2:#DCE3E0; --ink:#08141A; --ink-2:#465759;
-  --rule-d:rgba(234,240,238,.14); --rule-l:rgba(8,20,26,.16);
-  --soca:#3DD6B5; --soca-ink:#0A7D68; --red:#F0432F; --ice:#7FA3B8; --sand:#C8B38A;
+  --night:#F5F7F6; --night-2:#FFFFFF; --night-3:#EDF1EF;
+  --snow:#0B1A20; --mist:#52656A; --fog:#8A9A9D;
+  --paper:#E8EDEA; --paper-2:#DCE3E0; --ink:#0B1A20; --ink-2:#4A5B5F;
+  --rule-d:rgba(11,26,32,.14); --rule-l:rgba(11,26,32,.16);
+  --soca:#0A7D68; --soca-ink:#086B59; --red:#D63A26; --ice:#7E9AAA; --sand:#C2A878;
   --serif:"Newsreader","Newsreader Variable",Georgia,"Times New Roman",serif;
   --sans:"Archivo","Archivo Variable",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono","JetBrains Mono Variable",ui-monospace,SFMono-Regular,Menlo,monospace;
   --gutter:clamp(16px,3.2vw,48px);
   --ease:cubic-bezier(.16,1,.3,1);
-  color-scheme:dark;
+  color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--night)}
@@ -55,7 +55,7 @@ p{margin:0}
 /* ---------- canvas, grain, cursor ---------- */
 #terrain{position:fixed;left:0;top:0;width:100%;height:100lvh;z-index:0;display:block;pointer-events:none}
 main,.foot{position:relative;z-index:1}
-.grain{position:fixed;inset:-60%;z-index:90;pointer-events:none;opacity:.055;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1.1s steps(6) infinite}
+.grain{position:fixed;inset:-60%;z-index:90;pointer-events:none;opacity:.035;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1.1s steps(6) infinite}
 @keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-2%)}80%{transform:translate(3%,3%)}}
 .cursor{display:none}
 .has-cursor .cursor{display:block;position:fixed;left:0;top:0;z-index:150;pointer-events:none;mix-blend-mode:difference;opacity:0}
@@ -143,7 +143,7 @@ h2 em,h1 em{font-style:italic}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(110% 85% at 0% 100%,rgba(8,20,26,.94) 0%,rgba(8,20,26,.62) 42%,rgba(8,20,26,0) 72%),linear-gradient(180deg,rgba(8,20,26,.55) 0%,rgba(8,20,26,0) 22%);pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(110% 85% at 0% 100%,rgba(245,247,246,.95) 0%,rgba(245,247,246,.7) 42%,rgba(245,247,246,0) 72%),linear-gradient(180deg,rgba(245,247,246,.7) 0%,rgba(245,247,246,0) 22%);pointer-events:none}
 .hero-in{position:relative;width:100%;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto 1fr auto auto;column-gap:24px;padding-top:calc(env(safe-area-inset-top,0px) + 104px);padding-bottom:26px;min-height:100svh}
 .hero-eyebrow{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;color:var(--mist)}
 .hero-title{grid-column:1/12;align-self:end;font:340 clamp(46px,8.4vw,150px)/.9 var(--serif);letter-spacing:-.036em;font-variation-settings:"opsz" 32;margin-top:48px}
@@ -156,13 +156,13 @@ h2 em,h1 em{font-style:italic}
 .stats dt{color:var(--mist)}
 .stats dd{margin:8px 0 0;font:250 clamp(24px,2.6vw,40px)/1 var(--sans);font-stretch:120%;letter-spacing:-.025em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .stats .legal{align-self:end;justify-self:end;color:var(--mist);text-align:right;max-width:34ch;padding:16px 0 0}
-@media (max-width:760px){.hero::before{background:linear-gradient(180deg,rgba(8,20,26,.55) 0%,rgba(8,20,26,.8) 40%,rgba(8,20,26,.9) 100%)}}
+@media (max-width:760px){.hero::before{background:linear-gradient(180deg,rgba(245,247,246,.6) 0%,rgba(245,247,246,.85) 40%,rgba(245,247,246,.92) 100%)}}
 @media (max-width:980px){.hero-lede{grid-column:1/-1}.hero-cta{grid-column:1/-1;justify-self:start}.stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}.stats .legal{grid-column:1/-1;justify-self:start;text-align:left;max-width:none}}
 
 /* ---------- ascent (pinned) ---------- */
 .ascent{position:relative}
 .anim .ascent{height:100svh;overflow:hidden}
-.ascent::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,20,26,.85) 0%,rgba(8,20,26,.2) 55%,rgba(8,20,26,.5) 100%);pointer-events:none}
+.ascent::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,247,246,.9) 0%,rgba(245,247,246,.25) 55%,rgba(245,247,246,.55) 100%);pointer-events:none}
 .ascent-in{position:relative;height:100%;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto 1fr auto;column-gap:24px;row-gap:24px;padding-block:calc(env(safe-area-inset-top,0px) + 104px) 40px}
 .no-anim .ascent-in{padding-block:120px}
 .ascent-head{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;color:var(--mist)}
@@ -203,44 +203,59 @@ h2 em,h1 em{font-style:italic}
 .row:hover p{color:rgba(231,236,234,.78)}
 @media (max-width:860px){.row .label,.row h3,.row p{grid-column:1/-1}.row h3{margin-block:10px 12px}}
 
-/* ---------- deal instrument ---------- */
-.instrument{background:var(--night-2);color:var(--snow)}
-.inst{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,.9fr);gap:clamp(28px,3.4vw,56px);align-items:start}
-@media (max-width:1180px){.inst{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ro-wrap{grid-column:1/-1}}
-@media (max-width:760px){.inst{grid-template-columns:minmax(0,1fr)}}
-.dials{display:grid;gap:36px}
-.dial-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.dial label{font:500 14px/1.3 var(--sans);color:var(--mist)}
-.dial output{font:250 clamp(32px,3vw,44px)/1 var(--sans);font-stretch:118%;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--snow)}
-.dial input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;margin:12px 0 0;background:transparent;--fill:50%}
-.dial input[type=range]::-webkit-slider-runnable-track{height:36px;background:linear-gradient(var(--soca),var(--soca)) 0 50%/var(--fill) 2px no-repeat,repeating-linear-gradient(90deg,rgba(234,240,238,.4) 0 1px,transparent 1px 6.25%) 0 50%/100% 12px no-repeat,linear-gradient(rgba(234,240,238,.18),rgba(234,240,238,.18)) 0 50%/100% 2px no-repeat}
-.dial input[type=range]::-moz-range-track{height:36px;background:linear-gradient(var(--soca),var(--soca)) 0 50%/var(--fill) 2px no-repeat,repeating-linear-gradient(90deg,rgba(234,240,238,.4) 0 1px,transparent 1px 6.25%) 0 50%/100% 12px no-repeat,linear-gradient(rgba(234,240,238,.18),rgba(234,240,238,.18)) 0 50%/100% 2px no-repeat}
-.dial input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:8px;border-radius:50%;background:var(--night-2);border:2px solid var(--snow);box-shadow:0 0 0 0 rgba(61,214,181,.35);transition:box-shadow .3s,border-color .3s}
-.dial input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--night-2);border:2px solid var(--snow)}
-.dial input[type=range]:hover::-webkit-slider-thumb,.dial input[type=range]:focus-visible::-webkit-slider-thumb{border-color:var(--soca);box-shadow:0 0 0 8px rgba(61,214,181,.18)}
-.dial input[type=range]:focus-visible{outline:none}
-.dial input[type=range]:focus-visible + .dial-scale{color:var(--soca)}
-.dial-scale{display:flex;justify-content:space-between;margin-top:4px;color:var(--fog)}
-.dial .hint{font-size:13px;color:var(--mist);margin-top:8px}
-.assump{font-size:13px;line-height:1.55;color:var(--mist);border-top:1px solid var(--rule-d);padding-top:18px}
-.chart{position:relative;border:1px solid var(--rule-d);background:linear-gradient(180deg,rgba(234,240,238,.035),rgba(234,240,238,0) 60%);padding:14px 8px 6px}
-.chart svg{width:100%;height:auto;overflow:visible}
-.chart text{font-family:var(--mono);font-size:11px;fill:var(--mist);letter-spacing:.06em}
-.chart text.val{fill:var(--night);font-weight:600}
-.chart text.tot{fill:var(--snow)}
-.chart text.cap{fill:var(--red);font-weight:600}
-.chart text.col{fill:var(--snow);letter-spacing:.14em}
-.ro-list{border-top:1px solid var(--rule-d)}
-.ro{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-block:15px;border-bottom:1px solid var(--rule-d)}
-.ro .label{color:var(--mist)}
-.ro b{font:250 clamp(24px,2.1vw,32px)/1 var(--sans);font-stretch:118%;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ro.key b{color:var(--soca)}
+/* ---------- deal structure ---------- */
+.structure{background:var(--night-2);color:var(--ink)}
+.structure .sec-head > .label{color:var(--ink-2)}
+.structure h2 em{color:var(--soca)}
+.structure .lede{color:var(--ink-2)}
+.su{display:grid;gap:clamp(36px,4vw,56px)}
+.su-row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:16px;align-items:start}
+.su-k{grid-column:1/4;color:var(--ink-2);padding-top:14px}
+.su-main{grid-column:4/12}
+.su-t{grid-column:12/13;justify-self:end;font:250 clamp(26px,2.4vw,36px)/1 var(--sans);font-stretch:118%;letter-spacing:-.02em;font-variant-numeric:tabular-nums;padding-top:8px;white-space:nowrap}
+.su-t.cap{color:var(--red)}
+.bar{position:relative;display:flex;height:48px;background:repeating-linear-gradient(90deg,rgba(11,26,32,.07) 0 1px,transparent 1px calc(100%/12))}
+.seg{display:block;height:100%;width:calc(var(--v)/12*100%);position:relative}
+.seg + .seg{box-shadow:inset 2px 0 0 var(--night-2)}
+.s-price{background:var(--ink)}.s-cost{background:#5C7479}.s-buf{background:#AEBDBE}
+.s-eq{background:var(--soca)}.s-debt{background:var(--ice)}.s-vend{background:var(--sand)}
+.s-head{background:repeating-linear-gradient(135deg,rgba(11,26,32,.28) 0 1.5px,transparent 1.5px 7px);outline:1px dashed rgba(11,26,32,.35);outline-offset:-1px}
+.cap-line{position:absolute;right:0;top:-10px;bottom:-10px;width:2px;background:var(--red)}
+.cap-line span{position:absolute;right:8px;top:-22px;white-space:nowrap;font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.su-leg{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;color:var(--ink-2)}
+.su-leg li{display:flex;align-items:center;gap:10px}
+.su-leg i{width:10px;height:10px;flex:none}
+.su-leg b{font:500 13px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.su-axis{grid-column:4/12;display:flex;justify-content:space-between;color:var(--fog);margin-top:-8px}
+@media (max-width:860px){.su-k,.su-main,.su-axis{grid-column:1/-1}.su-t{grid-column:1/-1;justify-self:start;padding-top:0}.su-k{padding-top:0}}
+
+.flowcash{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:40px;margin-top:clamp(80px,9vw,140px);padding-top:clamp(48px,5vw,72px);border-top:1px solid var(--rule-l)}
+.flowcash-h{grid-column:1/4}
+.flowcash-h .label{color:var(--ink-2)}
+.flowcash-h h3{font:360 clamp(26px,2.6vw,40px)/1.08 var(--serif);letter-spacing:-.02em;margin-top:14px;font-variation-settings:"opsz" 30}
+.flowcash-h p{margin-top:14px;color:var(--ink-2);font-size:14px}
+.wf-wrap{grid-column:4/10}
+.wf{--gap:clamp(14px,2.6vw,36px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);height:300px;border-bottom:1px solid var(--ink);background:repeating-linear-gradient(0deg,rgba(11,26,32,.07) 0 1px,transparent 1px 25%)}
+.wf-col{position:relative;height:100%}
+.wf-bar{position:absolute;left:0;right:0;bottom:calc(var(--b)/2*100%);height:calc(var(--h)/2*100%);min-height:3px}
+.wf-col[style*="--l"]::after{content:"";position:absolute;left:100%;width:var(--gap);bottom:calc(var(--l)/2*100%);border-top:1px dashed rgba(11,26,32,.5)}
+.wf-v{position:absolute;left:0;right:0;text-align:center;bottom:calc((var(--b) + var(--h))/2*100% + 10px);font:500 14px/1 var(--mono);font-variant-numeric:tabular-nums}
+.wf-v.neg{color:var(--red)}
+.wf-names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2.6vw,36px);margin-top:14px;font-size:13px;line-height:1.4;color:var(--ink-2)}
+.wf-out{grid-column:10/13;align-self:end;border-left:1px solid var(--rule-l);padding-left:24px}
+.wf-out b{display:block;white-space:nowrap;font:200 clamp(48px,4.6vw,80px)/.9 var(--sans);font-stretch:125%;letter-spacing:-.045em;color:var(--soca);font-variant-numeric:tabular-nums}
+.wf-out p{margin-top:14px;color:var(--ink-2);font-size:15px;max-width:26ch}
+@media (max-width:980px){.flowcash-h,.wf-wrap,.wf-out{grid-column:1/-1}.wf-out{border-left:0;padding-left:0}}
+
+.ratios{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(72px,8vw,120px);border-top:1px solid var(--ink)}
+.ratios > div{padding:22px 20px 0 0}
+.ratios > div + div{border-left:1px solid var(--rule-l);padding-left:20px}
+.ratios b{display:block;font:250 clamp(34px,3.6vw,56px)/1 var(--sans);font-stretch:120%;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ratios > div > span{display:block;margin-top:10px;color:var(--ink-2);font-size:14px;max-width:24ch}
+.ratios .x{font-size:.5em}
+@media (max-width:760px){.ratios{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}.ratios > div:nth-child(3){border-left:0;padding-left:0}}
 .x{font-family:var(--mono);font-weight:300;font-size:.6em;margin-left:.1em;vertical-align:.22em;letter-spacing:0}
-@media (min-width:761px) and (max-width:1180px){.ro-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px}}
-.pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 12px;border:1px solid currentColor;border-radius:999px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.pill.ok{color:var(--soca)}
-.pill.no{color:var(--red)}
+.assump{font-size:13px;line-height:1.55;color:var(--fog);margin-top:36px;max-width:90ch}
 
 /* ---------- route ---------- */
 .route{position:relative;overflow:hidden}
@@ -252,7 +267,7 @@ h2 em,h1 em{font-style:italic}
 .route-svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 .route-svg .base{fill:none;stroke:var(--rule-l);stroke-width:1.5}
 .route-svg .draw{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
-.route-svg .area{fill:rgba(8,20,26,.045)}
+.route-svg .area{fill:rgba(11,26,32,.045)}
 .wps{list-style:none;margin:0;padding:0;display:flex}
 .wp{position:relative;width:clamp(300px,27vw,420px);padding:232px 44px 0 0}
 .wp-mk{position:absolute;left:0;top:var(--y,180px);width:22px;height:22px;margin:-15px 0 0 -11px;color:var(--ink-2);transition:color .4s,transform .5s var(--ease)}
@@ -275,13 +290,13 @@ h2 em,h1 em{font-style:italic}
 /* ---------- protection ---------- */
 .protect{background:var(--night);color:var(--snow)}
 .flow{display:grid;grid-template-columns:minmax(0,1fr) 72px minmax(0,1.05fr) minmax(0,1.7fr);align-items:center;margin-bottom:clamp(64px,8vw,120px)}
-.node{border:1px solid var(--rule-d);padding:22px 22px 24px;background:rgba(234,240,238,.025)}
+.node{border:1px solid var(--rule-d);padding:22px 22px 24px;background:#FFFFFF}
 .node .label{color:var(--mist)}
 .node strong{display:block;font:350 clamp(20px,1.7vw,27px)/1.15 var(--serif);letter-spacing:-.015em;margin:10px 0 8px}
 .node p{color:var(--mist);font-size:15px;line-height:1.5}
-.node.ok{border-color:rgba(61,214,181,.55)}
+.node.ok{border-color:rgba(10,125,104,.55)}
 .node.ok .label{color:var(--soca)}
-.node.back{border-color:rgba(240,67,47,.55)}
+.node.back{border-color:rgba(214,58,38,.55)}
 .node.back .label{color:var(--red)}
 .link{height:2px;background:repeating-linear-gradient(90deg,var(--mist) 0 8px,transparent 8px 16px);background-size:16px 2px;animation:flowx .9s linear infinite}
 @keyframes flowx{to{background-position:16px 0}}
@@ -333,7 +348,7 @@ h2 em,h1 em{font-style:italic}
 
 /* ---------- interest ---------- */
 .interest{position:relative}
-.interest::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,20,26,.96) 0%,rgba(8,20,26,.5) 45%,rgba(8,20,26,.82) 100%);pointer-events:none}
+.interest::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,247,246,.97) 0%,rgba(245,247,246,.55) 45%,rgba(245,247,246,.9) 85%,rgba(245,247,246,1) 100%);pointer-events:none}
 .eoi{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:56px}
 .eoi-l{grid-column:1/6}
 .eoi-l .label{color:var(--mist)}
@@ -360,7 +375,7 @@ h2 em,h1 em{font-style:italic}
 
 /* ---------- footer ---------- */
 .foot{background:var(--night);color:var(--snow);overflow:hidden;padding-top:clamp(48px,6vw,96px)}
-.wordmark{--w:125;font-family:var(--sans);font-weight:800;font-stretch:calc(var(--w)*1%);font-size:clamp(96px,30vw,560px);line-height:.78;letter-spacing:-.055em;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(234,240,238,.26);white-space:nowrap;user-select:none;margin:0 0 clamp(24px,3vw,48px)}
+.wordmark{--w:125;font-family:var(--sans);font-weight:800;font-stretch:calc(var(--w)*1%);font-size:clamp(96px,30vw,560px);line-height:.78;letter-spacing:-.055em;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(11,26,32,.22);white-space:nowrap;user-select:none;margin:0 0 clamp(24px,3vw,48px)}
 .foot-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:28px;padding-block:36px calc(40px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--rule-d);font-size:13px;line-height:1.6;color:var(--mist)}
 .foot-grid strong{color:var(--snow);font-weight:600}
 .ft1{grid-column:1/5}.ft2{grid-column:5/8}.ft3{grid-column:8/13}
@@ -421,7 +436,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
     <p class="lede hero-lede" data-hero>Z izdajo novih delnic zbiramo do 12 milijonov EUR za nakup uveljavljenega, dobičkonosnega podjetja z <strong>11,0 mio EUR prihodkov</strong> in <strong>1,9 mio EUR EBITDA</strong>. Vaš kapital kupi denarni tok, ki obstaja že danes.</p>
     <div class="hero-cta" data-hero>
       <a class="btn solid" href="#interest" data-magnetic data-cursor="go"><span>Izrazite interes</span><svg><use href="#arr"/></svg></a>
-      <a class="btn" href="#model" data-magnetic><span>Modelirajte posel</span></a>
+      <a class="btn" href="#struktura" data-magnetic><span>Struktura posla</span></a>
     </div>
     <dl class="stats" data-hero>
       <div><dt class="label">Prag ponudbe</dt><dd data-stat="12" data-fmt="m0">12 mio €</dd></div>
@@ -441,7 +456,7 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
       <article class="step"><p class="label"><span>01 · Prag</span><b class="step-num" data-val="12000000">12.000.000 €</b></p><p>Pravo EU družbi dovoljuje javno ponudbo delnic brez prospekta do 12 milijonov EUR v 12 mesecih. Posel smo zasnovali tako, da ostane varno pod to mejo.</p></article>
       <article class="step"><p class="label"><span>02 · Prihodki</span><b class="step-num" data-val="11000000">11.000.000 €</b></p><p>Letni prihodki podjetja, ki ga kupujemo: uveljavljen poslovni subjekt z revidiranimi računovodskimi izkazi.</p></article>
       <article class="step"><p class="label"><span>03 · EBITDA</span><b class="step-num" data-val="1900000">1.900.000 €</b></p><p>Dobiček pred obrestmi, davki in amortizacijo. 17,3-odstotna marža, zaslužena vsako leto.</p></article>
-      <article class="step"><p class="label"><span>04 · Vaš delež</span><b class="step-num" data-val="6523000">6.523.000 €</b></p><p>Lastniški kapital, ki ga ta ponudba potrebuje v osnovnem scenariju. Preostanek financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.</p></article>
+      <article class="step"><p class="label"><span>04 · Vaš delež</span><b class="step-num" data-val="6523000">6.523.000 €</b></p><p>Lastniški kapital, ki ga ta ponudba potrebuje v načrtovani strukturi. Preostanek financirata bančni in prodajalčev kredit, 5,48 mio EUR praga pa ostane neizkoriščenih.</p></article>
     </div>
     <div class="ascent-bar" aria-hidden="true"><i id="ascBar"></i></div>
   </div>
@@ -473,48 +488,70 @@ setTimeout(function(){if(!window.__vrhIntro){var l=document.getElementById("load
   </div>
 </section>
 
-<section class="instrument sec" id="model" data-tone="dark">
+<section class="structure sec" id="struktura" data-tone="light">
   <div class="wrap">
     <div class="sec-head">
-      <p class="label">Model posla</p>
-      <h2 data-split>Številke premaknite <em>sami.</em></h2>
-      <p class="lede" data-reveal>Spremenite kupnino, bančni dolg in prodajalčev kredit. Model pokaže, koliko kapitala mora zbrati ponudba in kje je glede na prag 12 mio EUR. Številke so ilustrativne do podpisa pogodbe o nakupu deleža.</p>
+      <p class="label">Struktura posla</p>
+      <h2 data-split>Kapital, zložen <em>natančno.</em></h2>
+      <p class="lede" data-reveal>Kupnino financirajo trije viri. Delničarji prispevajo 57 % sredstev, preostanek nosita bančni in prodajalčev kredit. Vrednosti so v milijonih evrov, vse vrstice so narisane v enakem merilu do praga 12 mio €.</p>
     </div>
-    <div class="inst">
-      <div class="dials" data-reveal>
-        <div class="dial">
-          <div class="dial-top"><label for="mult">Nakupni multiplikator (EV/EBITDA)</label><output id="multO" for="mult">5,50<span class="x">×</span></output></div>
-          <input type="range" id="mult" min="4" max="8" step="0.25" value="5.5" data-cursor="drag">
-          <div class="dial-scale label"><span>4×</span><span>6×</span><span>8×</span></div>
-          <p class="hint">Razpon drsnika od 4× do 8×. Osnovni scenarij uporablja 5,5×.</p>
+
+    <div class="su">
+      <div class="su-row" data-bars>
+        <p class="label su-k">Uporaba sredstev</p>
+        <div class="su-main">
+          <div class="bar" role="img" aria-label="Uporaba sredstev: kupnina 10,45, stroški 0,42, rezerva 0,50 mio €"><span class="seg s-price" style="--v:10.45"></span><span class="seg s-cost" style="--v:0.42"></span><span class="seg s-buf" style="--v:0.5"></span></div>
+          <ul class="su-leg"><li><i class="s-price"></i>Kupnina (5,5× EBITDA) <b>10,45</b></li><li><i class="s-cost"></i>Transakcijski stroški <b>0,42</b></li><li><i class="s-buf"></i>Denarna rezerva <b>0,50</b></li></ul>
         </div>
-        <div class="dial">
-          <div class="dial-top"><label for="debt">Bančni kredit (× EBITDA)</label><output id="debtO" for="debt">2,00<span class="x">×</span></output></div>
-          <input type="range" id="debt" min="0" max="3" step="0.25" value="2" data-cursor="drag">
-          <div class="dial-scale label"><span>0×</span><span>1,5×</span><span>3×</span></div>
-          <p class="hint">Zavarovan z denarnim tokom tarče. Osnovni scenarij uporablja 2,0×.</p>
-        </div>
-        <div class="dial">
-          <div class="dial-top"><label for="vend">Prodajalčev kredit (% kupnine)</label><output id="vendO" for="vend">10 %</output></div>
-          <input type="range" id="vend" min="0" max="25" step="1" value="10" data-cursor="drag">
-          <div class="dial-scale label"><span>0 %</span><span>12 %</span><span>25 %</span></div>
-          <p class="hint">Plačan prodajalcu po zaključku. Osnovni scenarij uporablja 10 %.</p>
-        </div>
-        <p class="assump">Fiksne predpostavke: EBITDA 1,9 mio EUR; transakcijski stroški 4 % EV; 0,5 mio EUR denarne rezerve; bančni kredit po 6,5 %; prodajalčev kredit po 5,0 %. Donos je pred davki, naložbami in spremembami obratnega kapitala.</p>
+        <p class="su-t">11,37</p>
       </div>
-      <div class="chart" data-reveal><svg id="chart" viewBox="0 0 450 510" role="img" aria-label="Uporaba sredstev, viri sredstev in ponudba v primerjavi s pragom 12 mio EUR"></svg></div>
-      <div class="ro-wrap" data-reveal>
-        <div class="ro-list">
-          <div class="ro"><span class="label">Vrednost podjetja (EV)</span><b id="rEv">10,45 mio €</b></div>
-          <div class="ro key"><span class="label">Kapital za zbiranje</span><b id="rEq">6,52 mio €</b></div>
-          <div class="ro"><span class="label">Rezerva do praga</span><b id="rHead">5,48 mio €</b></div>
-          <div class="ro"><span class="label">Dolg / EBITDA</span><b id="rLev">2,55<span class="x">×</span></b></div>
-          <div class="ro"><span class="label">Letne obresti</span><b id="rInt">0,30 mio €</b></div>
-          <div class="ro"><span class="label">Denarni donos na kapital</span><b id="rYield">24,5 %</b></div>
+      <div class="su-row" data-bars>
+        <p class="label su-k">Viri sredstev</p>
+        <div class="su-main">
+          <div class="bar" role="img" aria-label="Viri sredstev: novi kapital 6,52, bančni kredit 3,80, prodajalčev kredit 1,05 mio €"><span class="seg s-eq" style="--v:6.523"></span><span class="seg s-debt" style="--v:3.8"></span><span class="seg s-vend" style="--v:1.045"></span></div>
+          <ul class="su-leg"><li><i class="s-eq"></i>Novi kapital – ta ponudba <b>6,52</b></li><li><i class="s-debt"></i>Bančni kredit (2,0× EBITDA) <b>3,80</b></li><li><i class="s-vend"></i>Prodajalčev kredit (10 % kupnine) <b>1,05</b></li></ul>
         </div>
-        <span class="pill ok" id="rCap">Pod pragom 12 mio €</span>
+        <p class="su-t">11,37</p>
+      </div>
+      <div class="su-row" data-bars>
+        <p class="label su-k">Ponudba in prag</p>
+        <div class="su-main">
+          <div class="bar" role="img" aria-label="Ponudba 6,52 mio € in neizkoriščen prag 5,48 mio € do meje 12 mio €"><span class="seg s-eq" style="--v:6.523"></span><span class="seg s-head" style="--v:5.477"></span><i class="cap-line"><span>Prag 12 mio €</span></i></div>
+          <ul class="su-leg"><li><i class="s-eq"></i>Ta ponudba <b>6,52</b></li><li><i class="s-head"></i>Neizkoriščen prag <b>5,48</b></li></ul>
+        </div>
+        <p class="su-t cap">12,00</p>
+      </div>
+      <div class="su-row" aria-hidden="true"><div class="su-axis label"><span>0</span><span>3</span><span>6</span><span>9</span><span>12 mio €</span></div></div>
+    </div>
+
+    <div class="flowcash">
+      <div class="flowcash-h">
+        <p class="label">Letni denarni tok</p>
+        <h3>Od EBITDA do denarja za lastnike.</h3>
+        <p>V mio € na leto. Pred davki, naložbami in spremembami obratnega kapitala.</p>
+      </div>
+      <div class="wf-wrap">
+        <div class="wf" data-wf role="img" aria-label="EBITDA 1,90, obresti bančnega kredita minus 0,25, obresti prodajalčevega kredita minus 0,05, denarni tok za lastnike 1,60 mio €">
+          <div class="wf-col" style="--b:0;--h:1.9;--l:1.9"><i class="wf-bar" style="background:var(--ink)"></i><span class="wf-v">1,90</span></div>
+          <div class="wf-col" style="--b:1.653;--h:0.247;--l:1.653"><i class="wf-bar" style="background:var(--red)"></i><span class="wf-v neg">−0,25</span></div>
+          <div class="wf-col" style="--b:1.601;--h:0.052;--l:1.601"><i class="wf-bar" style="background:var(--red)"></i><span class="wf-v neg">−0,05</span></div>
+          <div class="wf-col" style="--b:0;--h:1.601"><i class="wf-bar" style="background:var(--soca)"></i><span class="wf-v">1,60</span></div>
+        </div>
+        <div class="wf-names" aria-hidden="true"><span>EBITDA tarče</span><span>Obresti bančnega kredita (6,5 %)</span><span>Obresti prodajalčevega kredita (5,0 %)</span><span>Denarni tok za lastnike</span></div>
+      </div>
+      <div class="wf-out">
+        <b>24,5 %</b>
+        <p>letnega denarnega donosa na 6,52 mio € novega kapitala.</p>
       </div>
     </div>
+
+    <div class="ratios" data-reveal>
+      <div><b>5,5<span class="x">×</span></b><span>Vstopni multiplikator EV / EBITDA</span></div>
+      <div><b>57 %</b><span>Delež lastniškega kapitala v virih</span></div>
+      <div><b>2,55<span class="x">×</span></b><span>Skupni dolg / EBITDA ob zaključku</span></div>
+      <div><b>5,48</b><span>Mio € praga, ki ostane neizkoriščen</span></div>
+    </div>
+    <p class="assump">Ilustrativna struktura na podlagi EBITDA 1,9 mio €. Transakcijski stroški 4 % vrednosti podjetja, denarna rezerva 0,5 mio €, bančni kredit po 6,5 %, prodajalčev kredit po 5,0 %. Končni zneski bodo določeni s pogodbo o nakupu deleža in pogodbami o financiranju.</p>
   </div>
 </section>
 
@@ -723,8 +760,8 @@ var Terrain = (function () {
     "  float sp = mod(uTime*0.16, 7.0) - 3.5; float sweep = exp(-pow(vXZ.x*0.8 + vXZ.y*0.6 - sp, 2.0)*5.0);",
     "  float th = 1.4 - uReveal*1.75; float rev = smoothstep(th, th + 0.22, vH + 0.02);",
     "  float below = step(vH, uFill)*uFillOn;",
-    "  vec3 lo = mix(uLo, uJade*0.8, below); vec3 hi = mix(uHi, uJade, below);",
-    "  vec3 c = uBg + below*0.06*uJade;",
+    "  vec3 lo = mix(uLo, mix(uJade, uBg, 0.45), below); vec3 hi = mix(uHi, uJade, below);",
+    "  vec3 c = mix(uBg, uJade, below*0.07);",
     "  c = mix(c, lo, clamp(minor*(0.34 + 0.55*glow + 0.3*sweep), 0.0, 1.0)*rev);",
     "  c = mix(c, hi, clamp(major*(0.55 + 0.45*glow + 0.35*sweep), 0.0, 1.0)*rev);",
     "  c = mix(c, uJade, lev(vH, uFill, 1.3*uPx)*uFillOn);",
@@ -751,8 +788,8 @@ var Terrain = (function () {
   var count = idx.length;
   var U_ = {}; ["uPV", "uEye", "uMouse", "uTime", "uFill", "uFillOn", "uCeil", "uCeilOn", "uReveal", "uPx", "uBg", "uLo", "uHi", "uJade", "uRed"].forEach(function (nm) { U_[nm] = gl.getUniformLocation(pr, nm); });
   var hex = function (h) { return [parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255]; };
-  gl.uniform3fv(U_.uBg, hex("#08141A")); gl.uniform3fv(U_.uLo, hex("#3E5C62")); gl.uniform3fv(U_.uHi, hex("#A9C3C3")); gl.uniform3fv(U_.uJade, hex("#3DD6B5")); gl.uniform3fv(U_.uRed, hex("#F0432F"));
-  gl.enable(gl.DEPTH_TEST); gl.clearColor(0.031, 0.078, 0.102, 1);
+  gl.uniform3fv(U_.uBg, hex("#F5F7F6")); gl.uniform3fv(U_.uLo, hex("#A1B2B3")); gl.uniform3fv(U_.uHi, hex("#4F676C")); gl.uniform3fv(U_.uJade, hex("#0A8A73")); gl.uniform3fv(U_.uRed, hex("#D63A26"));
+  gl.enable(gl.DEPTH_TEST); gl.clearColor(0.961, 0.969, 0.965, 1);
 
   function persp(f, asp, nr, fr) { var t = 1 / Math.tan(f / 2), nf = 1 / (nr - fr); return [t / asp, 0, 0, 0, 0, t, 0, 0, 0, 0, (fr + nr) * nf, -1, 0, 0, 2 * fr * nr * nf, 0]; }
   function look(e, c, u) {
@@ -818,76 +855,8 @@ function ascentCam(p) {
 }
 var SUMMIT_CAM = { el: 0.36, az: 2.3, d: 2.6, tx: 0.45, fill: CEIL_H * (BASE.eq / M.CAP), fillOn: 1, ceilOn: 1 };
 
-/* ================= chart + calculator ================= */
 var NS = "http://www.w3.org/2000/svg";
-function mk(tag, attrs, parent) { var e = d.createElementNS(NS, tag); for (var a in attrs) e.setAttribute(a, attrs[a]); if (parent) parent.appendChild(e); return e; }
-var Chart = (function () {
-  var svg = $("#chart"); if (!svg) return null;
-  var L = 52, R = 440, TOP = 34, BOT = 462, MAX = 17, W = 92, X = [88, 206, 324];
-  var Y = function (v) { return BOT - v / MAX * (BOT - TOP); };
-  var defs = mk("defs", {}, svg);
-  var pat = mk("pattern", { id: "hatch", width: 7, height: 7, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, defs);
-  mk("line", { x1: 0, y1: 0, x2: 0, y2: 7, stroke: "#8FA3A6", "stroke-width": 1.4, "stroke-opacity": 0.55 }, pat);
-  [0, 4, 8, 12, 16].forEach(function (v) {
-    mk("line", { x1: L, x2: R, y1: Y(v), y2: Y(v), stroke: "rgba(234,240,238,.08)", "stroke-width": 1 }, svg);
-    mk("text", { x: L - 10, y: Y(v) + 4, "text-anchor": "end" }, svg).textContent = v;
-  });
-  var unit = mk("text", { x: L - 10, y: TOP - 16, "text-anchor": "end" }, svg);
-  var cols = X.map(function (x) { return mk("text", { x: x + W / 2, y: BOT + 30, "text-anchor": "middle", "class": "col" }, svg); });
-  var seg = {};
-  function rect(id, x, fill, extra) { var a = { x: x, width: W, y: BOT, height: 0, fill: fill }; for (var e in extra || {}) a[e] = extra[e]; seg[id] = mk("rect", a, svg); }
-  rect("price", X[0], "#EAF0EE"); rect("costs", X[0], "#8FA3A6"); rect("buf", X[0], "#4E6166");
-  rect("eq", X[1], "#3DD6B5"); rect("debt", X[1], "#7FA3B8"); rect("vend", X[1], "#C8B38A");
-  rect("head", X[2], "url(#hatch)", { stroke: "rgba(143,163,166,.7)", "stroke-dasharray": "3 3" }); rect("oeq", X[2], "#3DD6B5"); rect("over", X[2], "#F0432F");
-  mk("line", { x1: X[2] - 14, x2: X[2] + W + 14, y1: Y(12), y2: Y(12), stroke: "#F0432F", "stroke-width": 2 }, svg);
-  var capT = mk("text", { x: X[2] + W + 14, y: Y(12) - 10, "text-anchor": "end", "class": "cap" }, svg);
-  var lab = {};
-  ["price", "eq", "debt", "vend", "oeq"].forEach(function (k2) { lab[k2] = mk("text", { x: 0, y: 0, "text-anchor": "middle", "class": "val" }, svg); });
-  ["tU", "tS"].forEach(function (k2) { lab[k2] = mk("text", { x: 0, y: 0, "text-anchor": "middle", "class": "tot" }, svg); });
-  function put(node, a, anim) { if (anim && G) G.to(node, { attr: a, duration: 0.7, ease: "expo.out", overwrite: "auto" }); else for (var q in a) node.setAttribute(q, a[q]); }
-  function stack(ids, vals, anim) { var base = 0; ids.forEach(function (id, ii) { var y0 = Y(base + vals[ii]); put(seg[id], { y: y0, height: Math.max(Y(base) - y0, 0) }, anim); base += vals[ii]; }); return base; }
-  function tag(node, x, y0, y1, v, anim) { var h = y1 - y0; node.textContent = dec(v, 2); node.style.opacity = h > 20 ? 1 : 0; put(node, { x: x, y: (y0 + y1) / 2 + 4 }, anim); }
-  function draw(r, anim) {
-    var tU = stack(["price", "costs", "buf"], [r.ev, r.costs, M.BUFFER], anim);
-    var tS = stack(["eq", "debt", "vend"], [r.eq, r.debt, r.vend], anim);
-    var e1 = Math.min(r.eq, M.CAP), over = Math.max(r.eq - M.CAP, 0);
-    put(seg.oeq, { y: Y(e1), height: Y(0) - Y(e1) }, anim);
-    put(seg.over, { y: Y(M.CAP + over), height: Y(M.CAP) - Y(M.CAP + over) }, anim);
-    put(seg.head, { y: Y(M.CAP), height: Math.max(Y(e1) - Y(M.CAP), 0) }, anim);
-    tag(lab.price, X[0] + W / 2, Y(r.ev), Y(0), r.ev, anim);
-    tag(lab.eq, X[1] + W / 2, Y(r.eq), Y(0), r.eq, anim);
-    tag(lab.debt, X[1] + W / 2, Y(r.eq + r.debt), Y(r.eq), r.debt, anim);
-    tag(lab.vend, X[1] + W / 2, Y(r.eq + r.debt + r.vend), Y(r.eq + r.debt), r.vend, anim);
-    tag(lab.oeq, X[2] + W / 2, Y(e1), Y(0), r.eq, anim);
-    lab.tU.textContent = dec(tU, 2); put(lab.tU, { x: X[0] + W / 2, y: Y(tU) - 10 }, anim);
-    lab.tS.textContent = dec(tS, 2); put(lab.tS, { x: X[1] + W / 2, y: Y(tS) - 10 }, anim);
-  }
-  function labels() { unit.textContent = U().unit; cols[0].textContent = U().uses; cols[1].textContent = U().src; cols[2].textContent = U().offer; capT.textContent = U().ceiling; }
-  return { draw: draw, labels: labels };
-})();
-
-var Calc = (function () {
-  var inp = [$("#mult"), $("#debt"), $("#vend")]; if (!inp[0]) return null;
-  var out = [$("#multO"), $("#debtO"), $("#vendO")];
-  var ro = { ev: $("#rEv"), eq: $("#rEq"), head: $("#rHead"), lev: $("#rLev"), interest: $("#rInt"), yld: $("#rYield") }, pill = $("#rCap");
-  var cur = { ev: BASE.ev, eq: BASE.eq, head: BASE.head, lev: BASE.lev, interest: BASE.interest, yld: BASE.yld };
-  function paint() {
-    ro.ev.textContent = fmtM(cur.ev); ro.eq.textContent = fmtM(cur.eq);
-    ro.head.textContent = cur.head >= 0 ? fmtM(cur.head) : "−" + fmtM(-cur.head);
-    ro.lev.innerHTML = dec(cur.lev, 2) + '<span class="x">×</span>'; ro.interest.textContent = fmtM(cur.interest); ro.yld.textContent = pct(cur.yld, 1);
-  }
-  function update(anim) {
-    var m = +inp[0].value, dx = +inp[1].value, vp = +inp[2].value / 100;
-    out[0].innerHTML = dec(m, 2) + '<span class="x">×</span>'; out[1].innerHTML = dec(dx, 2) + '<span class="x">×</span>'; out[2].textContent = Math.round(vp * 100) + "\u00a0%";
-    inp.forEach(function (x) { x.style.setProperty("--fill", ((x.value - x.min) / (x.max - x.min) * 100) + "%"); });
-    var r = model(m, dx, vp), tgt = { ev: r.ev, eq: r.eq, head: r.head, lev: r.lev, interest: r.interest, yld: r.yld };
-    if (anim && G) G.to(cur, Object.assign({ duration: 0.6, ease: "power3.out", overwrite: true, onUpdate: paint }, tgt)); else { Object.assign(cur, tgt); paint(); }
-    var ok = r.eq < M.CAP; pill.textContent = ok ? U().within : U().over; pill.className = "pill " + (ok ? "ok" : "no");
-    if (Chart) Chart.draw(r, anim);
-  }
-  inp.forEach(function (x) { x.addEventListener("input", function () { update(true); }); });
-  return { update: update };
-})();
+function mk(tag, attrs, parent) { var e = d.createElementNS(NS, tag); for (var k2 in attrs) e.setAttribute(k2, attrs[k2]); if (parent) parent.appendChild(e); return e; }
 
 /* ================= route profile ================= */
 var Route = (function () {
@@ -926,8 +895,6 @@ function paintNumbers() {
   var lc = $("#ldCount"); if (lc && lc.dataset.done) lc.textContent = eur(12e6);
 }
 paintNumbers();
-if (Chart) Chart.labels();
-if (Calc) Calc.update(false);
 
 
 /* ================= header tone + altimeter ================= */
@@ -1087,8 +1054,19 @@ fontsReady.then(function () {
   $$("[data-reveal]").forEach(function (el) {
     G.from(el, { y: 44, autoAlpha: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%", once: true } });
   });
-  var chartEl = $(".chart");
-  if (chartEl && Calc) ST.create({ trigger: chartEl, start: "top 75%", once: true, onEnter: function () { Chart.draw(model(4, 0, 0), false); Calc.update(true); } });
+  /* structure: bars and waterfall build as they arrive */
+  $$("[data-bars]").forEach(function (row) {
+    G.from($$(".seg", row), { scaleX: 0, transformOrigin: "left center", duration: 1.3, ease: "expo.out", stagger: 0.12, scrollTrigger: { trigger: row, start: "top 85%", once: true } });
+  });
+  var wf = $("[data-wf]");
+  if (wf) {
+    var wtl = G.timeline({ scrollTrigger: { trigger: wf, start: "top 80%", once: true } });
+    $$(".wf-col", wf).forEach(function (c, q) {
+      wtl.from($(".wf-bar", c), { scaleY: 0, transformOrigin: q === 1 || q === 2 ? "center top" : "center bottom", duration: 0.9, ease: "expo.out" }, q * 0.22)
+         .from($(".wf-v", c), { y: 12, autoAlpha: 0, duration: 0.6, ease: "power3.out" }, q * 0.22 + 0.3);
+    });
+    wtl.from(".wf-out", { y: 24, autoAlpha: 0, duration: 0.9, ease: "expo.out" }, 0.9);
+  }
 
   /* footer wordmark stretches as it arrives */
   G.fromTo("#wordmark", { "--w": 62 }, { "--w": 125, ease: "none", scrollTrigger: { trigger: ".foot", start: "top bottom", end: "bottom bottom", scrub: true } });

@@ -4,6 +4,10 @@ An investor site for a share offer by [Issuer] d.d. under the EU €12M prospect
 
 *Vrh* is Slovenian for "summit". The site tells the deal as an ascent: the €12M ceiling is the summit line, and the raise is the level the capital reaches.
 
+## Theme
+
+The site uses one light theme: a cool glacier white (`#F5F7F6`) with white panels, ink text (`#0B1A20`), jade (`#0A7D68`) for equity and emphasis, and red (`#D63A26`) only for the €12M ceiling. The terrain is drawn as grey contour lines on the light ground.
+
 ## Run it
 
 There is no build step. Serve the folder with any static server, for example `python3 -m http.server` in `site/`, and open `index.html`. Every library and font is self-hosted in `assets/`, so the page makes no third-party requests.
@@ -19,7 +23,7 @@ Awwwards scores sites on Design (40%), Usability (30%), Creativity (20%) and Con
 - **Kinetic, variable typography.** The big figures compress and stretch through Archivo's width axis (62–125%) as they count. The footer wordmark stretches as you scroll into it. Headlines reveal line by line through a mask.
 - **Tension in the type pairing.** Newsreader, a high-contrast serif, carries the emotional lines. Archivo in extended light cuts carries the numbers. JetBrains Mono is used for survey-style labels.
 - **Micro-interactions.** A surveyor's reticle cursor, magnetic buttons, a marquee whose direction follows the scroll direction, hover fills on the investment-case rows, and a progress meter on the right edge showing the ascent from €0 to €12M.
-- **Trust signals next to the creative work, as in fintech winners.** An escrow flow diagram, the regulation quoted verbatim, a working deal model, a legal line in the first screen, and a non-binding form that asks for no payment data.
+- **Trust signals next to the creative work, as in fintech winners.** An escrow flow diagram, a summary of the regulation, a fixed "Struktura posla" section, a legal line in the first screen, and a non-binding form that asks for no payment data. The "Struktura posla" section shows sources and uses to scale against the €12M ceiling, a waterfall from EBITDA to cash for shareholders (24.5% yield) and four key ratios.
 - **Craft for the Developer Award.**
   - The site honours `prefers-reduced-motion`: no loader, no smooth scroll and no pinning, with a static terrain frame.
   - Without JavaScript, the full content still renders.
