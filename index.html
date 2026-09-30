@@ -1,0 +1,2047 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lacuna Special Situations</title>
+<meta name="description" content="Lacuna is a special-situations principal. We buy businesses the market finds too complicated to price. Design concept; the firm is fictional.">
+<meta name="theme-color" content="#EDEFF2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Mrs+Saint+Delafield&display=swap">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* Layout concept: the site is an annotated deal document. A 12-column sheet with a clause margin (cols 1–2),
+   the operative text (3–10) and a comment margin (11–12). Tracked changes are the only ornament. */
+:root{
+  --paper:#EDEFF2;        /* cool bond paper */
+  --paper-2:#E1E4EA;      /* second sheet */
+  --sheet:#FAFBFC;        /* printed page on the desk */
+  --ink:#0F1218;          /* toner black, blue-biased */
+  --ink-2:#4A5160;        /* secondary ink */
+  --ins:#2340F0;          /* tracked insertion */
+  --del:#CF2D1D;          /* tracked deletion */
+
+  --f-display:"Libre Caslon Display","Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --f-serif:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --f-sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-type:"Courier Prime","Courier New",Courier,monospace;
+  --f-sign:"Mrs Saint Delafield","Snell Roundhand","Segoe Script",cursive;
+
+  --bg:var(--paper); --fg:var(--ink); --muted:var(--ink-2);
+  --rule:rgba(15,18,24,.15); --accent:var(--ins); --strike:var(--del);
+
+  --gutter:clamp(16px,4vw,56px);
+  --col-gap:clamp(12px,1.8vw,28px);
+  --nav-h:64px;
+  --defs-h:56px;
+  --ease:cubic-bezier(.2,.75,.1,1);
+  --ease-io:cubic-bezier(.7,0,.2,1);
+  color-scheme:light;
+}
+.scheme-alt{--bg:var(--paper-2)}
+.scheme-alt,.scheme-dark{background:var(--bg);color:var(--fg)}
+.scheme-dark{
+  --bg:var(--ink); --fg:#E8EBF0; --muted:#9BA3B1; --rule:rgba(232,235,240,.16);
+  --accent:#8E9EFF; --strike:#FF6E5A; --sheet:#171B23; color-scheme:dark;
+}
+
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 12px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--f-sans);font-stretch:100%;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:clip;text-rendering:optimizeLegibility}
+img,canvas{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+p,figure{margin:0}
+h1,h2,h3{margin:0;font-weight:400}
+ol,ul,dl,dd{margin:0;padding:0;list-style:none}
+del,ins{text-decoration:none}
+::selection{background:var(--ins);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
+.sr-only{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:fixed;left:12px;top:12px;z-index:100;background:var(--ink);color:var(--paper);padding:10px 14px;text-decoration:none;transform:translateY(-160%);transition:transform .2s}
+.skip:focus{transform:none}
+.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.55;background-size:180px 180px}
+
+.wrap{width:100%;max-width:1520px;margin-inline:auto;padding-inline:var(--gutter)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap)}
+.label{font-family:var(--f-sans);font-stretch:72%;font-weight:600;font-size:12px;line-height:1.3;letter-spacing:.14em;text-transform:uppercase}
+.typed{font-family:var(--f-type);font-size:13px;line-height:1.45}
+.num{font-variant-numeric:tabular-nums lining-nums}
+
+/* ---------- tracked changes ---------- */
+.rl-del{position:relative;display:inline-block;color:var(--strike);transition:color .4s}
+.rl-del::after{content:"";position:absolute;left:-.04em;right:-.04em;top:var(--strike-y,57%);height:max(2px,.052em);
+  background:var(--strike);transform-origin:0 50%;transition:transform .55s var(--ease-io)}
+.rl-ins{color:var(--accent);text-decoration:underline double;text-decoration-color:currentColor;
+  text-decoration-thickness:max(1px,.02em);text-underline-offset:.1em;text-decoration-skip-ink:none}
+
+/* ---------- buttons & links ---------- */
+.btn{--btn-bg:var(--fg);--btn-fg:var(--bg);position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:.8em;
+  height:50px;padding:0 24px;background:var(--btn-bg);color:var(--btn-fg);border:1px solid var(--btn-bg);
+  font-family:var(--f-sans);font-stretch:78%;font-weight:600;font-size:13px;letter-spacing:.13em;text-transform:uppercase;
+  text-decoration:none;white-space:nowrap;transition:color .35s var(--ease),border-color .35s}
+.btn::before{content:"";position:absolute;inset:-1px;z-index:-1;background:var(--accent);transform:translateY(102%);transition:transform .5s var(--ease)}
+.btn:hover::before,.btn:focus-visible::before{transform:none}
+.btn:hover,.btn:focus-visible{color:#fff;border-color:var(--accent)}
+.scheme-dark .btn:hover,.scheme-dark .btn:focus-visible{color:var(--ink)}
+.btn__arr{width:16px;height:10px;flex:none;transition:transform .5s var(--ease)}
+.btn:hover .btn__arr{transform:translateX(4px)}
+.btn--sm{height:38px;padding:0 16px;font-size:11.5px}
+.link{display:inline-flex;align-items:center;gap:.6em;font-weight:500;text-decoration:none;padding-bottom:3px;
+  background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .5s var(--ease)}
+.link:hover{background-size:0 1px;background-position:100% 100%}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:60;padding-top:env(safe-area-inset-top,0px);color:var(--ink);
+  border-bottom:1px solid transparent;transition:color .4s,background-color .4s,border-color .4s}
+.nav.is-scrolled{background:color-mix(in srgb,var(--paper) 82%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);border-bottom-color:rgba(15,18,24,.08)}
+.nav.is-dark{color:#E8EBF0}
+.nav.is-dark.is-scrolled{background:color-mix(in srgb,var(--ink) 80%,transparent);border-bottom-color:rgba(232,235,240,.08)}
+.nav__inner{height:var(--nav-h);display:flex;align-items:center;gap:clamp(14px,2.2vw,32px)}
+.logo{display:inline-flex;align-items:baseline;font-family:var(--f-display);font-size:28px;line-height:1;letter-spacing:-.01em;text-decoration:none}
+.logo__gap{position:relative;display:inline-block;width:.1em;height:.6em}
+.logo__gap svg{position:absolute;left:50%;top:100%;width:.4em;height:.34em;transform:translate(-50%,.04em);color:var(--ins);overflow:visible}
+.nav.is-dark .logo__gap svg{color:#8E9EFF}
+.nav__page{margin-left:auto;font-family:var(--f-type);font-size:13px;white-space:nowrap}
+.nav__page b{font-weight:400;display:inline-block;min-width:1ch;text-align:center}
+.nav__toc{display:inline-flex;align-items:center;gap:10px;height:38px}
+.nav__toc-ico{width:22px;height:11px;overflow:visible}
+.nav .btn{--btn-bg:var(--ink);--btn-fg:var(--paper)}
+.nav.is-dark .btn{--btn-bg:#E8EBF0;--btn-fg:var(--ink)}
+.nav.is-dark .btn:hover{color:var(--ink)}
+
+/* ---------- contents overlay ---------- */
+.toc{position:fixed;inset:0;z-index:70;background:var(--ink);color:#E8EBF0;overflow-y:auto;overscroll-behavior:contain;
+  visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .75s var(--ease-io),visibility 0s .75s}
+.toc.is-open{visibility:visible;clip-path:inset(0 0 0 0);transition:clip-path .75s var(--ease-io),visibility 0s}
+.toc__top{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid rgba(232,235,240,.12)}
+.toc__close{display:inline-flex;align-items:center;gap:10px;height:38px}
+.toc__body{padding-block:clamp(20px,5vh,64px) 40px;display:grid;gap:24px}
+.toc__list a{display:flex;align-items:baseline;gap:clamp(12px,2vw,24px);padding:clamp(8px,1.5vh,16px) 0;text-decoration:none;border-bottom:1px solid rgba(232,235,240,.12)}
+.toc__no{font-family:var(--f-type);font-size:14px;width:2.6em;flex:none;color:#9BA3B1}
+.toc__name{font-family:var(--f-display);font-size:clamp(30px,min(5.6vw,7.4vh),84px);line-height:1;transition:color .3s,transform .5s var(--ease)}
+.toc__dots{flex:1;min-width:24px;border-bottom:2px dotted rgba(232,235,240,.32);transform:translateY(-.35em)}
+.toc__pg{font-family:var(--f-type);font-size:15px;flex:none}
+.toc__list li{opacity:0;transform:translateY(28px);transition:opacity .6s,transform .8s var(--ease)}
+.toc.is-open .toc__list li{opacity:1;transform:none;transition-delay:calc(.28s + var(--i)*.05s)}
+.toc__list a:hover .toc__name{color:#8E9EFF;transform:translateX(10px)}
+.toc__list a[aria-current="true"] .toc__no{color:#8E9EFF}
+.toc__note{color:#9BA3B1;max-width:52ch}
+
+/* ---------- hero ---------- */
+.hero{position:relative;display:flex;background:var(--paper);min-height:max(640px,calc(100svh - var(--defs-h)));
+  padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px));overflow:hidden}
+.hero__gl{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.hero__wrap{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);
+  grid-template-rows:auto 1fr auto;padding-block:clamp(14px,2vw,26px) clamp(28px,4vw,52px)}
+.hero__doc{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 24px;padding-bottom:12px;border-bottom:1px solid var(--rule);color:var(--muted)}
+.hero__title{grid-column:1/-1;grid-row:2;align-self:center;position:relative;z-index:1;font-family:var(--f-display);
+  font-size:clamp(60px,11.2vw,214px);line-height:.9;letter-spacing:-.028em;margin-block:clamp(26px,4vw,64px)}
+.hl{display:block;overflow:hidden;padding-bottom:.17em;margin-bottom:-.17em;min-height:1em}
+.hl__in{display:inline-block;transition:transform 1.15s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+.hl--2{padding-left:1.3em}
+.hl--3{padding-left:.5em}
+.hw{white-space:nowrap}
+.caret{display:inline-block;width:max(3px,.042em);height:.76em;margin-left:.05em;background:var(--accent);vertical-align:-.02em;opacity:0;transition:opacity .3s}
+@keyframes blink{50%{opacity:0}}
+
+.comment{position:relative;max-width:290px;padding:12px 14px 13px;font-size:13.5px;line-height:1.45;color:var(--fg);
+  background:color-mix(in srgb,var(--accent) 7%,var(--bg));border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+.comment__head{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;white-space:nowrap}
+.comment__av{width:22px;height:22px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700;font-size:9.5px;letter-spacing:.04em}
+.scheme-dark .comment__av{color:var(--ink)}
+.comment__who{font-weight:600}
+.comment__when{margin-left:auto;color:var(--muted);font-family:var(--f-type)}
+.hero__comment{grid-column:10/-1;grid-row:2;align-self:end;justify-self:end;z-index:4;margin-bottom:clamp(26px,4vw,64px)}
+@media (min-width:761px){.hero__comment{position:absolute;grid-column:1/-1;grid-row:1/-1;right:0;top:var(--ct,62%);margin:0}}
+.hero__comment::before{content:"";position:absolute;right:100%;top:21px;width:var(--reach,0px);border-top:1px dashed var(--accent)}
+.hero__comment::after{content:"";position:absolute;top:18px;left:calc(-1*var(--reach,0px) - 3px);width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:var(--reach-o,0)}
+
+.hero__foot{grid-column:1/span 6;grid-row:3;display:grid;gap:26px;align-content:end;position:relative;z-index:2}
+.hero__lede{font-size:clamp(17px,1.3vw,20px);line-height:1.5;max-width:31em}
+.hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 30px}
+.hero__fig{grid-column:9/-1;grid-row:3;justify-self:end;align-self:end;text-align:right;color:var(--muted);max-width:30ch;position:relative;z-index:2}
+.toy{position:absolute;z-index:0;right:calc(var(--gutter) + 29.5vw);top:calc(var(--nav-h) + 10%);width:clamp(170px,22vw,360px);aspect-ratio:4/5;pointer-events:none}
+.no-gl .toy{border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.12) 45%,rgba(160,200,200,.18));
+  -webkit-backdrop-filter:blur(3px) saturate(1.2);backdrop-filter:blur(3px) saturate(1.2);border:1px solid rgba(255,255,255,.8);
+  box-shadow:inset 0 0 0 6px rgba(255,255,255,.25),inset 0 -20px 40px rgba(120,160,170,.18),18px 26px 50px -24px rgba(15,18,24,.35);z-index:3}
+
+/* intro choreography (JS adds is-s1…is-done; without JS the final state shows) */
+.js .hero:not(.is-s1) .hl__in{transform:translateY(108%);animation:failsafe .01s 6s forwards}
+.js .hero:not(.is-s2) .rl-del{color:inherit}
+.js .hero:not(.is-s2) .rl-del::after{transform:scaleX(0);animation:failsafe .01s 6s forwards}
+.js .hero:not(.is-s4) .hl__stop{display:none}
+.js .hero .rl-ins .ch{display:none}
+.js .hero .rl-ins .ch.on,.js .hero.is-done .rl-ins .ch{display:inline}
+.hero.is-s3:not(.is-done) .caret{opacity:1;animation:blink 1s steps(1) infinite}
+.hero__comment,.hero__foot>*,.hero__fig{transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.hero__foot>:nth-child(2){transition-delay:.12s}
+.hero__fig{transition-delay:.3s}
+.js .hero:not(.is-s4) .hero__comment,.js .hero:not(.is-s2) .hero__foot>*,.js .hero:not(.is-s2) .hero__fig{opacity:0;transform:translateY(14px);animation:failsafe .01s 6s forwards}
+@keyframes failsafe{to{transform:none;opacity:1}}
+
+/* ---------- defined terms band ---------- */
+.defs{height:var(--defs-h);display:flex;align-items:center;overflow:hidden;background:var(--ink);color:#C9CFD9}
+.defs__track{display:flex;flex:none;white-space:nowrap;will-change:transform}
+.defs__item{font-family:var(--f-serif);font-size:18px;padding-right:2.6em}
+.defs__item b{color:#fff;font-weight:700}
+.defs__item i{font-style:normal;color:#8E9EFF}
+</style>
+<style>
+/* ---------- sections ---------- */
+.sec{position:relative;background:var(--bg);color:var(--fg);padding-block:clamp(84px,10vw,150px)}
+.sec__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:24px;margin-bottom:clamp(48px,7vw,110px)}
+.clause{grid-column:1/span 2;font-family:var(--f-type);font-size:14px;color:var(--muted);padding-top:.7em;white-space:nowrap}
+.sec__title{grid-column:3/-1;font-family:var(--f-display);font-size:clamp(44px,6.6vw,120px);line-height:.95;letter-spacing:-.022em;text-wrap:balance;max-width:13em}
+.sec__intro{grid-column:3/span 6;font-size:clamp(18px,1.45vw,22px);line-height:1.45;color:var(--muted);max-width:34em}
+
+/* reveal on scroll: content is readable at rest, the move is a flourish */
+.js [data-reveal]{transition:opacity 1s var(--ease),transform 1.2s var(--ease);transition-delay:calc(var(--d,0)*1ms)}
+.js [data-reveal]:not(.is-in){opacity:.001;transform:translateY(34px)}
+
+/* ---------- diagrams (shared by exhibits, plates, tombstones) ---------- */
+/* flat class names so the same rules reach <use> clones */
+.dg{overflow:visible;color:var(--fg);fill:currentColor;font-family:var(--f-type);font-size:10.5px}
+.d-s{fill:none;stroke:currentColor;stroke-width:1.2}
+.d-sa{fill:none;stroke:var(--accent);stroke-width:1.4}
+.d-sd{fill:none;stroke:var(--strike);stroke-width:1.4}
+.d-sm{fill:none;stroke:var(--rule);stroke-width:1}
+.d-f{fill:currentColor} .d-fa{fill:var(--accent)} .d-fd{fill:var(--strike)} .d-fb{fill:var(--bg)}
+.d-tm{fill:var(--muted)} .d-ta{fill:var(--accent)} .d-td{fill:var(--strike)} .d-tb{fill:var(--bg)}
+.d-dash{stroke-dasharray:3 3}
+.d-hat{fill:url(#hatch)} .d-hat-a{fill:url(#hatch-a)} .d-hat-l{fill:url(#hatch-l)}
+.d-big{font-size:17px;font-weight:700}
+
+/* ---------- 1 thesis ---------- */
+.thesis__label{grid-column:3/-1;align-self:end}
+.manifesto{grid-column:3/span 8;font-family:var(--f-display);font-size:clamp(30px,3.75vw,64px);line-height:1.12;letter-spacing:-.012em;text-wrap:pretty}
+.manifesto .rl-ins{text-decoration-thickness:max(1px,.03em)}
+.js .manifesto .w{opacity:var(--o,1);transition:opacity .2s linear}
+.manifesto .rl-del.is-pending{color:inherit}
+.manifesto .rl-del.is-pending::after{transform:scaleX(0)}
+.thesis__comment{grid-column:11/-1;align-self:start;margin-top:.5em}
+.tests{grid-column:3/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.4vw,36px);margin-top:clamp(72px,9vw,140px)}
+.tests li{border-top:1px solid var(--fg);padding-top:18px}
+.tests__no{font-family:var(--f-type);font-size:14px;color:var(--accent)}
+.tests h3{font-family:var(--f-display);font-size:clamp(24px,2.1vw,34px);line-height:1.08;margin:14px 0 12px;text-wrap:balance}
+.tests p{font-size:16px;color:var(--muted)}
+
+/* ---------- 2 edges ---------- */
+.edges__list{border-top:1px solid var(--fg)}
+.edge{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:8px;
+  align-items:baseline;padding:clamp(22px,2.6vw,38px) 0;border-bottom:1px solid var(--rule);color:var(--fg);transition:color .45s var(--ease)}
+.edge::before{content:"";position:absolute;inset:0 calc(-1*var(--gutter));z-index:-1;background:var(--ink);transform:scaleY(0);transform-origin:50% 100%;transition:transform .55s var(--ease)}
+.edge__no{grid-column:1/span 2;font-family:var(--f-type);font-size:15px;color:var(--muted)}
+.edge__name{grid-column:3/span 4;font-family:var(--f-display);font-size:clamp(34px,4.3vw,74px);line-height:1;letter-spacing:-.015em;transition:transform .55s var(--ease)}
+.edge__desc{grid-column:7/span 4;font-size:17px;color:var(--muted);max-width:30em}
+.edge__tag{grid-column:11/-1;justify-self:end;text-align:right;color:var(--accent)}
+@media (hover:hover) and (pointer:fine){
+  .edge:hover{--fg:#E8EBF0;--muted:#9BA3B1;--accent:#8E9EFF}
+  .edge:hover::before{transform:scaleY(1)}
+  .edge:hover .edge__name{transform:translateX(16px)}
+}
+.exhibit{--bg:var(--sheet);--fg:var(--ink);--muted:var(--ink-2);--rule:rgba(15,18,24,.15);--accent:var(--ins);--strike:var(--del);
+  position:fixed;left:0;top:0;z-index:45;width:272px;padding:12px 14px 14px;background:var(--sheet);color:var(--ink);border:1px solid var(--ink);
+  box-shadow:0 30px 60px -28px rgba(15,18,24,.5);pointer-events:none;opacity:0;visibility:hidden;transform:translate3d(-500px,-500px,0);
+  transition:opacity .25s,visibility 0s .25s}
+.exhibit.is-on{opacity:1;visibility:visible;transition:opacity .25s,visibility 0s}
+.exhibit__head{display:flex;justify-content:space-between;gap:12px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--rule)}
+.exhibit__stage{position:relative;aspect-ratio:1}
+.exhibit__stage svg{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(.95);transition:opacity .3s,transform .6s var(--ease)}
+.exhibit[data-show="a"] [data-ex="a"],.exhibit[data-show="b"] [data-ex="b"],.exhibit[data-show="c"] [data-ex="c"],
+.exhibit[data-show="d"] [data-ex="d"],.exhibit[data-show="e"] [data-ex="e"],.exhibit[data-show="f"] [data-ex="f"]{opacity:1;transform:none}
+.exhibit__cap{margin-top:8px;min-height:2.9em;color:var(--ink-2)}
+
+/* ---------- 3 method ---------- */
+.method__body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap)}
+.steps{grid-column:1/span 5;grid-row:1}
+.step{min-height:74vh;display:flex;flex-direction:column;justify-content:center;padding-block:5vh;opacity:.28;transition:opacity .6s var(--ease)}
+.step.is-active,.no-js .step{opacity:1}
+.step__no{font-family:var(--f-type);font-size:14px;color:var(--accent)}
+.step h3{font-family:var(--f-display);font-size:clamp(40px,4.8vw,80px);line-height:1;letter-spacing:-.015em;margin:.22em 0 .32em}
+.step p{font-size:clamp(17px,1.3vw,19px);color:var(--muted);max-width:30em}
+.step .step__out{margin-top:1.3em;font-family:var(--f-type);font-size:13px;color:var(--fg)}
+.step__out .label{color:var(--accent);margin-right:.6em}
+.plates{grid-column:7/-1;grid-row:1;position:relative}
+.plates__frame{position:sticky;top:max(calc(var(--nav-h) + 24px),calc(50vh - 300px));display:grid;gap:12px;width:min(100%,calc((100vh - 200px)*1.18));margin-left:auto}
+.plates__head,.plates__foot{display:flex;justify-content:space-between;gap:16px;color:var(--muted)}
+.plates__head b,.plates__foot b{color:var(--fg);font-weight:400}
+.plates__stage{position:relative;aspect-ratio:560/440;border:1px solid var(--rule);
+  background:linear-gradient(color-mix(in srgb,var(--fg) 5%,transparent) 1px,transparent 1px) 0 0/28px 28px,
+             linear-gradient(90deg,color-mix(in srgb,var(--fg) 5%,transparent) 1px,transparent 1px) 0 0/28px 28px}
+.plate{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .5s}
+.plate.is-active{opacity:1}
+.plate text{font-size:11px}
+.pl-tile{transition:transform 1.1s var(--ease)}
+.plate.is-active .pl-tile{transform:translate(var(--dx),var(--dy))}
+.pl-bar{transform:scaleY(0);transform-box:fill-box;transform-origin:50% var(--o,100%);transition:transform .9s var(--ease);transition-delay:calc(var(--i,0)*120ms)}
+.plate.is-active .pl-bar{transform:none}
+.pl-fade{opacity:0;transition:opacity .7s;transition-delay:calc(var(--i,0)*120ms + 300ms)}
+.plate.is-active .pl-fade{opacity:1}
+.pl-draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--ease);transition-delay:calc(var(--i,0)*160ms)}
+.plate.is-active .pl-draw{stroke-dashoffset:0}
+.pl-gantt{transform:scaleX(0);transform-box:fill-box;transform-origin:0 50%;transition:transform 1s var(--ease);transition-delay:calc(var(--i,0)*140ms + 200ms)}
+.plate.is-active .pl-gantt{transform:none}
+.pl-thick{stroke-width:2.2}
+.pl-head{transition:transform 2.8s var(--ease-io) .5s}
+.plate.is-active .pl-head{transform:translateX(361px)}
+
+/* ---------- 4 structure lab ---------- */
+.lab__doc{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(20px,3vw,48px);align-items:start}
+.sheet{--bg:var(--sheet);--fg:var(--ink);background:var(--sheet);color:var(--ink);padding:clamp(20px,2.6vw,40px);
+  box-shadow:0 1px 0 rgba(15,18,24,.05),0 40px 70px -46px rgba(15,18,24,.45)}
+.sheet__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.ts__row{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr);gap:4px 20px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.ts__row dt{color:var(--muted)}
+.ts__row dd{font-family:var(--f-serif);font-size:16.5px;line-height:1.4;min-width:0}
+.ts__val{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.ts__val output{font-family:var(--f-display);font-size:28px;line-height:1.05}
+.ts__sub{font-family:var(--f-sans);font-size:13px;color:var(--muted)}
+.ts__row input[type=range]{grid-column:1/-1}
+.ts__row--calc dd{font-family:var(--f-sans);font-weight:600;font-size:16px}
+input[type=range]{--fill:50%;-webkit-appearance:none;appearance:none;width:100%;height:30px;margin:4px 0 0;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--ink) var(--fill),rgba(15,18,24,.18) var(--fill))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:6px;height:26px;margin-top:-12px;border-radius:1px;background:var(--ins);box-shadow:0 0 0 3px var(--sheet)}
+input[type=range]::-moz-range-track{height:2px;background:rgba(15,18,24,.18)}
+input[type=range]::-moz-range-progress{height:2px;background:var(--ink)}
+input[type=range]::-moz-range-thumb{width:6px;height:26px;border:0;border-radius:1px;background:var(--ins);box-shadow:0 0 0 3px var(--sheet)}
+input[type=range]:focus-visible{outline:none}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--sheet),0 0 0 5px var(--ins)}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--sheet),0 0 0 5px var(--ins)}
+.stack{margin-top:22px}
+.stack__bar{display:flex;height:30px;background:rgba(15,18,24,.06)}
+.stack__bar i{display:block;height:100%;flex:none;width:calc(var(--w,0)*100%);box-shadow:inset -2px 0 0 var(--sheet);transition:width .45s var(--ease)}
+.seg-debt{background:var(--ink)}
+.seg-eq{background:var(--ins)}
+.seg-vn{background:repeating-linear-gradient(135deg,var(--ins) 0 2px,transparent 2px 6px)}
+.seg-eo{background:repeating-linear-gradient(135deg,var(--del) 0 1.5px,transparent 1.5px 6px)}
+.stack__legend{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:14px;font-size:13px}
+.stack__legend li{display:flex;align-items:center;gap:8px;min-width:0}
+.stack__legend .sw{width:12px;height:12px;flex:none;box-shadow:inset 0 0 0 1px rgba(15,18,24,.25)}
+.stack__legend b{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums}
+.ret table{width:100%;border-collapse:collapse;margin-top:6px}
+.ret th,.ret td{text-align:left;vertical-align:top;padding:14px 10px 14px 0;border-bottom:1px solid var(--rule)}
+.ret thead th{padding-block:14px 10px;color:var(--muted)}
+.ret tbody th{font-family:var(--f-serif);font-size:17px;font-weight:400;width:34%}
+.ret tbody th small{display:block;font-family:var(--f-type);font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+.ret .mo{display:block;font-family:var(--f-display);font-size:clamp(28px,2.5vw,40px);line-height:1;white-space:nowrap}
+.ret .is-s .mo{color:var(--ins)}
+.ret .sub{display:block;font-size:13px;color:var(--muted);margin-top:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chg-new{color:var(--ins);text-decoration:underline double;text-decoration-thickness:1px;text-underline-offset:.12em}
+.chg-old{color:var(--del);text-decoration:line-through;text-decoration-thickness:1.5px;margin-left:.35em;font-size:.62em;vertical-align:.3em}
+.sub .chg-old{font-size:.95em;vertical-align:0}
+.bars{display:grid;grid-template-columns:5.6em minmax(0,1fr);column-gap:12px;margin-top:40px}
+.bars__labels{display:grid;grid-template-rows:repeat(3,38px);align-items:center;color:var(--muted)}
+.bars__plot{position:relative;display:grid;grid-template-rows:repeat(3,38px);align-content:start;padding-bottom:26px}
+.bars__row{display:grid;align-content:center;gap:3px}
+.bars__row i{display:block;height:11px;width:calc(min(var(--w,0),1)*100%);transition:width .5s var(--ease)}
+.bars__s{background:var(--ins)}
+.bars__a{box-shadow:inset 0 0 0 1px var(--ink)}
+.bars__one{position:absolute;top:-4px;bottom:22px;left:calc(var(--one,.2)*100%);border-left:1px dashed var(--del);transition:left .5s var(--ease)}
+.bars__one span{position:absolute;top:-18px;left:-4px;font-family:var(--f-type);font-size:11px;color:var(--del);white-space:nowrap}
+.bars__ticks{position:absolute;left:0;right:0;bottom:0;height:16px;font-family:var(--f-type);font-size:12px;color:var(--muted)}
+.bars__ticks span{position:absolute;transform:translateX(-50%)}
+.bars__legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:13px;color:var(--muted)}
+.bars__legend i{display:inline-block;width:14px;height:10px;margin-right:6px;vertical-align:-1px}
+.ret__verdict{margin-top:22px;padding-top:18px;border-top:2px solid var(--ink);font-family:var(--f-serif);font-size:17px;line-height:1.55}
+.ret__verdict b{font-family:var(--f-sans);font-weight:600}
+.lab__warn{display:none;margin-top:16px;color:var(--del);font-weight:600}
+.lab.is-bad .lab__warn{display:block}
+.lab.is-bad .ret table,.lab.is-bad .bars,.lab.is-bad .ret__verdict{opacity:.25;filter:grayscale(1)}
+.lab__note{margin-top:28px;color:var(--muted);max-width:110ch}
+
+/* ---------- 5 situations ---------- */
+.situations{background:var(--paper-2);padding:0}
+.sit__pin{padding-block:calc(var(--nav-h) + clamp(28px,5vh,60px)) clamp(40px,6vh,72px);display:flex;flex-direction:column;gap:clamp(24px,4vh,48px)}
+.sit__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:16px;align-items:end}
+.sit__head .sec__title{grid-column:3/span 7}
+.sit__meta{grid-column:10/-1;justify-self:end;display:grid;gap:10px;justify-items:end}
+.sit__count{font-family:var(--f-type);font-size:14px}
+.sit__bar{width:180px;height:1px;background:var(--rule);position:relative}
+.sit__bar i{position:absolute;inset:0;background:var(--fg);transform-origin:0 50%;transform:scaleX(var(--p,.2))}
+.sit__viewport{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-padding-inline:var(--gutter)}
+.sit__viewport::-webkit-scrollbar{display:none}
+.sit__track{display:flex;gap:clamp(18px,2.2vw,36px);width:max-content;padding-inline:var(--gutter)}
+.situations.is-pinned .sit__pin{position:sticky;top:0;height:100vh;overflow:hidden;justify-content:center}
+.situations.is-pinned .sit__viewport{overflow:visible;scroll-snap-type:none}
+.situations.is-pinned .sit__track{will-change:transform}
+.tomb{--bg:var(--sheet);--fg:var(--ink);--muted:var(--ink-2);flex:none;width:min(84vw,880px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  background:var(--sheet);color:var(--ink);scroll-snap-align:start;box-shadow:0 1px 0 rgba(15,18,24,.05),0 40px 70px -50px rgba(15,18,24,.5)}
+.tomb__ad{margin:18px;padding:24px 20px;text-align:center;border:1px solid var(--ink);box-shadow:inset 0 0 0 3px var(--sheet),inset 0 0 0 4px var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-family:var(--f-serif)}
+.tomb__notice{font-style:italic;font-size:12px;line-height:1.35;color:var(--ink-2);max-width:26ch;margin-bottom:8px}
+.tomb__art{width:118px;height:118px;margin:0 0 8px}
+.tomb__amount{font-family:var(--f-display);font-size:clamp(28px,2.5vw,38px);line-height:1}
+.tomb__what{font-family:var(--f-sans);font-stretch:72%;font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px}
+.tomb__co{font-weight:700;font-size:14.5px;line-height:1.3;letter-spacing:.08em;text-transform:uppercase;max-width:22ch}
+.tomb__place,.tomb__verb{font-style:italic;font-size:14px;color:var(--ink-2)}
+.tomb__verb{margin-top:6px}
+.tomb__buyer{font-weight:700;font-size:13px;line-height:1.35;letter-spacing:.08em;text-transform:uppercase;max-width:24ch}
+.tomb__date{font-family:var(--f-sans);font-stretch:72%;font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:10px}
+.tomb__file{padding:clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) clamp(22px,2.4vw,34px) 0;display:flex;flex-direction:column;gap:16px}
+.tomb__case{display:flex;justify-content:space-between;gap:12px;color:var(--ink-2)}
+.tomb__title{font-family:var(--f-display);font-size:clamp(30px,2.8vw,44px);line-height:1;letter-spacing:-.01em;text-wrap:balance}
+.tomb__lede{font-family:var(--f-serif);font-size:16.5px;line-height:1.5;color:var(--ink-2);max-width:34ch}
+.tomb__file dl{display:grid;gap:12px;margin-top:auto}
+.tomb__file dl>div{display:grid;grid-template-columns:6.2em minmax(0,1fr);gap:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.tomb__file dt{color:var(--ink-2);padding-top:3px}
+.tomb__file dd{font-size:15px;line-height:1.45}
+.tomb__out b{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1;color:var(--ins)}
+.tomb--end{--bg:var(--ink);grid-template-columns:1fr;width:min(70vw,520px);background:var(--ink);color:#E8EBF0;padding:clamp(28px,3vw,44px);align-content:space-between;gap:28px}
+.tomb--end p{font-family:var(--f-display);font-size:clamp(34px,3.4vw,54px);line-height:1.02;letter-spacing:-.01em}
+.tomb--end .btn{--btn-bg:#E8EBF0;--btn-fg:var(--ink);--accent:#8E9EFF;justify-self:start}
+.tomb--end .btn:hover{color:var(--ink)}
+
+/* ---------- record ---------- */
+.record{padding-block:clamp(80px,10vw,150px)}
+.record__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 24px;margin-bottom:clamp(28px,4vw,56px)}
+.record__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule)}
+.record__grid>div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:14px;padding:22px clamp(12px,2vw,28px) 0 0;min-width:0}
+.record__grid>div+div{padding-left:clamp(12px,2vw,28px);border-left:1px solid var(--rule)}
+.record dd{font-family:var(--f-display);font-size:clamp(50px,7vw,128px);line-height:.95;letter-spacing:-.02em;white-space:nowrap}
+.record dd .u{font-size:.5em;letter-spacing:0;margin-left:.06em;color:var(--accent)}
+.record dt{color:var(--muted)}
+.record__note{margin-top:clamp(28px,4vw,48px);color:var(--muted);max-width:80ch}
+
+/* ---------- 6 notices ---------- */
+.notices__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:48px}
+.notices__clauses{grid-column:3/span 4;display:grid;gap:22px;align-content:start}
+.notices__clauses p{font-family:var(--f-serif);font-size:18px;line-height:1.55}
+.cn{font-family:var(--f-type);font-size:13px;color:var(--muted);margin-right:.7em}
+.addr{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.addr code{font-family:var(--f-type);font-size:15px;padding:3px 8px;background:color-mix(in srgb,var(--accent) 9%,transparent);color:var(--fg);user-select:all}
+.copy{height:30px;padding:0 10px;border:1px solid var(--rule)}
+.copy:hover{border-color:var(--fg)}
+.sched{grid-column:7/-1;align-self:start}
+.sched fieldset{border:0;margin:0;padding:0;min-width:0}
+.sched legend{padding:0;margin-bottom:12px;color:var(--muted)}
+.sched__body{display:grid;gap:30px;margin-top:24px}
+.sched__grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 24px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;height:38px;padding:0 14px;border:1px solid var(--rule);font-size:14px;transition:background-color .25s,color .25s,border-color .25s}
+.chip:hover span{border-color:var(--fg)}
+.chip input:checked+span{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{color:var(--muted)}
+.field input,.field textarea{width:100%;border:0;border-bottom:1px solid var(--fg);border-radius:0;background:transparent;color:var(--fg);font:400 20px/1.35 var(--f-serif);padding:8px 0 10px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--accent);box-shadow:0 1px 0 var(--accent)}
+.field.is-invalid input{border-bottom-color:var(--strike);box-shadow:0 1px 0 var(--strike)}
+.field__err{font-size:13px;color:var(--strike);min-height:1.3em}
+.field--wide{grid-column:1/-1}
+.sched__foot{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px}
+.sched__status{max-width:46ch;color:var(--muted)}
+.sched__status.is-ok{color:var(--fg)}
+.sched__status.is-ok b{color:var(--accent);font-weight:400}
+
+/* ---------- footer ---------- */
+.foot{padding-block:clamp(88px,11vw,160px) calc(28px + env(safe-area-inset-bottom,0px));overflow:hidden}
+.foot__witness{font-family:var(--f-serif);font-style:italic;font-size:clamp(18px,1.6vw,23px);max-width:38em;color:var(--muted)}
+.sigs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,120px);margin-top:clamp(40px,5vw,72px)}
+.sig{display:grid;gap:12px;align-content:start}
+.sig__line{position:relative;height:clamp(96px,9vw,130px);border-bottom:1px solid var(--fg);display:flex;align-items:flex-end}
+.sig__ink{font-family:var(--f-sign);font-size:clamp(72px,7.4vw,122px);line-height:.8;color:var(--accent);padding:0 .12em .04em;transform:rotate(-5deg) translateY(.14em);transform-origin:0 100%;
+  clip-path:inset(-40% 100% -40% 0);transition:clip-path 2.4s cubic-bezier(.55,.1,.3,1) .25s}
+.foot.is-signed .sig__ink,.no-js .sig__ink{clip-path:inset(-40% -12% -40% 0)}
+.sig__meta{color:var(--muted)}
+a.sig__line{text-decoration:none;color:inherit}
+.sig__flag{position:absolute;left:0;bottom:14px;display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 28px 0 12px;background:var(--strike);color:var(--ink);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%);transition:transform .5s var(--ease)}
+a.sig__line:hover .sig__flag,a.sig__line:focus-visible .sig__flag{transform:translateX(12px)}
+.sig__caret{position:absolute;right:4px;bottom:10px;width:3px;height:40px;background:var(--accent);animation:blink 1.1s steps(1) infinite}
+.foot__mark{display:flex;justify-content:center;align-items:baseline;font-family:var(--f-display);font-size:clamp(92px,23.5vw,420px);line-height:.8;letter-spacing:-.045em;
+  margin-top:clamp(72px,9vw,140px);white-space:nowrap;user-select:none}
+.foot__gap{position:relative;display:inline-block;width:calc(var(--gap,.02) * 1em);height:.5em}
+.foot__gap svg{position:absolute;left:50%;top:100%;width:.2em;height:.16em;overflow:visible;color:var(--accent);transform:translate(-50%,.06em) scale(var(--gs,1));transform-origin:50% 0}
+.foot__base{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:18px;margin-top:clamp(40px,5vw,64px);padding-top:20px;border-top:1px solid var(--rule);color:var(--muted)}
+.foot__links{grid-column:1/span 4;display:flex;flex-wrap:wrap;gap:8px 20px}
+.foot__links a{text-decoration:none}
+.foot__links a:hover{color:var(--fg)}
+.foot__clocks{grid-column:5/span 4}
+.foot__clocks time{color:var(--fg)}
+.foot__legal{grid-column:9/-1}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .tests{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .edge__name{grid-column:3/span 5}
+  .edge__desc{grid-column:8/-1}
+  .edge__tag{grid-column:8/-1;justify-self:start;text-align:left}
+  .lab__doc{grid-template-columns:minmax(0,1fr)}
+  .record__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .record__grid>div:nth-child(3){border-left:0;padding-left:0}
+  .record__grid>div:nth-child(n+3){padding-top:30px}
+  .notices__clauses{grid-column:1/span 5}
+  .sched{grid-column:6/-1}
+  .hero__comment{grid-column:9/-1}
+}
+@media (max-width:900px){
+  .method__body{display:block}
+  .plates{position:sticky;top:var(--nav-h);z-index:2;background:var(--bg);padding-block:10px 12px;margin-inline:calc(-1*var(--gutter));padding-inline:var(--gutter);border-bottom:1px solid var(--rule)}
+  .plates__frame{position:static;width:min(100%,calc(44vh*1.27 + 20px));margin-inline:auto;gap:8px}
+  .step{min-height:62vh;justify-content:flex-start;padding-block:9vh 4vh}
+  .tomb{grid-template-columns:minmax(0,1fr)}
+  .tomb__file{padding:0 22px 26px}
+  .sit__head .sec__title{grid-column:1/-1}
+  .sit__meta{grid-column:1/-1;justify-self:start;justify-items:start}
+}
+@media (max-width:760px){
+  :root{--nav-h:58px}
+  body{font-size:16px}
+  .clause{grid-column:1/-1;padding-top:0}
+  .sec__title,.sec__intro,.thesis__label{grid-column:1/-1}
+  .manifesto,.thesis__comment,.tests{grid-column:1/-1}
+  .thesis__comment{margin-top:28px;max-width:none}
+  .tests{grid-template-columns:minmax(0,1fr);margin-top:56px}
+  .edge__no,.edge__name,.edge__desc,.edge__tag{grid-column:1/-1}
+  .edge__tag{justify-self:start;text-align:left}
+  .ts__row{grid-template-columns:minmax(0,1fr)}
+  .ret thead{display:none}
+  .ret tbody tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:14px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .ret tbody th{grid-column:1/-1;width:auto;border:0;padding:0 0 12px}
+  .ret tbody td{border:0;padding:0}
+  .ret td::before{content:attr(data-label);display:block;margin-bottom:6px;font-family:var(--f-sans);font-stretch:72%;font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .ret .sub{white-space:normal}
+  .hide-sm{display:none}
+  .notices__clauses,.sched{grid-column:1/-1}
+  .sched__grid{grid-template-columns:minmax(0,1fr)}
+  .sigs{grid-template-columns:minmax(0,1fr);gap:56px}
+  .foot__links,.foot__clocks,.foot__legal{grid-column:1/-1}
+  .nav__page{display:none}
+  .nav__toc{margin-left:auto}
+  .nav__toc-txt{display:none}
+  .hero__wrap{grid-template-rows:auto auto auto 1fr}
+  .hero__title{font-size:clamp(52px,16.6vw,120px);margin-block:30px 22px}
+  .hl--2{padding-left:.5em}
+  .hl--3{padding-left:0}
+  .hero__comment{grid-column:1/-1;grid-row:3;justify-self:start;margin:0 0 28px}
+  .hero__foot{grid-column:1/-1;grid-row:4}
+  .hero__fig{display:none}
+  .toy{width:36vw;right:10px;top:calc(var(--nav-h) + 64px)}
+  .record__grid{grid-template-columns:minmax(0,1fr)}
+  .record__grid>div,.record__grid>div+div{border-left:0;padding-left:0;padding-top:24px}
+  .record__grid>div+div{border-top:1px solid var(--rule)}
+  .record__grid>div{padding-bottom:24px}
+  .bars{grid-template-columns:4.6em minmax(0,1fr)}
+}
+@media (max-width:420px){
+  .nav .btn{padding:0 12px;letter-spacing:.08em}
+  .ret .mo{font-size:26px}
+  .stack__legend{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- shared drawing library: exhibits are reused by the tombstones -->
+<svg class="dg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#0F1218" stroke-width="1.1"/></pattern>
+    <pattern id="hatch-a" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#2340F0" stroke-width="1.3"/></pattern>
+    <pattern id="hatch-l" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#E8EBF0" stroke-width="1.1" stroke-opacity=".7"/></pattern>
+
+    <symbol id="ex-a" viewBox="0 0 240 240">
+      <text x="120" y="22" text-anchor="middle" class="d-tm">FAMILY HOLDING, EST. 1983</text>
+      <circle cx="120" cy="60" r="20" class="d-f"/>
+      <text x="120" y="98" text-anchor="middle">Founder, 63</text>
+      <path class="d-s" d="M120 106V126M52 126H188M52 126V147M120 126V147M188 126V147"/>
+      <circle cx="52" cy="164" r="16" class="d-s"/>
+      <circle cx="188" cy="164" r="16" class="d-s"/>
+      <circle cx="120" cy="164" r="16" class="d-sa d-dash"/>
+      <text x="120" y="168" text-anchor="middle" class="d-ta">?</text>
+      <text x="52" y="198" text-anchor="middle" class="d-tm">Doctor</text>
+      <text x="188" y="198" text-anchor="middle" class="d-tm">In Lisbon</text>
+      <text x="120" y="198" text-anchor="middle" class="d-ta">Successor:</text>
+      <text x="120" y="211" text-anchor="middle" class="d-ta">none</text>
+    </symbol>
+
+    <symbol id="ex-b" viewBox="0 0 240 240">
+      <text x="21" y="28" class="d-tm">ADMINISTRATION WINDOW</text>
+      <text x="21" y="44">21 days to a binding offer</text>
+      <path class="d-s" d="M21 58h26v26h-26zM49 58h26v26h-26zM77 58h26v26h-26zM105 58h26v26h-26zM133 58h26v26h-26zM161 58h26v26h-26zM189 58h26v26h-26zM21 86h26v26h-26zM49 86h26v26h-26zM77 86h26v26h-26zM105 86h26v26h-26zM133 86h26v26h-26zM161 86h26v26h-26zM189 86h26v26h-26zM21 114h26v26h-26zM49 114h26v26h-26zM77 114h26v26h-26zM105 114h26v26h-26zM133 114h26v26h-26zM161 114h26v26h-26z"/>
+      <rect x="189" y="114" width="26" height="26" class="d-fa"/>
+      <text x="202" y="131" text-anchor="middle" class="d-tb">21</text>
+      <path class="d-sd" d="M26 79L42 63M54 79L70 63M82 79L98 63M110 79L126 63M138 79L154 63M166 79L182 63M194 79L210 63M26 107L42 91M54 107L70 91M82 107L98 91M110 107L126 91M138 107L154 91M166 107L182 91M194 107L210 91M26 135L42 119M54 135L70 119M82 135L98 119M110 135L126 119"/>
+      <text x="21" y="168">Day 19 of 21</text>
+      <text x="21" y="186" class="d-ta">Certain funds.</text>
+      <text x="21" y="201" class="d-ta">No financing condition.</text>
+    </symbol>
+
+    <symbol id="ex-c" viewBox="0 0 240 240">
+      <text x="14" y="26" class="d-tm">11 OPERATORS AT 4–5×</text>
+      <path class="d-sm" d="M34 62L178 120M70 50L178 120M50 94L178 120M94 82L178 120M26 130L178 120M64 124L178 120M102 118L178 120M38 170L178 120M76 160L178 120M110 152L178 120M62 198L178 120"/>
+      <g class="d-s d-fb"><circle cx="34" cy="62" r="7"/><circle cx="70" cy="50" r="7"/><circle cx="50" cy="94" r="7"/><circle cx="94" cy="82" r="7"/><circle cx="26" cy="130" r="7"/><circle cx="64" cy="124" r="7"/><circle cx="102" cy="118" r="7"/><circle cx="38" cy="170" r="7"/><circle cx="76" cy="160" r="7"/><circle cx="110" cy="152" r="7"/><circle cx="62" cy="198" r="7"/></g>
+      <circle cx="178" cy="120" r="34" class="d-fa"/>
+      <text x="178" y="126" text-anchor="middle" class="d-tb d-big">9×</text>
+      <text x="178" y="176" text-anchor="middle" class="d-ta">One platform</text>
+    </symbol>
+
+    <symbol id="ex-d" viewBox="0 0 240 240">
+      <text x="20" y="30" class="d-tm">DEBT BOUGHT, THEN CONVERTED</text>
+      <rect x="20" y="50" width="50" height="45" class="d-hat"/>
+      <rect x="20" y="50" width="50" height="45" class="d-s"/>
+      <rect x="20" y="95" width="50" height="105" class="d-s"/>
+      <text x="78" y="76">Equity</text>
+      <path class="d-sd" d="M76 72.5H122"/>
+      <text x="78" y="140">Senior loan</text>
+      <text x="78" y="155" class="d-ta">bought at 61c</text>
+      <path class="d-s" d="M160 125H178M172 120l6 5-6 5"/>
+      <rect x="186" y="50" width="36" height="150" class="d-fa"/>
+      <text x="45" y="218" text-anchor="middle" class="d-tm">Before</text>
+      <text x="204" y="218" text-anchor="middle" class="d-ta">100%</text>
+      <text x="204" y="231" text-anchor="middle" class="d-ta">equity</text>
+    </symbol>
+
+    <symbol id="ex-e" viewBox="0 0 240 240">
+      <text x="20" y="28" class="d-tm">SITE PLAN, 6 OWNED SITES</text>
+      <rect x="20" y="40" width="200" height="146" class="d-sm d-dash"/>
+      <g class="d-hat-a"><rect x="32" y="52" width="60" height="40"/><rect x="100" y="52" width="44" height="40"/><rect x="152" y="52" width="56" height="62"/><rect x="32" y="100" width="42" height="74"/><rect x="82" y="100" width="62" height="32"/><rect x="82" y="140" width="62" height="34"/></g>
+      <g class="d-sa"><rect x="32" y="52" width="60" height="40"/><rect x="100" y="52" width="44" height="40"/><rect x="152" y="52" width="56" height="62"/><rect x="32" y="100" width="42" height="74"/><rect x="82" y="100" width="62" height="32"/><rect x="82" y="140" width="62" height="34"/></g>
+      <path class="d-s" d="M152 128H208M152 150H208M152 172H208"/>
+      <text x="20" y="208" class="d-td">Book €9m</text>
+      <path class="d-sd" d="M18 204.5H76"/>
+      <text x="86" y="208" class="d-ta">Market €68m</text>
+    </symbol>
+
+    <symbol id="ex-f" viewBox="0 0 240 240">
+      <rect x="40" y="16" width="170" height="160" class="d-s"/>
+      <text x="54" y="36" class="d-tm">SHAREHOLDERS’ AGREEMENT</text>
+      <g class="d-f" opacity=".32"><rect x="54" y="48" width="140" height="3"/><rect x="54" y="57" width="128" height="3"/><rect x="54" y="66" width="136" height="3"/><rect x="54" y="75" width="92" height="3"/><rect x="54" y="136" width="140" height="3"/><rect x="54" y="145" width="120" height="3"/><rect x="54" y="154" width="132" height="3"/><rect x="54" y="163" width="70" height="3"/></g>
+      <rect x="50" y="90" width="150" height="34" class="d-fa" opacity=".12"/>
+      <text x="54" y="103" class="d-ta">14.2 Change of control.</text>
+      <g class="d-fa"><rect x="54" y="110" width="138" height="3"/><rect x="54" y="118" width="96" height="3"/></g>
+      <rect x="30" y="90" width="3" height="34" class="d-fa"/>
+      <text x="40" y="200" class="d-ta">§14.2 changed the price</text>
+      <text x="40" y="215" class="d-tm">Nobody else had read it.</text>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="logo" href="#top" aria-label="Lacuna, back to the cover">Lac<span class="logo__gap" aria-hidden="true"><svg viewBox="0 0 12 10"><path d="M1 9L6 1.5 11 9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg></span>una</a>
+    <p class="nav__page">Page <b data-page-no>1</b> of 7</p>
+    <button class="nav__toc label" type="button" aria-expanded="false" aria-controls="toc">
+      <svg class="nav__toc-ico" viewBox="0 0 22 11" aria-hidden="true"><path d="M0 1.5h8M0 9.5h8" stroke="currentColor" stroke-width="1.5"/><path d="M11 1.5h1.5M14.5 1.5H16M18 1.5h1.5M21 1.5h1M11 9.5h1.5M14.5 9.5H16M18 9.5h1.5M21 9.5h1" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span class="nav__toc-txt">Contents</span>
+    </button>
+    <a class="btn btn--sm" href="#notices">Submit a situation</a>
+  </div>
+</header>
+
+<div class="toc" id="toc" role="dialog" aria-modal="true" aria-label="Contents" aria-hidden="true">
+  <div class="wrap">
+    <div class="toc__top">
+      <span class="label">Contents</span>
+      <button class="toc__close label" type="button">Close <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5"/></svg></button>
+    </div>
+    <div class="toc__body">
+      <ol class="toc__list">
+        <li style="--i:0"><a href="#top" data-toc="1"><span class="toc__no">—</span><span class="toc__name">Cover</span><span class="toc__dots"></span><span class="toc__pg">1</span></a></li>
+        <li style="--i:1"><a href="#thesis" data-toc="2"><span class="toc__no">§ 1</span><span class="toc__name">Thesis</span><span class="toc__dots"></span><span class="toc__pg">2</span></a></li>
+        <li style="--i:2"><a href="#edges" data-toc="3"><span class="toc__no">§ 2</span><span class="toc__name">Where the edge lives</span><span class="toc__dots"></span><span class="toc__pg">3</span></a></li>
+        <li style="--i:3"><a href="#method" data-toc="4"><span class="toc__no">§ 3</span><span class="toc__name">Method</span><span class="toc__dots"></span><span class="toc__pg">4</span></a></li>
+        <li style="--i:4"><a href="#lab" data-toc="5"><span class="toc__no">§ 4</span><span class="toc__name">Structure lab</span><span class="toc__dots"></span><span class="toc__pg">5</span></a></li>
+        <li style="--i:5"><a href="#situations" data-toc="6"><span class="toc__no">§ 5</span><span class="toc__name">Selected situations</span><span class="toc__dots"></span><span class="toc__pg">6</span></a></li>
+        <li style="--i:6"><a href="#notices" data-toc="7"><span class="toc__no">§ 6</span><span class="toc__name">Notices</span><span class="toc__dots"></span><span class="toc__pg">7</span></a></li>
+      </ol>
+      <p class="toc__note typed">Draft for discussion. Lacuna is a fictional firm; this page is a design concept and every figure on it is illustrative.</p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+<section class="hero" id="top" data-page="1" aria-labelledby="hero-title">
+  <canvas class="hero__gl" aria-hidden="true"></canvas>
+  <div class="toy" aria-hidden="true"></div>
+  <div class="wrap hero__wrap">
+    <div class="hero__doc typed">
+      <span>DRAFT · FOR DISCUSSION PURPOSES ONLY</span>
+      <span class="hide-sm">Special situations · Private capital</span>
+      <span>v3.2 · 30.09.2026</span>
+    </div>
+    <h1 class="hero__title" id="hero-title" aria-label="Complexity is the discount.">
+      <span class="hl hl--1" aria-hidden="true"><span class="hl__in" style="--i:0"><span class="hw">Complexity</span></span></span>
+      <span class="hl hl--2" aria-hidden="true"><span class="hl__in" style="--i:1"><span class="hw">is</span> <span class="hw">the</span> <del class="hw rl-del" data-del>risk</del></span></span>
+      <span class="hl hl--3" aria-hidden="true"><span class="hl__in" style="--i:2"><ins class="hw rl-ins" data-ins>discount</ins><span class="hw hl__stop">.</span><span class="caret"></span></span></span>
+    </h1>
+    <aside class="comment hero__comment" aria-label="Comment from the Investment Committee">
+      <p class="comment__head"><span class="comment__av" aria-hidden="true">IC</span><span class="comment__who">Investment Committee</span><span class="comment__when">30 Sep</span></p>
+      <p>Change accepted. Complexity keeps other buyers away, and that is where the discount comes from.</p>
+    </aside>
+    <div class="hero__foot">
+      <p class="hero__lede">Lacuna is a special-situations principal. We buy businesses the market finds too complicated to price, then structure each deal so the downside is bounded and the upside is not.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#notices">Submit a situation <svg class="btn__arr" viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+        <a class="link" href="#method">How we underwrite</a>
+      </div>
+    </div>
+    <p class="hero__fig typed">Fig. 1 · Deal toy, Special Situations Fund III, final close. Acrylic. Move the cursor to turn it.</p>
+  </div>
+</section>
+
+<div class="defs" role="region" aria-label="Defined terms">
+  <div class="defs__track" data-marquee>
+    <p class="defs__item"><b>“Succession”</b> means a founder with no heir and no plan<i>;</i></p>
+    <p class="defs__item"><b>“Time pressure”</b> means a deadline that does the negotiating<i>;</i></p>
+    <p class="defs__item"><b>“Fragmentation”</b> means eleven owners where one would be worth more<i>;</i></p>
+    <p class="defs__item"><b>“Capital structure”</b> means a good business under the wrong balance sheet<i>;</i></p>
+    <p class="defs__item"><b>“Idle asset”</b> means property carried at cost and ignored at value<i>;</i></p>
+    <p class="defs__item"><b>“Contract”</b> means a right that nobody has read<i>.</i></p>
+  </div>
+</div>
+
+<section class="sec thesis" id="thesis" data-page="2" aria-labelledby="thesis-title">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="clause">§ 1</span>
+      <h2 class="thesis__label label" id="thesis-title">Thesis</h2>
+    </header>
+    <div class="grid">
+      <p class="manifesto" data-scrub>Every mispricing has a reason. A founder with no successor. A lender out of patience. An asset nobody has valued in twenty years. We find the reason, price it, and <del class="rl-del">wait</del> <ins class="rl-ins">write</ins> the terms that close the gap.</p>
+      <aside class="comment thesis__comment" aria-label="Comment from the Investment Committee">
+        <p class="comment__head"><span class="comment__av" aria-hidden="true">IC</span><span class="comment__who">Investment Committee</span></p>
+        <p>If we can’t answer 1.2, we don’t have an edge. We have an opinion.</p>
+      </aside>
+      <ol class="tests">
+        <li data-reveal style="--d:0"><span class="tests__no">1.1</span><h3>What is mispriced?</h3><p>The asset, cash flow or right the market is valuing wrong, and by how much.</p></li>
+        <li data-reveal style="--d:90"><span class="tests__no">1.2</span><h3>Why does the gap persist?</h3><p>Complexity, time pressure, stigma or scale. If we can’t name the friction, there is no edge.</p></li>
+        <li data-reveal style="--d:180"><span class="tests__no">1.3</span><h3>What closes it?</h3><p>A catalyst with a date on it: a refinancing, a retirement, a consolidation, a contract renewal.</p></li>
+        <li data-reveal style="--d:270"><span class="tests__no">1.4</span><h3>Why us?</h3><p>Speed, certainty and structure. We can say yes where other buyers can only say “subject to”.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec edges" id="edges" data-page="3" aria-labelledby="edges-title">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="clause">§ 2</span>
+      <h2 class="sec__title" id="edges-title" data-reveal>Where the edge lives</h2>
+      <p class="sec__intro" data-reveal style="--d:120">Six frictions keep good businesses mispriced. Each one has a structure that resolves it.</p>
+    </header>
+    <ol class="edges__list">
+      <li class="edge" data-exhibit="a" data-cap="Two heirs, neither in the business. The gap is the successor.">
+        <span class="edge__no">(a)</span>
+        <h3 class="edge__name">Succession</h3>
+        <p class="edge__desc">Founder-led businesses with no heir and no plan. We buy time as much as equity.</p>
+        <p class="edge__tag label">Vendor note · Rollover</p>
+      </li>
+      <li class="edge" data-exhibit="b" data-cap="Eighteen of twenty-one days gone. Certainty is worth more than price.">
+        <span class="edge__no">(b)</span>
+        <h3 class="edge__name">Time pressure</h3>
+        <p class="edge__desc">Deadlines compress price. We underwrite in weeks and close without a financing condition.</p>
+        <p class="edge__tag label">Certain funds</p>
+      </li>
+      <li class="edge" data-exhibit="c" data-cap="Same cash flows, different multiple. Scale is the catalyst.">
+        <span class="edge__no">(c)</span>
+        <h3 class="edge__name">Fragmentation</h3>
+        <p class="edge__desc">Eleven operators trade at 4–5×. One platform trades at 9×. The spread pays for the work.</p>
+        <p class="edge__tag label">Buy-and-build</p>
+      </li>
+      <li class="edge" data-exhibit="d" data-cap="Senior loan bought at 61c, converted into all of the equity.">
+        <span class="edge__no">(d)</span>
+        <h3 class="edge__name">Capital structure</h3>
+        <p class="edge__desc">Good businesses under the wrong balance sheet. We buy the debt and own the outcome.</p>
+        <p class="edge__tag label">Credit-to-own · Recap</p>
+      </li>
+      <li class="edge" data-exhibit="e" data-cap="Six sites at a book value of €9m. Market value €68m.">
+        <span class="edge__no">(e)</span>
+        <h3 class="edge__name">Idle assets</h3>
+        <p class="edge__desc">Property, IP and licences carried at cost and ignored at value.</p>
+        <p class="edge__tag label">Sale-leaseback · Carve-out</p>
+      </li>
+      <li class="edge" data-exhibit="f" data-cap="One clause in a shareholders’ agreement moved the price by a fifth.">
+        <span class="edge__no">(f)</span>
+        <h3 class="edge__name">Contracts</h3>
+        <p class="edge__desc">Options, consents and change-of-control clauses that nobody has read.</p>
+        <p class="edge__tag label">Options · Earn-outs</p>
+      </li>
+    </ol>
+  </div>
+  <div class="exhibit" aria-hidden="true">
+    <div class="exhibit__head typed"><span>Exhibit 2(<b data-ex-no>a</b>)</span><span>Illustrative</span></div>
+    <div class="exhibit__stage">
+      <svg class="dg" data-ex="a" viewBox="0 0 240 240"><use href="#ex-a"/></svg>
+      <svg class="dg" data-ex="b" viewBox="0 0 240 240"><use href="#ex-b"/></svg>
+      <svg class="dg" data-ex="c" viewBox="0 0 240 240"><use href="#ex-c"/></svg>
+      <svg class="dg" data-ex="d" viewBox="0 0 240 240"><use href="#ex-d"/></svg>
+      <svg class="dg" data-ex="e" viewBox="0 0 240 240"><use href="#ex-e"/></svg>
+      <svg class="dg" data-ex="f" viewBox="0 0 240 240"><use href="#ex-f"/></svg>
+    </div>
+    <p class="exhibit__cap typed" data-ex-cap></p>
+  </div>
+</section>
+
+<section class="sec method scheme-dark" id="method" data-page="4" aria-labelledby="method-title">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="clause">§ 3</span>
+      <h2 class="sec__title" id="method-title" data-reveal>Asymmetry, engineered.</h2>
+      <p class="sec__intro" data-reveal style="--d:120">Five steps, always in this order. Any one of them can kill a deal, and that is the point.</p>
+    </header>
+    <div class="method__body">
+      <div class="plates" aria-hidden="true">
+        <div class="plates__frame">
+          <div class="plates__head typed"><span>Plate <b data-plate-no>3.1</b></span><span data-plate-title>The situation, taken apart</span></div>
+          <div class="plates__stage">
+            <svg class="dg plate is-active" data-plate="1" viewBox="0 0 560 440">
+              <g class="pl-tile" style="--dx:-12px;--dy:-24px"><rect x="134" y="74" width="192" height="92" class="d-s"/><text x="148" y="98">Assets</text><text x="148" y="114" class="d-tm">Property, plant, IP</text></g>
+              <g class="pl-tile" style="--dx:24px;--dy:-12px"><rect x="334" y="74" width="92" height="192" class="d-s"/><text x="348" y="98">Cash flows</text><text x="348" y="114" class="d-tm">FCF after</text><text x="348" y="128" class="d-tm">capex</text></g>
+              <g class="pl-tile" style="--dx:-24px;--dy:0px"><rect x="134" y="174" width="92" height="92" class="d-s"/><text x="148" y="198">Liabilities</text><text x="148" y="214" class="d-tm">Debt,</text><text x="148" y="228" class="d-tm">guarantees</text></g>
+              <g class="pl-tile" style="--dx:0px;--dy:0px"><rect x="234" y="174" width="92" height="92" class="d-sa"/><text x="248" y="198" class="d-ta">Rights</text><text x="248" y="214" class="d-tm">Options,</text><text x="248" y="228" class="d-tm">consents</text></g>
+              <g class="pl-tile" style="--dx:-24px;--dy:24px"><rect x="134" y="274" width="92" height="92" class="d-s"/><text x="148" y="298">Control</text><text x="148" y="314" class="d-tm">Board,</text><text x="148" y="328" class="d-tm">vetoes</text></g>
+              <g class="pl-tile" style="--dx:0px;--dy:24px"><rect x="234" y="274" width="92" height="92" class="d-s"/><text x="248" y="298">Time</text><text x="248" y="314" class="d-tm">Maturities,</text><text x="248" y="328" class="d-tm">deadlines</text></g>
+              <g class="pl-tile" style="--dx:24px;--dy:24px"><rect x="334" y="274" width="92" height="92" class="d-s"/><text x="348" y="298">Incentives</text><text x="348" y="314" class="d-tm">Who wants</text><text x="348" y="328" class="d-tm">what, when</text></g>
+              <text x="280" y="414" text-anchor="middle" class="d-tm">Seven parts. No price until all seven are mapped.</text>
+            </svg>
+            <svg class="dg plate" data-plate="2" viewBox="0 0 560 440">
+              <text x="70" y="52" class="d-tm">EBITDA BRIDGE · FY25 · €m</text>
+              <path class="d-sm" d="M70 92H530M70 164H530M70 236H530M70 308H530"/>
+              <path class="d-s" d="M70 380H530"/>
+              <g class="d-tm" text-anchor="end"><text x="60" y="384">0</text><text x="60" y="312">4</text><text x="60" y="240">8</text><text x="60" y="168">12</text><text x="60" y="96">16</text></g>
+              <path class="d-sm d-dash" d="M142 124.4H160M216 140.6H234M290 129.8H308M364 149.6H382M438 156.8H456"/>
+              <rect class="pl-bar d-f" style="--i:0" x="86" y="124.4" width="56" height="255.6"/>
+              <rect class="pl-bar d-fd" style="--i:1;--o:0%" x="160" y="124.4" width="56" height="16.2"/>
+              <rect class="pl-bar d-fa" style="--i:2" x="234" y="129.8" width="56" height="10.8"/>
+              <rect class="pl-bar d-fd" style="--i:3;--o:0%" x="308" y="129.8" width="56" height="19.8"/>
+              <rect class="pl-bar d-fd" style="--i:4;--o:0%" x="382" y="149.6" width="56" height="7.2"/>
+              <rect class="pl-bar d-fa" style="--i:5" x="456" y="156.8" width="56" height="223.2"/>
+              <g text-anchor="middle">
+                <text class="pl-fade" style="--i:0" x="114" y="114">14.2</text>
+                <text class="pl-fade d-td" style="--i:1" x="188" y="114">−0.9</text>
+                <text class="pl-fade d-ta" style="--i:2" x="262" y="119">+0.6</text>
+                <text class="pl-fade d-td" style="--i:3" x="336" y="119">−1.1</text>
+                <text class="pl-fade d-td" style="--i:4" x="410" y="139">−0.4</text>
+                <text class="pl-fade d-ta" style="--i:5" x="484" y="146">12.4</text>
+              </g>
+              <g text-anchor="middle" class="d-tm">
+                <text x="114" y="400">Reported</text>
+                <text x="188" y="400">Owner pay</text><text x="188" y="414">to market</text>
+                <text x="262" y="400">One-off</text><text x="262" y="414">legal</text>
+                <text x="336" y="400">Capitalised</text><text x="336" y="414">dev.</text>
+                <text x="410" y="400">Related-</text><text x="410" y="414">party rent</text>
+                <text x="484" y="400">Normalised</text>
+              </g>
+            </svg>
+            <svg class="dg plate" data-plate="3" viewBox="0 0 560 440">
+              <rect x="262" y="28" width="124" height="50" class="d-s"/><text x="324" y="50" text-anchor="middle">Lacuna fund</text><text x="324" y="66" text-anchor="middle" class="d-tm">Equity</text>
+              <rect x="412" y="28" width="124" height="50" class="d-s"/><text x="474" y="50" text-anchor="middle">Senior lender</text><text x="474" y="66" text-anchor="middle" class="d-tm">2.5× EBITDA</text>
+              <rect x="24" y="176" width="112" height="104" class="d-s"/><text x="80" y="222" text-anchor="middle">Seller</text><text x="80" y="238" text-anchor="middle" class="d-tm">Founder</text>
+              <rect x="330" y="176" width="130" height="104" class="d-sa"/><text x="395" y="222" text-anchor="middle" class="d-ta">HoldCo</text><text x="395" y="238" text-anchor="middle" class="d-tm">Lacuna SPV</text>
+              <rect x="330" y="346" width="130" height="50" class="d-s"/><text x="395" y="368" text-anchor="middle">Target</text><text x="395" y="384" text-anchor="middle" class="d-tm">€10.0m EBITDA</text>
+              <path class="d-s pl-draw" style="--i:0" pathLength="1" d="M324 78C324 130 360 124 360 174"/>
+              <path class="d-s pl-draw" style="--i:1" pathLength="1" d="M474 78C474 130 430 124 430 174"/>
+              <path class="d-s pl-fade" style="--i:2" d="M355 167L360 175 365 167M425 167L430 175 435 167"/>
+              <text x="330" y="132" text-anchor="end" class="pl-fade" style="--i:1">€17.0m equity</text>
+              <text x="464" y="132" class="pl-fade" style="--i:2">€25.0m senior</text>
+              <path class="d-s pl-draw" style="--i:3" pathLength="1" d="M330 196H141"/>
+              <path class="d-s pl-fade" style="--i:3" d="M149 191L141 196 149 201"/>
+              <text x="235" y="189" text-anchor="middle" class="pl-fade" style="--i:3">€42.0m cash at close</text>
+              <path class="d-sa d-dash pl-fade" style="--i:4" d="M330 228H141"/>
+              <path class="d-sa pl-fade" style="--i:4" d="M149 223L141 228 149 233"/>
+              <text x="235" y="221" text-anchor="middle" class="d-ta pl-fade" style="--i:4">€9.0m vendor note, 5% PIK</text>
+              <path class="d-sd pl-fade" style="--i:5;stroke-dasharray:1 4;stroke-linecap:round" d="M330 260H141"/>
+              <path class="d-sd pl-fade" style="--i:5" d="M149 255L141 260 149 265"/>
+              <text x="235" y="253" text-anchor="middle" class="d-td pl-fade" style="--i:5">€9.0m earn-out, contingent</text>
+              <path class="d-s pl-draw" style="--i:6" pathLength="1" d="M395 280V343"/>
+              <path class="d-s pl-fade" style="--i:6" d="M390 336L395 344 400 336"/>
+              <text x="405" y="316" class="d-tm pl-fade" style="--i:6">100% of shares</text>
+              <text x="24" y="424" class="d-tm">€60.0m headline = 42.0 cash + 9.0 deferred + 9.0 contingent</text>
+            </svg>
+            <svg class="dg plate" data-plate="4" viewBox="0 0 560 440">
+              <text x="70" y="52" class="d-tm">EBITDA · €m · FY25–FY30</text>
+              <path class="d-sm" d="M70 122.9H510M70 208.6H510M70 294.3H510"/>
+              <path class="d-s" d="M70 380H510M70 80V380"/>
+              <g class="d-tm" text-anchor="end"><text x="60" y="384">6</text><text x="60" y="298">10</text><text x="60" y="213">14</text><text x="60" y="127">18</text></g>
+              <g class="d-tm" text-anchor="middle"><text x="70" y="400">FY25</text><text x="156" y="400">FY26</text><text x="242" y="400">FY27</text><text x="328" y="400">FY28</text><text x="414" y="400">FY29</text><text x="500" y="400">FY30</text></g>
+              <path class="d-sm d-dash" d="M70 221.8H510"/>
+              <text x="78" y="214" class="d-tm">Earn-out trigger €13.4m</text>
+              <path class="d-sd pl-draw pl-thick" style="--i:0" pathLength="1" d="M70 294.3L156 302.9 242 311.1 328 319 414 326.6 500 333.8"/>
+              <path class="d-s pl-draw pl-thick" style="--i:1" pathLength="1" d="M70 294.3L156 281.4 242 267.8 328 253.4 414 238 500 221.8"/>
+              <path class="d-sa pl-draw pl-thick" style="--i:2" pathLength="1" d="M70 294.3L156 264.3 242 230.1 328 191.1 414 146.7 500 96"/>
+              <circle cx="70" cy="294.3" r="4" class="d-f"/>
+              <circle cx="500" cy="333.8" r="4" class="d-fd pl-fade" style="--i:6"/>
+              <circle cx="500" cy="221.8" r="4" class="d-f pl-fade" style="--i:7"/>
+              <circle cx="500" cy="96" r="4" class="d-fa pl-fade" style="--i:8"/>
+              <text x="492" y="82" text-anchor="end" class="d-ta pl-fade" style="--i:8">Upside · 5.42×</text>
+              <text x="492" y="260" text-anchor="end" class="pl-fade" style="--i:7">Base · 2.78×</text>
+              <text x="492" y="356" text-anchor="end" class="d-td pl-fade" style="--i:6">Downside · 0.99×</text>
+              <text x="70" y="426" class="d-tm">Walk away if the downside returns less than 0.9×.</text>
+            </svg>
+            <svg class="dg plate" data-plate="5" viewBox="0 0 560 440">
+              <text x="20" y="44" class="d-tm">LOI TO CLOSE · DAYS</text>
+              <path class="d-sm" d="M170 64V330M265 64V330M360 64V330M455 64V330M531 64V330"/>
+              <path class="d-s" d="M170 330H540M170 330v6M265 330v6M360 330v6M455 330v6M531 330v6"/>
+              <g class="d-tm" text-anchor="middle"><text x="170" y="352">D0</text><text x="265" y="352">D10</text><text x="360" y="352">D20</text><text x="455" y="352">D30</text></g>
+              <text x="531" y="352" text-anchor="middle" class="d-ta">D38</text>
+              <g class="d-tm"><text x="20" y="88">LOI signed</text><text x="20" y="132">Confirmatory diligence</text><text x="20" y="176">Financing</text><text x="20" y="220">SPA negotiation</text><text x="20" y="264">Signing</text></g>
+              <text x="20" y="308" class="d-ta">Close</text>
+              <path class="d-f pl-fade" style="--i:0" d="M170 76L178 84 170 92 162 84Z"/>
+              <rect class="d-f pl-gantt" style="--i:1" x="198.5" y="121" width="199.5" height="14"/>
+              <rect class="d-s pl-gantt" style="--i:2" x="246" y="165" width="190" height="14"/>
+              <rect class="d-f pl-gantt" style="--i:3" x="265" y="209" width="190" height="14"/>
+              <path class="d-f pl-fade" style="--i:5" d="M455 252L463 260 455 268 447 260Z"/>
+              <path class="d-fa pl-fade" style="--i:7" d="M531 296L539 304 531 312 523 304Z"/>
+              <g class="pl-head"><path class="d-sa" d="M170 64V330"/><path class="d-fa" d="M165 60h10l-5 7z"/></g>
+              <text x="20" y="410" class="d-tm">Median, LOI to close: 38 days. Fastest: 21.</text>
+            </svg>
+          </div>
+          <div class="plates__foot typed"><span>Illustrative</span><span><b data-plate-idx>1</b> / 5</span></div>
+        </div>
+      </div>
+      <ol class="steps">
+        <li class="step is-active" data-step="1" data-title="The situation, taken apart">
+          <span class="step__no">3.1</span>
+          <h3>Deconstruct</h3>
+          <p>Assets, cash flows, liabilities, rights, control, time and incentives. We take the situation apart to first principles before anyone puts a number on it.</p>
+          <p class="step__out"><span class="label">Output</span>A map of who owns, controls, funds and gets paid, and when.</p>
+        </li>
+        <li class="step" data-step="2" data-title="Normalised EBITDA bridge">
+          <span class="step__no">3.2</span>
+          <h3>Forensics</h3>
+          <p>Reported EBITDA is a claim. We rebuild it line by line: owner pay, one-offs, capitalised costs, related parties, receivables that will never be collected. Every finding moves the price or the protection.</p>
+          <p class="step__out"><span class="label">Output</span>Normalised EBITDA, and cash flow after tax, capex and working capital.</p>
+        </li>
+        <li class="step" data-step="3" data-title="Who pays whom, from what, and when">
+          <span class="step__no">3.3</span>
+          <h3>Structure</h3>
+          <p>We separate ownership, control, financing and payment across time. Vendor notes, earn-outs, options and rollover give both sides a reason to say yes.</p>
+          <p class="step__out"><span class="label">Output</span>Sources and uses, and a reason for every party to sign.</p>
+        </li>
+        <li class="step" data-step="4" data-title="Three cases, one walk-away rule">
+          <span class="step__no">3.4</span>
+          <h3>Underwrite</h3>
+          <p>Downside, base and upside. We name the weakest assumption and fix the walk-away price before the first term sheet goes out.</p>
+          <p class="step__out"><span class="label">Output</span>The highest price we can justify, and the price we won’t pay.</p>
+        </li>
+        <li class="step" data-step="5" data-title="LOI to close, in days">
+          <span class="step__no">3.5</span>
+          <h3>Execute</h3>
+          <p>Certain funds, minimum liquidity, covenants and a dated path to close. A thesis is only worth what the closing is worth.</p>
+          <p class="step__out"><span class="label">Output</span>A signed SPA, funded, on the date we said.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec lab" id="lab" data-page="5" aria-labelledby="lab-title">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="clause">§ 4</span>
+      <h2 class="sec__title" id="lab-title" data-reveal>Price is what you pay. Structure is what you keep.</h2>
+      <p class="sec__intro" data-reveal style="--d:120">Same business, same headline price. Move the terms and watch where the risk lands.</p>
+    </header>
+    <div class="lab__doc">
+      <form class="sheet ts" id="lab-form" aria-label="Indicative term sheet">
+        <div class="sheet__head"><span class="label">Indicative term sheet</span><span class="typed">Project Atlas · Subject to contract</span></div>
+        <dl>
+          <div class="ts__row"><dt class="label">Target</dt><dd>Precision components group, Central Europe</dd></div>
+          <div class="ts__row"><dt class="label">EBITDA</dt><dd>€10.0m, FY25, normalised</dd></div>
+          <div class="ts__row">
+            <dt class="label"><label for="in-mult">Headline price</label></dt>
+            <dd class="ts__val"><output data-o="ev" for="in-mult">€60.0m</output><span class="ts__sub" data-o="mult">6.0× EBITDA</span>
+              <input type="range" id="in-mult" name="mult" min="4" max="9" step="0.1" value="6"></dd>
+          </div>
+          <div class="ts__row">
+            <dt class="label"><label for="in-lev">Senior debt</label></dt>
+            <dd class="ts__val"><output data-o="debt" for="in-lev">€25.0m</output><span class="ts__sub" data-o="lev">2.5× EBITDA</span>
+              <input type="range" id="in-lev" name="lev" min="0" max="4" step="0.1" value="2.5"></dd>
+          </div>
+          <div class="ts__row">
+            <dt class="label"><label for="in-vn">Vendor note</label></dt>
+            <dd class="ts__val"><output data-o="vn" for="in-vn">€9.0m</output><span class="ts__sub" data-o="vnp">15% of price · 5% PIK · repaid at exit</span>
+              <input type="range" id="in-vn" name="vn" min="0" max="30" step="1" value="15"></dd>
+          </div>
+          <div class="ts__row">
+            <dt class="label"><label for="in-eo">Earn-out</label></dt>
+            <dd class="ts__val"><output data-o="eo" for="in-eo">€9.0m</output><span class="ts__sub" data-o="eop">15% of price · paid if FY30 EBITDA ≥ €13.4m</span>
+              <input type="range" id="in-eo" name="eo" min="0" max="30" step="1" value="15"></dd>
+          </div>
+          <div class="ts__row ts__row--calc"><dt class="label">Cash at close</dt><dd data-o="cash">€42.0m · 70% of price</dd></div>
+          <div class="ts__row ts__row--calc"><dt class="label">Lacuna equity</dt><dd data-o="eq">€17.0m · 28% of price</dd></div>
+        </dl>
+        <div class="stack" aria-hidden="true">
+          <div class="stack__bar"><i class="seg-debt" data-seg="debt" style="--w:.4167"></i><i class="seg-eq" data-seg="eq" style="--w:.2833"></i><i class="seg-vn" data-seg="vn" style="--w:.15"></i><i class="seg-eo" data-seg="eo" style="--w:.15"></i></div>
+          <ul class="stack__legend">
+            <li><i class="sw seg-debt"></i>Senior debt<b data-o="l-debt">€25.0m</b></li>
+            <li><i class="sw seg-eq"></i>Lacuna equity<b data-o="l-eq">€17.0m</b></li>
+            <li><i class="sw seg-vn"></i>Vendor note<b data-o="l-vn">€9.0m</b></li>
+            <li><i class="sw seg-eo"></i>Earn-out<b data-o="l-eo">€9.0m</b></li>
+          </ul>
+        </div>
+        <p class="lab__warn" role="alert">Not financeable: Lacuna equity would be below 15% of the price. Lower the senior debt or the deferred consideration.</p>
+      </form>
+      <div class="sheet ret">
+        <div class="sheet__head"><span class="label">Annex A · Returns analysis</span><span class="typed">5-year hold · gross · €m</span></div>
+        <table>
+          <thead><tr><th scope="col" class="label">Case</th><th scope="col" class="label">Structured</th><th scope="col" class="label">All cash</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Downside<small>EBITDA −4% a year, exit multiple −1.0×</small></th>
+              <td class="is-s" data-label="Structured"><span class="mo" data-o="s-down-m">0.99×</span><span class="sub" data-o="s-down-i">−0.3% IRR · −€0.2m</span></td>
+              <td data-label="All cash"><span class="mo" data-o="a-down-m">0.81×</span><span class="sub" data-o="a-down-i">−4.2% IRR · −€6.7m</span></td></tr>
+            <tr><th scope="row">Base<small>EBITDA +6% a year, same multiple</small></th>
+              <td class="is-s" data-label="Structured"><span class="mo" data-o="s-base-m">2.78×</span><span class="sub" data-o="s-base-i">22.7% IRR · +€30.3m</span></td>
+              <td data-label="All cash"><span class="mo" data-o="a-base-m">1.94×</span><span class="sub" data-o="a-base-i">14.1% IRR · +€32.8m</span></td></tr>
+            <tr><th scope="row">Upside<small>EBITDA +14% a year, exit multiple +0.5×</small></th>
+              <td class="is-s" data-label="Structured"><span class="mo" data-o="s-up-m">5.42×</span><span class="sub" data-o="s-up-i">40.2% IRR · +€75.2m</span></td>
+              <td data-label="All cash"><span class="mo" data-o="a-up-m">3.22×</span><span class="sub" data-o="a-up-i">26.3% IRR · +€77.7m</span></td></tr>
+          </tbody>
+        </table>
+        <div class="bars" aria-hidden="true">
+          <div class="bars__labels label"><span>Downside</span><span>Base</span><span>Upside</span></div>
+          <div class="bars__plot">
+            <div class="bars__row"><i class="bars__s" data-bar="s-down" style="--w:.1645"></i><i class="bars__a" data-bar="a-down" style="--w:.1347"></i></div>
+            <div class="bars__row"><i class="bars__s" data-bar="s-base" style="--w:.4638"></i><i class="bars__a" data-bar="a-base" style="--w:.3228"></i></div>
+            <div class="bars__row"><i class="bars__s" data-bar="s-up" style="--w:.9035"></i><i class="bars__a" data-bar="a-up" style="--w:.5365"></i></div>
+            <div class="bars__one" style="--one:.1667"><span>1.0× money back</span></div>
+            <div class="bars__ticks" data-ticks><span style="left:0%">0×</span><span style="left:33.33%">2×</span><span style="left:66.67%">4×</span><span style="left:100%">6×</span></div>
+          </div>
+        </div>
+        <p class="bars__legend"><span><i class="bars__s"></i>Structured</span><span><i class="bars__a"></i>All cash, same senior debt</span><span>Gross MOIC</span></p>
+        <p class="ret__verdict" data-o="verdict" aria-live="polite">On a <b>€17.0m</b> cheque the structured deal returns <b>0.99×</b> in the downside and <b>5.42×</b> in the upside. All cash needs <b>€35.0m</b> and returns <b>0.81×</b> and <b>3.22×</b>.</p>
+      </div>
+    </div>
+    <p class="lab__note typed">Illustrative model, not an offer. €10.0m normalised EBITDA and a five-year hold. Half of the senior debt is repaid by exit. The vendor note accrues 5% PIK and is repaid at exit. The earn-out is paid at exit only if FY30 EBITDA reaches the base case of €13.4m. Excludes fees, tax and interim cash flows.</p>
+  </div>
+</section>
+
+<section class="situations" id="situations" data-page="6" aria-labelledby="sit-title">
+  <div class="sit__pin">
+    <div class="wrap sit__head">
+      <span class="clause">§ 5</span>
+      <h2 class="sec__title" id="sit-title">Selected situations</h2>
+      <div class="sit__meta">
+        <p class="sit__count"><span data-sit-idx>01</span> / 05 · on file: 41</p>
+        <span class="sit__bar"><i></i></span>
+      </div>
+    </div>
+    <div class="sit__viewport" data-native-scroll>
+      <ol class="sit__track">
+        <li class="tomb">
+          <article class="tomb__ad" aria-label="Tombstone, precision machining group">
+            <p class="tomb__notice">This announcement appears as a matter of record only.</p>
+            <svg class="dg tomb__art" viewBox="0 0 240 240" aria-hidden="true"><use href="#ex-a"/></svg>
+            <p class="tomb__amount">€84,000,000</p>
+            <p class="tomb__what">Enterprise value</p>
+            <p class="tomb__co">Precision machining group</p>
+            <p class="tomb__place">Central Europe</p>
+            <p class="tomb__verb">has been acquired by</p>
+            <p class="tomb__buyer">Lacuna Special Situations Fund II</p>
+            <p class="tomb__date">March 2017</p>
+          </article>
+          <div class="tomb__file">
+            <p class="tomb__case typed"><span>Case 01</span><span>Edge 2(a) · Succession</span></p>
+            <h3 class="tomb__title">The successor problem</h3>
+            <p class="tomb__lede">The founder wanted out without selling to a competitor, and without a bank setting the price.</p>
+            <dl>
+              <div><dt class="label">Edge</dt><dd>Founder aged 63, no successor, two failed auctions.</dd></div>
+              <div><dt class="label">Structure</dt><dd>65% cash at close, 20% vendor note, 15% earn-out. The founder rolled 12% into the new holding.</dd></div>
+              <div class="tomb__out"><dt class="label">Outcome</dt><dd><b>3.4×</b> MOIC · <b>30%</b> IRR · 4.6 years</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="tomb">
+          <article class="tomb__ad" aria-label="Tombstone, regional building services platform">
+            <p class="tomb__notice">This announcement appears as a matter of record only.</p>
+            <svg class="dg tomb__art" viewBox="0 0 240 240" aria-hidden="true"><use href="#ex-c"/></svg>
+            <p class="tomb__amount">€212,000,000</p>
+            <p class="tomb__what">Aggregate consideration</p>
+            <p class="tomb__co">Building services platform</p>
+            <p class="tomb__place">Germany, Austria, Switzerland</p>
+            <p class="tomb__verb">has been formed from eleven acquisitions by</p>
+            <p class="tomb__buyer">Lacuna Special Situations Fund II</p>
+            <p class="tomb__date">2019 – 2021</p>
+          </article>
+          <div class="tomb__file">
+            <p class="tomb__case typed"><span>Case 02</span><span>Edge 2(c) · Fragmentation</span></p>
+            <h3 class="tomb__title">Eleven into one</h3>
+            <p class="tomb__lede">Eleven family owners with the same problem: nobody to sell to at a fair multiple.</p>
+            <dl>
+              <div><dt class="label">Edge</dt><dd>Sub-scale regional operators trading at 4–5× EBITDA.</dd></div>
+              <div><dt class="label">Structure</dt><dd>A platform plus ten bolt-ons. Sellers rolled equity into the holding and stayed on as regional heads.</dd></div>
+              <div class="tomb__out"><dt class="label">Outcome</dt><dd><b>4.1×</b> MOIC · <b>33%</b> IRR · 4.9 years</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="tomb">
+          <article class="tomb__ad" aria-label="Tombstone, specialty chemicals producer">
+            <p class="tomb__notice">This announcement appears as a matter of record only.</p>
+            <svg class="dg tomb__art" viewBox="0 0 240 240" aria-hidden="true"><use href="#ex-d"/></svg>
+            <p class="tomb__amount">€146,000,000</p>
+            <p class="tomb__what">Senior secured term loan</p>
+            <p class="tomb__co">Specialty chemicals producer</p>
+            <p class="tomb__place">Nordics</p>
+            <p class="tomb__verb">has been recapitalised by</p>
+            <p class="tomb__buyer">Lacuna Special Situations Fund II</p>
+            <p class="tomb__date">June 2020</p>
+          </article>
+          <div class="tomb__file">
+            <p class="tomb__case typed"><span>Case 03</span><span>Edge 2(d) · Capital structure</span></p>
+            <h3 class="tomb__title">The wrong balance sheet</h3>
+            <p class="tomb__lede">The lenders wanted out. The business only needed a balance sheet it could carry.</p>
+            <dl>
+              <div><dt class="label">Edge</dt><dd>Senior loan trading at 61c during a covenant breach. The business itself was sound.</dd></div>
+              <div><dt class="label">Structure</dt><dd>Bought the loan, then converted it into 100% of the equity in a consensual recap.</dd></div>
+              <div class="tomb__out"><dt class="label">Outcome</dt><dd><b>2.6×</b> MOIC · <b>31%</b> IRR · 3.5 years</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="tomb">
+          <article class="tomb__ad" aria-label="Tombstone, cold-chain logistics group">
+            <p class="tomb__notice">This announcement appears as a matter of record only.</p>
+            <svg class="dg tomb__art" viewBox="0 0 240 240" aria-hidden="true"><use href="#ex-e"/></svg>
+            <p class="tomb__amount">€118,000,000</p>
+            <p class="tomb__what">Enterprise value</p>
+            <p class="tomb__co">Cold-chain logistics group</p>
+            <p class="tomb__place">Benelux</p>
+            <p class="tomb__verb">has been acquired by</p>
+            <p class="tomb__buyer">Lacuna Special Situations Fund II</p>
+            <p class="tomb__date">April 2021</p>
+          </article>
+          <div class="tomb__file">
+            <p class="tomb__case typed"><span>Case 04</span><span>Edge 2(e) · Idle assets</span></p>
+            <h3 class="tomb__title">Hidden in the ledger</h3>
+            <p class="tomb__lede">Six warehouses sat on the books at 1998 cost. Nobody had priced them since.</p>
+            <dl>
+              <div><dt class="label">Edge</dt><dd>Six owned warehouses carried at 1998 cost of €9m.</dd></div>
+              <div><dt class="label">Structure</dt><dd>Acquisition plus a €68m sale-leaseback, which funded 58% of the price.</dd></div>
+              <div class="tomb__out"><dt class="label">Outcome</dt><dd><b>3.0×</b> MOIC · <b>41%</b> IRR · 3.2 years</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="tomb">
+          <article class="tomb__ad" aria-label="Tombstone, aerospace components manufacturer">
+            <p class="tomb__notice">This announcement appears as a matter of record only.</p>
+            <svg class="dg tomb__art" viewBox="0 0 240 240" aria-hidden="true"><use href="#ex-b"/></svg>
+            <p class="tomb__amount">£57,000,000</p>
+            <p class="tomb__what">Pre-pack acquisition</p>
+            <p class="tomb__co">Aerospace components manufacturer</p>
+            <p class="tomb__place">United Kingdom</p>
+            <p class="tomb__verb">has been acquired from its administrators by</p>
+            <p class="tomb__buyer">Lacuna Special Situations Fund II</p>
+            <p class="tomb__date">October 2022</p>
+          </article>
+          <div class="tomb__file">
+            <p class="tomb__case typed"><span>Case 05</span><span>Edge 2(b) · Time pressure</span></p>
+            <h3 class="tomb__title">Twenty-one days</h3>
+            <p class="tomb__lede">Three weeks, 400 jobs and one bidder able to close on certain funds.</p>
+            <dl>
+              <div><dt class="label">Edge</dt><dd>Administration with a three-week window and 400 jobs at stake.</dd></div>
+              <div><dt class="label">Structure</dt><dd>Pre-pack on certain funds, with customer prepayment agreements signed at close.</dd></div>
+              <div class="tomb__out"><dt class="label">Outcome</dt><dd><b>2.1×</b> MOIC · <b>40%</b> IRR · 2.2 years</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="tomb tomb--end">
+          <p>Thirty-six more on file. We share them under NDA.</p>
+          <a class="btn" href="#notices">Request the schedule <svg class="btn__arr" viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="record scheme-dark" data-page="6" aria-labelledby="record-title">
+  <div class="wrap">
+    <div class="record__head">
+      <h2 class="label" id="record-title">Schedule 1 · Record, 2011–2026</h2>
+      <p class="typed">Gross · realised and partly realised</p>
+    </div>
+    <dl class="record__grid">
+      <div><dt class="label">Equity deployed</dt><dd><span data-count="2.8" data-dec="1" data-pre="€">€2.8</span><span class="u">bn</span></dd></div>
+      <div><dt class="label">Situations closed</dt><dd><span data-count="41">41</span></dd></div>
+      <div><dt class="label">Gross realised MOIC</dt><dd><span data-count="2.9" data-dec="1">2.9</span><span class="u">×</span></dd></div>
+      <div><dt class="label">Median days, LOI to close</dt><dd><span data-count="38">38</span></dd></div>
+    </dl>
+    <p class="record__note typed">Illustrative figures for a fictional firm. Gross of fees and carried interest. Past performance, even imaginary, is not a guide to future returns.</p>
+  </div>
+</section>
+
+<section class="sec notices" id="notices" data-page="7" aria-labelledby="notices-title">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="clause">§ 6</span>
+      <h2 class="sec__title" id="notices-title" data-reveal>Bring us the complicated one.</h2>
+    </header>
+    <div class="notices__grid">
+      <div class="notices__clauses">
+        <p><span class="cn">6.1</span>Any situation may be sent in writing to the address below, or through Schedule 2. A principal replies within 48 hours.</p>
+        <p class="addr"><code id="addr">situations@lacuna.example</code><button class="copy label" type="button" data-copy="#addr">Copy</button></p>
+        <p><span class="cn">6.2</span>We sign your NDA before we ask for data.</p>
+        <p><span class="cn">6.3</span>Equity of €15m to €250m per situation, for control or a structured minority.</p>
+        <p><span class="cn">6.4</span>Founders, boards, lenders and advisers are all welcome. If it is time-critical, send it today.</p>
+      </div>
+      <form class="sched" id="schedule-2" novalidate aria-labelledby="sched-title">
+        <div class="sheet__head"><span class="label" id="sched-title">Schedule 2 · Situation summary</span><span class="typed">Privileged &amp; confidential</span></div>
+        <div class="sched__body">
+          <fieldset>
+            <legend class="label">Type of situation</legend>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="type" value="Succession" id="t-succession"><span>Succession</span></label>
+              <label class="chip"><input type="checkbox" name="type" value="Carve-out" id="t-carve"><span>Carve-out</span></label>
+              <label class="chip"><input type="checkbox" name="type" value="Distressed or recap" id="t-distress"><span>Distressed or recap</span></label>
+              <label class="chip"><input type="checkbox" name="type" value="Buy-and-build" id="t-bnb"><span>Buy-and-build</span></label>
+              <label class="chip"><input type="checkbox" name="type" value="Real assets" id="t-assets"><span>Real assets</span></label>
+              <label class="chip"><input type="checkbox" name="type" value="Other" id="t-other"><span>Something else</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend class="label">Equity required</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="size" value="under-15" id="s-1"><span>Under €15m</span></label>
+              <label class="chip"><input type="radio" name="size" value="15-50" id="s-2" checked><span>€15–50m</span></label>
+              <label class="chip"><input type="radio" name="size" value="50-150" id="s-3"><span>€50–150m</span></label>
+              <label class="chip"><input type="radio" name="size" value="150-250" id="s-4"><span>€150–250m</span></label>
+            </div>
+          </fieldset>
+          <div class="sched__grid">
+            <div class="field"><label class="label" for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required><span class="field__err" id="e-name"></span></div>
+            <div class="field"><label class="label" for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="field__err" id="e-email"></span></div>
+            <div class="field field--wide"><label class="label" for="f-note">The situation, in two sentences</label><textarea id="f-note" name="note" rows="3"></textarea></div>
+          </div>
+          <div class="sched__foot">
+            <button class="btn" type="submit">Send in confidence <svg class="btn__arr" viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+            <p class="sched__status typed" role="status" aria-live="polite">Nothing is shared until you send it.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot scheme-dark" aria-label="Signature and legal">
+  <div class="wrap">
+    <p class="foot__witness">In witness whereof, the parties have executed this page on the date first written above.</p>
+    <div class="sigs">
+      <div class="sig">
+        <p class="label">Signed for and on behalf of Lacuna Partners</p>
+        <div class="sig__line"><span class="sig__ink" aria-hidden="true">Lacuna</span></div>
+        <p class="sig__meta typed">Authorised signatory · 30.09.2026</p>
+      </div>
+      <div class="sig">
+        <p class="label">Signed by the counterparty</p>
+        <a class="sig__line" href="#notices" aria-label="Sign here: go to Schedule 2"><span class="sig__flag label">Sign here</span><span class="sig__caret" aria-hidden="true"></span></a>
+        <p class="sig__meta typed">You · date to be agreed</p>
+      </div>
+    </div>
+    <div class="foot__mark" aria-hidden="true">Lac<span class="foot__gap"><svg viewBox="0 0 12 10"><path d="M1 9L6 1.5 11 9" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/></svg></span>una</div>
+    <div class="foot__base typed">
+      <nav class="foot__links" aria-label="Footer">
+        <a href="#thesis">Thesis</a><a href="#edges">Edges</a><a href="#method">Method</a><a href="#lab">Lab</a><a href="#situations">Situations</a><a href="#notices">Notices</a>
+      </nav>
+      <p class="foot__clocks">Ljubljana <time data-tz="Europe/Ljubljana">--:--</time> · London <time data-tz="Europe/London">--:--</time> · New York <time data-tz="America/New_York">--:--</time></p>
+      <p class="foot__legal">Lacuna is a fictional firm and this page is a design concept. Names, cases, figures and returns are illustrative and describe no real investment or offer. © 2026</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const root = document.documentElement;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const S = { y: scrollY, lastY: scrollY, vel: 0, dt: 1 / 60, vw: innerWidth, vh: innerHeight };
+const tickers = [];
+const onResize = [];
+const io = (cb, opts) => new IntersectionObserver(cb, opts);
+const navH = () => parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 64;
+
+/* ---------- smooth wheel (native scroll stays in charge of keys, touch and scrollbar) ---------- */
+const smooth = { on: false, cur: 0, target: 0, lastSet: -1 };
+let locked = false;
+const maxScroll = () => Math.max(0, root.scrollHeight - innerHeight);
+if (!reduce && fine) {
+  addEventListener('wheel', e => {
+    if (e.ctrlKey || locked || e.defaultPrevented) return;
+    if (e.target.closest && e.target.closest('textarea, .toc')) return;
+    let dy = e.deltaY;
+    if (e.deltaMode === 1) dy *= 16; else if (e.deltaMode === 2) dy *= innerHeight;
+    if (Math.abs(e.deltaX) > Math.abs(dy)) return;
+    e.preventDefault();
+    if (!smooth.on) { smooth.cur = scrollY; smooth.target = scrollY; }
+    smooth.target = clamp(smooth.target + dy, 0, maxScroll());
+    smooth.on = true; smooth.lastSet = -1;
+  }, { passive: false });
+}
+function scrollToY(y) {
+  y = clamp(y, 0, maxScroll());
+  if (reduce) { scrollTo(0, y); return; }
+  if (!smooth.on) smooth.cur = scrollY;
+  smooth.target = y; smooth.on = true; smooth.lastSet = -1;
+}
+function smoothTick(dt) {
+  if (!smooth.on) return;
+  if (smooth.lastSet >= 0 && Math.abs(scrollY - smooth.lastSet) > 4) { smooth.on = false; return; }
+  smooth.cur = lerp(smooth.cur, smooth.target, 1 - Math.exp(-dt * 9));
+  if (Math.abs(smooth.target - smooth.cur) < 0.5) { smooth.cur = smooth.target; smooth.on = false; }
+  scrollTo(0, smooth.cur);
+  smooth.lastSet = scrollY;
+}
+
+/* ---------- nav: scrolled state, dark sections, page n of 7 ---------- */
+const nav = $('#nav');
+const pageNo = $('[data-page-no]');
+const tocLinks = $$('[data-toc]');
+let curPage = 0, navScrolled = null;
+function setPage(n) {
+  if (n === curPage) return;
+  curPage = n; pageNo.textContent = n;
+  tocLinks.forEach(a => a.setAttribute('aria-current', String(+a.dataset.toc === n)));
+}
+setPage(1);
+const pageIO = io(es => es.forEach(en => { if (en.isIntersecting) setPage(+en.target.dataset.page); }), { rootMargin: '-49% 0px -50% 0px' });
+$$('[data-page]').forEach(el => pageIO.observe(el));
+const darkOn = new Set();
+const darkIO = io(es => {
+  es.forEach(en => en.isIntersecting ? darkOn.add(en.target) : darkOn.delete(en.target));
+  nav.classList.toggle('is-dark', darkOn.size > 0);
+}, { rootMargin: '0px 0px -94% 0px' });
+$$('.scheme-dark').forEach(el => darkIO.observe(el));
+
+/* ---------- contents overlay ---------- */
+const toc = $('#toc'), tocBtn = $('.nav__toc');
+let lastFocus = null;
+function openToc() {
+  lastFocus = document.activeElement;
+  toc.classList.add('is-open'); toc.setAttribute('aria-hidden', 'false');
+  tocBtn.setAttribute('aria-expanded', 'true');
+  locked = true; smooth.on = false; root.style.overflow = 'hidden';
+  setTimeout(() => { const a = $('[aria-current="true"]', toc) || $('a', toc); if (a) a.focus({ preventScroll: true }); }, 60);
+}
+function closeToc(restore = true) {
+  if (!toc.classList.contains('is-open')) return;
+  toc.classList.remove('is-open'); toc.setAttribute('aria-hidden', 'true');
+  tocBtn.setAttribute('aria-expanded', 'false');
+  locked = false; root.style.overflow = '';
+  if (restore && lastFocus) lastFocus.focus({ preventScroll: true });
+}
+tocBtn.addEventListener('click', () => toc.classList.contains('is-open') ? closeToc() : openToc());
+$('.toc__close').addEventListener('click', () => closeToc());
+addEventListener('keydown', e => {
+  if (!toc.classList.contains('is-open')) return;
+  if (e.key === 'Escape') { closeToc(); return; }
+  if (e.key === 'Tab') {
+    const f = $$('a, button', toc), first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+/* ---------- in-page links ---------- */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href').slice(1);
+  const t = id && document.getElementById(id);
+  if (!t) return;
+  e.preventDefault();
+  closeToc(false);
+  const y = id === 'top' ? 0 : t.getBoundingClientRect().top + scrollY - (id === 'situations' ? 0 : navH());
+  scrollToY(y);
+  try { history.replaceState(null, '', '#' + id); } catch (err) {}
+  const h = t.querySelector('h1, h2');
+  if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+});
+
+/* ---------- reveal ---------- */
+const revealEls = $$('[data-reveal]');
+if (reduce) revealEls.forEach(el => el.classList.add('is-in'));
+else {
+  const rio = io(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('is-in'); rio.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(el => rio.observe(el));
+}
+
+/* ---------- thesis: words ink in as you read ---------- */
+const man = $('[data-scrub]');
+if (man && !reduce) {
+  const words = [];
+  [...man.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const s = document.createElement('span'); s.className = 'w'; s.textContent = part;
+        frag.appendChild(s); words.push(s);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1) { n.classList.add('w'); words.push(n); }
+  });
+  const del = $('.rl-del', man), delAt = words.indexOf(del);
+  if (del) del.classList.add('is-pending');
+  let vis = false, lastP = -1;
+  io(es => { vis = es[0].isIntersecting; }, { rootMargin: '15% 0px 15% 0px' }).observe(man);
+  tickers.push(() => {
+    if (!vis) return;
+    const r = man.getBoundingClientRect();
+    const start = S.vh * 0.88, end = S.vh * 0.42;
+    const p = clamp((start - r.top) / (r.height + start - end), 0, 1);
+    if (Math.abs(p - lastP) < 0.0008) return;
+    lastP = p;
+    const lit = p * (words.length + 2);
+    words.forEach((w, i) => {
+      const o = +(0.2 + 0.8 * clamp(lit - i, 0, 1)).toFixed(3);
+      if (w._o !== o) { w._o = o; w.style.setProperty('--o', o); }
+    });
+    if (del) del.classList.toggle('is-pending', lit < delAt + 1);
+  });
+}
+
+/* ---------- defined terms band ---------- */
+const band = $('[data-marquee]');
+if (band) {
+  [...band.children].forEach(it => { const c = it.cloneNode(true); c.setAttribute('aria-hidden', 'true'); band.appendChild(c); });
+  let x = 0, w = 0, vis = true;
+  const measure = () => { w = band.scrollWidth / 2; };
+  measure(); onResize.push(measure);
+  if (document.fonts) document.fonts.ready.then(measure);
+  io(es => { vis = es[0].isIntersecting; }).observe(band.parentElement);
+  tickers.push(dt => {
+    if (!vis || reduce || !w) return;
+    const dir = S.vel < -3 ? -1 : 1;
+    x -= (36 + clamp(Math.abs(S.vel) * 0.25, 0, 900)) * dt * dir;
+    if (x <= -w) x += w; else if (x > 0) x -= w;
+    band.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+  });
+}
+
+/* ---------- edges: exhibit card follows the cursor ---------- */
+const ex = $('.exhibit');
+if (ex && fine) {
+  const exNo = $('[data-ex-no]', ex), exCap = $('[data-ex-cap]', ex);
+  let tx = -600, ty = -600, x = -600, y = -600, on = false;
+  $$('.edge').forEach(row => {
+    row.addEventListener('pointerenter', e => {
+      ex.dataset.show = row.dataset.exhibit; exNo.textContent = row.dataset.exhibit; exCap.textContent = row.dataset.cap;
+      if (!on) { x = tx = e.clientX; y = ty = e.clientY; }
+      on = true; ex.classList.add('is-on');
+    });
+    row.addEventListener('pointerleave', () => { on = false; ex.classList.remove('is-on'); });
+  });
+  addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  tickers.push(dt => {
+    if (!on) return;
+    const k = 1 - Math.exp(-dt * 14), px = x;
+    x = lerp(x, tx, k); y = lerp(y, ty, k);
+    const vx = (x - px) / dt, w = ex.offsetWidth, h = ex.offsetHeight;
+    let left = x + 34;
+    if (left + w > S.vw - 12) left = x - w - 34;
+    const top = clamp(y - h * 0.55, navH() + 8, S.vh - h - 12);
+    ex.style.transform = `translate3d(${left.toFixed(1)}px,${top.toFixed(1)}px,0) rotate(${clamp(vx * 0.004, -6, 6).toFixed(2)}deg)`;
+  });
+}
+
+/* ---------- method: steps drive the plates ---------- */
+const steps = $$('.step'), plates = $$('.plate');
+const plNo = $('[data-plate-no]'), plTitle = $('[data-plate-title]'), plIdx = $('[data-plate-idx]');
+let curStep = 0;
+function setStep(n) {
+  if (n === curStep) return;
+  curStep = n;
+  steps.forEach(s => s.classList.toggle('is-active', +s.dataset.step === n));
+  plates.forEach(p => p.classList.toggle('is-active', +p.dataset.plate === n));
+  plNo.textContent = '3.' + n; plIdx.textContent = n; plTitle.textContent = steps[n - 1].dataset.title;
+}
+if (steps.length) {
+  if (reduce) { curStep = 1; }
+  else {
+    steps[0].classList.remove('is-active'); plates[0].classList.remove('is-active');
+    io((es, o) => { if (es[0].isIntersecting && curStep === 0) { setStep(1); o.disconnect(); } }, { threshold: 0.35 }).observe($('.plates__stage'));
+  }
+  const makeStepIO = () => io(es => es.forEach(en => { if (en.isIntersecting) setStep(+en.target.dataset.step); }),
+    { rootMargin: S.vw <= 900 ? '-66% 0px -33% 0px' : '-49% 0px -50% 0px' });
+  let sio = makeStepIO(); steps.forEach(s => sio.observe(s));
+  onResize.push(() => { sio.disconnect(); sio = makeStepIO(); steps.forEach(s => sio.observe(s)); });
+}
+
+/* ---------- record: count up once ---------- */
+const counters = $$('[data-count]');
+const fmtCount = (el, v) => (el.dataset.pre || '') + v.toFixed(+(el.dataset.dec || 0));
+if (!reduce) {
+  const cio = io(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    cio.unobserve(en.target);
+    const el = en.target, to = +el.dataset.count, t0 = performance.now(), fin = el._fin;
+    const step = now => {
+      const p = clamp((now - t0) / 1700, 0, 1), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = p < 1 ? fmtCount(el, to * e) : fin;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }), { threshold: 0.6 });
+  counters.forEach(el => {
+    el._fin = el.textContent;
+    if (el.getBoundingClientRect().top > innerHeight) el.textContent = fmtCount(el, 0);
+    cio.observe(el);
+  });
+}
+
+/* ---------- clocks ---------- */
+const clocks = $$('[data-tz]'), fmts = {};
+function tickClocks() {
+  const now = new Date();
+  clocks.forEach(t => {
+    const tz = t.dataset.tz;
+    if (!(tz in fmts)) { try { fmts[tz] = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: tz }); } catch (e) { fmts[tz] = null; } }
+    if (fmts[tz]) t.textContent = fmts[tz].format(now);
+  });
+}
+tickClocks(); setInterval(tickClocks, 15000);
+
+/* ---------- footer: signature and the widening gap ---------- */
+const foot = $('.foot'), mark = $('.foot__mark');
+if (foot) {
+  if (reduce) { foot.classList.add('is-signed'); mark.style.setProperty('--gap', '.16'); }
+  else {
+    io((es, o) => { if (es[0].isIntersecting) { foot.classList.add('is-signed'); o.disconnect(); } }, { threshold: 0.2 }).observe($('.sigs'));
+    let fvis = false;
+    io(es => { fvis = es[0].isIntersecting; }).observe(mark);
+    tickers.push(() => {
+      if (!fvis) return;
+      const r = mark.getBoundingClientRect();
+      const p = clamp((S.vh - r.top) / (S.vh * 0.75), 0, 1), e = p * p * (3 - 2 * p);
+      mark.style.setProperty('--gap', (0.02 + e * 0.2).toFixed(4));
+      mark.style.setProperty('--gs', (0.25 + e * 0.75).toFixed(3));
+    });
+  }
+}
+
+/* ---------- Schedule 2 form ---------- */
+const sched = $('#schedule-2');
+if (sched) {
+  const status = $('.sched__status', sched);
+  const setErr = (inp, errEl, msg) => {
+    inp.closest('.field').classList.toggle('is-invalid', !!msg);
+    inp.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    errEl.textContent = msg || '';
+    if (msg) inp.setAttribute('aria-describedby', errEl.id); else inp.removeAttribute('aria-describedby');
+  };
+  sched.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#f-name'), email = $('#f-email');
+    let ok = true;
+    if (!name.value.trim()) { setErr(name, $('#e-name'), 'Add your name so a principal knows who to reply to.'); ok = false; } else setErr(name, $('#e-name'), '');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { setErr(email, $('#e-email'), 'Enter an email address, like name@company.com.'); ok = false; } else setErr(email, $('#e-email'), '');
+    if (!ok) { $('[aria-invalid="true"]', sched).focus(); return; }
+    const ref = 'LC-26-' + (1000 + Math.floor(Math.random() * 9000));
+    status.classList.add('is-ok');
+    status.innerHTML = `Logged as <b>${ref}</b>. This page is a design concept, so nothing left your browser.`;
+  });
+}
+$$('[data-copy]').forEach(b => b.addEventListener('click', () => {
+  const src = $(b.dataset.copy), txt = src.textContent.trim();
+  const select = () => { const r = document.createRange(); r.selectNodeContents(src); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  const done = m => { b.textContent = m; setTimeout(() => { b.textContent = 'Copy'; }, 1600); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => done('Copied'), () => { select(); done('Selected'); });
+  else { select(); done('Selected'); }
+}));
+
+/* ---------- paper grain ---------- */
+(() => {
+  const g = $('.grain'); if (!g) return;
+  const c = document.createElement('canvas'); c.width = c.height = 180;
+  const x = c.getContext('2d'), d = x.createImageData(180, 180);
+  for (let i = 0; i < d.data.length; i += 4) {
+    const v = Math.random() < 0.5 ? 0 : 255;
+    d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = Math.random() * 16 | 0;
+  }
+  x.putImageData(d, 0, 0);
+  g.style.backgroundImage = `url(${c.toDataURL()})`;
+})();
+
+/* ---------- hero: the deal toy (raymarched acrylic block refracting the headline) ---------- */
+const hero = $('.hero');
+function createToy() {
+  const canvas = $('.hero__gl', hero), anchor = $('.toy', hero);
+  let gl = null;
+  try { gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' }); } catch (e) {}
+  const fail = () => { hero.classList.add('no-gl'); return null; };
+  if (!gl) return fail();
+
+  const VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+  const FS = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+uniform vec2 uRes; uniform vec2 uCenter; uniform float uScale;
+uniform mat3 uRot; uniform mat3 uRotT; uniform vec3 uBox; uniform float uRad;
+uniform sampler2D uScene; uniform sampler2D uInlay; uniform float uAlpha;
+const float CAM = 7.0; const float BGD = 0.85; const float SHD = 0.32; const float IOR = 1.49;
+
+float sdb(vec3 p){ vec3 q = abs(p) - (uBox - uRad); return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0) - uRad; }
+vec3 nrm(vec3 p){
+  const vec2 k = vec2(1.0, -1.0); const float e = 0.0012;
+  return normalize(k.xyy*sdb(p + k.xyy*e) + k.yyx*sdb(p + k.yyx*e) + k.yxy*sdb(p + k.yxy*e) + k.xxx*sdb(p + k.xxx*e));
+}
+vec2 slab(vec3 ro, vec3 rd, vec3 b){
+  vec3 m = 1.0 / rd; vec3 n = m * ro; vec3 k = abs(m) * b;
+  vec3 t1 = -n - k; vec3 t2 = -n + k;
+  return vec2(max(max(t1.x, t1.y), t1.z), min(min(t2.x, t2.y), t2.z));
+}
+vec3 env(vec3 d){
+  vec3 c = mix(vec3(0.74, 0.76, 0.80), vec3(0.975, 0.98, 0.99), smoothstep(-0.05, 0.75, d.y));
+  c = mix(c, vec3(0.19, 0.20, 0.24), 1.0 - smoothstep(-0.55, -0.02, d.y));
+  c += vec3(1.35) * smoothstep(0.955, 0.985, dot(d, normalize(vec3(-0.55, 0.62, 0.56))));
+  c += vec3(0.85) * smoothstep(0.972, 0.992, dot(d, normalize(vec3(0.78, 0.2, 0.6))));
+  c *= 1.0 - 0.62 * smoothstep(0.5, 0.9, -d.x);
+  return c;
+}
+vec3 scene(vec2 px){ return texture2D(uScene, px / uRes).rgb; }
+vec3 behind(vec3 pw, vec3 dw, vec2 pix){
+  if (dw.z > -0.05) return env(dw);
+  float t = (-BGD - pw.z) / dw.z;
+  vec2 h = (pw + dw * t).xy * (CAM / (CAM + BGD));
+  vec2 p = uCenter + vec2(h.x, -h.y) * uScale;
+  vec2 off = p - pix;
+  vec2 disp = off * 0.018; float dl = length(disp); if (dl > 5.0) disp *= 5.0 / dl;
+  return vec3(scene(p + disp).r, scene(p).g, scene(p - disp).b);
+}
+void main(){
+  vec2 pix = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
+  vec2 uv = (pix - uCenter) / uScale; uv.y = -uv.y;
+  if (uAlpha <= 0.0 || dot(uv, uv) > 2.3) { gl_FragColor = vec4(0.0); return; }
+  float px = 1.0 / uScale;
+  vec3 rdW = normalize(vec3(uv, -CAM));
+  vec3 ro = uRotT * vec3(0.0, 0.0, CAM);
+  vec3 rd = uRotT * rdW;
+  rd += step(abs(rd), vec3(1e-5)) * 1e-5;
+  vec2 tb = slab(ro, rd, uBox + vec3(2.0 * px));
+  float t = max(tb.x, 0.0); float dmin = 1e3; bool hit = false;
+  if (tb.x < tb.y && tb.y > 0.0) {
+    for (int i = 0; i < 48; i++) {
+      float d = sdb(ro + rd * t);
+      dmin = min(dmin, d);
+      if (d < 0.0005) { hit = true; break; }
+      t += d;
+      if (t > tb.y) break;
+    }
+  }
+  if (!hit) {
+    vec3 pb = vec3(uv * (CAM + SHD) / CAM, -SHD);
+    vec3 so = uRotT * pb; vec3 sd = uRotT * normalize(vec3(-0.42, 0.52, 1.0));
+    float res = 1.0; float st = 0.02;
+    for (int i = 0; i < 28; i++) {
+      float h = sdb(so + sd * st);
+      res = min(res, 5.0 * h / st);
+      st += clamp(h, 0.015, 0.25);
+      if (res < 0.002 || st > 3.0) break;
+    }
+    float sh = 1.0 - clamp(res, 0.0, 1.0);
+    float a = sh * sh * 0.13 * uAlpha;
+    float ra = (1.0 - smoothstep(0.0, 1.5 * px, dmin)) * 0.8 * uAlpha;
+    gl_FragColor = vec4(vec3(0.52, 0.57, 0.62) * ra, ra + a * (1.0 - ra));
+    return;
+  }
+  vec3 p1 = ro + rd * t;
+  vec3 n1 = nrm(p1);
+  float F = 0.04 + 0.96 * pow(1.0 - clamp(dot(-rd, n1), 0.0, 1.0), 5.0);
+  vec3 refl = env(reflect(rdW, uRot * n1));
+  vec3 r1 = refract(rd, n1, 1.0 / IOR);
+  vec3 q = p1 - n1 * 0.002; float tt = 0.0;
+  for (int i = 0; i < 40; i++) { float d = -sdb(q + r1 * tt); if (d < 0.0006) break; tt += max(d, 0.0015); }
+  vec3 p2 = q + r1 * tt; float path = tt;
+  vec4 ink = vec4(0.0);
+  if ((p1.z > 0.0) != (p2.z > 0.0)) {
+    vec3 pz = mix(p1, p2, p1.z / (p1.z - p2.z));
+    vec2 iuv = vec2(pz.x / (uBox.x * 0.78), pz.y / (uBox.y * 0.82)) * 0.5 + 0.5;
+    if (iuv.x > 0.0 && iuv.x < 1.0 && iuv.y > 0.0 && iuv.y < 1.0) ink = texture2D(uInlay, vec2(iuv.x, 1.0 - iuv.y));
+  }
+  vec3 n2 = nrm(p2);
+  vec3 r2 = refract(r1, -n2, IOR);
+  vec3 pOut = p2;
+  if (dot(r2, r2) < 1e-4) {
+    vec3 rr = reflect(r1, -n2);
+    vec3 q2 = p2 - n2 * 0.002; float t2 = 0.0;
+    for (int i = 0; i < 32; i++) { float d = -sdb(q2 + rr * t2); if (d < 0.0006) break; t2 += max(d, 0.0015); }
+    pOut = q2 + rr * t2; path += t2;
+    vec3 n3 = nrm(pOut);
+    r2 = refract(rr, -n3, IOR);
+    if (dot(r2, r2) < 1e-4) r2 = reflect(rr, -n3);
+  }
+  vec3 trans = behind(uRot * pOut, uRot * r2, pix);
+  trans = mix(trans, ink.rgb, ink.a);
+  trans *= exp(-path * vec3(0.2, 0.07, 0.1));
+  vec3 col = mix(trans, refl, F);
+  float flatness = max(max(abs(n1.x), abs(n1.y)), abs(n1.z));
+  float bev = 1.0 - smoothstep(0.86, 0.995, flatness);
+  col = mix(col, col * 0.7 + refl * 0.32, bev * 0.78);
+  gl_FragColor = vec4(col * uAlpha, uAlpha);
+}`;
+  const compile = (type, src) => {
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  };
+  const vs = compile(gl.VERTEX_SHADER, VS), fs = compile(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fs) return fail();
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(prog)); return fail(); }
+  gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const aP = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(aP); gl.vertexAttribPointer(aP, 2, gl.FLOAT, false, 0, 0);
+  const U = {};
+  ['uRes', 'uCenter', 'uScale', 'uRot', 'uRotT', 'uBox', 'uRad', 'uScene', 'uInlay', 'uAlpha'].forEach(n => { U[n] = gl.getUniformLocation(prog, n); });
+  const makeTex = unit => {
+    const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return t;
+  };
+  const sceneTex = makeTex(0), inlayTex = makeTex(1);
+  gl.uniform1i(U.uScene, 0); gl.uniform1i(U.uInlay, 1);
+  gl.uniform3f(U.uBox, 0.5, 0.64, 0.17); gl.uniform1f(U.uRad, 0.07);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+  const upload = (unit, tex, src) => { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src); };
+
+  const sceneC = document.createElement('canvas'), sctx = sceneC.getContext('2d');
+  const inlayC = document.createElement('canvas'), ictx = inlayC.getContext('2d');
+  let dpr = 1, W = 0, H = 0, ready = false, started = false, visible = true, alpha = 0, t0 = 0, dirty = true;
+  const rot = { x: 0.1, y: -1.25, z: 0.05 }, mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+
+  function size() {
+    const r = hero.getBoundingClientRect();
+    dpr = Math.min(devicePixelRatio || 1, S.vw < 760 ? 1.5 : 1.75);
+    W = Math.max(1, Math.round(r.width * dpr)); H = Math.max(1, Math.round(r.height * dpr));
+    if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+    gl.viewport(0, 0, W, H);
+  }
+  function snapshot() {
+    const hr = hero.getBoundingClientRect(), c = sctx;
+    sceneC.width = W; sceneC.height = H;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.fillStyle = getComputedStyle(hero).backgroundColor; c.fillRect(0, 0, W, H);
+    const doc = $('.hero__doc', hero);
+    if (doc) { const d = doc.getBoundingClientRect(); c.fillStyle = 'rgba(15,18,24,.15)'; c.fillRect(d.left - hr.left, d.bottom - hr.top - 1, d.width, 1); }
+    $$('.hw', hero).forEach(el => {
+      const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+      if (!r.width || cs.display === 'none') return;
+      const fsz = parseFloat(cs.fontSize);
+      c.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      if ('letterSpacing' in c) c.letterSpacing = cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing;
+      c.textBaseline = 'alphabetic'; c.fillStyle = cs.color;
+      const m = c.measureText(el.textContent);
+      const asc = m.fontBoundingBoxAscent || fsz * 0.9, desc = m.fontBoundingBoxDescent || fsz * 0.25;
+      const x = r.left - hr.left, top = r.top - hr.top, base = top + (r.height - asc - desc) / 2 + asc;
+      c.fillText(el.textContent, x, base);
+      if (el.classList.contains('rl-del')) c.fillRect(x - fsz * 0.04, top + r.height * 0.57, r.width + fsz * 0.08, Math.max(2, fsz * 0.052));
+      if (el.classList.contains('rl-ins')) {
+        const th = Math.max(1, fsz * 0.02), y = base + fsz * 0.1;
+        c.fillRect(x, y, r.width, th); c.fillRect(x, y + th * 2.4, r.width, th);
+      }
+    });
+    upload(0, sceneTex, sceneC);
+    dirty = true;
+  }
+  function drawInlay() {
+    const w = 750, h = 1000, c = ictx, cx = w / 2;
+    inlayC.width = w; inlayC.height = h;
+    const ls = v => { if ('letterSpacing' in c) c.letterSpacing = v; };
+    c.clearRect(0, 0, w, h);
+    c.fillStyle = 'rgba(255,255,255,0.12)'; c.fillRect(0, 0, w, h);
+    c.strokeStyle = 'rgba(15,18,24,0.6)'; c.lineWidth = 2; c.strokeRect(24, 24, w - 48, h - 48);
+    c.lineWidth = 1; c.strokeRect(34, 34, w - 68, h - 68);
+    c.strokeStyle = '#2340F0'; c.lineWidth = 8; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(cx - 26, 170); c.lineTo(cx, 126); c.lineTo(cx + 26, 170); c.stroke();
+    c.fillStyle = '#0F1218'; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    c.font = '400 136px "Libre Caslon Display", Georgia, serif'; ls('3px'); c.fillText('Lacuna', cx, 318);
+    ls('0px'); c.fillRect(cx - 150, 358, 300, 3);
+    c.font = '700 34px Archivo, Arial, sans-serif'; ls('8px');
+    c.fillText('SPECIAL SITUATIONS', cx + 4, 428); c.fillText('FUND III', cx + 4, 476);
+    ls('0px'); c.font = '400 86px "Libre Caslon Display", Georgia, serif'; c.fillText('€1,200,000,000', cx, 612);
+    c.font = 'italic 400 48px "Libre Caslon Text", Georgia, serif'; c.fillText('Final close', cx, 684);
+    c.fillRect(cx - 60, 730, 120, 3);
+    c.font = '700 36px "Courier Prime", "Courier New", monospace'; c.fillText('30 September 2026', cx, 806);
+    c.fillStyle = '#2340F0'; c.font = '700 26px "Courier Prime", "Courier New", monospace'; ls('2px');
+    c.fillText('LJUBLJANA · LONDON · NEW YORK', cx, 900);
+    ls('0px');
+    upload(1, inlayTex, inlayC);
+  }
+  const rotM = (ax, ay, az) => {
+    const cx = Math.cos(ax), sx = Math.sin(ax), cy = Math.cos(ay), sy = Math.sin(ay), cz = Math.cos(az), sz = Math.sin(az);
+    const mul = (A, B) => A.map(r => [0, 1, 2].map(j => r[0] * B[0][j] + r[1] * B[1][j] + r[2] * B[2][j]));
+    return mul(mul([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], [[1, 0, 0], [0, cx, -sx], [0, sx, cx]]), [[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]]);
+  };
+  const colMajor = M => new Float32Array([M[0][0], M[1][0], M[2][0], M[0][1], M[1][1], M[2][1], M[0][2], M[1][2], M[2][2]]);
+  const colMajorT = M => new Float32Array([M[0][0], M[0][1], M[0][2], M[1][0], M[1][1], M[1][2], M[2][0], M[2][1], M[2][2]]);
+  const easeOut = x => 1 - Math.pow(1 - x, 3);
+
+  function render(now, dt) {
+    const hr = hero.getBoundingClientRect(), ar = anchor.getBoundingClientRect();
+    const t = now / 1000, live = reduce ? 0 : 1;
+    const sp = reduce ? 0 : clamp(-hr.top / Math.max(1, hr.height), 0, 1);
+    mouse.x = lerp(mouse.x, mouse.tx, reduce ? 1 : 1 - Math.exp(-dt * 4));
+    mouse.y = lerp(mouse.y, mouse.ty, reduce ? 1 : 1 - Math.exp(-dt * 4));
+    const k = reduce ? 1 : 1 - Math.exp(-dt * 3);
+    rot.y = lerp(rot.y, -0.46 + mouse.x * 0.5 + Math.sin(t * 0.45) * 0.07 * live + sp * 1.2, k);
+    rot.x = lerp(rot.x, 0.14 - mouse.y * 0.26 + Math.sin(t * 0.33) * 0.04 * live + sp * 0.3, k);
+    rot.z = lerp(rot.z, 0.06 + Math.sin(t * 0.27) * 0.02 * live, k);
+    const M = rotM(rot.x, rot.y, rot.z);
+    gl.uniformMatrix3fv(U.uRot, false, colMajor(M));
+    gl.uniformMatrix3fv(U.uRotT, false, colMajorT(M));
+    const lift = (1 - easeOut(alpha)) * 70 + Math.sin(t * 0.6) * 6 * live - sp * hr.height * 0.22;
+    gl.uniform2f(U.uRes, W, H);
+    gl.uniform2f(U.uCenter, (ar.left - hr.left + ar.width / 2) * dpr, (ar.top - hr.top + ar.height / 2 + lift) * dpr);
+    gl.uniform1f(U.uScale, ar.width * dpr / 1.3);
+    gl.uniform1f(U.uAlpha, alpha);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  io(es => { visible = es[0].isIntersecting; }).observe(hero);
+  if (fine) addEventListener('pointermove', e => { mouse.tx = e.clientX / S.vw * 2 - 1; mouse.ty = e.clientY / S.vh * 2 - 1; dirty = true; }, { passive: true });
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); ready = false; hero.classList.add('no-gl'); });
+  tickers.push((dt, now) => {
+    if (!ready || !visible) return;
+    if (alpha < 1) { alpha = reduce ? 1 : clamp((now - t0) / 1400, 0, 1); dirty = true; }
+    if (reduce && !dirty) return;
+    dirty = false;
+    render(now, dt);
+  });
+  onResize.push(() => { if (!started) return; size(); snapshot(); });
+  return {
+    start() {
+      if (started) return;
+      started = true;
+      const go = () => { size(); snapshot(); drawInlay(); ready = true; t0 = performance.now(); };
+      (document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(go);
+    }
+  };
+}
+const toy = createToy();
+
+/* ---------- hero: the redline intro ---------- */
+const heroIns = $('[data-ins]', hero);
+const letters = [...heroIns.textContent].map(ch => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = ch; return s; });
+heroIns.textContent = ''; letters.forEach(l => heroIns.appendChild(l));
+const comment = $('.hero__comment');
+function placeComment() {
+  if (!comment) return;
+  if (S.vw <= 760) { comment.style.removeProperty('--ct'); comment.style.setProperty('--reach', '0px'); comment.style.setProperty('--reach-o', '0'); return; }
+  const ir = heroIns.getBoundingClientRect(), stop = $('.hl__stop', hero), sr = stop ? stop.getBoundingClientRect() : ir;
+  const fsz = parseFloat(getComputedStyle(heroIns).fontSize) || 100;
+  const anchorY = ir.bottom - fsz * 0.12;   // the double underline of the insertion
+  // offsetTop ignores the entrance transform, so this lands correctly mid-animation too
+  const op = (comment.offsetParent || hero).getBoundingClientRect();
+  const curTop = parseFloat(getComputedStyle(comment).top) || 0;
+  comment.style.setProperty('--ct', (curTop + (anchorY - 21 - op.top) - comment.offsetTop).toFixed(1) + 'px');
+  const cr = comment.getBoundingClientRect();
+  const reach = cr.left - Math.max(ir.right, sr.right) - 16;
+  comment.style.setProperty('--reach', Math.max(0, reach).toFixed(1) + 'px');
+  comment.style.setProperty('--reach-o', reach > 24 ? '1' : '0');
+}
+onResize.push(placeComment);
+let introOver = false;
+function introDone() {
+  if (introOver) return;
+  introOver = true;
+  placeComment();
+  if (toy) toy.start();
+}
+const stage = n => hero.classList.add('is-s' + n);
+function playIntro() {
+  if (reduce) { [1, 2, 3, 4].forEach(stage); hero.classList.add('is-done'); heroIns.textContent = heroIns.textContent; introDone(); return; }
+  requestAnimationFrame(() => stage(1));
+  setTimeout(() => stage(2), 1150);
+  setTimeout(() => {
+    stage(3);
+    let i = 0;
+    const type = () => {
+      if (i < letters.length) { letters[i++].classList.add('on'); setTimeout(type, 55 + Math.random() * 55); return; }
+      stage(4); introDone();
+      setTimeout(() => { hero.classList.add('is-done'); heroIns.textContent = heroIns.textContent; }, 900);
+    };
+    setTimeout(type, 420);
+  }, 1800);
+}
+(document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(playIntro);
+
+/* ---------- structure lab: a live returns model with tracked changes ---------- */
+const lab = $('.lab');
+if (lab) {
+  const form = $('#lab-form');
+  form.addEventListener('submit', e => e.preventDefault());
+  const inp = { mult: $('#in-mult'), lev: $('#in-lev'), vn: $('#in-vn'), eo: $('#in-eo') };
+  const out = {}, bars = {}, segs = {};
+  $$('[data-o]', lab).forEach(el => { out[el.dataset.o] = el; el.dataset.v = el.textContent.trim(); });
+  $$('[data-bar]', lab).forEach(el => { bars[el.dataset.bar] = el; });
+  $$('[data-seg]', lab).forEach(el => { segs[el.dataset.seg] = el; });
+  const ticksEl = $('[data-ticks]', lab), oneEl = $('.bars__one', lab);
+  ticksEl.dataset.max = '6';
+  const EB = 10, YRS = 5;
+  const CASES = { down: { g: -0.04, dm: -1, earn: false }, base: { g: 0.06, dm: 0, earn: true }, up: { g: 0.14, dm: 0.5, earn: true } };
+  const eur = v => '€' + v.toFixed(1) + 'm';
+  const gain = v => (v < 0 ? '−' : '+') + '€' + Math.abs(v).toFixed(1) + 'm';
+  const pct = v => (v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(1) + '%';
+  const times = v => v.toFixed(2) + '×';
+  const stats = (proceeds, cheque) => {
+    const moic = cheque > 0 ? proceeds / cheque : 0;
+    return { moic, irr: moic > 0 ? Math.pow(moic, 1 / YRS) - 1 : -1, gain: proceeds - cheque };
+  };
+  function model() {
+    const mult = +inp.mult.value, lev = +inp.lev.value, v = +inp.vn.value / 100, e = +inp.eo.value / 100;
+    const ev = EB * mult, debt = EB * lev, vn = ev * v, eo = ev * e;
+    const cash = ev - vn - eo, eq = cash - debt, eqA = ev - debt;
+    const r = {};
+    for (const k in CASES) {
+      const c = CASES[k];
+      const ev5 = EB * Math.pow(1 + c.g, YRS) * Math.max(1, mult + c.dm);
+      const senior5 = debt * 0.5, note5 = vn * Math.pow(1.05, YRS), earn = c.earn ? eo : 0;
+      r[k] = { s: stats(Math.max(0, ev5 - senior5 - note5 - earn), eq), a: stats(Math.max(0, ev5 - senior5), eqA) };
+    }
+    return { mult, lev, v, e, ev, debt, vn, eo, cash, eq, eqA, r, ok: eq >= 0.15 * ev, okA: eqA >= 0.15 * ev };
+  }
+  // every changed figure shows the new value inserted and the old one struck, like a redline
+  let base = null, idle = 0;
+  function put(key, txt) {
+    const el = out[key];
+    if (!el) return;
+    const was = base && base[key];
+    if (!was || was === txt || reduce) {
+      if (el.dataset.v !== txt || el.dataset.m) { el.textContent = txt; el.dataset.v = txt; delete el.dataset.m; }
+      return;
+    }
+    if (el.dataset.v === txt && el.dataset.m) return;
+    el.dataset.v = txt; el.dataset.m = '1';
+    const n = document.createElement('ins'); n.className = 'chg-new'; n.textContent = txt;
+    const o = document.createElement('del'); o.className = 'chg-old'; o.textContent = was;
+    el.replaceChildren(n, o);
+  }
+  function update() {
+    const M = model();
+    Object.values(inp).forEach(el => el.style.setProperty('--fill', ((el.value - el.min) / (el.max - el.min) * 100).toFixed(2) + '%'));
+    put('ev', eur(M.ev)); put('mult', M.mult.toFixed(1) + '× EBITDA');
+    put('debt', eur(M.debt)); put('lev', M.lev.toFixed(1) + '× EBITDA');
+    put('vn', eur(M.vn)); put('vnp', Math.round(M.v * 100) + '% of price · 5% PIK · repaid at exit');
+    put('eo', eur(M.eo)); put('eop', Math.round(M.e * 100) + '% of price · paid if FY30 EBITDA ≥ €13.4m');
+    put('cash', eur(M.cash) + ' · ' + Math.round(M.cash / M.ev * 100) + '% of price');
+    put('eq', M.eq > 0 ? eur(M.eq) + ' · ' + Math.round(M.eq / M.ev * 100) + '% of price' : 'None: the debt exceeds the cash due');
+    put('l-debt', eur(M.debt)); put('l-eq', eur(Math.max(0, M.eq))); put('l-vn', eur(M.vn)); put('l-eo', eur(M.eo));
+    segs.debt.style.setProperty('--w', (Math.min(M.debt, M.cash) / M.ev).toFixed(4));
+    segs.eq.style.setProperty('--w', (Math.max(0, M.eq) / M.ev).toFixed(4));
+    segs.vn.style.setProperty('--w', (M.vn / M.ev).toFixed(4));
+    segs.eo.style.setProperty('--w', (M.eo / M.ev).toFixed(4));
+    lab.classList.toggle('is-bad', !M.ok);
+    let top = 0;
+    for (const k in M.r) {
+      const s = M.r[k].s, a = M.r[k].a;
+      put(`s-${k}-m`, M.ok ? times(s.moic) : '—');
+      put(`s-${k}-i`, M.ok ? `${pct(s.irr)} IRR · ${gain(s.gain)}` : 'Not financeable');
+      put(`a-${k}-m`, M.okA ? times(a.moic) : '—');
+      put(`a-${k}-i`, M.okA ? `${pct(a.irr)} IRR · ${gain(a.gain)}` : 'Not financeable');
+      if (M.ok) top = Math.max(top, s.moic);
+      if (M.okA) top = Math.max(top, a.moic);
+    }
+    const max = Math.max(4, Math.ceil(top / 2) * 2);
+    for (const k in M.r) {
+      bars['s-' + k].style.setProperty('--w', M.ok ? (M.r[k].s.moic / max).toFixed(4) : '0');
+      bars['a-' + k].style.setProperty('--w', M.okA ? (M.r[k].a.moic / max).toFixed(4) : '0');
+    }
+    oneEl.style.setProperty('--one', (1 / max).toFixed(4));
+    if (ticksEl.dataset.max !== String(max)) {
+      ticksEl.dataset.max = max;
+      const step = max <= 6 ? 2 : max <= 12 ? 4 : 5;
+      let h = '';
+      for (let v = 0; v <= max; v += step) h += `<span style="left:${(v / max * 100).toFixed(2)}%">${v}×</span>`;
+      ticksEl.innerHTML = h;
+    }
+    const d = M.r.down, u = M.r.up;
+    out.verdict.innerHTML = !M.ok
+      ? 'At these terms the deal cannot be financed. Lenders expect the buyer to fund at least 15% of the price with equity.'
+      : `On a <b>${eur(M.eq)}</b> cheque the structured deal returns <b>${times(d.s.moic)}</b> in the downside and <b>${times(u.s.moic)}</b> in the upside. `
+        + (M.okA ? `All cash needs <b>${eur(M.eqA)}</b> and returns <b>${times(d.a.moic)}</b> and <b>${times(u.a.moic)}</b>.` : 'All cash at this leverage cannot be financed.');
+  }
+  const settle = () => { clearTimeout(idle); idle = setTimeout(() => { base = null; update(); }, 1500); };
+  Object.values(inp).forEach(el => {
+    el.addEventListener('input', () => {
+      if (!base) { base = {}; for (const k in out) base[k] = out[k].dataset.v; }
+      update(); settle();
+    });
+    el.addEventListener('change', settle);
+  });
+  update();
+}
+
+/* ---------- selected situations: vertical scroll drives a horizontal track ---------- */
+const sit = $('.situations');
+if (sit) {
+  const track = $('.sit__track', sit), vp = $('.sit__viewport', sit), idxEl = $('[data-sit-idx]', sit), bar = $('.sit__bar', sit);
+  let dist = 0, pinned = false, vis = false;
+  const show = p => {
+    bar.style.setProperty('--p', (0.2 + p * 0.8).toFixed(3));
+    idxEl.textContent = '0' + clamp(Math.round(p * 4) + 1, 1, 5);
+  };
+  function layout() {
+    pinned = S.vw > 900 && !reduce;
+    sit.classList.toggle('is-pinned', pinned);
+    track.style.transform = '';
+    if (pinned) { dist = Math.max(0, track.scrollWidth - S.vw); sit.style.height = (S.vh + dist) + 'px'; }
+    else sit.style.height = '';
+  }
+  layout(); onResize.push(layout);
+  if (document.fonts) document.fonts.ready.then(layout);
+  io(es => { vis = es[0].isIntersecting; }).observe(sit);
+  tickers.push(() => {
+    if (!pinned || !vis) return;
+    const r = sit.getBoundingClientRect();
+    const p = clamp(-r.top / Math.max(1, r.height - S.vh), 0, 1);
+    track.style.transform = `translate3d(${(-p * dist).toFixed(1)}px,0,0)`;
+    show(p);
+  });
+  vp.addEventListener('scroll', () => { if (!pinned) show(vp.scrollLeft / Math.max(1, vp.scrollWidth - vp.clientWidth)); }, { passive: true });
+  track.addEventListener('focusin', e => {
+    if (!pinned) return;
+    const li = e.target.closest('.tomb');
+    if (!li) return;
+    const p = clamp((li.offsetLeft - 40) / Math.max(1, dist), 0, 1);
+    const topY = sit.getBoundingClientRect().top + scrollY;
+    scrollTo(0, topY + p * (sit.offsetHeight - S.vh));
+  });
+}
+
+/* ---------- one loop ---------- */
+let last = performance.now();
+function frame(now) {
+  const dt = clamp((now - last) / 1000, 0.001, 0.05);
+  last = now; S.dt = dt;
+  smoothTick(dt);
+  const y = scrollY;
+  S.vel = lerp(S.vel, (y - S.lastY) / dt, 0.18); S.lastY = y; S.y = y;
+  const sc = y > 8;
+  if (sc !== navScrolled) { navScrolled = sc; nav.classList.toggle('is-scrolled', sc); }
+  for (let i = 0; i < tickers.length; i++) tickers[i](dt, now);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+let rsz = 0;
+addEventListener('resize', () => {
+  clearTimeout(rsz);
+  rsz = setTimeout(() => { S.vw = innerWidth; S.vh = innerHeight; onResize.forEach(f => f()); }, 140);
+});
+})();
+</script>
+</body>
+</html>
