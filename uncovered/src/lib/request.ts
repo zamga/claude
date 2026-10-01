@@ -67,9 +67,10 @@ export interface InitiationRequest {
 
 export const MAX_FILES = 10;
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
-export const ACCEPTED = ['.pdf', '.xlsx', '.xls', '.csv', '.xhtml', '.html', '.htm', '.xml', '.zip'];
+/** Files the engine can read: PDFs with a text layer, filings and pages in HTML or XHTML (ESEF), and text. */
+export const ACCEPTED = ['.pdf', '.xhtml', '.html', '.htm', '.xml', '.txt', '.csv'];
 
-export type FieldErrors = Partial<Record<'company' | 'website' | 'files' | 'ticker', string>>;
+export type FieldErrors = Partial<Record<'company' | 'website' | 'files' | 'ticker' | 'code', string>>;
 
 /** The website as an absolute address, or undefined when it is not one. */
 export function normaliseWebsite(raw: string): URL | undefined {
@@ -93,7 +94,7 @@ export function validate(r: InitiationRequest): FieldErrors {
     const big = r.files.find((f) => f.size > MAX_FILE_BYTES);
     const odd = r.files.find((f) => !ACCEPTED.some((ext) => f.name.toLowerCase().endsWith(ext)));
     if (big) errors.files = `${big.name} is larger than 25 MB.`;
-    else if (odd) errors.files = `${odd.name} is not a PDF, spreadsheet, filing or archive.`;
+    else if (odd) errors.files = `${odd.name} is not a PDF, a web page or a text file.`;
   }
   return errors;
 }

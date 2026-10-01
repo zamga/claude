@@ -2,11 +2,11 @@ import { useRef, type CSSProperties, type PointerEvent } from 'react';
 import { Seal } from '../seal/Seal';
 import { serialFor } from '../seal/guilloche';
 import { Serial } from '../ui/Serial';
-import { eur, longDate, signedPct } from '../lib/format';
+import { longDate, moneyFor, num, signedPct } from '../lib/format';
 import { useReducedMotion } from '../lib/motion';
 import { Cited } from './Footnotes';
 import type { Report } from './types';
-import type { Valuation } from './valuation';
+import { impliedMultiples, type Valuation } from './valuation';
 import styles from './Cover.module.css';
 
 interface CoverProps {
@@ -36,6 +36,37 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
   const date = report ? longDate(report.date) : 'Pending research';
   const monogram = report?.company.ticker ?? initials(title);
   const sealSize = size === 'hero' ? 168 : 220;
+  const money = moneyFor(valuation?.currency ?? report?.currency, valuation?.basis ?? 'share');
+  const perShare = (valuation?.basis ?? 'share') === 'share';
+  const company = report?.company;
+  const legal = company
+    ? company.listed && company.exchange
+      ? `${company.legalName} · ${company.exchange}${company.ticker ? `: ${company.ticker}` : ''}`
+      : `${company.legalName} · ${company.registration ? `Registration ${company.registration}` : 'Private company'}`
+    : 'Awaiting research';
+  const multiples = report && valuation && !perShare ? impliedMultiples(report, valuation) : undefined;
+  const facts: { label: string; value: string }[] = perShare
+    ? [
+        { label: 'Base case', value: valuation ? money.value(valuation.fair.base, 0) : '—' },
+        { label: 'Share price', value: valuation?.price !== undefined ? money.amount(valuation.price) : '—' },
+        { label: 'Price vs base', value: valuation?.premium !== undefined ? signedPct(valuation.premium) : '—' },
+      ]
+    : [
+        { label: 'Base case', value: valuation ? money.value(valuation.fair.base, 0) : '—' },
+        {
+          label: report && report.assumptions.netCash < 0 ? 'Net debt' : 'Net cash',
+          value: report
+            ? money.millions(Math.abs(report.assumptions.netCash), Math.abs(report.assumptions.netCash) < 100 ? 1 : 0)
+            : '—',
+        },
+        {
+          label: 'EV/EBITDA',
+          value: multiples?.evEbitda !== undefined ? `${num(multiples.evEbitda, 1)}×` : '—',
+        },
+      ];
+  const keyData = report
+    ? report.keyFacts.filter((f) => !COVER_SKIP.has(f.label)).slice(0, size === 'hero' ? 5 : 8)
+    : PENDING;
 
   const onMove = (e: PointerEvent<HTMLElement>) => {
     if (!tilt || reduced || e.pointerType !== 'mouse') return;
@@ -79,17 +110,13 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
                 : `Sector · ${pending?.name ?? 'Country'}`}
             </p>
             <h2 className={styles.name}>{report?.company.shortName ?? title}</h2>
-            <p className={styles.legal}>
-              {report
-                ? `${report.company.legalName} · ${report.company.exchange}: ${report.company.ticker}`
-                : 'Awaiting research'}
-            </p>
+            <p className={styles.legal}>{legal}</p>
           </div>
           <Seal
             seed={seed}
             size={sealSize}
             monogram={monogram}
-            submark={report ? `${country} · ${report.company.founded}` : country}
+            submark={report?.company.founded ? `${country} · ${report.company.founded}` : country}
             ring={`${title} · Initiation of coverage · ${date}`}
             sheen
             duration={2200}
@@ -108,12 +135,12 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
 
         <div className={styles.value}>
           <div>
-            <p className={styles.label}>Fair value per share</p>
+            <p className={styles.label}>{perShare ? 'Fair value per share' : 'Equity value'}</p>
             {valuation ? (
               <p className={styles.range}>
-                {eur(valuation.fair.low, 0)}
+                {money.value(valuation.fair.low, 0)}
                 <span>–</span>
-                {eur(valuation.fair.high, 0)}
+                {money.value(valuation.fair.high, 0)}
               </p>
             ) : (
               <p className={styles.range}>
@@ -122,18 +149,12 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
             )}
           </div>
           <dl className={styles.valueFacts}>
-            <div>
-              <dt>Base case</dt>
-              <dd>{valuation ? eur(valuation.fair.base, 0) : '—'}</dd>
-            </div>
-            <div>
-              <dt>Share price</dt>
-              <dd>{valuation?.price !== undefined ? eur(valuation.price) : '—'}</dd>
-            </div>
-            <div>
-              <dt>Price vs base</dt>
-              <dd>{valuation?.premium !== undefined ? signedPct(valuation.premium) : '—'}</dd>
-            </div>
+            {facts.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
           </dl>
         </div>
 
@@ -159,7 +180,7 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
           <section aria-label="Key data">
             <h3 className={styles.colHead}>Key data</h3>
             <dl className={styles.keyData}>
-              {(report?.keyFacts.slice(2, size === 'hero' ? 7 : 10) ?? PENDING).map((f) => (
+              {keyData.map((f) => (
                 <div key={f.label}>
                   <dt>{f.label}</dt>
                   <dd className="num">{f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}</dd>
@@ -183,6 +204,9 @@ const PENDING = ['Share price', 'Revenue', 'EBITDA margin', 'Net profit', 'Emplo
   label,
   value: '',
 }));
+
+/** Identity facts the cover already shows elsewhere. */
+const COVER_SKIP = new Set(['Ticker', 'ISIN', 'Founded', 'Registration', 'Website']);
 
 function initials(name: string): string {
   const words = name

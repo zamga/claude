@@ -21,6 +21,11 @@ interface SealProps {
   draw?: 'engrave' | 'static';
   /** Engraving duration in ms. */
   duration?: number;
+  /**
+   * How much of the seal is engraved, 0 to 1, for a seal that grows with the
+   * work it stands for. Each change engraves on from where the seal stands.
+   */
+  progress?: number;
   /** Shift the ink's colour as the pointer moves, like optically variable ink. */
   sheen?: boolean;
   className?: string;
@@ -41,6 +46,7 @@ export function Seal({
   detail = 'full',
   draw = 'engrave',
   duration = 2200,
+  progress,
   sheen = false,
   className,
   label,
@@ -51,6 +57,11 @@ export function Seal({
   const theme = useTheme();
   const pathId = useId().replace(/:/g, '');
   const spec = useMemo(() => sealSpec(seed, detail), [seed, detail]);
+  const visible = useRef(false);
+  const progressRef = useRef(progress);
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,7 +71,12 @@ export function Seal({
     rendererRef.current = renderer;
     renderer.update(spec, { size, ink, hairline: detail === 'glyph' ? 0.8 : 0.6 });
     const paint = () => {
-      if (draw === 'static' || prefersReducedMotion()) renderer.drawStatic();
+      visible.current = true;
+      const p = progressRef.current;
+      if (p !== undefined) {
+        if (prefersReducedMotion()) renderer.drawTo(p);
+        else void renderer.engraveTo(p, duration);
+      } else if (draw === 'static' || prefersReducedMotion()) renderer.drawStatic();
       else void renderer.engrave(duration);
     };
     // Seals off screen wait until they come into view: no work spent on what nobody
@@ -84,6 +100,14 @@ export function Seal({
     };
     // Redraw when the seal, its size or the ink (theme) changes.
   }, [spec, size, draw, duration, detail, theme]);
+
+  // A seal following progress engraves on as the progress moves.
+  useEffect(() => {
+    const renderer = rendererRef.current;
+    if (progress === undefined || !renderer || !visible.current) return;
+    if (prefersReducedMotion()) renderer.drawTo(progress);
+    else void renderer.engraveTo(progress, duration);
+  }, [progress, duration]);
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (!sheen) return;

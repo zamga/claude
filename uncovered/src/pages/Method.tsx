@@ -120,6 +120,42 @@ export function Method() {
             </li>
           ))}
         </ul>
+        <h3 className={styles.checksTitle}>How the engine holds a report to it</h3>
+        <ol className={styles.checks} role="list">
+          <li>
+            <h4>Quoted word for word</h4>
+            <p>
+              The engine reads every document itself and keeps the text it read. A quotation that is not in that text,
+              word for word, is sent back to be corrected.
+            </p>
+          </li>
+          <li>
+            <h4>The number is in its quotation</h4>
+            <p>
+              A figure enters the model only if it appears, exactly as printed, in the passage quoted for it. Code
+              converts thousands to millions and percentages to fractions; the language model does no arithmetic.
+            </p>
+          </li>
+          <li>
+            <h4>Filed means shown</h4>
+            <p>
+              A document counts as an audited report or a filing only if a passage of it shows so: the auditor’s
+              opinion, or the register’s or exchange’s filing details. Otherwise it is graded Reported.
+            </p>
+          </li>
+          <li>
+            <h4>Every sentence checked</h4>
+            <p>
+              Before a report is shown, code checks every sentence: each number must be printed in a passage that
+              sentence cites, or be a figure the model computes. What fails goes back to be rewritten; a sentence that
+              still cannot be traced is withheld, and the report says so.
+            </p>
+          </li>
+        </ol>
+        <p className={styles.note}>
+          The Krka sample was written by hand before the engine, from search excerpts of its sources; its source list
+          says so. Reports the engine writes quote each document exactly, with the page.
+        </p>
       </Section>
 
       <Section
@@ -315,7 +351,7 @@ export function Method() {
               <tr>
                 <th scope="row">European Union</th>
                 <td>National business registers and the global legal entity index</td>
-                <td>Annual reports in the European single electronic format, read as structured data</td>
+                <td>Annual reports in the European single electronic format (XHTML) and exchange announcements</td>
                 <td>Statements from the national register, or supplied by you where access is paid</td>
               </tr>
               <tr>
@@ -358,26 +394,29 @@ export function Method() {
           <li>
             <h3>Dated, not live</h3>
             <p>
-              Every report states when its sources were gathered and the date of the price it uses. New filings trigger
-              a refresh; nothing updates silently.
+              Every report states when its sources were gathered and the date of the price it uses. A report does not
+              change after it is written; a new initiation reads the new filings.
             </p>
           </li>
           <li>
-            <h3>Thin filings, wide ranges</h3>
+            <h3>Thin filings, plain gaps</h3>
             <p>
-              Small companies file short accounts. When the evidence is thin, the range widens and the report says why,
-              rather than inventing precision.
+              Small companies file short accounts. When the evidence is thin, the report names what it could not find,
+              and the model stays close to what the filings show rather than inventing precision.
             </p>
           </li>
           <li>
             <h3>Unaudited is labelled</h3>
-            <p>Unaudited and interim figures are marked as such, and reconciled when the audited accounts arrive.</p>
+            <p>
+              Figures from unaudited releases, websites and the press are graded Reported, not Filed, wherever they
+              appear.
+            </p>
           </li>
           <li>
-            <h3>A person signs off</h3>
+            <h3>Checked by code, not by an analyst</h3>
             <p>
-              For institutional desks, a named reviewer approves each report before it is shared, and the approval is
-              recorded with it.
+              Every report passes the engine’s checks before anyone reads it. None is reviewed by a person, and each
+              says so in its disclosures.
             </p>
           </li>
         </ul>

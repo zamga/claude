@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { costOfEquity, dcf, ddm, implied, sensitivity, solve, valueReport, wacc } from './valuation';
-import type { Assumptions } from './types';
+import { costOfEquity, dcf, ddm, implied, impliedMultiples, sensitivity, solve, valueReport, wacc } from './valuation';
+import type { Assumptions, Report } from './types';
 import { KRKA } from './krka';
 import { bindings, tokensIn } from './bindings';
 
@@ -119,7 +119,7 @@ describe('what the price implies', () => {
     expect(r.margin!).toBeGreaterThan(Math.max(...a.ebitdaMargin));
     expect(r.terminalGrowth!).toBeGreaterThan(a.terminalGrowth);
     console.info(
-      `Krka at €${price}: implied margin ${(r.margin! * 100).toFixed(2)}%, terminal growth ${(r.terminalGrowth! * 100).toFixed(2)}%, P/E ${r.pe.toFixed(1)}, yield ${(r.dividendYield! * 100).toFixed(2)}% / ${(r.forwardYield * 100).toFixed(2)}%`,
+      `Krka at €${price}: implied margin ${(r.margin! * 100).toFixed(2)}%, terminal growth ${(r.terminalGrowth! * 100).toFixed(2)}%, P/E ${r.pe!.toFixed(1)}, yield ${(r.dividendYield! * 100).toFixed(2)}% / ${(r.forwardYield! * 100).toFixed(2)}%`,
     );
   });
 });
@@ -140,5 +140,85 @@ describe('prose bound to the model', () => {
     // "above 2025’s 27.4%, short of the first half’s 31.9%"
     expect(im.margin!).toBeGreaterThan(558.7 / 2041.0);
     expect(im.margin!).toBeLessThan(357.5 / 1119.3);
+  });
+});
+
+describe('a company without traded shares', () => {
+  const privateCo: Report = {
+    ...KRKA,
+    id: 'private-test',
+    kind: 'engine',
+    currency: 'EUR',
+    company: { ...KRKA.company, listed: false, ticker: undefined, exchange: undefined, isin: undefined },
+    market: undefined,
+    dividends: [],
+    base: { year: '2025A', revenue: 100, ebitda: 20, netProfit: 12 },
+    assumptions: {
+      ...flat,
+      basis: 'equity',
+      sharesM: undefined,
+      dpsNext: undefined,
+      epsNext: undefined,
+      peLow: undefined,
+      peHigh: undefined,
+      evEbitdaLow: 6,
+      evEbitdaHigh: 8,
+      netCash: 10,
+    },
+  };
+
+  it('values the whole equity by cash flow and EV/EBITDA, with no price', () => {
+    const v = valueReport(privateCo);
+    expect(v.basis).toBe('equity');
+    expect(v.methods.map((m) => m.id)).toEqual(['dcf', 'ev']);
+    expect(v.price).toBeUndefined();
+    expect(v.premium).toBeUndefined();
+    // EV/EBITDA: 20 × 6 + 10 = 130 and 20 × 8 + 10 = 170, midpoint 150.
+    const ev = v.methods[1]!;
+    expect([ev.low, ev.base, ev.high]).toEqual([130, 150, 170]);
+    // The DCF value is the whole equity, not a value per share.
+    expect(v.dcf.value).toBeCloseTo(v.dcf.equityValue, 10);
+    expect(Number.isNaN(v.dcf.perShare)).toBe(true);
+  });
+
+  it('reads back the multiples its base case pays', () => {
+    const v = valueReport(privateCo);
+    const m = impliedMultiples(privateCo, v);
+    expect(m.equity).toBeCloseTo(v.fair.base, 10);
+    expect(m.enterpriseValue).toBeCloseTo(v.fair.base - 10, 10);
+    expect(m.evEbitda).toBeCloseTo((v.fair.base - 10) / 20, 10);
+    expect(m.pe).toBeCloseTo(v.fair.base / 12, 10);
+  });
+
+  it('binds equity values in millions and leaves out price tokens', () => {
+    const values = bindings(privateCo);
+    expect(values['fair.base']).toMatch(/^€[\d,]+m$/);
+    expect(values['ev.low']).toBe('6×');
+    expect(values['ev.high']).toBe('8×');
+    expect(values.premium).toBeUndefined();
+    expect(values['implied.margin']).toBeUndefined();
+    expect(values['dps.next']).toBeUndefined();
+  });
+
+  it('refuses a per-share valuation without a share count', () => {
+    expect(() => valueReport({ ...privateCo, assumptions: { ...privateCo.assumptions, basis: 'share' } })).toThrow(
+      RangeError,
+    );
+  });
+
+  it('formats money in the report currency', () => {
+    const values = bindings({ ...privateCo, currency: 'PLN' });
+    expect(values['fair.base']).toMatch(/^zł\s[\d,]+m$/);
+  });
+});
+
+describe('ratios of reported lines', () => {
+  it('binds growth and margins for reported years', () => {
+    const values = bindings(KRKA);
+    expect(values['growth.2025A']).toBe('6.9%');
+    expect(values['margin.2025A']).toBe('27.4%');
+    expect(values['netmargin.2025A']).toBe('19.8%');
+    // The first reported year has no year before it to grow from.
+    expect(values['growth.2023A']).toBeUndefined();
   });
 });

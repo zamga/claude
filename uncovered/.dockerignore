@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+dist-server
+dist-artifact
+test-results
+playwright-report
+data
+.env
+.env.*
+*.log

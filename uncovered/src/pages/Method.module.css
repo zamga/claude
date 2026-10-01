@@ -431,3 +431,45 @@
     font-size: var(--t-m);
   }
 }
+
+/* How the engine holds a report to the evidence. */
+.checksTitle {
+  margin-top: var(--s-7);
+  margin-bottom: var(--s-4);
+  font-size: var(--t-xl);
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--s-5);
+  counter-reset: check;
+}
+
+.checks li {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--ink);
+  counter-increment: check;
+}
+
+.checks h4 {
+  font-family: var(--font-sans);
+  font-size: var(--t-m);
+  font-weight: 650;
+}
+
+.checks h4::before {
+  content: counter(check, decimal-leading-zero) ' ';
+  font-size: var(--t-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--intaglio);
+}
+
+.checks p {
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}

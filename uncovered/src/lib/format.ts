@@ -39,3 +39,72 @@ export function longDate(iso: string): string {
   const d = new Date(`${iso}T00:00:00Z`);
   return Number.isNaN(d.getTime()) ? iso : DATE.format(d);
 }
+
+/* ---------- Money in a report's own currency ---------- */
+
+const MONEY = new Map<string, Intl.NumberFormat>();
+
+function moneyFormat(currency: string, digits: number): Intl.NumberFormat {
+  const key = `${currency}:${digits}`;
+  let f = MONEY.get(key);
+  if (!f) {
+    f = new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency,
+      currencyDisplay: 'narrowSymbol',
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    });
+    MONEY.set(key, f);
+  }
+  return f;
+}
+
+/** An amount, such as a value per share: "€262.50", "zł 41.20". */
+export function money(v: number, digits = 2, currency = 'EUR'): string {
+  return sign(v, moneyFormat(currency, digits).format(Math.abs(v)));
+}
+
+/** Millions: "€2,041.0m". */
+export function moneyM(v: number, digits = 1, currency = 'EUR'): string {
+  return `${money(v, digits, currency)}m`;
+}
+
+/** The symbol a currency is written with, such as "€" or "Kč". */
+export function currencySymbol(currency = 'EUR'): string {
+  return (
+    moneyFormat(currency, 0)
+      .formatToParts(0)
+      .find((p) => p.type === 'currency')?.value ?? currency
+  );
+}
+
+/**
+ * Formatters for one report: money in its currency, and values in its
+ * valuation basis (per share, or the whole of the equity in millions).
+ */
+export interface Money {
+  currency: string;
+  symbol: string;
+  /** An amount per share or per unit. */
+  amount: (v: number, digits?: number) => string;
+  /** Millions. */
+  millions: (v: number, digits?: number) => string;
+  /** A value in the report's basis: per share for 'share', millions for 'equity'. */
+  value: (v: number, digits?: number) => string;
+  /** How values in the basis are described: "a share" or "for the equity". */
+  per: string;
+}
+
+export function moneyFor(currency = 'EUR', basis: 'share' | 'equity' = 'share'): Money {
+  const amount = (v: number, digits = 2) => money(v, digits, currency);
+  const millions = (v: number, digits = 1) => moneyM(v, digits, currency);
+  return {
+    currency,
+    symbol: currencySymbol(currency),
+    amount,
+    millions,
+    value: basis === 'share' ? (v, digits = 2) => amount(v, digits) : (v, digits = 0) => millions(v, digits),
+    per: basis === 'share' ? 'a share' : 'for the equity',
+  };
+}

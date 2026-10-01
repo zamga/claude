@@ -1,4 +1,17 @@
 /* Commissioning an initiation: a form set like a printed request slip. */
+
+.problem {
+  padding: var(--s-3) var(--s-4);
+  border-left: 3px solid var(--grade-reported);
+  background: var(--paper-2);
+  font-size: var(--t-s);
+  color: var(--ink);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
 .initiate {
   padding-bottom: var(--s-9);
 }

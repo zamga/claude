@@ -23,6 +23,8 @@ export class SealRenderer {
   private opts: Required<DrawOptions>;
   private raf = 0;
   private drawn: Float32Array; // per layer, the share of each path already engraved
+  /** How far through the whole engraving the drawing stands, 0 to 1. */
+  private at = 0;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -77,10 +79,53 @@ export class SealRenderer {
 
   /** Draw the finished seal at once. */
   drawStatic() {
+    this.drawTo(1);
+  }
+
+  /** Draw the seal as it stands part of the way through its engraving, at once. */
+  drawTo(progress: number) {
     this.cancel();
     this.resize();
-    this.spec.layers.forEach((_, i) => this.stroke(i, 0, 1));
-    this.drawn.fill(1);
+    const t = clamp01(progress);
+    this.spec.layers.forEach((layer, i) => {
+      const local = clamp01((t - layer.start) / (layer.end - layer.start));
+      if (local > 0) this.stroke(i, 0, local);
+      this.drawn[i] = local;
+    });
+    this.at = t;
+  }
+
+  /**
+   * Engrave on from where the drawing stands to `progress` over `duration`
+   * ms: a seal that grows as the work it stands for gets done.
+   */
+  engraveTo(progress: number, duration: number, ease: (t: number) => number = easeEngrave): Promise<void> {
+    this.cancel();
+    const from = this.at;
+    const to = clamp01(progress);
+    if (to <= from) return Promise.resolve();
+    const start = performance.now();
+    return new Promise((resolve) => {
+      const frame = (now: number) => {
+        const k = Math.min(1, (now - start) / duration);
+        const t = from + (to - from) * ease(k);
+        this.at = t;
+        this.spec.layers.forEach((layer, i) => {
+          const target = clamp01((t - layer.start) / (layer.end - layer.start));
+          const done = this.drawn[i]!;
+          if (target > done) {
+            this.stroke(i, done, target);
+            this.drawn[i] = target;
+          }
+        });
+        if (k < 1) this.raf = requestAnimationFrame(frame);
+        else {
+          this.raf = 0;
+          resolve();
+        }
+      };
+      this.raf = requestAnimationFrame(frame);
+    });
   }
 
   /** Engrave the seal over `duration` ms; resolves when finished or cancelled. */
@@ -101,6 +146,7 @@ export class SealRenderer {
             this.drawn[i] = target;
           }
         });
+        this.at = t;
         if (t < 1) this.raf = requestAnimationFrame(frame);
         else {
           this.raf = 0;
@@ -115,6 +161,7 @@ export class SealRenderer {
     this.spec = spec;
     this.opts = { ...this.opts, ...opts };
     this.drawn = new Float32Array(spec.layers.length);
+    this.at = 0;
   }
 
   cancel() {

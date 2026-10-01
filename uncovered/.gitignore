@@ -10,3 +10,5 @@ playwright-report
 !.env.example
 *.log
 .DS_Store
+dist-server
+data

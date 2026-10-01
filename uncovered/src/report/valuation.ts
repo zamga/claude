@@ -1,12 +1,16 @@
-import type { Assumptions, Report } from './types';
+import { moneyM } from '../lib/format';
+import type { Assumptions, Basis, Report } from './types';
 
 /*
  * The valuation engine: a free-cash-flow-to-the-firm DCF, a two-stage
- * dividend discount model and an earnings-multiple range. Every number a
- * report shows about value is computed here from its assumptions.
+ * dividend discount model, an earnings-multiple range and an EV/EBITDA range.
+ * Every number a report shows about value is computed here from its
+ * assumptions.
  *
- * Conventions: values in € millions except per-share figures; cash flows are
- * discounted at the end of each forecast year from the start of the first.
+ * Conventions: money in millions of the report's currency except per-share
+ * figures; cash flows are discounted at the end of each forecast year from the
+ * start of the first. A company with traded shares is valued per share; one
+ * without is valued as the whole of its equity (the 'equity' basis).
  */
 
 export interface DcfYear {
@@ -35,8 +39,15 @@ export interface DcfResult {
   pvExplicit: number;
   enterpriseValue: number;
   equityValue: number;
+  /** Equity value per share; NaN without a share count. */
   perShare: number;
+  /** The value in the report's basis: per share, or the whole equity. */
+  value: number;
   terminalShare: number;
+}
+
+export function basisOf(a: Assumptions): Basis {
+  return a.basis ?? 'share';
 }
 
 export function costOfEquity(a: Assumptions): number {
@@ -74,6 +85,7 @@ export function dcf(a: Assumptions, baseRevenue: number, override: { wacc?: numb
   const pvExplicit = years.reduce((s, y) => s + y.pv, 0);
   const enterpriseValue = pvExplicit + pvTerminal;
   const equityValue = enterpriseValue + a.netCash;
+  const perShare = a.sharesM ? equityValue / a.sharesM : Number.NaN;
   return {
     years,
     costOfEquity: costOfEquity(a),
@@ -84,34 +96,50 @@ export function dcf(a: Assumptions, baseRevenue: number, override: { wacc?: numb
     pvExplicit,
     enterpriseValue,
     equityValue,
-    perShare: equityValue / a.sharesM,
+    perShare,
+    value: basisOf(a) === 'share' ? perShare : equityValue,
     terminalShare: pvTerminal / enterpriseValue,
+  };
+}
+
+/** The dividend inputs, when the assumptions carry a dividend model. */
+export function dividendModel(
+  a: Assumptions,
+): { next: number; growth: number; years: number; terminalGrowth: number } | undefined {
+  if (a.dpsNext === undefined || a.dpsNext <= 0) return undefined;
+  return {
+    next: a.dpsNext,
+    growth: a.dpsGrowth ?? 0,
+    years: a.dpsYears ?? 5,
+    terminalGrowth: a.dpsTerminalGrowth ?? a.terminalGrowth,
   };
 }
 
 /** Two-stage dividend discount model: explicit growth, then a perpetuity. */
 export function ddm(a: Assumptions, ke = costOfEquity(a)): { perShare: number; dividends: number[] } {
-  if (ke <= a.dpsTerminalGrowth) throw new RangeError('Cost of equity must exceed dividend growth.');
+  const m = dividendModel(a);
+  if (!m) throw new RangeError('No dividend model in these assumptions.');
+  if (ke <= m.terminalGrowth) throw new RangeError('Cost of equity must exceed dividend growth.');
   const dividends: number[] = [];
   let pv = 0;
-  let d = a.dpsNext;
-  for (let t = 1; t <= a.dpsYears; t++) {
-    if (t > 1) d *= 1 + a.dpsGrowth;
+  let d = m.next;
+  for (let t = 1; t <= m.years; t++) {
+    if (t > 1) d *= 1 + m.growth;
     dividends.push(d);
     pv += d / (1 + ke) ** t;
   }
-  const terminal = (d * (1 + a.dpsTerminalGrowth)) / (ke - a.dpsTerminalGrowth);
-  pv += terminal / (1 + ke) ** a.dpsYears;
+  const terminal = (d * (1 + m.terminalGrowth)) / (ke - m.terminalGrowth);
+  pv += terminal / (1 + ke) ** m.years;
   return { perShare: pv, dividends };
 }
 
-/** Value per share for every pair of WACC and terminal growth. */
+/** DCF value, in the report's basis, for every pair of WACC and terminal growth. */
 export function sensitivity(a: Assumptions, baseRevenue: number, waccs: number[], growths: number[]): number[][] {
-  return growths.map((g) => waccs.map((w) => (w > g ? dcf(a, baseRevenue, { wacc: w, g }).perShare : Number.NaN)));
+  return growths.map((g) => waccs.map((w) => (w > g ? dcf(a, baseRevenue, { wacc: w, g }).value : Number.NaN)));
 }
 
 export interface MethodRange {
-  id: 'dcf' | 'ddm' | 'pe';
+  id: 'dcf' | 'ddm' | 'pe' | 'ev';
   label: string;
   detail: string;
   low: number;
@@ -120,6 +148,8 @@ export interface MethodRange {
 }
 
 export interface Valuation {
+  basis: Basis;
+  currency: string;
   dcf: DcfResult;
   methods: MethodRange[];
   fair: { low: number; base: number; high: number };
@@ -133,49 +163,72 @@ const pct = (v: number, digits = 1) => `${(v * 100).toFixed(digits)}%`;
 /** Everything the report shows about value, from one call. */
 export function valueReport(report: Report): Valuation {
   const a = report.assumptions;
+  const basis = basisOf(a);
+  const currency = report.currency ?? 'EUR';
+  if (basis === 'share' && !a.sharesM) throw new RangeError('A per-share valuation needs a share count.');
   const rev = report.base.revenue;
   const base = dcf(a, rev);
   const w = base.wacc;
   const g = a.terminalGrowth;
   // DCF range: WACC ±0.5 pp against terminal growth ∓0.5 pp.
-  const dcfLow = dcf(a, rev, { wacc: w + 0.005, g: g - 0.005 }).perShare;
-  const dcfHigh = dcf(a, rev, { wacc: w - 0.005, g: g + 0.005 }).perShare;
-  const ke = costOfEquity(a);
-  const ddmBase = ddm(a, ke).perShare;
-  const ddmLow = ddm(a, ke + 0.005).perShare;
-  const ddmHigh = ddm(a, ke - 0.005).perShare;
-  const peLow = a.epsNext * a.peLow;
-  const peHigh = a.epsNext * a.peHigh;
   const methods: MethodRange[] = [
     {
       id: 'dcf',
       label: 'Discounted cash flow',
       detail: `WACC ${pct(w)} ± 0.5 pp, terminal growth ${pct(g)} ∓ 0.5 pp`,
-      low: dcfLow,
-      base: base.perShare,
-      high: dcfHigh,
+      low: dcf(a, rev, { wacc: w + 0.005, g: g - 0.005 }).value,
+      base: base.value,
+      high: dcf(a, rev, { wacc: w - 0.005, g: g + 0.005 }).value,
     },
-    {
+  ];
+  const ke = costOfEquity(a);
+  const dividends = basis === 'share' ? dividendModel(a) : undefined;
+  if (dividends) {
+    methods.push({
       id: 'ddm',
       label: 'Dividend discount',
-      detail: `Cost of equity ${pct(ke)} ± 0.5 pp; dividends +${pct(a.dpsGrowth, 0)} a year for ${a.dpsYears} years`,
-      low: ddmLow,
-      base: ddmBase,
-      high: ddmHigh,
-    },
-    {
+      detail: `Cost of equity ${pct(ke)} ± 0.5 pp; dividends +${pct(dividends.growth, 0)} a year for ${dividends.years} years`,
+      low: ddm(a, ke + 0.005).perShare,
+      base: ddm(a, ke).perShare,
+      high: ddm(a, ke - 0.005).perShare,
+    });
+  }
+  const earnings =
+    basis === 'share' && a.epsNext !== undefined && a.epsNext > 0 && a.peLow !== undefined && a.peHigh !== undefined;
+  if (earnings) {
+    const low = a.epsNext! * a.peLow!;
+    const high = a.epsNext! * a.peHigh!;
+    methods.push({
       id: 'pe',
       label: 'Earnings multiple',
       detail: `${a.peLow}–${a.peHigh}× ${a.periods[0] ?? ''} earnings per share`,
-      low: peLow,
-      base: (peLow + peHigh) / 2,
-      high: peHigh,
-    },
-  ];
+      low,
+      base: (low + high) / 2,
+      high,
+    });
+  }
+  // EV/EBITDA values a company without traded shares, or a listed one without earnings to multiply.
+  if (a.evEbitdaLow !== undefined && a.evEbitdaHigh !== undefined && !earnings && report.base.ebitda > 0) {
+    const ebitda = report.base.ebitda;
+    const toValue = (m: number) => {
+      const equity = ebitda * m + a.netCash;
+      return basis === 'share' ? equity / a.sharesM! : equity;
+    };
+    methods.push({
+      id: 'ev',
+      label: 'EV/EBITDA multiple',
+      detail: `${a.evEbitdaLow}–${a.evEbitdaHigh}× ${report.base.year.slice(0, 4)} EBITDA of ${moneyM(ebitda, 1, currency)}`,
+      low: toValue(a.evEbitdaLow),
+      base: toValue((a.evEbitdaLow + a.evEbitdaHigh) / 2),
+      high: toValue(a.evEbitdaHigh),
+    });
+  }
   const mean = (k: 'low' | 'base' | 'high') => methods.reduce((s, m) => s + m[k], 0) / methods.length;
   const fair = { low: mean('low'), base: mean('base'), high: mean('high') };
-  const price = report.market?.price;
+  const price = basis === 'share' ? report.market?.price : undefined;
   return {
+    basis,
+    currency,
     dcf: base,
     methods,
     fair,
@@ -217,11 +270,11 @@ export interface Implied {
   /** The terminal growth at which the DCF equals the price. */
   terminalGrowth?: number;
   /** Price over next year's earnings per share. */
-  pe: number;
+  pe?: number;
   /** Last paid dividend over the price. */
   dividendYield?: number;
   /** Next year's modelled dividend over the price. */
-  forwardYield: number;
+  forwardYield?: number;
 }
 
 /** What the market price implies, read back through the same models. */
@@ -235,8 +288,35 @@ export function implied(report: Report, price: number): Implied {
   return {
     margin,
     terminalGrowth,
-    pe: price / a.epsNext,
+    pe: a.epsNext !== undefined && a.epsNext > 0 ? price / a.epsNext : undefined,
     dividendYield: lastDps === undefined ? undefined : lastDps / price,
-    forwardYield: a.dpsNext / price,
+    forwardYield: a.dpsNext !== undefined ? a.dpsNext / price : undefined,
+  };
+}
+
+export interface ImpliedMultiples {
+  /** The whole equity at the base case, millions. */
+  equity: number;
+  enterpriseValue: number;
+  /** Enterprise value over the last reported year's EBITDA. */
+  evEbitda?: number;
+  /** Enterprise value over the last reported year's revenue. */
+  evSales?: number;
+  /** Equity value over the last reported year's net profit. */
+  pe?: number;
+}
+
+/** The multiples the base case pays for the last reported year: what a buyer at that value would be paying. */
+export function impliedMultiples(report: Report, v: Valuation): ImpliedMultiples {
+  const a = report.assumptions;
+  const equity = v.basis === 'share' ? v.fair.base * (a.sharesM ?? Number.NaN) : v.fair.base;
+  const enterpriseValue = equity - a.netCash;
+  const { revenue, ebitda, netProfit } = report.base;
+  return {
+    equity,
+    enterpriseValue,
+    evEbitda: ebitda > 0 ? enterpriseValue / ebitda : undefined,
+    evSales: revenue > 0 ? enterpriseValue / revenue : undefined,
+    pe: netProfit > 0 ? equity / netProfit : undefined,
   };
 }
