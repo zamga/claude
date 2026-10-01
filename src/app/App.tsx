@@ -27,6 +27,12 @@ export function App() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
+    // Marks the moment the page became interactive (tests and performance marks use it).
+    document.documentElement.dataset.hydrated = 'true';
+    performance.mark?.('plimsoll:interactive');
+  }, []);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       const typing = !!target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { navigate } from '../lib/router';
+import { useHydrated } from '../lib/hydration';
 import { EXAMPLE_ENTRY, loadCustom, saveCustom, type CustomEntry } from '../model/custom';
 import styles from './Survey.module.css';
 
@@ -78,12 +79,18 @@ const EMPTY: Draft = {
 };
 
 export function Survey() {
-  const [draft, setDraft] = useState<Draft>(() => toDraft(loadCustom() ?? EXAMPLE_ENTRY));
+  const hydrated = useHydrated();
+  // Keyed so the form re-reads saved figures once the page is interactive.
+  return <SurveyForm key={hydrated ? 'live' : 'static'} restore={hydrated} />;
+}
+
+function SurveyForm({ restore }: { restore: boolean }) {
+  const [draft, setDraft] = useState<Draft>(() => toDraft((restore ? loadCustom() : null) ?? EXAMPLE_ENTRY));
   const [errors, setErrors] = useState<Partial<Record<keyof CustomEntry, string>>>({});
   const isExample = draft.name === EXAMPLE_ENTRY.name;
 
   useEffect(() => {
-    document.title = 'Survey your own · Plimsoll';
+    document.title = 'Survey your own company · Plimsoll';
   }, []);
 
   const num = (s: string) => (s.trim() === '' ? null : Number(s.replace(/[,$\s%]/g, '')));

@@ -11,6 +11,7 @@ import { announce } from '../lib/announce';
 import { usePrefersReducedMotion } from '../lib/device';
 import { absoluteUrl, Link, navigate } from '../lib/router';
 import { readStored, writeStored } from '../lib/storage';
+import { useHydrated } from '../lib/hydration';
 import { historyCheck, marketGrowthLine, marketMarginLine, standingLine } from '../model/copy';
 import { customSnapshot, decodeCustom, encodeCustom, loadCustom, saveCustom } from '../model/custom';
 import { NARRATIVES } from '../model/narratives';
@@ -37,12 +38,27 @@ export const LIVE_SURVEY = import.meta.env.VITE_LIVE_API === '1';
 type LiveSnapshot = Omit<CompanySnapshot, 'price'> & { price: CompanySnapshot['price'] | null };
 
 export function ChartPage({ ticker, token }: { ticker: string; token: string | null }) {
+  const hydrated = useHydrated();
+  // Decided once per company, when the page becomes interactive: is there a
+  // shared link, a saved chart or a preference to restore? Then remount once.
+  // Later address changes (copying a link) must not remount the chart.
+  const personal = useMemo(
+    () =>
+      hydrated &&
+      (!!token ||
+        readStored(`chart:${ticker}`) !== null ||
+        readStored(MODE_KEY) !== null ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [hydrated, ticker],
+  );
   const resolved = useMemo(() => {
     if (ticker !== 'custom') {
       const company = findCompany(ticker);
       return company ? { company, scenarioToken: token } : null;
     }
     // Custom companies carry their own figures in the link after the scenario.
+    if (!hydrated) return null;
     const fromLink = token && token.length > SCENARIO_TOKEN_LENGTH ? decodeCustom(token.slice(SCENARIO_TOKEN_LENGTH)) : null;
     if (fromLink) saveCustom(fromLink);
     const entry = fromLink ?? loadCustom();
@@ -52,14 +68,19 @@ export function ChartPage({ ticker, token }: { ticker: string; token: string | n
       scenarioToken: token ? token.slice(0, SCENARIO_TOKEN_LENGTH) : null,
       entry,
     };
-  }, [ticker, token]);
+  }, [ticker, token, hydrated]);
 
   useEffect(() => {
-    if (resolved) document.title = `${resolved.company.shortName} · Plimsoll`;
+    if (resolved) {
+      const c = resolved.company;
+      document.title = c.custom
+        ? `${c.shortName} · Plimsoll`
+        : `${c.shortName} valuation: what ${formatPrice(c.price.value)} assumes · Plimsoll`;
+    }
   }, [resolved]);
 
   if (!resolved) {
-    if (ticker === 'custom') return <NoCustom />;
+    if (ticker === 'custom') return hydrated ? <NoCustom /> : <Loader label="Opening your survey…" />;
     return LIVE_SURVEY && /^[a-z][a-z0-9.-]{0,9}$/.test(ticker) ? (
       <LiveCompany key={ticker} ticker={ticker} token={token} />
     ) : (
@@ -69,10 +90,11 @@ export function ChartPage({ ticker, token }: { ticker: string; token: string | n
   const customToken = 'entry' in resolved && resolved.entry ? encodeCustom(resolved.entry) : null;
   return (
     <ChartView
-      key={`${resolved.company.ticker}:${resolved.company.name}`}
+      key={`${resolved.company.ticker}:${resolved.company.name}:${personal ? 'personal' : 'default'}`}
       company={resolved.company}
       sharedToken={resolved.scenarioToken}
       customToken={customToken}
+      restore={hydrated}
     />
   );
 }
@@ -164,16 +186,20 @@ function ChartView({
   company,
   sharedToken,
   customToken,
+  restore = true,
 }: {
   company: CompanySnapshot;
   sharedToken: string | null;
   customToken: string | null;
+  restore?: boolean;
 }) {
-  const controls = useScenario(company, sharedToken);
+  const controls = useScenario(company, sharedToken, restore);
   const { scenario, base } = controls;
   const a = useAnalysis(company, scenario);
   const reduced = usePrefersReducedMotion();
-  const [mode, setMode] = useState<ChartMode>(() => readStored<ChartMode>(MODE_KEY) ?? (reduced ? '2d' : '3d'));
+  const [mode, setMode] = useState<ChartMode>(() =>
+    restore ? (readStored<ChartMode>(MODE_KEY) ?? (reduced ? '2d' : '3d')) : '3d',
+  );
   const stageApi = useRef<{ home: () => void; topDown: () => void; snapshot: () => string } | null>(null);
   const [has3d, setHas3d] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
@@ -212,7 +238,6 @@ function ChartView({
   };
 
   const shareToken = encodeScenario(scenario) + (customToken ?? '');
-  const shareUrl = absoluteUrl(`/chart/${company.ticker.toLowerCase()}`, shareToken);
 
   const flash = (message: string) => {
     setToast(message);
@@ -220,9 +245,10 @@ function ChartView({
   };
 
   const copyLink = async () => {
-    navigate(`/chart/${company.ticker.toLowerCase()}`, { replace: true, state: shareToken, quiet: true });
+    const path = `/chart/${company.ticker.toLowerCase()}`;
+    navigate(path, { replace: true, state: shareToken, quiet: true });
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(absoluteUrl(path, shareToken));
       flash('Link copied. It opens this exact chart.');
     } catch {
       flash('Copy the address from the bar above; it now holds this chart.');

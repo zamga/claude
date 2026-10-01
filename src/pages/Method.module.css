@@ -84,6 +84,8 @@
   display: grid;
   gap: var(--space-m);
   scroll-margin-top: calc(var(--header-h) + 1rem);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
 }
 
 .section h2 {

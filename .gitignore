@@ -1,6 +1,7 @@
 node_modules
 dist
 dist-artifact
+dist-ssr
 coverage
 test-results
 playwright-report

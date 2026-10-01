@@ -5,8 +5,9 @@ import { drawChart2D, type Bearing, type Draw2DOptions } from './draw2d';
 import { readPalette } from './palette';
 
 export interface FlatChartProps {
-  grid: ValueGrid;
-  field: Float32Array;
+  /** Null while the data is not ready: the canvas keeps its place and stays blank. */
+  grid: ValueGrid | null;
+  field: Float32Array | null;
   price: number;
   marginOfSafety?: number;
   bearing?: Bearing | null;
@@ -40,7 +41,7 @@ export function FlatChart({
 
   useEffect(() => {
     const canvas = ref.current;
-    if (!canvas) return;
+    if (!canvas || !grid || !field) return;
     let raf = 0;
     const draw = () => {
       const w = canvas.clientWidth;
@@ -89,10 +90,14 @@ export function FlatChart({
 /** Render children only once the placeholder scrolls near the viewport. */
 export function useNearViewport<T extends Element>(margin = '200px') {
   const ref = useRef<T>(null);
-  const [near, setNear] = useState(() => typeof IntersectionObserver === 'undefined');
+  const [near, setNear] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el || near) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      queueMicrotask(() => setNear(true));
+      return;
+    }
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {

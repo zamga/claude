@@ -380,6 +380,13 @@
   max-width: 44ch;
 }
 
+/* Below-the-fold sections are skipped by layout and paint until needed. */
+.story,
+.manifesto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 760px;
+}
+
 /* Story */
 .story {
   margin-top: var(--space-2xl);

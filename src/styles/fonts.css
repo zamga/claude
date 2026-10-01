@@ -56,6 +56,17 @@
   line-gap-override: 0%;
 }
 
+/* Italic falls back to a real italic, sized to Newsreader's narrower italic. */
+@font-face {
+  font-family: 'Newsreader Fallback';
+  font-style: italic;
+  src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT'), local('Liberation Serif Italic'), local('Georgia Italic');
+  size-adjust: 101.6%;
+  ascent-override: 72.3%;
+  descent-override: 26.1%;
+  line-gap-override: 0%;
+}
+
 @font-face {
   font-family: 'Archivo Fallback';
   src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('Liberation Sans');

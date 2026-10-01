@@ -1,7 +1,15 @@
-import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type PointerEvent,
+} from 'react';
 import type { Sounding, ValueGrid } from '../engine/types';
 import { formatPct, formatPrice, formatSignedPct } from '../engine/format';
-import { useCoarsePointer, usePrefersReducedMotion, canRender3D } from '../lib/device';
+import { useCanRender3D, useCoarsePointer, usePrefersReducedMotion } from '../lib/device';
 import { useResolvedTheme } from '../lib/theme';
 import { drawChart2D, type Bearing, type PlotFrame } from './draw2d';
 import { readPalette } from './palette';
@@ -72,9 +80,9 @@ export function ChartStage(props: ChartStageProps) {
   const frameRef = useRef<PlotFrame | null>(null);
   const subjectRef = useRef(subject);
   const draggingRef = useRef(false);
-  const [capable] = useState(() => canRender3D());
+  const capable = useCanRender3D();
   const [webgl, setWebgl] = useState<'idle' | 'ready' | 'failed'>('idle');
-  const want3d = mode === '3d' && capable && webgl !== 'failed';
+  const want3d = mode === '3d' && capable !== false && webgl !== 'failed';
   const show3d = want3d && webgl === 'ready';
 
   // Latest props for the imperative stage callbacks.
@@ -144,56 +152,68 @@ export function ChartStage(props: ChartStageProps) {
   /* ------------------------------------------------------------- 3D stage */
 
   useEffect(() => {
-    if (mode !== '3d' || stageRef.current) return;
+    if (mode !== '3d' || stageRef.current || capable === null) return;
     if (!capable) {
       onReady?.(null);
       return;
     }
     let cancelled = false;
-    import('./terrain/TerrainStage')
-      .then(({ TerrainStage }) => {
-        const canvas = canvas3dRef.current;
-        if (cancelled || !canvas) return;
-        try {
-          const stage = new TerrainStage({
-            canvas,
-            palette: readPalette(),
-            reducedMotion: reduced,
-            ambient,
-            fit: ambient ? (coarse ? 0.8 : 1.04) : coarse ? 0.8 : 0.86,
-            shift,
-            touch: coarse,
-            onHover: (p) => showTip(p),
-            onBearing: ambient
-              ? undefined
-              : (g, m, phase) => {
-                  draggingRef.current = phase !== 'end';
-                  live.current.onBearing?.(g, m, phase);
-                },
-            onProject: placeLabels,
-            onContextLost: () => {
-              stageRef.current?.dispose();
-              stageRef.current = null;
-              setWebgl('failed');
-            },
-          });
-          stageRef.current = stage;
-          setWebgl('ready');
-          onReady?.({ home: () => stage.home(), topDown: () => stage.topDown(), snapshot: () => stage.snapshot() });
-        } catch {
-          setWebgl('failed');
-          onReady?.(null);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setWebgl('failed');
-      });
+    // The flat chart is already on screen; upgrade to relief once the page is idle.
+    const whenIdle = (fn: () => void) =>
+      typeof window.requestIdleCallback === 'function'
+        ? window.requestIdleCallback(fn, { timeout: ambient ? 3000 : 900 })
+        : window.setTimeout(fn, ambient ? 600 : 1);
+    whenIdle(() => {
+      if (cancelled) return;
+      import('./terrain/TerrainStage')
+        .then(({ TerrainStage }) => {
+          const canvas = canvas3dRef.current;
+          if (cancelled || !canvas) return;
+          try {
+            const stage = new TerrainStage({
+              canvas,
+              palette: readPalette(),
+              reducedMotion: reduced,
+              ambient,
+              fit: ambient ? (coarse ? 0.8 : 1.04) : coarse ? 0.8 : 0.86,
+              shift,
+              touch: coarse,
+              onHover: (p) => showTip(p),
+              onBearing: ambient
+                ? undefined
+                : (g, m, phase) => {
+                    draggingRef.current = phase !== 'end';
+                    live.current.onBearing?.(g, m, phase);
+                  },
+              onProject: placeLabels,
+              onContextLost: () => {
+                stageRef.current?.dispose();
+                stageRef.current = null;
+                setWebgl('failed');
+              },
+            });
+            stageRef.current = stage;
+            setWebgl('ready');
+            onReady?.({
+              home: () => stage.home(),
+              topDown: () => stage.topDown(),
+              snapshot: () => stage.snapshot(),
+            });
+          } catch {
+            setWebgl('failed');
+            onReady?.(null);
+          }
+        })
+        .catch(() => {
+          if (!cancelled) setWebgl('failed');
+        });
+    });
     return () => {
       cancelled = true;
     };
     // The stage is created once per mount; later prop changes flow through the effects below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, capable]);
 
   useEffect(
     () => () => {
@@ -292,8 +312,13 @@ export function ChartStage(props: ChartStageProps) {
       return;
     }
     if (ev.pointerType === 'touch') return;
-    ev.currentTarget.style.cursor = p && onBearing && !ambient ? (nearBearing2d(p.x, p.y) ? 'grab' : 'crosshair') : '';
-    showTip(p ? { growth: p.growth, margin: p.margin, elevation: elevationAt2d(p.growth, p.margin), screen: p } : null);
+    ev.currentTarget.style.cursor =
+      p && onBearing && !ambient ? (nearBearing2d(p.x, p.y) ? 'grab' : 'crosshair') : '';
+    showTip(
+      p
+        ? { growth: p.growth, margin: p.margin, elevation: elevationAt2d(p.growth, p.margin), screen: p }
+        : null,
+    );
   };
 
   const onPointerUp2d = (ev: PointerEvent<HTMLCanvasElement>) => {
@@ -344,19 +369,36 @@ export function ChartStage(props: ChartStageProps) {
         aria-hidden="true"
       />
       {want3d && (
-        <canvas ref={canvas3dRef} className={styles.relief} data-visible={show3d ? 'true' : 'false'} aria-hidden="true" />
+        <canvas
+          ref={canvas3dRef}
+          className={styles.relief}
+          data-visible={show3d ? 'true' : 'false'}
+          aria-hidden="true"
+        />
       )}
-      <div ref={labelsRef} className={styles.labels} data-visible={show3d ? 'true' : 'false'} aria-hidden="true" />
+      <div
+        ref={labelsRef}
+        className={styles.labels}
+        data-visible={show3d ? 'true' : 'false'}
+        aria-hidden="true"
+      />
       <div ref={tipRef} className={styles.tip} hidden aria-hidden="true" />
       <p id={summaryId} className="visually-hidden">
         {summary}
-        {onBearing && !ambient ? ' Use the arrow keys to move your bearing; hold Shift for bigger steps.' : ''}
+        {onBearing && !ambient
+          ? ' Use the arrow keys to move your bearing; hold Shift for bigger steps.'
+          : ''}
       </p>
     </div>
   );
 }
 
-function renderTip(tip: HTMLDivElement | null, host: HTMLDivElement | null, p: StagePoint | null, price: number) {
+function renderTip(
+  tip: HTMLDivElement | null,
+  host: HTMLDivElement | null,
+  p: StagePoint | null,
+  price: number,
+) {
   if (!tip || !host) return;
   if (!p) {
     tip.hidden = true;
@@ -382,7 +424,12 @@ function span(className: string | undefined, text: string) {
   return el;
 }
 
-function renderLabels(root: HTMLDivElement | null, labels: ProjectedLabel[], price: number, bearing: Bearing | null) {
+function renderLabels(
+  root: HTMLDivElement | null,
+  labels: ProjectedLabel[],
+  price: number,
+  bearing: Bearing | null,
+) {
   if (!root) return;
   const seen = new Set<string>();
   for (const l of labels) {

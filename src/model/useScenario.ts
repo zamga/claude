@@ -23,9 +23,10 @@ const storageKey = (company: CompanySnapshot) => `chart:${company.ticker.toLower
  * is one, then from the visitor's last session, then from the survey.
  * Mount it under a `key` of the ticker so a new company starts fresh.
  */
-export function useScenario(company: CompanySnapshot, sharedToken: string | null) {
+export function useScenario(company: CompanySnapshot, sharedToken: string | null, restore = true) {
   const base = useMemo(() => baseInputs(company), [company]);
   const [scenario, setScenario] = useState<Scenario>(() => {
+    if (!restore) return defaultScenario(company);
     const fromLink = sharedToken ? decodeScenario(sharedToken, base) : null;
     if (fromLink) return fromLink;
     const saved = readStored<string>(storageKey(company));
@@ -34,9 +35,10 @@ export function useScenario(company: CompanySnapshot, sharedToken: string | null
   });
 
   useEffect(() => {
+    if (!restore) return;
     const t = window.setTimeout(() => writeStored(storageKey(company), encodeScenario(scenario)), 350);
     return () => window.clearTimeout(t);
-  }, [company, scenario]);
+  }, [company, scenario, restore]);
 
   const setInput = useCallback(<K extends keyof ValuationInputs>(key: K, value: ValuationInputs[K]) => {
     setScenario((s) => ({ ...s, storyId: null, inputs: { ...s.inputs, [key]: value } }));

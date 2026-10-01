@@ -413,11 +413,13 @@
   margin-top: var(--space-m);
 }
 
-/* Sections below the bench */
+/* Sections below the bench: skipped by layout and paint until scrolled near. */
 .section {
   display: grid;
   gap: var(--space-m);
   padding-top: var(--space-xl);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
 }
 
 .sectionHead {

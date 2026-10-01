@@ -16,7 +16,7 @@ const ORDERS: { id: Order; label: string }[] = [
 export function Atlas() {
   const [order, setOrder] = useState<Order>('name');
   useEffect(() => {
-    document.title = 'Atlas · Plimsoll';
+    document.title = 'Atlas of company valuations · Plimsoll';
   }, []);
 
   const sorted = useMemo(() => {
@@ -57,7 +57,7 @@ export function Atlas() {
       <ul className={styles.grid} role="list">
         {sorted.map((c) => (
           <li key={c.ticker}>
-            <CompanyCard company={c} />
+            <CompanyCard company={c} level={2} />
           </li>
         ))}
       </ul>

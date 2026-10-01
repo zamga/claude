@@ -1,7 +1,7 @@
 import type { Sounding, ValueGrid } from '../engine/types';
 import { ELEVATION_LIMIT } from '../engine/grid';
 import { formatPct } from '../engine/format';
-import { isoSegments, levelsBetween } from './contours';
+import { isoSegmentsMulti, levelsBetween } from './contours';
 import { mix, toRgb, type ChartPalette, type RGB } from './palette';
 
 export interface Bearing {
@@ -153,9 +153,11 @@ export function drawChart2D(ctx: CanvasRenderingContext2D, o: Draw2DOptions): Pl
   ctx.fillStyle = p.paper;
   ctx.fillRect(0, 0, o.width, o.height);
 
-  // 1. Raster: tints and hillshade at half resolution, upscaled smoothly.
-  const rw = Math.max(64, Math.round((f.w * o.dpr) / 2));
-  const rh = Math.max(64, Math.round((f.h * o.dpr) / 2));
+  // 1. Raster: tints and hillshade at reduced resolution, upscaled smoothly.
+  // The colour field is smooth; every crisp edge is drawn afterwards as a vector line.
+  const rscale = Math.min(o.dpr, 1.25) / 2;
+  const rw = Math.max(64, Math.round(f.w * rscale));
+  const rh = Math.max(64, Math.round(f.h * rscale));
   const raster = new OffscreenCanvasOr(rw, rh);
   const rctx = raster.getContext('2d')!;
   const img = rctx.createImageData(rw, rh);
@@ -219,24 +221,31 @@ export function drawChart2D(ctx: CanvasRenderingContext2D, o: Draw2DOptions): Pl
   ctx.stroke();
   ctx.globalAlpha = 1;
 
+  // Every line on the chart, traced in a single pass over the grid.
+  const landLevels = levelsBetween(sea ? 0.1 : -ELEVATION_LIMIT + 0.01, ELEVATION_LIMIT - 0.01, 0.1);
+  const waterLevels = sea ? WATERLINES : [];
+  const lines = isoSegmentsMulti(grid, field, [...landLevels, ...waterLevels, loadLine, 0]);
+  const landLines = lines.slice(0, landLevels.length);
+  const waterLines = lines.slice(landLevels.length, landLevels.length + waterLevels.length);
+  const loadSegs = lines[lines.length - 2]!;
+  const coastSegs = lines[lines.length - 1]!;
+
   // 3. Land contours every 0.1 (about 10% of value); index contour every 0.5.
   ctx.strokeStyle = p.landLine;
-  for (const level of levelsBetween(sea ? 0.1 : -ELEVATION_LIMIT + 0.01, ELEVATION_LIMIT - 0.01, 0.1)) {
+  landLevels.forEach((level, k) => {
     const index = Math.abs((level * 10) % 5) < 1e-6;
     ctx.globalAlpha = index ? 0.9 : 0.45;
     ctx.lineWidth = index ? 1.1 : 0.6;
-    strokeSegments(ctx, isoSegments(grid, field, level), f);
-  }
+    strokeSegments(ctx, landLines[k]!, f);
+  });
 
   // 4. Waterlining below sea level.
   ctx.strokeStyle = p.waterLine;
-  if (sea) {
-    WATERLINES.forEach((level, k) => {
-      ctx.globalAlpha = Math.max(0.12, 0.8 - k * 0.09);
-      ctx.lineWidth = 0.7;
-      strokeSegments(ctx, isoSegments(grid, field, level), f);
-    });
-  }
+  waterLines.forEach((segs, k) => {
+    ctx.globalAlpha = Math.max(0.12, 0.8 - k * 0.09);
+    ctx.lineWidth = 0.7;
+    strokeSegments(ctx, segs, f);
+  });
   ctx.globalAlpha = 1;
 
   // 5. Load line: where your margin of safety begins.
@@ -244,13 +253,13 @@ export function drawChart2D(ctx: CanvasRenderingContext2D, o: Draw2DOptions): Pl
     ctx.strokeStyle = p.intertidalInk;
     ctx.lineWidth = 0.9;
     ctx.setLineDash([3, 3]);
-    strokeSegments(ctx, isoSegments(grid, field, loadLine), f);
+    strokeSegments(ctx, loadSegs, f);
     ctx.setLineDash([]);
   }
 
   // 6. The coastline: today's price.
   if (sea && coastStyle !== 'none') {
-    const coast = isoSegments(grid, field, 0);
+    const coast = coastSegs;
     if (coastStyle === 'emphasis') {
       ctx.strokeStyle = p.paper;
       ctx.lineWidth = 7;

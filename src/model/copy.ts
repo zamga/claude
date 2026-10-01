@@ -59,6 +59,6 @@ export function standingLine(standing: Standing, value: number, price: number, m
   if (standing === 'thin') {
     return `Your story values it at ${v} a share. The price is below that, but by less than your ${formatPct(marginOfSafety, 0)} margin of safety.`;
   }
-  const over = (price - value) / value;
-  return `Your story values it at ${v} a share. The price is ${formatPct(over, 0)} above that.`;
+  const fall = (price - value) / price;
+  return `Your story values it at ${v} a share. The price would have to fall ${formatPct(fall, 0)} to reach it.`;
 }

@@ -1,6 +1,32 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import type { Plugin } from 'vite';
+
+/**
+ * `vite preview` mirrors production hosting: prerendered pages are served as
+ * files, and any other path gets the unrendered shell (dist/app.html), so a
+ * page is never hydrated against another page's HTML.
+ */
+function spaFallback(): Plugin {
+  return {
+    name: 'plimsoll:spa-fallback',
+    configurePreviewServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        const [url = '/', query] = (req.url ?? '/').split('?');
+        const isAsset = /\.[a-z0-9]+$/i.test(url) || url.startsWith('/api/');
+        if (!isAsset && url !== '/') {
+          const page = `${url.replace(/\/$/, '')}.html`;
+          const target = existsSync(join('dist', page)) ? page : existsSync('dist/app.html') ? '/app.html' : null;
+          if (target) req.url = target + (query ? `?${query}` : '');
+        }
+        next();
+      });
+    },
+  };
+}
 
 /**
  * Two build targets share one codebase:
@@ -16,6 +42,7 @@ export default defineConfig(({ mode }) => {
     base: artifact ? './' : '/',
     plugins: [
       react(),
+      spaFallback(),
       ...(artifact
         ? [
             {
@@ -36,7 +63,8 @@ export default defineConfig(({ mode }) => {
       outDir: artifact ? 'dist-artifact' : 'dist',
       emptyOutDir: true,
       sourcemap: !artifact,
-      cssCodeSplit: !artifact,
+      // One small stylesheet in <head>: prerendered pages must never paint before their styles arrive.
+      cssCodeSplit: false,
       assetsInlineLimit: artifact ? Number.MAX_SAFE_INTEGER : 4096,
       chunkSizeWarningLimit: 700,
     },

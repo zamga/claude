@@ -1,7 +1,20 @@
-import { expect, test } from '@playwright/test';
+import { expect, test as base, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const errorsOf = (page: import('@playwright/test').Page) => {
+// Pages are prerendered; wait for hydration before interacting.
+const test = base.extend({
+  page: async ({ page }, use) => {
+    const goto = page.goto.bind(page);
+    page.goto = async (url, options) => {
+      const res = await goto(url, options);
+      await page.waitForSelector('html[data-hydrated]', { state: 'attached' });
+      return res;
+    };
+    await use(page);
+  },
+});
+
+const errorsOf = (page: Page) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => {
@@ -71,7 +84,9 @@ test('a shared link reproduces the chart', async ({ page }) => {
   const growth = page.getByLabel('Revenue growth, years 1–5, exact value');
   await growth.fill('9');
   await growth.press('Enter');
+  await expect(growth).toHaveValue('9.0');
   await page.getByRole('button', { name: 'Copy link' }).click();
+  await expect(page).toHaveURL(/\?s=[A-Za-z0-9_-]{70}/);
   const url = page.url();
   await page.evaluate(() => localStorage.clear());
   await page.goto(url);
@@ -117,6 +132,7 @@ test('reduced motion opens the flat chart', async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto('http://localhost:4173/chart/aapl');
+  await page.waitForSelector('html[data-hydrated]', { state: 'attached' });
   await expect(page.getByRole('group', { name: 'Value chart for Apple' })).toHaveAttribute('data-mode', '2d');
   await context.close();
 });
@@ -126,7 +142,9 @@ for (const path of ['/', '/chart/nvda', '/atlas', '/method', '/survey', '/nowher
     await page.goto(path);
     await page.waitForTimeout(800);
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
-    const summary = results.violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`);
+    const summary = results.violations.map(
+      (v) => `${v.id}: ${v.help} at ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`,
+    );
     expect(summary).toEqual([]);
   });
 }

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { ChartStage } from '../chart/ChartStage';
-import { FlatChart } from '../chart/FlatChart';
+import { FlatChart, useNearViewport } from '../chart/FlatChart';
 import { COMPANIES, findCompany } from '../data/companies';
 import { formatPct, formatPrice } from '../engine/format';
 import { runMonteCarlo, defaultRanges } from '../engine/montecarlo';
@@ -192,11 +192,15 @@ const STEPS = [
 
 function HowToRead() {
   const company = findCompany('META')!;
-  const q = useMemo(() => quickChart(company, 80), [company]);
+  // Nothing is computed or drawn until the section approaches the viewport.
+  const [figureRef, near] = useNearViewport<HTMLElement>('400px');
+  const q = useMemo(() => (near ? quickChart(company, 80) : null), [company, near]);
   const soundings = useMemo(
     () =>
-      runMonteCarlo(q.inputs, defaultRanges(q.inputs), q.price, { draws: 1200, seed: seedFrom('how'), soundings: 260 })
-        .soundings,
+      q
+        ? runMonteCarlo(q.inputs, defaultRanges(q.inputs), q.price, { draws: 1200, seed: seedFrom('how'), soundings: 260 })
+            .soundings
+        : null,
     [q],
   );
   const [step, setStep] = useState(0);
@@ -225,14 +229,14 @@ function HowToRead() {
         </h2>
       </div>
       <div className={styles.howBody}>
-        <figure className={styles.howFigure}>
+        <figure className={styles.howFigure} ref={figureRef}>
           <FlatChart
-            grid={q.grid}
-            field={q.field}
-            price={q.price}
+            grid={q?.grid ?? null}
+            field={q?.field ?? null}
+            price={company.price.value}
             layers={s.layers}
-            today={q.today}
-            bearing={step === 3 ? q.bearing : null}
+            today={q?.today ?? null}
+            bearing={step === 3 && q ? q.bearing : null}
             soundings={step === 3 ? soundings : null}
             axes
             spotSoundings={step >= 1}
@@ -240,7 +244,7 @@ function HowToRead() {
             label={`Example chart of ${company.shortName}, step ${step + 1}: ${s.title}`}
           />
           <figcaption>
-            {company.shortName} at {formatPrice(q.price)}, on its as-it-is assumptions.
+            {company.shortName} at {formatPrice(company.price.value)}, on its as-it-is assumptions.
           </figcaption>
         </figure>
         <ol className={styles.steps} role="list">

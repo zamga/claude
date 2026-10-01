@@ -6,7 +6,8 @@ import { ATLAS_EXTENT, quickChart } from '../model/quickChart';
 import { PlimsollGlyph } from './Mark';
 import styles from './CompanyCard.module.css';
 
-export function CompanyCard({ company }: { company: CompanySnapshot }) {
+export function CompanyCard({ company, level = 3 }: { company: CompanySnapshot; level?: 2 | 3 }) {
+  const Heading = level === 2 ? 'h2' : 'h3';
   const [ref, near] = useNearViewport<HTMLDivElement>();
   const q = quickChart(company, 64, ATLAS_EXTENT);
   const ratio = q.value > 0 ? q.price / q.value : Number.POSITIVE_INFINITY;
@@ -32,7 +33,7 @@ export function CompanyCard({ company }: { company: CompanySnapshot }) {
       </div>
       <div className={styles.body}>
         <div className={styles.titleRow}>
-          <h3 className={styles.name}>{company.shortName}</h3>
+          <Heading className={styles.name}>{company.shortName}</Heading>
           <PlimsollGlyph
             ratio={ratio}
             size={30}

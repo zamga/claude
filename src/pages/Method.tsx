@@ -33,7 +33,7 @@ const SECTIONS = [
 
 export function Method() {
   useEffect(() => {
-    document.title = 'Method · Plimsoll';
+    document.title = 'Method: how the chart is drawn · Plimsoll';
   }, []);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ block: 'start' });

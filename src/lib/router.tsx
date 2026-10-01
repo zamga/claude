@@ -59,6 +59,11 @@ export function absoluteUrl(path: string, state?: string | null): string {
 let current = readLocation();
 const listeners = new Set<() => void>();
 
+/** Prerendering: tell the router which page is being rendered. */
+export function setServerLocation(path: string) {
+  current = { path: path.toLowerCase(), state: null };
+}
+
 function emit() {
   current = readLocation();
   listeners.forEach((l) => l());

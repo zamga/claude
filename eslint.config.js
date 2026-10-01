@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
-  { ignores: ['dist', 'dist-artifact', 'node_modules', 'test-results', 'playwright-report'] },
+  { ignores: ['dist', 'dist-artifact', 'dist-ssr', 'data', 'node_modules', 'test-results', 'playwright-report'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -32,5 +32,10 @@ export default tseslint.config(
       // Scrollable regions must be reachable by keyboard (axe: scrollable-region-focusable).
       'jsx-a11y/no-noninteractive-tabindex': ['error', { tags: [], roles: ['tabpanel', 'region'] }],
     },
+  },
+  {
+    // Playwright fixtures call `use()`, which is not a React hook.
+    files: ['e2e/**/*.ts'],
+    rules: { 'react-hooks/rules-of-hooks': 'off' },
   },
 );

@@ -135,7 +135,10 @@ export class TerrainStage {
   private raycaster = new Raycaster();
   private ndc = new Vector2();
   private swayStart = performance.now();
+  private lastSwayFrame = 0;
   private interacted = false;
+  /** A rise requested while the chart was off screen waits until it is seen. */
+  private pendingRise: number | null = null;
 
   constructor(private opts: TerrainStageOptions) {
     const { canvas } = opts;
@@ -223,6 +226,11 @@ export class TerrainStage {
     this.resizeObserver.observe(canvas.parentElement ?? canvas);
     this.intersection = new IntersectionObserver(([entry]) => {
       this.visible = entry?.isIntersecting ?? true;
+      if (this.visible && this.pendingRise !== null) {
+        const delay = this.pendingRise;
+        this.pendingRise = null;
+        this.rise(delay);
+      }
       if (this.visible) this.invalidate();
     });
     this.intersection.observe(canvas);
@@ -401,6 +409,11 @@ export class TerrainStage {
     }
     this.heightScale = 0;
     this.applyHeight();
+    if (!this.visible || !this.isOnScreen()) {
+      // Hold the flat chart until someone can watch it rise.
+      this.pendingRise = delay;
+      return;
+    }
     const start = performance.now() + delay;
     const polarFrom = 0.02;
     this.animate((now) => {
@@ -411,6 +424,11 @@ export class TerrainStage {
       if (!this.interacted) this.orbitTo(MathUtils.lerp(polarFrom, DEFAULT_POLAR, k), DEFAULT_AZIMUTH * k);
       return t < 1;
     });
+  }
+
+  private isOnScreen() {
+    const r = this.opts.canvas.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
   }
 
   resetCamera(polar = DEFAULT_POLAR, azimuth = polar < 0.1 ? 0 : DEFAULT_AZIMUTH) {
@@ -492,11 +510,24 @@ export class TerrainStage {
       if (!step(now)) this.animations.delete(step);
       else again = true;
     }
-    if (this.opts.ambient && !this.opts.reducedMotion && !this.interacted && this.visible && this.heightScale >= 1) {
-      // A slow sway, like a chart table on a moored ship.
-      const t = (now - this.swayStart) / 1000;
-      this.orbitTo(DEFAULT_POLAR + Math.sin(t * 0.21) * 0.035, DEFAULT_AZIMUTH + Math.sin(t * 0.13) * 0.16);
+    const swaying =
+      this.opts.ambient &&
+      !this.opts.reducedMotion &&
+      !this.interacted &&
+      this.visible &&
+      this.heightScale >= 1 &&
+      now - this.swayStart < 60_000; // The ship settles after a minute.
+    if (swaying) {
+      // A slow sway, like a chart table on a moored ship, at no more than 30 fps.
       again = true;
+      if (now - this.lastSwayFrame >= 33) {
+        this.lastSwayFrame = now;
+        const t = (now - this.swayStart) / 1000;
+        this.orbitTo(DEFAULT_POLAR + Math.sin(t * 0.21) * 0.035, DEFAULT_AZIMUTH + Math.sin(t * 0.13) * 0.16);
+      } else if (this.animations.size === 0 && !this.controls.update()) {
+        this.invalidate();
+        return;
+      }
     }
     const moving = this.controls.update();
     if (this.visible) this.render();

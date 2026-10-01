@@ -2,7 +2,7 @@
   "name": "plimsoll",
   "private": true,
   "version": "1.0.0",
-  "description": "Plimsoll — a company analysis and valuation instrument. The price is sea level; your beliefs are the terrain.",
+  "description": "Plimsoll \u2014 a company analysis and valuation instrument. The price is sea level; your beliefs are the terrain.",
   "type": "module",
   "license": "UNLICENSED",
   "engines": {
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && vite build",
+    "build": "npm run typecheck && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && NODE_ENV=production node scripts/prerender.mjs",
     "build:artifact": "vite build --mode artifact && node scripts/package-artifact.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json",
@@ -20,7 +20,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "data:refresh": "node --experimental-strip-types scripts/refresh-data.ts",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "build:fast": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && NODE_ENV=production node scripts/prerender.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",
