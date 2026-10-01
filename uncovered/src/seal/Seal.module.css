@@ -1,0 +1,85 @@
+.seal {
+  position: relative;
+  width: var(--seal-size);
+  height: var(--seal-size);
+  max-width: 100%;
+  aspect-ratio: 1;
+  flex: none;
+}
+
+.canvas,
+.sheen,
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Optically variable ink: the engraving shifts colour with the pointer. A
+ * conic gradient blends over the seal: lighten on daylight paper keeps the
+ * paper white and recolours only the dark ink; darken under UV keeps the dark
+ * ground and recolours only the glowing ink. No pixels are read back.
+ */
+.sheen {
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--sheen-angle),
+    var(--ovi-a),
+    var(--ovi-b) 25%,
+    var(--ovi-a) 50%,
+    var(--ovi-b) 75%,
+    var(--ovi-a)
+  );
+  mix-blend-mode: lighten;
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out);
+  pointer-events: none;
+}
+
+:global(:root[data-theme='dark']) .sheen {
+  mix-blend-mode: darken;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .sheen {
+    mix-blend-mode: darken;
+  }
+}
+
+.seal[data-sheen='on']:hover .sheen {
+  opacity: 1;
+}
+
+.overlay {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ring {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  fill: var(--intaglio);
+}
+
+.monogram {
+  font-family: var(--font-display);
+  font-weight: 500;
+  fill: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.submark {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  fill: var(--ink-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheen {
+    transition: none;
+  }
+}

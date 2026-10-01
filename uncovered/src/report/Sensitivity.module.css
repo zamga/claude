@@ -1,0 +1,62 @@
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.caption {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+}
+
+.compact {
+  font-size: var(--t-xs);
+}
+
+.table th,
+.table td {
+  padding: 0.55rem 0.5rem;
+  text-align: right;
+  border-bottom: 1px solid var(--rule);
+}
+
+.table thead th {
+  font-weight: 650;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--ink);
+}
+
+.table th[scope='row'] {
+  text-align: left;
+  font-weight: 650;
+  color: var(--ink-3);
+}
+
+.table th[data-base='true'] {
+  color: var(--ink);
+}
+
+/* Above the price: intaglio; below: violet. Stronger the further away. */
+.table td[data-side='above'] {
+  background: color-mix(in srgb, var(--method-dcf) calc(var(--strength) * 22%), transparent);
+}
+
+.table td[data-side='below'] {
+  background: color-mix(in srgb, var(--method-ddm) calc(var(--strength) * 22%), transparent);
+}
+
+.table td[data-base='true'] {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+  font-weight: 700;
+}

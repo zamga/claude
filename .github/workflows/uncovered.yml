@@ -1,0 +1,64 @@
+name: Uncovered
+
+on:
+  push:
+    branches: [main]
+    paths: ["uncovered/**", ".github/workflows/uncovered.yml"]
+  pull_request:
+    paths: ["uncovered/**", ".github/workflows/uncovered.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uncovered-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: uncovered
+
+jobs:
+  check:
+    name: Types, lint, format, unit tests, builds
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: uncovered/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - run: npm run build:preview
+      - uses: actions/upload-artifact@v4
+        with:
+          name: uncovered-dist
+          path: uncovered/dist
+          retention-days: 7
+
+  e2e:
+    name: End-to-end and accessibility
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: uncovered/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: uncovered-e2e-results
+          path: uncovered/test-results
+          retention-days: 7

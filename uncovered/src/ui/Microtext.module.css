@@ -1,0 +1,23 @@
+.micro {
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  padding-block: 2px;
+  color: var(--intaglio);
+  opacity: 0.9;
+  user-select: none;
+}
+
+.micro span {
+  display: inline-block;
+}
+
+/* Security feature: visible only under UV. */
+.uvOnly {
+  opacity: calc(var(--uv) * 0.9);
+  transition: opacity var(--dur-4) var(--ease-out);
+}

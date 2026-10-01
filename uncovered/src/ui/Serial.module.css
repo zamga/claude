@@ -1,0 +1,47 @@
+.serial {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ovi-b);
+  line-height: 1;
+}
+
+.no {
+  margin-right: 0.35em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+
+.wheel {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+.reel {
+  display: flex;
+  flex-direction: column;
+  transition: transform 900ms var(--ease-set);
+}
+
+.reel span {
+  height: 1em;
+  line-height: 1;
+}
+
+.char {
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel {
+    transition: none;
+  }
+}

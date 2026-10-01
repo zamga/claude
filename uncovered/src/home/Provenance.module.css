@@ -1,0 +1,122 @@
+.provenance {
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--rule);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.title {
+  font-size: var(--t-3xl);
+  letter-spacing: -0.03em;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--intaglio);
+}
+
+.excerpt {
+  display: grid;
+  gap: var(--s-4);
+  padding-left: var(--s-5);
+  border-left: 1px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1.38;
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Circled markers sit on the baseline for layout and are lifted visually, so they never open up the leading. */
+.excerpt :global(.fn) {
+  position: relative;
+  top: -0.7em;
+  font-size: 0.46em;
+  vertical-align: baseline;
+}
+
+.excerpt :global(.fn a) {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.85em;
+  height: 1.85em;
+  margin-left: 0.12em;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  line-height: 1;
+  vertical-align: baseline;
+  transition:
+    background-color var(--dur-1) linear,
+    color var(--dur-1) linear;
+}
+
+.excerpt :global(.fn a:hover),
+.excerpt :global(.fn a:focus-visible) {
+  background: var(--grade-reported);
+  color: var(--sheet);
+  text-decoration: none;
+}
+
+.rail {
+  position: sticky;
+  top: calc(var(--safe-top) + var(--header-h) + 2rem);
+  display: grid;
+  gap: var(--s-5);
+}
+
+/*
+ * The card that unfolds under a paragraph is the phone and tablet version of
+ * the rail. Scoped to its parent so it outranks the shared card's display.
+ */
+.excerpt > .inlineCard {
+  display: none;
+}
+
+@media (max-width: 64rem) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rail {
+    position: static;
+  }
+
+  .rail > .railCard {
+    display: none;
+  }
+
+  .excerpt > .inlineCard {
+    display: grid;
+    margin-block: var(--s-2);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .excerpt > .inlineCard {
+      animation: unfold 420ms var(--ease-out) both;
+    }
+  }
+}
+
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}

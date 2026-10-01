@@ -1,0 +1,264 @@
+@import '@fontsource-variable/bodoni-moda/opsz.css';
+@import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+@import '@fontsource-variable/hanken-grotesk/index.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--safe-top) + var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--t-m);
+  line-height: 1.55;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--dur-3) var(--ease-out),
+    color var(--dur-3) var(--ease-out);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 450;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--intaglio);
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+::selection {
+  background: var(--intaglio-wash);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------ utilities */
+
+.page {
+  width: 100%;
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.num {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.display-num {
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums proportional-nums;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 0.75rem;
+}
+
+/* The two type voices */
+.serif {
+  font-family: var(--font-display);
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Page transitions (View Transitions API) */
+::view-transition-old(root) {
+  animation: vt-out 260ms var(--ease-engrave) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 520ms var(--ease-set) both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.6%);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.2%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Footnote superscripts: the evidence grade is the colour of the number. */
+.fn {
+  font-family: var(--font-sans);
+  font-size: 0.62em;
+  font-weight: 700;
+  line-height: 0;
+  margin-left: 0.08em;
+  font-variant-numeric: lining-nums;
+}
+
+.fn-bind {
+  white-space: nowrap;
+}
+
+/* A figure computed by the model, not reported by the company: labelled as an estimate. */
+.bound {
+  text-decoration: underline dotted var(--grade-estimated);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+  white-space: nowrap;
+}
+
+.fn > * {
+  text-decoration: none;
+  color: var(--grade-reported);
+  padding-inline: 0.06em;
+}
+
+.fn[data-grade='filed'] > * {
+  color: var(--grade-filed);
+}
+
+.fn[data-grade='estimated'] > * {
+  color: var(--grade-estimated);
+}
+
+.fn a:hover {
+  text-decoration: underline;
+}
+
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+    font-size: 10pt;
+  }
+
+  .skip-link {
+    display: none;
+  }
+
+  /* Colour carries meaning here: evidence grades and the valuation methods. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

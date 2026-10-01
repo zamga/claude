@@ -1,0 +1,204 @@
+/* A source card: the evidence behind a footnote, topped with its grade colour. */
+.card {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--grade-reported);
+  box-shadow: var(--shadow-sheet);
+  font-family: var(--font-sans);
+  font-size: var(--t-m);
+  line-height: 1.55;
+}
+
+.card[data-grade='filed'] {
+  border-top-color: var(--grade-filed);
+}
+
+.card[data-grade='estimated'] {
+  border-top-color: var(--grade-estimated);
+}
+
+.cardNo {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.grade {
+  color: var(--grade-reported);
+}
+
+[data-grade='filed'] .grade {
+  color: var(--grade-filed);
+}
+
+[data-grade='estimated'] .grade {
+  color: var(--grade-estimated);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 450;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.publisher {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.quote {
+  margin: 0;
+  padding-left: var(--s-3);
+  border-left: 2px solid var(--rule-2);
+  font-size: var(--t-s);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.url {
+  font-size: var(--t-xs);
+  color: var(--intaglio);
+  overflow-wrap: anywhere;
+}
+
+/* Evidence grades */
+.grades {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+}
+
+.grades div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--s-3);
+  font-size: var(--t-xs);
+}
+
+.grades dt {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 650;
+}
+
+.grades dd {
+  margin: 0;
+  color: var(--ink-3);
+}
+
+.count {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+.dot {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--grade-reported);
+}
+
+.grades [data-grade='filed'] .dot {
+  background: var(--grade-filed);
+}
+
+.grades [data-grade='estimated'] .dot {
+  background: var(--grade-estimated);
+}
+
+/* The numbered list at the end of a report */
+.list {
+  display: grid;
+  border-top: 1px solid var(--ink);
+  counter-reset: none;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: calc(var(--header-h) + 5rem);
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.entry[data-active='true'] {
+  background: linear-gradient(90deg, var(--intaglio-wash), transparent 70%);
+}
+
+.entryNo {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1;
+  color: var(--grade-reported);
+  font-variant-numeric: lining-nums;
+}
+
+.entry[data-grade='filed'] .entryNo {
+  color: var(--grade-filed);
+}
+
+.entry[data-grade='estimated'] .entryNo {
+  color: var(--grade-estimated);
+}
+
+.entryBody {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.entryTitle {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.entryTitle a {
+  text-decoration-color: var(--rule-2);
+}
+
+.entryMeta,
+.entryUrl {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.entryUrl {
+  overflow-wrap: anywhere;
+}
+
+.entryQuote {
+  margin: 0.2rem 0 0;
+  padding-left: var(--s-3);
+  border-left: 2px solid var(--rule-2);
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}
+
+@media print {
+  .card {
+    box-shadow: none;
+  }
+
+  .entry {
+    break-inside: avoid;
+  }
+
+  .entry[data-active='true'] {
+    background: none;
+  }
+}

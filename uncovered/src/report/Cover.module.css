@@ -1,0 +1,305 @@
+/*
+ * The cover is a page: everything is sized in container units, so the same
+ * sheet scales from the hero card to the full report like a printed page.
+ * The article is the container; the sheet inside it is laid out in its units.
+ */
+.cover {
+  container-type: inline-size;
+  position: relative;
+  background: var(--sheet);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-sheet);
+  transform: perspective(1600px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition:
+    transform 700ms var(--ease-out),
+    box-shadow 700ms var(--ease-out);
+  isolation: isolate;
+}
+
+.cover[data-tilt='on']:hover {
+  box-shadow: var(--shadow-lift);
+  transition-duration: 160ms;
+}
+
+/* A4 proportions as a minimum height, not an aspect-ratio, so long names and headlines can still grow the page. */
+.sheet {
+  display: grid;
+  align-content: space-between;
+  gap: 3.6cqi;
+  min-height: calc(100cqi * 297 / 210);
+  padding: 6.4cqi;
+}
+
+.hero {
+  width: 100%;
+}
+
+.page {
+  width: 100%;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  gap: 2cqi;
+  padding-bottom: 1.6cqi;
+  border-bottom: 3px double var(--ink);
+  font-size: max(9px, 1.9cqi);
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.house {
+  color: var(--intaglio);
+}
+
+.kind {
+  color: var(--ink);
+}
+
+.date {
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4cqi;
+}
+
+.identity {
+  display: grid;
+  gap: 1.4cqi;
+  min-width: 0;
+}
+
+.sector {
+  font-size: max(9px, 2cqi);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.name {
+  font-size: 15cqi;
+  font-weight: 450;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.legal {
+  font-size: max(10px, 2.3cqi);
+  color: var(--ink-2);
+}
+
+.seal {
+  --seal-size: 31cqi !important;
+  width: 31cqi !important;
+  height: 31cqi !important;
+}
+
+.headline {
+  display: grid;
+  gap: 1.2cqi;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 5.2cqi;
+  line-height: 1.12;
+  color: var(--ink);
+  min-height: 1.12em;
+}
+
+.value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2cqi 5cqi;
+  padding-block: 2.4cqi;
+  border-block: 1px solid var(--ink);
+}
+
+.label {
+  font-size: max(9px, 1.9cqi);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.range {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15em;
+  font-family: var(--font-display);
+  font-size: 9.2cqi;
+  font-weight: 450;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums;
+  color: var(--intaglio);
+}
+
+.range span {
+  color: var(--ink-3);
+}
+
+.valueFacts {
+  display: flex;
+  gap: 4cqi;
+  margin: 0;
+}
+
+.valueFacts div {
+  display: grid;
+  gap: 0.4cqi;
+}
+
+.valueFacts dt {
+  font-size: max(9px, 1.8cqi);
+  color: var(--ink-3);
+}
+
+.valueFacts dd {
+  margin: 0;
+  font-size: max(11px, 2.8cqi);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 5cqi;
+  align-items: start;
+}
+
+.colHead {
+  font-family: var(--font-sans);
+  font-size: max(9px, 1.9cqi);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-bottom: 1.2cqi;
+  margin-bottom: 1.4cqi;
+  border-bottom: 1px solid var(--rule);
+}
+
+.thesis {
+  display: grid;
+  gap: 1.8cqi;
+  padding-left: 1.2em;
+  font-size: max(10px, 2.35cqi);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.thesis li::marker {
+  font-family: var(--font-display);
+  color: var(--intaglio);
+  font-weight: 600;
+}
+
+.thesis strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.keyData {
+  display: grid;
+  margin: 0;
+  font-size: max(10px, 2.2cqi);
+}
+
+.keyData div {
+  display: flex;
+  justify-content: space-between;
+  gap: 2cqi;
+  padding-block: 0.9cqi;
+  border-bottom: 1px solid var(--rule);
+}
+
+.keyData dt {
+  color: var(--ink-3);
+}
+
+.keyData dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.waiting {
+  display: grid;
+  gap: 1.6cqi;
+}
+
+/* Unresearched content, set as redaction bars rather than invented text. */
+.redact {
+  display: inline-block;
+  height: 0.8em;
+  min-height: 8px;
+  border-radius: 1px;
+  background: repeating-linear-gradient(-45deg, var(--rule-2) 0 2px, transparent 2px 5px);
+  opacity: 0.8;
+  vertical-align: middle;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2cqi;
+  padding-top: 1.6cqi;
+  border-top: 3px double var(--ink);
+  font-size: max(9px, 1.9cqi);
+  color: var(--ink-3);
+}
+
+.foot > :first-child {
+  font-size: max(11px, 2.6cqi);
+}
+
+.glare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 0%),
+    rgb(255 255 255 / 0.35),
+    transparent 45%
+  );
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.cover[data-tilt='on']:hover .glare {
+  opacity: 1;
+}
+
+@container (max-width: 380px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .cover {
+    transform: none;
+    box-shadow: none;
+    border: 0;
+  }
+
+  .glare {
+    display: none;
+  }
+}

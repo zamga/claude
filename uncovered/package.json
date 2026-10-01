@@ -1,0 +1,50 @@
+{
+  "name": "uncovered",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Uncovered: initiating coverage on every company. Research, valuation and an initiation report for any company, public or private.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p tsconfig.json && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:preview": "vite build --mode artifact && node scripts/package-artifact.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"e2e/**/*.ts\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"e2e/**/*.ts\" \"scripts/**/*.mjs\""
+  },
+  "dependencies": {
+    "@fontsource-variable/bodoni-moda": "5.3.0",
+    "@fontsource-variable/hanken-grotesk": "5.3.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "9.39.5",
+    "@playwright/test": "1.56.1",
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.13.0",
+    "playwright-core": "1.56.1",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.0",
+    "vite": "8.3.2",
+    "vite-plugin-singlefile": "2.3.3",
+    "vitest": "5.0.3"
+  }
+}

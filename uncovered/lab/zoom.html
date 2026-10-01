@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        margin: 0;
+        background: #fbfbf8;
+      }
+      canvas {
+        width: 900px;
+        height: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script type="module">
+      import { sealSpec } from '../src/seal/guilloche';
+      import { SealRenderer } from '../src/seal/renderer';
+      const spec = sealSpec('Krka, d. d., Novo mesto');
+      const only = new URLSearchParams(location.search).get('layer');
+      if (only !== null) spec.layers = [spec.layers[+only]];
+      new SealRenderer(document.getElementById('c'), spec, { size: 900, ink: '#155e46' }).drawStatic();
+      window.kinds = sealSpec('Krka, d. d., Novo mesto').layers.map((l) => l.kind + ':' + l.paths.length);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,304 @@
+.hero {
+  position: relative;
+  padding-top: clamp(1.5rem, 4vw, 4rem);
+  overflow: clip;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-5);
+  align-content: start;
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+}
+
+/* Capped by the viewport height so the form stays above the fold on laptop screens. */
+.title {
+  font-size: min(var(--t-hero), 12.5svh);
+  font-weight: 430;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  text-wrap: initial;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 450;
+  color: var(--intaglio);
+}
+
+/*
+ * Type rises onto its baseline, one line after another. The lines stay
+ * unclipped and fade in from the first frame, so the headline is painted at
+ * once and the largest paint is not held back by the entrance.
+ */
+.line {
+  display: block;
+}
+
+.line > span {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .line > span {
+    animation: set 800ms var(--ease-set) both;
+    animation-delay: calc(var(--i) * 90ms);
+  }
+}
+
+@keyframes set {
+  from {
+    opacity: 0;
+    transform: translateY(0.28em);
+  }
+}
+
+.lede {
+  max-width: 37rem;
+  font-size: var(--t-l);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0;
+  max-width: 44rem;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+}
+
+.field {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.95rem 0.55rem;
+  min-width: 0;
+}
+
+.field + .field {
+  border-left: 1px solid var(--rule);
+}
+
+.field label {
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  padding: 0.15rem 0;
+  background: transparent;
+  font-size: var(--t-m);
+  font-weight: 500;
+  outline: none;
+  appearance: none;
+}
+
+.field select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-3) 50%),
+    linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+  background-position:
+    calc(100% - 9px) 55%,
+    calc(100% - 4px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 1.2rem;
+}
+
+.field:focus-within {
+  box-shadow: inset 0 -2px 0 var(--focus);
+}
+
+.field input::placeholder {
+  color: var(--ink-3);
+  opacity: 0.8;
+}
+
+.submit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: stretch;
+  padding: 0 1.4rem;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--t-m);
+  font-weight: 650;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, var(--ovi-a), var(--ovi-b));
+  transform: translateX(-101%);
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.submit:hover {
+  color: #fff;
+}
+
+.submit:hover::before,
+.submit:focus-visible::before {
+  transform: translateX(0);
+}
+
+.submit svg {
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.submit:hover svg {
+  transform: translateX(3px);
+}
+
+.sample {
+  font-size: var(--t-s);
+  color: var(--ink-3);
+}
+
+.sample a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.stage {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: center;
+  perspective: 1600px;
+}
+
+.stage > article {
+  max-width: 30rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stage > article {
+    animation: arrive 1100ms var(--ease-out) 200ms both;
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: perspective(1600px) translateY(24px) rotateX(8deg);
+  }
+}
+
+.caption {
+  max-width: 30rem;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  text-align: center;
+  min-height: 2.6em;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  margin-bottom: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: start;
+  gap: 0.35rem;
+  padding: var(--s-4) var(--s-4) var(--s-5) 0;
+}
+
+.stats div + div {
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--rule);
+}
+
+.stats dd {
+  margin: 0;
+  font-size: var(--t-2xl);
+  font-weight: 450;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stats dt {
+  max-width: 16rem;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+@media (max-width: 64rem) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stage > article {
+    max-width: 34rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats div:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stats div:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 40rem) {
+  .form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .field:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .field:nth-child(2) {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .submit {
+    justify-content: center;
+    min-height: 3.25rem;
+  }
+}
+
+.title:focus {
+  outline: none;
+}
