@@ -18,6 +18,12 @@ export async function render(path: string): Promise<string> {
     <StrictMode>
       <App />
     </StrictMode>,
+    {
+      // Never outline a Suspense boundary. By default React writes any boundary
+      // over 12.8 KB as a fallback plus a script that swaps the real content in,
+      // and it throttles that reveal: the page would paint empty, then jump.
+      progressiveChunkSize: Number.MAX_SAFE_INTEGER,
+    },
   );
   return new Response(prelude).text();
 }

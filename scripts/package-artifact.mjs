@@ -25,7 +25,7 @@ const strip = [
   /<\/body>/i,
   /<meta\s+charset=[^>]*>/i,
   /<meta\s+name="viewport"[^>]*>/i,
-  /<link\s+rel="(?:icon|manifest|preload)"[^>]*>/gi,
+  /<link\s+rel="(?:icon|apple-touch-icon|manifest|preload)"[^>]*>/gi,
 ];
 for (const re of strip) html = html.replace(re, '');
 

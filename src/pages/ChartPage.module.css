@@ -222,6 +222,27 @@
   margin-left: auto;
 }
 
+.shareField {
+  display: grid;
+  gap: 0.25rem;
+  flex-basis: 100%;
+  min-width: 0;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+.shareField input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-m);
+  background: var(--paper-raised);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
 .viewTools button,
 .share button,
 .posterActions button,

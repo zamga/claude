@@ -1,8 +1,14 @@
 /*
- * Self-hosted, subset variable fonts (SIL OFL, see src/assets/fonts/LICENSE-*).
- * Newsreader is pinned to two optical sizes to keep each file near 50 KB:
+ * Self-hosted, subset variable fonts (SIL OFL, see src/assets/fonts/LICENSE-*),
+ * built by scripts/fonts.py. Newsreader is pinned to two optical sizes:
  * Display (opsz 60) for headlines, Text (opsz 14) for long-form reading.
  * Archivo keeps its width axis for the condensed draft-mark numerals.
+ *
+ * Each face is split by unicode-range. The core file (ASCII plus the
+ * punctuation the interface prints) is all an English page needs and is the
+ * one index.html preloads; the extended file (accented Latin) downloads only
+ * when a page contains one of its characters, such as a surveyed company's
+ * name. Keep both lists in sync with scripts/fonts.py.
  */
 
 @font-face {
@@ -11,6 +17,19 @@
   font-weight: 300 560;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0, U+00A3, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B1, U+00B7, U+00BB, U+00BD,
+    U+00D7, U+00F7, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2032-2033, U+2039-203A,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Newsreader Display';
+  src: url('../assets/fonts/newsreader-display-ext.woff2') format('woff2');
+  font-weight: 300 560;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+00A1-00A2, U+00A4-00A6, U+00A8, U+00AA, U+00AC-00AD, U+00AF, U+00B2-00B6, U+00B8-00BA, U+00BC,
+    U+00BE-00D6, U+00D8-00F6, U+00F8-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2044;
 }
 
 @font-face {
@@ -19,6 +38,19 @@
   font-weight: 300 520;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0, U+00A3, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B1, U+00B7, U+00BB, U+00BD,
+    U+00D7, U+00F7, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2032-2033, U+2039-203A,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Newsreader Display';
+  src: url('../assets/fonts/newsreader-italic-ext.woff2') format('woff2');
+  font-weight: 300 520;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+00A1-00A2, U+00A4-00A6, U+00A8, U+00AA, U+00AC-00AD, U+00AF, U+00B2-00B6, U+00B8-00BA, U+00BC,
+    U+00BE-00D6, U+00D8-00F6, U+00F8-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2044;
 }
 
 @font-face {
@@ -27,6 +59,19 @@
   font-weight: 380 560;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0, U+00A3, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B1, U+00B7, U+00BB, U+00BD,
+    U+00D7, U+00F7, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2032-2033, U+2039-203A,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Newsreader Text';
+  src: url('../assets/fonts/newsreader-text-ext.woff2') format('woff2');
+  font-weight: 380 560;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+00A1-00A2, U+00A4-00A6, U+00A8, U+00AA, U+00AC-00AD, U+00AF, U+00B2-00B6, U+00B8-00BA, U+00BC,
+    U+00BE-00D6, U+00D8-00F6, U+00F8-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2044;
 }
 
 @font-face {
@@ -35,6 +80,19 @@
   font-weight: 300 520;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0, U+00A3, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B1, U+00B7, U+00BB, U+00BD,
+    U+00D7, U+00F7, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2032-2033, U+2039-203A,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Newsreader Text';
+  src: url('../assets/fonts/newsreader-italic-ext.woff2') format('woff2');
+  font-weight: 300 520;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+00A1-00A2, U+00A4-00A6, U+00A8, U+00AA, U+00AC-00AD, U+00AF, U+00B2-00B6, U+00B8-00BA, U+00BC,
+    U+00BE-00D6, U+00D8-00F6, U+00F8-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2044;
 }
 
 @font-face {
@@ -44,6 +102,20 @@
   font-stretch: 62% 100%;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0, U+00A3, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B1, U+00B7, U+00BB, U+00BD,
+    U+00D7, U+00F7, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2032-2033, U+2039-203A,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('../assets/fonts/archivo-ext.woff2') format('woff2');
+  font-weight: 300 800;
+  font-stretch: 62% 100%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+00A1-00A2, U+00A4-00A6, U+00A8, U+00AA, U+00AC-00AD, U+00AF, U+00B2-00B6, U+00B8-00BA, U+00BC,
+    U+00BE-00D6, U+00D8-00F6, U+00F8-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2044;
 }
 
 /* Metric-matched fallbacks so the swap does not shift the layout. */

@@ -33,7 +33,7 @@ The brand truth behind it is a real one. In 1876, after Samuel Plimsoll’s camp
 
 - **Newsreader** (Production Type, OFL) in two pinned optical sizes: *Display* (opsz 60) for headlines, *Text* (opsz 14) for reading. Its italic carries the cartographic rule that runs through the whole product: **water features are named in italic**. In Plimsoll anything that belongs to the market (the price, what the price implies) is set in italic; anything about the company is upright.
 - **Archivo** (Omnibus-Type, OFL) for interface, figures and tables, with tabular lining figures. Its width axis gives the condensed **draft-mark numerals** painted on hulls, used on the gauge and the step numbers.
-- Self-hosted, subset to Latin and instanced to the needed axis ranges: ~159 KB for the three critical faces, metric-matched fallbacks to avoid layout shift.
+- Self-hosted, instanced to the needed axis ranges and split by `unicode-range` (`scripts/fonts.py`): 114 KB for the three preloaded faces, with accented Latin fetched only when a page needs it, and metric-matched fallbacks so the swap never shifts the layout.
 
 ## Colour
 

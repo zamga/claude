@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { navigate } from '../lib/router';
 import { useHydrated } from '../lib/hydration';
+import { track } from '../lib/telemetry';
 import { EXAMPLE_ENTRY, loadCustom, saveCustom, type CustomEntry } from '../model/custom';
 import styles from './Survey.module.css';
 
@@ -126,6 +127,7 @@ function SurveyForm({ restore }: { restore: boolean }) {
       taxRate: values.taxRate === null || values.taxRate === undefined ? null : values.taxRate / 100,
     };
     saveCustom(entry);
+    track('survey');
     navigate('/chart/custom');
   };
 

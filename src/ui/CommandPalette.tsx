@@ -2,6 +2,8 @@ import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 
 import { COMPANIES } from '../data/companies';
 import { formatPrice } from '../engine/format';
 import { navigate } from '../lib/router';
+import { track } from '../lib/telemetry';
+import { routeTemplate } from '../lib/telemetry-schema';
 
 const LIVE_SURVEY = import.meta.env.VITE_LIVE_API === '1';
 import styles from './CommandPalette.module.css';
@@ -77,6 +79,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
     if (!item) return;
     onClose();
     navigate(item.to);
+    track('search', routeTemplate(item.to));
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

@@ -5,6 +5,7 @@ import { Footer } from '../ui/Footer';
 import { CommandPalette } from '../ui/CommandPalette';
 import { Home } from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
+import { startVitals } from '../lib/telemetry';
 
 // Routes beyond the landing page load on demand.
 const ChartPage = lazy(() => import('../pages/ChartPage').then((m) => ({ default: m.ChartPage })));
@@ -30,6 +31,7 @@ export function App() {
     // Marks the moment the page became interactive (tests and performance marks use it).
     document.documentElement.dataset.hydrated = 'true';
     performance.mark?.('plimsoll:interactive');
+    startVitals();
   }, []);
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import { announce } from '../lib/announce';
 import { usePrefersReducedMotion } from '../lib/device';
 import { absoluteUrl, Link, navigate } from '../lib/router';
 import { readStored, writeStored } from '../lib/storage';
+import { track } from '../lib/telemetry';
 import { useHydrated } from '../lib/hydration';
 import { historyCheck, marketGrowthLine, marketMarginLine, standingLine } from '../model/copy';
 import { customSnapshot, decodeCustom, encodeCustom, loadCustom, saveCustom } from '../model/custom';
@@ -181,6 +182,8 @@ function NoCustom() {
 }
 
 const MODE_KEY = 'chart-mode';
+// The single-file preview runs in a sandbox that ignores downloads; the image itself can still be saved.
+const CAN_DOWNLOAD = import.meta.env.MODE !== 'artifact';
 
 function ChartView({
   company,
@@ -203,6 +206,7 @@ function ChartView({
   const stageApi = useRef<{ home: () => void; topDown: () => void; snapshot: () => string } | null>(null);
   const [has3d, setHas3d] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
+  const [shareLink, setShareLink] = useState<{ url: string; token: string } | null>(null);
   const [poster, setPoster] = useState<string | null>(null);
   const posterRef = useRef<HTMLDialogElement>(null);
   const { inputs, price } = scenario;
@@ -218,6 +222,7 @@ function ChartView({
   const onBearing = useCallback(
     (g: number, m: number) => {
       controls.setBearing(clamp(Number(g.toFixed(4)), -0.4, 1.2), clamp(Number(m.toFixed(4)), -0.5, 0.95));
+      track('bearing', undefined, { once: true });
     },
     [controls],
   );
@@ -247,15 +252,23 @@ function ChartView({
   const copyLink = async () => {
     const path = `/chart/${company.ticker.toLowerCase()}`;
     navigate(path, { replace: true, state: shareToken, quiet: true });
+    track('share');
+    const url = absoluteUrl(path, shareToken);
     try {
-      await navigator.clipboard.writeText(absoluteUrl(path, shareToken));
+      await navigator.clipboard.writeText(url);
+      setShareLink(null);
       flash('Link copied. It opens this exact chart.');
     } catch {
-      flash('Copy the address from the bar above; it now holds this chart.');
+      // The clipboard can be refused (permissions, embedded viewers): offer the link as text to copy.
+      setShareLink({ url, token: shareToken });
+      flash('Copy the link below. It opens this exact chart.');
     }
   };
+  // A link shown for copying goes stale as soon as the chart changes.
+  const pendingLink = shareLink && shareLink.token === shareToken ? shareLink.url : null;
 
   const makePoster = async () => {
+    track('image');
     const canvas = await renderPoster({
       name,
       ticker: company.ticker,
@@ -391,6 +404,7 @@ function ChartView({
                 Chart image
               </button>
             </div>
+            {pendingLink && <ShareField id="share-link" url={pendingLink} />}
           </div>
           <div className={styles.stage}>
             <ChartStage
@@ -433,7 +447,10 @@ function ChartView({
                 type="button"
                 role="radio"
                 aria-checked={scenario.storyId === n.id}
-                onClick={() => controls.applyStory(n.id)}
+                onClick={() => {
+                  controls.applyStory(n.id);
+                  track('story', n.id);
+                }}
               >
                 {n.title}
               </button>
@@ -660,9 +677,11 @@ function ChartView({
           <div className={styles.posterBody}>
             <img src={poster} alt={`Chart of ${name} with your reading`} />
             <div className={styles.posterActions}>
-              <a href={poster} download={`plimsoll-${company.ticker.toLowerCase()}.png`} className={styles.button}>
-                Download PNG
-              </a>
+              {CAN_DOWNLOAD && (
+                <a href={poster} download={`plimsoll-${company.ticker.toLowerCase()}.png`} className={styles.button}>
+                  Download PNG
+                </a>
+              )}
               <button type="button" onClick={copyLink}>
                 Copy link
               </button>
@@ -670,11 +689,31 @@ function ChartView({
                 Close
               </button>
             </div>
-            <p className={styles.posterHint}>If the download is blocked, right-click or long-press the image to save it.</p>
+            {pendingLink && <ShareField id="share-link-image" url={pendingLink} />}
+            <p className={styles.posterHint}>
+              {CAN_DOWNLOAD
+                ? 'If the download is blocked, right-click or long-press the image to save it.'
+                : 'Right-click or long-press the image to save it.'}
+            </p>
           </div>
         )}
       </dialog>
     </article>
+  );
+}
+
+/** The share link as selectable text, for when the clipboard is refused. */
+function ShareField({ id, url }: { id: string; url: string }) {
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    ref.current?.focus();
+    ref.current?.select();
+  }, [url]);
+  return (
+    <div className={styles.shareField}>
+      <label htmlFor={id}>Link to this chart</label>
+      <input ref={ref} id={id} type="text" readOnly value={url} onFocus={(e) => e.currentTarget.select()} />
+    </div>
   );
 }
 

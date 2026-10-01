@@ -2,12 +2,16 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * End-to-end and accessibility tests against the production build.
- * Chromium renders WebGL through SwiftShader so the 3D chart runs headless.
+ * Chromium gets WebGL through SwiftShader. The app treats software GL as
+ * incapable and draws the flat chart, so most tests cover that path; the
+ * relief test forces WebGL on to cover the other.
  */
 const gl = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
 
 export default defineConfig({
   testDir: 'e2e',
+  // Pixel baselines are opt-in: they only compare within one rendering environment.
+  testIgnore: process.env.VISUAL ? [] : ['**/visual.spec.ts'],
   timeout: 45_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

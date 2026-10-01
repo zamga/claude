@@ -184,16 +184,24 @@
   border-color: var(--ink);
 }
 
+/* Tablets: the search collapses to its icon so the theme switch keeps its place. */
 @media (max-width: 60rem) {
-  .theme {
+  .searchLabel,
+  .kbd {
     display: none;
+  }
+
+  .search {
+    width: 2.25rem;
+    padding: 0;
+    justify-content: center;
   }
 }
 
+/* Phones: links and theme move into the menu sheet. */
 @media (max-width: 47.99rem) {
   .nav,
-  .searchLabel,
-  .kbd {
+  .theme {
     display: none;
   }
 

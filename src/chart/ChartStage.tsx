@@ -10,6 +10,7 @@ import {
 import type { Sounding, ValueGrid } from '../engine/types';
 import { formatPct, formatPrice, formatSignedPct } from '../engine/format';
 import { useCanRender3D, useCoarsePointer, usePrefersReducedMotion } from '../lib/device';
+import { track } from '../lib/telemetry';
 import { useResolvedTheme } from '../lib/theme';
 import { drawChart2D, type Bearing, type PlotFrame } from './draw2d';
 import { readPalette } from './palette';
@@ -154,6 +155,7 @@ export function ChartStage(props: ChartStageProps) {
   useEffect(() => {
     if (mode !== '3d' || stageRef.current || capable === null) return;
     if (!capable) {
+      track('flat', 'no-webgl', { once: true });
       onReady?.(null);
       return;
     }
@@ -190,10 +192,12 @@ export function ChartStage(props: ChartStageProps) {
                 stageRef.current?.dispose();
                 stageRef.current = null;
                 setWebgl('failed');
+                track('flat', 'context-lost');
               },
             });
             stageRef.current = stage;
             setWebgl('ready');
+            track('relief', ambient ? 'hero' : 'chart', { once: true });
             onReady?.({
               home: () => stage.home(),
               topDown: () => stage.topDown(),
@@ -201,11 +205,14 @@ export function ChartStage(props: ChartStageProps) {
             });
           } catch {
             setWebgl('failed');
+            track('flat', 'init-failed');
             onReady?.(null);
           }
         })
         .catch(() => {
-          if (!cancelled) setWebgl('failed');
+          if (cancelled) return;
+          setWebgl('failed');
+          track('flat', 'load-failed');
         });
     });
     return () => {

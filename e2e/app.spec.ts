@@ -70,11 +70,24 @@ test('chart page reads, responds to stories, keys and typed values', async ({ pa
   expect(errors).toEqual([]);
 });
 
+test('relief chart renders where WebGL is allowed', async ({ page }) => {
+  const errors = errorsOf(page);
+  // Software GL normally falls back to the flat chart; force the relief on.
+  await page.addInitScript(() => window.localStorage.setItem('plimsoll:gl', '"force"'));
+  await page.goto('/chart/nvda');
+  await expect(page.locator('canvas[data-visible="true"]')).toHaveCount(1, { timeout: 20_000 });
+  await expect(page.getByRole('group', { name: 'Value chart for NVIDIA' })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test('share link and chart image', async ({ page }) => {
   await page.goto('/chart/ko');
   await page.getByRole('button', { name: 'Copy link' }).click();
-  await expect(page.getByRole('status').filter({ hasText: /Link copied|Copy the address/ })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /Link copied|Copy the link below/ })).toBeVisible();
   await expect(page).toHaveURL(/\?s=[A-Za-z0-9_-]{70}/);
+  // Where the clipboard is refused, the link is offered as selectable text instead.
+  const field = page.getByLabel('Link to this chart');
+  if (await field.count()) await expect(field.first()).toHaveValue(/\/chart\/ko\?s=[A-Za-z0-9_-]{70}$/);
   await page.getByRole('button', { name: 'Chart image' }).click();
   await expect(page.getByRole('img', { name: /Chart of Coca-Cola/ })).toBeVisible();
 });
@@ -120,9 +133,14 @@ test('atlas lists every company and 404 is charted', async ({ page }) => {
 });
 
 test('theme switch persists', async ({ page, isMobile }) => {
-  test.skip(isMobile, 'The theme control lives in the menu on phones.');
   await page.goto('/');
-  await page.getByRole('radio', { name: 'Night' }).click();
+  if (isMobile) {
+    // On phones the theme control lives in the menu sheet.
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await page.getByRole('radio', { name: 'Night watch' }).click();
+  } else {
+    await page.getByRole('radio', { name: 'Night' }).click();
+  }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');

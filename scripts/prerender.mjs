@@ -5,7 +5,7 @@
  *                            canonical URL and Open Graph tags (served at
  *                            /<route> with clean URLs)
  *   dist/app.html            the empty shell, for SPA fallback on other paths
- *   dist/sitemap.xml, dist/robots.txt
+ *   dist/sitemap.xml, dist/robots.txt, dist/llms.txt
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -33,6 +33,7 @@ function withMeta(html, meta) {
       /<meta\s+property="og:description"[\s\S]*?\/>/,
       `<meta property="og:description" content="${escape(meta.description)}" />`,
     )
+    .replace('<meta property="og:image" content="/og.png" />', `<meta property="og:image" content="${site}/og.png" />`)
     .replace(
       '<meta property="og:type" content="website" />',
       `<meta property="og:type" content="website" />\n    <meta property="og:url" content="${url}" />\n    <link rel="canonical" href="${url}" />`,
@@ -60,3 +61,25 @@ writeFileSync(
 );
 writeFileSync('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${site}/sitemap.xml\n`);
 console.log(`sitemap: ${list.length} URLs on ${site}`);
+
+// llms.txt (llmstxt.org): the same map, written for language models and agents.
+const link = (m) => `- [${m.title.replace(/ · Plimsoll$/, '')}](${site}${m.path}): ${m.description}`;
+const charts = list.filter((m) => m.path.startsWith('/chart/'));
+const pages = list.filter((m) => !m.path.startsWith('/chart/') && m.path !== '/');
+writeFileSync(
+  'dist/llms.txt',
+  `# Plimsoll
+
+> Company analysis and valuation drawn as a nautical chart. The share price is sea level; every combination of revenue growth and operating margin is a point on the terrain, worth more (land) or less (water) than the price. The coastline is what the market is betting on.
+
+Values come from a free-cash-flow-to-the-firm discounted cash flow model on figures from SEC filings, with a reverse DCF for the market-implied coastline and 4,000 Monte Carlo draws for the odds. Charts are illustrations of assumptions, not investment advice.
+
+## Charts
+
+${charts.map(link).join('\n')}
+
+## Reference
+
+${pages.map(link).join('\n')}
+`,
+);

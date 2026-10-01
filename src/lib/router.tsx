@@ -48,10 +48,13 @@ export function href(path: string, state?: string | null): string {
   return `${path}${state ? `?s=${state}` : ''}`;
 }
 
+/** Hash builds: the public address shared links should open (an embedded preview's own URL is private). */
+const SHARE_BASE = import.meta.env.VITE_SHARE_BASE?.replace(/#.*$/, '') || null;
+
 /** The absolute, shareable URL for a path. */
 export function absoluteUrl(path: string, state?: string | null): string {
   if (ROUTER_MODE === 'hash') {
-    return `${window.location.origin}${window.location.pathname}${href(path, state)}`;
+    return `${SHARE_BASE ?? `${window.location.origin}${window.location.pathname}`}${href(path, state)}`;
   }
   return `${window.location.origin}${href(path, state)}`;
 }
@@ -79,6 +82,11 @@ if (typeof window !== 'undefined') {
 function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => listeners.delete(listener);
+}
+
+/** The current path, for code outside React (telemetry). */
+export function currentPath(): string {
+  return current.path;
 }
 
 export function useLocation(): Location {
