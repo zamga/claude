@@ -29,6 +29,11 @@ interface CoverProps {
   inspect?: boolean;
   /** On an inspected cover, sweep the lamp over it until someone takes it (the front page's cover). */
   sweep?: boolean;
+  /**
+   * Carry the cover across a page change only while it is on screen (the front page's cover, which is
+   * often scrolled away when a link to the report is followed); otherwise a report's cover always does.
+   */
+  carryWhenSeen?: boolean;
 }
 
 /**
@@ -45,6 +50,7 @@ export function Cover({
   tilt = false,
   inspect = false,
   sweep = false,
+  carryWhenSeen = false,
 }: CoverProps) {
   const ref = useRef<HTMLElement>(null);
   const paperRef = useRef<HTMLCanvasElement>(null);
@@ -112,10 +118,17 @@ export function Cover({
       className={`${styles.cover} ${styles[size]}`}
       data-tilt={tilt && !reduced && !inspect ? 'on' : undefined}
       data-inspect={inspect ? '' : undefined}
+      data-carry={carryWhenSeen ? 'seen' : undefined}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
       aria-label={`Cover of the initiation report on ${title}`}
-      style={{ '--rx': '0deg', '--ry': '0deg' } as CSSProperties}
+      style={
+        {
+          '--rx': '0deg',
+          '--ry': '0deg',
+          '--carry': report ? `cover-${report.id}` : 'none',
+        } as CSSProperties
+      }
     >
       {inspect && <canvas ref={paperRef} className={styles.paper} aria-hidden="true" />}
       <div className={styles.sheet}>
@@ -148,6 +161,9 @@ export function Cover({
             ring={`${title} · Initiation of coverage · ${date}`}
             sheen={!inspect}
             foil={inspect}
+            // A report's own cover shows its seal finished: it was engraved when the company was covered,
+            // and a cover carried in from the front page arrives as it left.
+            draw={size === 'page' ? 'static' : 'engrave'}
             duration={2200}
             className={styles.seal}
           />

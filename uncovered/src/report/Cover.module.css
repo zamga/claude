@@ -6,6 +6,8 @@
 .cover {
   container-type: inline-size;
   position: relative;
+  view-transition-name: var(--carry, none);
+  view-transition-class: cover;
   background: var(--sheet);
   color: var(--ink);
   border: 1px solid var(--rule);
@@ -28,6 +30,11 @@
  * is ready. Vertical drags still scroll the page on a phone; anything else
  * moves the lamp.
  */
+/* The front page's cover flies into the report only when it is the cover on screen. */
+.cover[data-carry='seen']:not([data-onscreen]) {
+  view-transition-name: none;
+}
+
 .cover[data-inspect] {
   --lamp-r: 26cqi;
   box-shadow:

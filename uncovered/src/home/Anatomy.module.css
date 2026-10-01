@@ -63,9 +63,15 @@
     box-shadow 700ms var(--ease-out);
 }
 
-/* Fanned out from a stack just before the section arrives. At rest the pages are laid out. */
+/* What GSAP deals; the sheet inside keeps its own hover lift. */
+.deal {
+  display: block;
+  will-change: transform;
+}
+
+/* Fanned out from a stack just before the section arrives, unless the scroll deals them. At rest the pages are laid out. */
 @media (prefers-reduced-motion: no-preference) {
-  .pages[data-play='true'] .sheet {
+  .pages[data-play='true']:not([data-scrub]) .sheet {
     animation: fan 1100ms var(--ease-out) both;
     animation-delay: calc(var(--i) * 70ms);
   }

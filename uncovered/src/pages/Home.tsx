@@ -6,6 +6,7 @@ import { Anatomy } from '../home/Anatomy';
 import { Provenance } from '../home/Provenance';
 import { ValuationSection } from '../home/ValuationSection';
 import { Coverage, Pricing, Principles } from '../home/Closing';
+import { Register } from '../home/Register';
 
 export function Home() {
   usePageMeta('/');
@@ -17,6 +18,7 @@ export function Home() {
       <Anatomy />
       <Provenance />
       <ValuationSection />
+      <Register />
       <Coverage />
       <Pricing />
       <Principles />

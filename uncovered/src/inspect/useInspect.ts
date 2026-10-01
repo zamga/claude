@@ -134,6 +134,8 @@ export function useInspect(
     const updateVisible = () => lamp.setVisible(inView && !document.hidden);
     const io = new IntersectionObserver((entries) => {
       inView = entries.some((e) => e.isIntersecting);
+      if (inView) sheet.dataset.onscreen = '';
+      else delete sheet.dataset.onscreen;
       updateVisible();
     });
     io.observe(sheet);

@@ -168,7 +168,7 @@ export function Hero() {
                 ))}
               </select>
             </div>
-            <button type="submit" className={styles.submit}>
+            <button type="submit" className={styles.submit} data-magnetic>
               <span>Initiate coverage</span>
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
                 <path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
@@ -190,6 +190,7 @@ export function Hero() {
               inspect
               tilt
               sweep
+              carryWhenSeen
             />
           </FootnoteProvider>
           <p className={styles.caption} aria-live="polite">

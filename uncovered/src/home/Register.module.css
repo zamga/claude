@@ -1,0 +1,140 @@
+/*
+ * The register: a wall of seals. The covered one is finished and catches the
+ * light; the rest are barely begun, and engrave when pointed at.
+ */
+.register {
+  padding-block: var(--s-9);
+  border-top: 1px solid var(--rule);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: var(--s-5) var(--s-8);
+  align-items: end;
+  margin-bottom: var(--s-7);
+}
+
+.title {
+  margin-top: var(--s-3);
+  font-size: var(--t-3xl);
+  letter-spacing: -0.03em;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--intaglio);
+}
+
+.copy {
+  color: var(--ink-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+
+.grid > li {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  height: 100%;
+  padding: var(--s-6) var(--s-4) var(--s-5);
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background-color var(--dur-3) var(--ease-out);
+}
+
+.card:hover {
+  color: var(--ink);
+  background: var(--sheet);
+}
+
+.seal {
+  margin-bottom: var(--s-2);
+  transition: transform var(--dur-4) var(--ease-out);
+}
+
+.card:hover .seal,
+.card:focus-visible .seal {
+  transform: scale(1.045);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--rule-2);
+}
+
+.covered .card {
+  background: var(--sheet);
+}
+
+.covered .status {
+  color: var(--intaglio);
+}
+
+.covered .dot {
+  background: var(--intaglio);
+}
+
+.card[data-engraved] .status {
+  color: var(--ovi-b);
+}
+
+.card[data-engraved] .dot {
+  background: var(--ovi-b);
+}
+
+@media (max-width: 64rem) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card {
+    padding: var(--s-5) var(--s-2) var(--s-4);
+  }
+
+  .name {
+    font-size: var(--t-l);
+  }
+}

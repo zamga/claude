@@ -2,6 +2,7 @@
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 50;
+  view-transition-name: masthead;
   background: color-mix(in srgb, var(--paper) 92%, transparent);
   -webkit-backdrop-filter: saturate(1.4) blur(12px);
   backdrop-filter: saturate(1.4) blur(12px);
