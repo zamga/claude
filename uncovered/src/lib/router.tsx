@@ -29,9 +29,10 @@ function read(): Location {
 
 let current = read();
 
-/** Server rendering has no window to read the address from, so the prerender sets it. */
-export function setServerLocation(path: string) {
-  current = { path, query: new URLSearchParams() };
+/** Server rendering has no window to read the address from, so the renderer sets it ("/initiate?run=…"). */
+export function setServerLocation(address: string) {
+  const [path = '/', search = ''] = address.split('?');
+  current = { path, query: new URLSearchParams(search) };
 }
 const listeners = new Set<() => void>();
 // Set while navigate() itself changes the hash, so the hashchange it causes is not handled twice.

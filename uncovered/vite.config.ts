@@ -62,6 +62,8 @@ export default defineConfig(({ mode, isSsrBuild }) => {
   const artifact = mode === 'artifact';
   return {
     base: artifact ? './' : '/',
+    // Server bundles need none of the site's public files.
+    publicDir: isSsrBuild ? false : 'public',
     plugins: [
       react(),
       ...(artifact
@@ -90,7 +92,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
     },
     test: {
       environment: 'node',
-      include: ['src/**/*.test.ts'],
+      include: ['src/**/*.test.ts', 'server/**/*.test.ts'],
     },
   };
 });

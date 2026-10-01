@@ -11,6 +11,8 @@ const SHARES_M = 275_711_426.9 / 9.1 / 1e6; // shares entitled to the 2025 divid
 
 export const KRKA: Report = {
   id: 'krka',
+  kind: 'sample',
+  currency: 'EUR',
   company: {
     name: 'Krka',
     legalName: 'Krka, d. d., Novo mesto',
@@ -62,27 +64,27 @@ export const KRKA: Report = {
   income: [
     {
       label: 'Revenue',
-      unit: 'eurm',
+      unit: 'money-m',
       emphasis: true,
       values: { '2023A': 1806.4, '2024A': 1909.5, '2025A': 2041.0, 'H1 2026': 1119.3 },
       sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
     },
     {
       label: 'EBITDA',
-      unit: 'eurm',
+      unit: 'money-m',
       values: { '2023A': 504.2, '2024A': 520.0, '2025A': 558.7, 'H1 2026': 357.5 },
       sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
     },
     {
       label: 'Net profit',
-      unit: 'eurm',
+      unit: 'money-m',
       emphasis: true,
       values: { '2023A': 313.7, '2024A': 356.2, '2025A': 403.7, 'H1 2026': 260.2 },
       sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
     },
     {
       label: 'Dividend per share (€)',
-      unit: 'eur',
+      unit: 'money',
       values: { '2023A': 7.5, '2024A': 8.25, '2025A': 9.1 },
       sources: { '2023A': 'div23', '2024A': 'div25', '2025A': 'div26' },
     },
@@ -95,6 +97,7 @@ export const KRKA: Report = {
     { label: 'Slovenia', value: 130.3, sourceId: 'fy25p' },
     { label: 'Overseas Markets', value: 76.1, sourceId: 'fy25p' },
   ],
+  regionsTitle: 'Sales by region, 2025',
   regionsNote: 'Sales of products and services by region, 2025, € millions (unaudited).',
   ownership: [
     { label: 'Kapitalska družba', value: 11.5, sourceId: 'own' },
@@ -224,6 +227,10 @@ export const KRKA: Report = {
       body: 'Krka trades on a small market: all shares on the Ljubljana Stock Exchange turned over €686.8m in 2025[^ljse25], which limits position sizes for large investors.',
     },
   ],
+  disclosures: [
+    'Figures for 2025 are from the unaudited statements the company released in March 2026; the audited annual report, published in April, has not been reconciled for this sample.',
+    'This sample was written by hand to show the format of an initiation. Its quotations are excerpts of the documents listed, as found by search and condensed; they have not been checked word for word against the documents. Reports researched by the engine quote each document exactly and check every quotation against the text it read.',
+  ],
   sources: [
     {
       id: 'r25',
@@ -232,6 +239,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/media-center/news/krka-releases-2025-unaudited-financial-statements/',
       date: '2026-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'The Krka Group generated revenue of €2,041.0 million, up 7% on 2024. EBITDA amounted to €558.7 million, corresponding to 27.4% of total revenue. Krka Group unaudited net profit totalled €403.7 million, up 13% on 2024.',
     },
@@ -242,6 +250,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/media-center/news/krka-releases-2024-unaudited-financial-statements/',
       date: '2025-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'The Krka Group generated revenue of €1,909.5 million, up 6% on 2023; unaudited net profit totalled €356.2 million. EBITDA reached €520 million, a margin of 27.2%.',
     },
@@ -252,6 +261,7 @@ export const KRKA: Report = {
       url: 'https://krka.biz/media-center/news/krka-releases-2023-unaudited-financial-statements',
       date: '2024-03-14',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'The Krka Group generated €1,806.4 million in revenue, up 5%; EBITDA went up 3% to €504.2 million; unaudited net profit totalled €313.7 million, lower primarily owing to the depreciation of the rouble against the euro.',
     },
@@ -262,6 +272,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/media-center/news/krka-reports-business-results-for-the-first-six-months-of-2026/',
       date: '2026-07',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Revenue of €1,119.3 million, up 7%; EBITDA of €357.5 million at a 31.9% margin; EBIT of €309.2 million, up 20%; net profit of €260.2 million, up 5%. The company confirms its 2026 target of around €2,144 million in sales.',
     },
@@ -272,6 +283,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/_assets/Krka-FY25-Results-Presentation.pdf',
       date: '2026-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Sales of prescription pharmaceuticals totalled €1,691.7 million, up 8%, 83.2% of Krka Group sales. Region East Europe €713.4 million (35.1%), Central Europe €460.0 million (22.6%), West Europe €364.1 million, South-East Europe €290.2 million, Slovenia €130.3 million, Overseas Markets €76.1 million.',
     },
@@ -282,6 +294,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/_assets/721403-2026-KRKA-Factsheet-leaflet-EN-kor-14.4.pdf',
       date: '2026-04',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Earnings per share of €13.2, up 14%. A 2025 dividend of €9.10 gross per share, the 27th consecutive annual increase. The 2026 business plan: revenue of €2,132 million and net profit of €405 million.',
     },
@@ -292,6 +305,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/media-center/news/proposed-dividend-for-krka-shareholders-10-3-higher-than-last-year/',
       date: '2026-04-02',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'To dividends €9.10 gross per share: €275,711,426.90.',
     },
     {
@@ -301,6 +315,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/media-center/news/proposed-dividend-for-krka-shareholders-10-higher-than-last-year/',
       date: '2025-04-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'A dividend of €8.25 gross per share, an increase of 10.0% on last year’s dividend.',
     },
     {
@@ -310,6 +325,7 @@ export const KRKA: Report = {
       url: 'https://inter.capital/?p=37117',
       date: '2024-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'A dividend of €7.50 gross per share for 2023, a 13.6% increase on last year.',
     },
     {
@@ -319,6 +335,7 @@ export const KRKA: Report = {
       url: 'https://www.krka.biz/_assets/January-to-September-2025-Unaudited-Interim-Report-of-the-Krka-group-in-Krka-1.pdf',
       date: '2025-11',
       grade: 'filed',
+      quoted: 'excerpt',
       quote: 'Cash and cash equivalents of €370.6 million and equity of €2,305.0 million at 30 September 2025.',
     },
     {
@@ -328,6 +345,7 @@ export const KRKA: Report = {
       url: 'https://inter.capital/the-eur-2-billion-story-krka-crosses-a-milestone-with-even-stronger-margins/',
       date: '2026-03',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'In 2025, the Krka Group invested EUR 95.5m, primarily into production capacity, automation and operational reliability.',
     },
@@ -337,6 +355,7 @@ export const KRKA: Report = {
       publisher: 'Krka, d. d.',
       url: 'https://www.krka.biz/about-us/at-a-glance/history/',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'The Pharmaceutical Laboratory Krka in Novo mesto was founded on 23 April 1954.',
     },
     {
@@ -345,6 +364,7 @@ export const KRKA: Report = {
       publisher: 'Wikipedia',
       url: 'https://en.wikipedia.org/wiki/Krka_(company)',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Production sites in Ločna and Bršljin (both in Novo mesto), Krško, Šentjernej and Ljutomer; production and distribution centres in Russia, Poland, Croatia and Germany.',
     },
@@ -354,6 +374,7 @@ export const KRKA: Report = {
       publisher: 'Krka, d. d.',
       url: 'https://www.krka.biz/_assets/KRKA-Factsheet.pdf',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'More than 13,000 employees.',
     },
     {
@@ -362,6 +383,7 @@ export const KRKA: Report = {
       publisher: 'Simply Wall St',
       url: 'https://simplywall.st/stocks/de/pharmaceuticals-biotech/fra-kn8/krka-d-d-shares/ownership',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Kapitalska družba pokojninskega in invalidskega zavarovanja, d. d.: 11.5% (3,493,030 shares). Slovenian Sovereign Holding, d.d.: 9.74% (2,949,876 shares).',
     },
@@ -372,6 +394,7 @@ export const KRKA: Report = {
       url: 'https://www.tradingview.com/symbols/LJSE-KRKG/',
       date: '2026-09',
       grade: 'reported',
+      quoted: 'excerpt',
       quote: 'Price 262.50 EUR. All-time high of 270.0 EUR on 17 July 2026. P/E (TTM) of 18.3x at 30 June 2026.',
     },
     {
@@ -381,6 +404,7 @@ export const KRKA: Report = {
       url: 'https://inter.capital/?p=43849',
       date: '2026-01',
       grade: 'reported',
+      quoted: 'excerpt',
       quote:
         'Ljubljana Stock Exchange stock market capitalisation rose 47.9% to EUR 17.6bn; stock turnover reached EUR 686.8m.',
     },

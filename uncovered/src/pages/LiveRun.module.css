@@ -1,0 +1,232 @@
+/* A research run as it happens, set on the request slip. */
+
+.live[data-status='done'] {
+  border-color: var(--intaglio);
+}
+
+.sealWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+/* The stamp the slip receives when the report has passed its checks. */
+.stamp {
+  position: absolute;
+  inset: auto -0.75rem -0.5rem auto;
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  padding: 0.3rem 0.7rem;
+  border: 3px double var(--intaglio);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--sheet) 82%, transparent);
+  color: var(--intaglio);
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+
+.stamp span:first-child {
+  font-family: var(--font-display);
+  font-size: var(--t-l);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stamp {
+    animation: stamp 520ms var(--ease-out) 1.4s both;
+  }
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(1.6);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(0.96);
+  }
+}
+
+/* What the desk is doing now. */
+.now {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding-block: var(--s-3);
+  border-block: 1px solid var(--rule);
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+
+.latest {
+  color: var(--ink-3);
+}
+
+.pulse {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--intaglio);
+  transform: translateY(-0.05rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse {
+    animation: pulse 1.6s var(--ease-out) infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--intaglio) 45%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0.6rem transparent;
+  }
+}
+
+/* The evidence counted as it is verified. */
+.ticker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+  margin: 0;
+}
+
+.ticker div {
+  display: grid;
+  gap: 0.2rem;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--ink);
+}
+
+.ticker dt {
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ticker dd {
+  margin: 0;
+  font-size: var(--t-2xl);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.ticker div:last-child dd {
+  color: var(--grade-reported);
+}
+
+/* Steps report their state; the working one engraves its rule. */
+.plan li {
+  position: relative;
+}
+
+.plan li[data-state='waiting'] h3,
+.plan li[data-state='waiting'] p {
+  color: var(--ink-3);
+}
+
+.plan li[data-state='active']::before {
+  content: '';
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ovi-a), var(--ovi-b));
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .plan li[data-state='active']::before {
+    animation: engrave 2.4s var(--ease-engrave) infinite;
+  }
+}
+
+@keyframes engrave {
+  from {
+    transform: scaleX(0);
+  }
+  70%,
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.state {
+  color: var(--ink-3);
+}
+
+.plan li[data-state='active'] .state {
+  color: var(--intaglio);
+}
+
+.plan li[data-state='done'] .state {
+  color: var(--grade-filed);
+}
+
+/* The desk's working notes, newest first. */
+.notesTitle {
+  margin-bottom: var(--s-3);
+  font-size: var(--t-l);
+}
+
+.notes {
+  display: grid;
+  gap: 0.35rem;
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}
+
+.notes li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+.notes time {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+.done,
+.failed {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--paper-2);
+  border-top: 3px solid var(--intaglio);
+}
+
+.failed {
+  border-top-color: var(--grade-reported);
+}
+
+.done h2,
+.failed h2 {
+  font-size: var(--t-xl);
+}
+
+@media (max-width: 40rem) {
+  .ticker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .notes li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .stamp {
+    inset: auto 0 -0.5rem auto;
+  }
+}

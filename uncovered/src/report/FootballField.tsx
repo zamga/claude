@@ -1,13 +1,15 @@
 import type { CSSProperties } from 'react';
-import { eur } from '../lib/format';
+import { moneyFor } from '../lib/format';
 import { useSeen, useWidth } from '../lib/hooks';
 import type { Valuation } from './valuation';
 import styles from './FootballField.module.css';
 
 /*
- * The football field: each valuation method as a range on one € axis, the
- * fair-value band where they meet, and the market price on the same line.
- * One axis, direct labels, a table equivalent for assistive technology.
+ * The football field: each valuation method as a range on one money axis,
+ * the fair-value band where they meet, and the market price on the same line.
+ * One axis, direct labels, a table equivalent for assistive technology. Per
+ * share for a company with traded shares; the whole equity, in millions, for
+ * one without.
  */
 
 interface Props {
@@ -21,19 +23,32 @@ const COLORS: Record<string, string> = {
   dcf: 'var(--method-dcf)',
   ddm: 'var(--method-ddm)',
   pe: 'var(--method-multiple)',
+  ev: 'var(--method-multiple)',
 };
+
+/** A round step that gives about eight ticks across a span. */
+export function niceStep(span: number, ticks = 8): number {
+  const rough = span / ticks;
+  const mag = 10 ** Math.floor(Math.log10(rough));
+  return ([1, 2, 2.5, 5, 10].find((m) => m * mag >= rough) ?? 10) * mag;
+}
 
 export function FootballField({ valuation, high, title = 'Fair value per share by method' }: Props) {
   const [box, width] = useWidth<HTMLDivElement>(720);
   const [seenRef, seen] = useSeen<HTMLDivElement>('0px 0px 15% 0px');
   const { methods, fair, price } = valuation;
+  const money = moneyFor(valuation.currency, valuation.basis);
+  const v = (x: number) => money.value(x, 0);
   const narrow = width < 560;
   const labelW = narrow ? 0 : 190;
   const padR = 24;
   const values = [...methods.flatMap((m) => [m.low, m.high]), price ?? fair.base, high?.value ?? fair.base];
-  const step = 20;
-  const lo = Math.floor((Math.min(...values) - 12) / step) * step;
-  const hi = Math.ceil((Math.max(...values) + 8) / step) * step;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const step = niceStep(Math.max(max - min, Math.abs(max) * 0.05, 1e-6));
+  const lo = Math.floor((min - step * 0.6) / step) * step;
+  const hi = Math.ceil((max + step * 0.4) / step) * step;
+  const tickDigits = step < 1 ? 2 : 0;
   const plotW = Math.max(120, width - labelW - padR);
   const x = (v: number) => labelW + ((v - lo) / (hi - lo)) * plotW;
   // A strip above the rows carries the price and high labels, so they never sit on a bar.
@@ -53,9 +68,8 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
       <div ref={box} className={styles.box}>
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby="ff-desc">
           <desc id="ff-desc">
-            {methods.map((m) => `${m.label}: ${eur(m.low, 0)} to ${eur(m.high, 0)}, base ${eur(m.base, 0)}.`).join(' ')}{' '}
-            Fair value range {eur(fair.low, 0)} to {eur(fair.high, 0)}.
-            {price !== undefined ? ` Share price ${eur(price)}.` : ''}
+            {methods.map((m) => `${m.label}: ${v(m.low)} to ${v(m.high)}, base ${v(m.base)}.`).join(' ')} Fair value
+            range {v(fair.low)} to {v(fair.high)}.{price !== undefined ? ` Share price ${money.amount(price)}.` : ''}
           </desc>
 
           {/* Fair-value band, drawn across every row. */}
@@ -71,7 +85,7 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
             <g key={t} className={styles.tick}>
               <line x1={x(t)} x2={x(t)} y1={rowsTop - 6} y2={height - 30} />
               <text x={x(t)} y={height - 12} textAnchor="middle">
-                €{t}
+                {money.value(t, tickDigits)}
               </text>
             </g>
           ))}
@@ -101,10 +115,10 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
                 />
                 <line className={styles.baseTick} x1={x(m.base)} x2={x(m.base)} y1={y + 2} y2={y + 28} />
                 <text className={styles.value} x={x(m.low) - 6} y={y + 19} textAnchor="end">
-                  {eur(m.low, 0)}
+                  {v(m.low)}
                 </text>
                 <text className={styles.value} x={x(m.high) + 6} y={y + 19}>
-                  {eur(m.high, 0)}
+                  {v(m.high)}
                 </text>
               </g>
             );
@@ -131,7 +145,7 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
               y={rowsTop + fairRow * rowH + (narrow ? 35 : 19)}
               textAnchor="middle"
             >
-              {eur(fair.low, 0)} – {eur(fair.high, 0)}
+              {v(fair.low)} – {v(fair.high)}
             </text>
           </g>
 
@@ -151,7 +165,7 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
                 y={markerTop - 2}
                 textAnchor={high && !highFirst ? 'end' : 'start'}
               >
-                Price {eur(price)}
+                Price {money.amount(price)}
               </text>
             </g>
           )}
@@ -171,16 +185,16 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
           {methods.map((m) => (
             <tr key={m.id}>
               <th scope="row">{m.label}</th>
-              <td>{eur(m.low, 0)}</td>
-              <td>{eur(m.base, 0)}</td>
-              <td>{eur(m.high, 0)}</td>
+              <td>{v(m.low)}</td>
+              <td>{v(m.base)}</td>
+              <td>{v(m.high)}</td>
             </tr>
           ))}
           <tr>
             <th scope="row">Fair value range</th>
-            <td>{eur(fair.low, 0)}</td>
-            <td>{eur(fair.base, 0)}</td>
-            <td>{eur(fair.high, 0)}</td>
+            <td>{v(fair.low)}</td>
+            <td>{v(fair.base)}</td>
+            <td>{v(fair.high)}</td>
           </tr>
         </tbody>
       </table>

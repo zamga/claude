@@ -270,6 +270,19 @@
   text-wrap: balance;
 }
 
+/* The requester's question, set as the epigraph of the section that answers it. */
+.question {
+  max-width: 34em;
+  margin-bottom: var(--s-4);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--intaglio);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--t-xl);
+  line-height: 1.25;
+  color: var(--ink-2);
+}
+
 .lead {
   max-width: 36em;
   margin-bottom: var(--s-4);

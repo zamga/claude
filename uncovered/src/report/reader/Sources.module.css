@@ -65,6 +65,28 @@
   color: var(--ink-2);
 }
 
+.provenance,
+.entryProvenance {
+  font-size: var(--t-2xs);
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+.translation {
+  font-size: var(--t-s);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.translation span {
+  display: block;
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 .url {
   font-size: var(--t-xs);
   color: var(--intaglio);
@@ -189,12 +211,36 @@
   color: var(--ink-2);
 }
 
+/* Several passages from one document, under its title */
+.document {
+  display: grid;
+  gap: var(--s-2);
+  padding-top: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.documentHead {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: calc(2.5rem + var(--s-3));
+}
+
+.passages {
+  display: grid;
+}
+
+.passages .entry {
+  border-bottom: 0;
+  border-top: 1px dashed var(--rule);
+}
+
 @media print {
   .card {
     box-shadow: none;
   }
 
-  .entry {
+  .entry,
+  .documentHead {
     break-inside: avoid;
   }
 

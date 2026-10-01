@@ -4,6 +4,7 @@ import {
   useId,
   useRef,
   useState,
+  useSyncExternalStore,
   type ChangeEvent,
   type FormEvent,
   type RefObject,
@@ -13,7 +14,9 @@ import { Cover } from '../report/Cover';
 import { Seal } from '../seal/Seal';
 import { serialFor } from '../seal/guilloche';
 import { Serial } from '../ui/Serial';
-import { Link } from '../lib/router';
+import { Link, navigate, useLocation } from '../lib/router';
+import { engineStatus, runAddress, startRun, type EngineStatus } from '../lib/run';
+import { LiveRun } from './LiveRun';
 import {
   ACCEPTED,
   COUNTRIES,
@@ -36,12 +39,25 @@ const LISTINGS: { value: Listing; label: string }[] = [
   { value: 'unsure', label: 'Not sure' },
 ];
 
+/** The single-file preview has no server, so no engine. */
+const STANDALONE = import.meta.env.MODE === 'artifact';
+
+const never = () => () => {};
+const NO_ENGINE: EngineStatus = { engine: 'off', access: 'open' };
+// The page is rendered for the host that serves it (see renderForEngine), so its first paint
+// already says whether the engine runs, and hydration reads the same answer from the page.
+const currentEngine = (): EngineStatus => (STANDALONE ? NO_ENGINE : engineStatus());
+
 /**
- * Commission an initiation. The request is checked and turned into the plan
- * the research engine would follow; in this preview the engine is not
- * connected, so nothing is sent or stored, and the page says so.
+ * Commission an initiation. Where the server runs the research engine, the
+ * request is sent with its files and the page follows the run as it happens
+ * (at /initiate?run=<id>, so the address can be left and come back to).
+ * Without an engine, the request is checked and turned into the plan the
+ * engine would follow, nothing is sent or stored, and the page says so.
  */
 export function Initiate() {
+  const { query } = useLocation();
+  const run = query.get('run');
   const draft = getDraft();
   const [request, setRequest] = useState<InitiationRequest>({
     company: draft.company,
@@ -56,10 +72,18 @@ export function Initiate() {
   });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState<InitiationRequest | null>(null);
+  const engine = useSyncExternalStore(never, currentEngine, currentEngine);
+  const [code, setCode] = useState('');
+  const [sending, setSending] = useState(false);
+  const [problem, setProblem] = useState<string>();
+  const [sent, setSent] = useState<InitiationRequest>();
   const shown = useDeferredValue(request.company);
   const id = useId();
   const slipRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  // The files themselves, by name; the request carries only their names and sizes.
+  const filesRef = useRef(new Map<string, File>());
+  const live = engine.engine !== 'off';
 
   usePageMeta('/initiate');
 
@@ -71,7 +95,9 @@ export function Initiate() {
     setRequest((r) => ({ ...r, [key]: value }));
 
   const onFiles = (e: ChangeEvent<HTMLInputElement>) => {
-    const list = Array.from(e.target.files ?? []).map((f) => ({ name: f.name, size: f.size }));
+    const chosen = Array.from(e.target.files ?? []);
+    for (const f of chosen) filesRef.current.set(f.name, f);
+    const list = chosen.map((f) => ({ name: f.name, size: f.size }));
     set(
       'files',
       [...request.files, ...list].filter((f, i, all) => all.findIndex((g) => g.name === f.name) === i),
@@ -79,16 +105,50 @@ export function Initiate() {
     e.target.value = '';
   };
 
-  const submit = (e: FormEvent) => {
+  const focusField = (name: string) => formRef.current?.querySelector<HTMLElement>(`[name="${name}"]`)?.focus();
+
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     const found = validate(request);
+    if (live && engine.access === 'code' && !code.trim())
+      found.code = 'Enter the access code that came with your invitation.';
     setErrors(found);
+    setProblem(undefined);
     const first = Object.keys(found)[0];
     if (first) {
-      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+      focusField(first);
       return;
     }
-    setSubmitted(request);
+    if (!live) {
+      setSubmitted(request);
+      return;
+    }
+    const form = new FormData();
+    form.set('company', request.company);
+    form.set('country', request.country);
+    form.set('listing', request.listing);
+    form.set('ticker', request.ticker);
+    form.set('registration', request.registration);
+    form.set('website', request.website);
+    form.set('purpose', request.purpose);
+    form.set('focus', request.focus);
+    form.set('code', code);
+    for (const f of request.files) {
+      const file = filesRef.current.get(f.name);
+      if (file) form.append('files', file, file.name);
+    }
+    setSending(true);
+    const result = await startRun(form);
+    setSending(false);
+    if (!result.ok) {
+      if (result.field && ['company', 'website', 'files', 'ticker', 'code'].includes(result.field)) {
+        setErrors({ [result.field]: result.error });
+        focusField(result.field);
+      } else setProblem(result.error);
+      return;
+    }
+    setSent(request);
+    navigate(runAddress(result.id));
   };
 
   const err = (key: keyof FieldErrors) =>
@@ -100,6 +160,7 @@ export function Initiate() {
   const describedBy = (key: keyof FieldErrors, hint?: string) =>
     [hint, errors[key] ? `${id}-${key}-error` : undefined].filter(Boolean).join(' ') || undefined;
 
+  if (run) return <LiveRun key={run} id={run} request={sent} onEdit={sent ? () => navigate('/initiate') : undefined} />;
   if (submitted) return <Slip request={submitted} onEdit={() => setSubmitted(null)} headingRef={slipRef} />;
 
   return (
@@ -113,10 +174,19 @@ export function Initiate() {
           Name the company and what you need to know. Uncovered gathers the filings, builds the model and writes the
           report, with every figure traced to its source.
         </p>
-        <p className={styles.preview} role="note">
-          <strong>Preview.</strong> The research engine is not connected yet. You can complete a request and see the
-          plan it would follow; nothing is sent or stored.
-        </p>
+        {live ? (
+          <p className={styles.preview} role="note">
+            <strong>{engine.engine === 'fixture' ? 'Test engine.' : 'The engine is live.'}</strong>{' '}
+            {engine.engine === 'fixture'
+              ? 'This server runs a scripted test of the engine: whatever you ask, it researches a fictional company from its test documents.'
+              : 'An initiation takes about twenty minutes, and you can watch it being researched. Your files are read for this report and not kept.'}
+          </p>
+        ) : (
+          <p className={styles.preview} role="note">
+            <strong>Preview.</strong> The research engine is not connected here. You can complete a request and see the
+            plan it would follow; nothing is sent or stored.
+          </p>
+        )}
       </header>
 
       <div className={`page ${styles.grid}`}>
@@ -245,8 +315,8 @@ export function Initiate() {
               <label htmlFor={`${id}-files`}>
                 <span className={styles.dropTitle}>Attach annual reports or statements</span>
                 <span className={styles.hint} id={`${id}-files-hint`}>
-                  PDF, spreadsheets, XBRL or a ZIP, up to 25 MB each. Drop them here or choose files. They stay on this
-                  device in the preview.
+                  PDFs, filings in XHTML or HTML, or text, up to 25 MB each. Drop them here or choose files.{' '}
+                  {live ? 'They are read for this report and not kept.' : 'They stay on this device in the preview.'}
                 </span>
               </label>
             </div>
@@ -260,12 +330,13 @@ export function Initiate() {
                     <button
                       type="button"
                       className={styles.remove}
-                      onClick={() =>
+                      onClick={() => {
+                        filesRef.current.delete(f.name);
                         set(
                           'files',
                           request.files.filter((g) => g.name !== f.name),
-                        )
-                      }
+                        );
+                      }}
                     >
                       Remove<span className="visually-hidden"> {f.name}</span>
                     </button>
@@ -307,16 +378,44 @@ export function Initiate() {
                 placeholder="e.g. Can it fund the new plant from its own cash? How does it compare with its closest competitor?"
               />
             </div>
+            {live && engine.access === 'code' && (
+              <div className={styles.field} data-invalid={errors.code ? true : undefined}>
+                <label htmlFor={`${id}-code`}>Access code</label>
+                <input
+                  id={`${id}-code`}
+                  name="code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-invalid={errors.code ? true : undefined}
+                  aria-describedby={describedBy('code', `${id}-code-hint`)}
+                />
+                <p className={styles.hint} id={`${id}-code-hint`}>
+                  Uncovered is in private beta. Your invitation came with a code.
+                </p>
+                {err('code')}
+              </div>
+            )}
           </fieldset>
 
+          {problem && (
+            <p className={styles.problem} role="alert">
+              {problem}
+            </p>
+          )}
           <div className={styles.submitRow}>
-            <button type="submit" className={styles.submit}>
-              See the research plan
+            <button type="submit" className={styles.submit} disabled={sending} aria-busy={sending || undefined}>
+              {live ? (sending ? 'Sending the request…' : 'Initiate coverage') : 'See the research plan'}
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
                 <path d="M4 10h11M11 5l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
               </svg>
             </button>
-            <p className={styles.hint}>A full initiation takes about twenty minutes once the engine is connected.</p>
+            <p className={styles.hint}>
+              {live
+                ? 'An initiation takes about twenty minutes. You can follow it as it works, or come back to its address.'
+                : 'A full initiation takes about twenty minutes once the engine is connected.'}
+            </p>
           </div>
         </form>
 

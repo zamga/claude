@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type { Report } from '../report/types';
 
 /*
  * Every page's title and description, in one place: the prerender writes them
@@ -27,7 +28,7 @@ export const ROUTES: RouteMeta[] = [
     path: '/initiate',
     title: 'Initiate coverage · Uncovered',
     description:
-      'Commission an initiation on any company. Name it and what you need to know, attach filings if you have them, and see the research plan Uncovered would follow.',
+      'Commission an initiation on any company: name it, say what you need to know, attach filings if you have them, and follow the research plan as it runs.',
   },
   {
     path: '/method',
@@ -47,11 +48,24 @@ export function metaFor(path: string): RouteMeta {
   return ROUTES.find((r) => r.path === path) ?? NOT_FOUND;
 }
 
+/** A report's title and description, for reports written after the build. */
+export function reportMeta(report: Report): RouteMeta {
+  const path = `/report/${report.id}`;
+  const known = ROUTES.find((r) => r.path === path);
+  if (known) return known;
+  const c = report.company;
+  return {
+    path,
+    title: `${c.legalName}: initiation of coverage · Uncovered`,
+    description: `${report.headline}. An initiation of coverage on ${c.legalName}, ${c.sector.toLowerCase()}, ${c.country}: thesis, financials, valuation and risks, with ${report.sources.length} quoted sources.`,
+  };
+}
+
 /** Keep the document's title and description in step with the page on screen. */
-export function usePageMeta(path: string) {
+export function usePageMeta(path: string, given?: RouteMeta) {
+  const meta = given ?? metaFor(path);
   useEffect(() => {
-    const meta = metaFor(path);
     document.title = meta.title;
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
-  }, [path]);
+  }, [meta.title, meta.description]);
 }
