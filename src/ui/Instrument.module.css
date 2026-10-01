@@ -1,0 +1,201 @@
+.instrument {
+  display: grid;
+  gap: 0.35rem;
+  padding-block: 0.85rem 0.95rem;
+  border-top: 1px solid var(--rule);
+}
+
+.instrument[data-disabled='true'] {
+  opacity: 0.55;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.entry {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.entry:focus-within {
+  border-color: var(--signal);
+}
+
+.number {
+  width: 4.6ch;
+  border: 0;
+  background: transparent;
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  padding: 0.1rem 0;
+  outline: none;
+}
+
+.suffix {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  min-width: 1ch;
+}
+
+.hint {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-3);
+  max-width: 40ch;
+}
+
+.track {
+  position: relative;
+  padding-block: 1.1rem 1.05rem;
+}
+
+/* Slider: a hairline track, a filled run to the thumb, a Plimsoll-mark thumb. */
+.range {
+  --thumb: 22px;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--thumb);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.range:focus-visible {
+  outline: none;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, var(--ink) 0 var(--fill, 0%), var(--rule-strong) var(--fill, 0%) 100%);
+  border-radius: 2px;
+}
+
+.range::-moz-range-track {
+  height: 2px;
+  background: var(--rule-strong);
+  border-radius: 2px;
+}
+
+.range::-moz-range-progress {
+  height: 2px;
+  background: var(--ink);
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--thumb);
+  height: var(--thumb);
+  margin-top: calc((2px - var(--thumb)) / 2);
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background:
+    linear-gradient(var(--ink), var(--ink)) center / 100% 2px no-repeat,
+    var(--paper-raised);
+  box-shadow: 0 0 0 3px var(--paper);
+  transition:
+    transform var(--dur-2) var(--ease-buoy),
+    border-color var(--dur-1) linear;
+}
+
+.range::-moz-range-thumb {
+  width: calc(var(--thumb) - 4px);
+  height: calc(var(--thumb) - 4px);
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background:
+    linear-gradient(var(--ink), var(--ink)) center / 100% 2px no-repeat,
+    var(--paper-raised);
+  box-shadow: 0 0 0 3px var(--paper);
+}
+
+.range:hover::-webkit-slider-thumb {
+  transform: scale(1.08);
+}
+
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.14);
+  border-color: var(--signal);
+}
+
+.range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.range:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.marker {
+  position: absolute;
+  top: calc(1.1rem + 3px);
+  width: 1px;
+  height: 16px;
+  translate: -0.5px 0;
+  pointer-events: none;
+}
+
+.marker[data-kind='today'] {
+  background: var(--ink-3);
+}
+
+.marker[data-kind='market'] {
+  background: var(--water-ink);
+  width: 2px;
+  translate: -1px 0;
+}
+
+.markerLabel {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  translate: -50% 0;
+  white-space: nowrap;
+  font-size: 0.66rem;
+  color: var(--ink-3);
+}
+
+.marker[data-align='start'] .markerLabel {
+  left: 0;
+  translate: -2px 0;
+}
+
+.marker[data-align='end'] .markerLabel {
+  left: auto;
+  right: 0;
+  translate: 2px 0;
+}
+
+/* The second of two close markers puts its label above the track. */
+.marker[data-lift='true'] .markerLabel {
+  top: auto;
+  bottom: 18px;
+}
+
+.marker[data-kind='market'] .markerLabel {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.74rem;
+  color: var(--water-ink);
+}

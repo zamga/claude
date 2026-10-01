@@ -1,0 +1,146 @@
+.gauge {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  min-height: 14rem;
+  overflow: hidden;
+}
+
+.hull {
+  fill: var(--paper-raised);
+  stroke: var(--ink);
+  stroke-width: 1.25;
+}
+
+.tick {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+}
+
+.draft {
+  font-family: var(--font-sans);
+  font-stretch: 62%;
+  font-size: 13px;
+  font-weight: 500;
+  fill: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.range line {
+  stroke: var(--mark-land);
+  stroke-width: 1.5;
+}
+
+.mark circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.mark line {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.gauge[data-overloaded='true'] .mark circle,
+.gauge[data-overloaded='true'] .mark line {
+  stroke: var(--signal);
+}
+
+.value line {
+  stroke: var(--signal);
+  stroke-width: 2;
+}
+
+.value path {
+  fill: var(--signal);
+}
+
+.water {
+  fill: var(--water-1);
+  opacity: 0.62;
+}
+
+.surface {
+  stroke: var(--water-ink);
+  stroke-width: 1.5;
+}
+
+.mark,
+.value,
+.sea {
+  transition: transform var(--dur-tide) var(--ease-tide);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .water {
+    animation: swell 7s var(--ease-tide) infinite alternate;
+  }
+}
+
+@keyframes swell {
+  to {
+    transform: translateX(-18px);
+  }
+}
+
+.legend {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  line-height: 1.3;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legend span::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+}
+
+.lSea {
+  color: var(--water-ink);
+}
+
+.lSea em {
+  font-size: 0.86rem;
+}
+
+.lValue::before {
+  background: var(--signal) !important;
+}
+
+.lMark::before {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: linear-gradient(var(--ink), var(--ink)) center / 100% 1.5px no-repeat !important;
+}
+
+.lRange::before {
+  background: var(--mark-land) !important;
+  width: 2px !important;
+  height: 12px !important;
+  margin-inline: 6px;
+}
+
+.gauge[data-orientation='horizontal'] .svg {
+  min-height: 0;
+}
