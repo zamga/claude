@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Uncovered · Initiating coverage on every company</title>
+    <meta
+      name="description"
+      content="Uncovered researches any company, listed or private, and writes the initiation-of-coverage report a bank's research desk would publish: thesis, financials, forecasts, valuation and risks, with every figure traced to its source."
+    />
+    <meta name="theme-color" content="#fbfbf8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0c14" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Uncovered" />
+    <meta property="og:title" content="Uncovered · Initiating coverage on every company" />
+    <meta
+      property="og:description"
+      content="Bank-grade initiation reports on any company, public or private, with every figure traced to its source."
+    />
+    <script>
+      // Apply a stored theme before first paint so the page never flashes.
+      try {
+        var t = localStorage.getItem('uncovered:theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p
+        style="
+          font:
+            16px/1.5 Georgia,
+            serif;
+          padding: 2rem;
+          max-width: 40rem;
+        "
+      >
+        Uncovered renders its reports in your browser and needs JavaScript.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

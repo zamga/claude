@@ -1,0 +1,388 @@
+import type { Report } from './types';
+
+/*
+ * Sample initiation: Krka, d. d., Novo mesto. Every reported figure carries a
+ * footnote to a public source gathered on 1 October 2026; model figures are
+ * computed by src/report/valuation.ts from the assumptions below and marked
+ * as estimates. Unaudited figures are labelled as such.
+ */
+
+const SHARES_M = 275_711_426.9 / 9.1 / 1e6; // shares entitled to the 2025 dividend
+
+export const KRKA: Report = {
+  id: 'krka',
+  company: {
+    name: 'Krka',
+    legalName: 'Krka, d. d., Novo mesto',
+    shortName: 'Krka',
+    country: 'Slovenia',
+    countryCode: 'SI',
+    city: 'Novo mesto',
+    sector: 'Generic pharmaceuticals',
+    founded: 1954,
+    employees: '13,000+',
+    listed: true,
+    ticker: 'KRKG',
+    exchange: 'Ljubljana Stock Exchange',
+    isin: 'SI0031102120',
+    website: 'https://www.krka.biz',
+  },
+  date: '2026-10-01',
+  analyst: 'Uncovered Research',
+  headline: 'Compounding at two billion, and priced for it',
+  summary:
+    'Krka makes generic medicines in Novo mesto and sells them across Europe and beyond. It crossed €2bn of revenue for the first time in 2025, with record EBITDA of €558.7m and net profit up 13% to €403.7m[^r25]. The first half of 2026 brought another 7% of revenue growth and an EBITDA margin of 31.9%[^h126]. At €262.50[^tv] the shares sit {{premium}} above the middle of our fair-value range of {{fair.low}} to {{fair.high}}. The price already assumes an EBITDA margin of {{implied.margin}} in every year to 2030: above 2025’s 27.4%[^r25], short of the first half’s 31.9%[^h126]. We initiate with that range rather than a rating.',
+  thesis: [
+    {
+      title: 'Two billion, organically',
+      body: 'Revenue passed €2bn in 2025, up 7%[^r25], with sales up in every region but Overseas Markets[^fy25p]. East Europe, more than a third of sales, grew fastest at 12%[^fy25p].',
+    },
+    {
+      title: 'Margins are widening',
+      body: 'The EBITDA margin rose from 27.2% in 2024[^r24] to 27.4% in 2025[^r25] and reached 31.9% in the first half of 2026[^h126]. We model {{margin.2026E}} for 2026, not the first-half rate.',
+    },
+    {
+      title: 'A dependable payer',
+      body: 'The dividend has risen for 27 consecutive years, to €9.10 a share for 2025[^fs26]: €275.7m, about two-thirds of the year’s net profit[^div26].',
+    },
+  ],
+  keyFacts: [
+    { label: 'Ticker', value: 'KRKG · Ljubljana' },
+    { label: 'ISIN', value: 'SI0031102120' },
+    { label: 'Share price', value: '€262.50', sourceId: 'tv' },
+    { label: 'Shares', value: `${SHARES_M.toFixed(2)}m`, sourceId: 'div26' },
+    { label: 'Revenue 2025', value: '€2,041.0m', sourceId: 'r25' },
+    { label: 'EBITDA margin 2025', value: '27.4%', sourceId: 'r25' },
+    { label: 'Net profit 2025', value: '€403.7m', sourceId: 'r25' },
+    { label: 'Dividend 2025', value: '€9.10', sourceId: 'div26' },
+    { label: 'Employees', value: '13,000+', sourceId: 'emp' },
+    { label: 'Founded', value: '1954', sourceId: 'hist' },
+  ],
+  base: { year: '2025A', revenue: 2041.0, ebitda: 558.7, netProfit: 403.7 },
+  income: [
+    {
+      label: 'Revenue',
+      unit: 'eurm',
+      emphasis: true,
+      values: { '2023A': 1806.4, '2024A': 1909.5, '2025A': 2041.0, 'H1 2026': 1119.3 },
+      sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
+    },
+    {
+      label: 'EBITDA',
+      unit: 'eurm',
+      values: { '2023A': 504.2, '2024A': 520.0, '2025A': 558.7, 'H1 2026': 357.5 },
+      sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
+    },
+    {
+      label: 'Net profit',
+      unit: 'eurm',
+      emphasis: true,
+      values: { '2023A': 313.7, '2024A': 356.2, '2025A': 403.7, 'H1 2026': 260.2 },
+      sources: { '2023A': 'r23', '2024A': 'r24', '2025A': 'r25', 'H1 2026': 'h126' },
+    },
+    {
+      label: 'Dividend per share (€)',
+      unit: 'eur',
+      values: { '2023A': 7.5, '2024A': 8.25, '2025A': 9.1 },
+      sources: { '2023A': 'div23', '2024A': 'div25', '2025A': 'div26' },
+    },
+  ],
+  regions: [
+    { label: 'East Europe', value: 713.4, sourceId: 'fy25p' },
+    { label: 'Central Europe', value: 460.0, sourceId: 'fy25p' },
+    { label: 'West Europe', value: 364.1, sourceId: 'fy25p' },
+    { label: 'South-East Europe', value: 290.2, sourceId: 'fy25p' },
+    { label: 'Slovenia', value: 130.3, sourceId: 'fy25p' },
+    { label: 'Overseas Markets', value: 76.1, sourceId: 'fy25p' },
+  ],
+  regionsNote: 'Sales of products and services by region, 2025, € millions (unaudited).',
+  ownership: [
+    { label: 'Kapitalska družba', value: 11.5, sourceId: 'own' },
+    { label: 'Slovenian Sovereign Holding', value: 9.74, sourceId: 'own' },
+    { label: 'Other shareholders', value: 78.76 },
+  ],
+  ownershipNote:
+    'Share of the company, %. The state-controlled pension fund manager and sovereign holding together own about a fifth.',
+  dividends: [
+    { year: '2023', dps: 7.5, sourceId: 'div23' },
+    { year: '2024', dps: 8.25, sourceId: 'div25' },
+    { year: '2025', dps: 9.1, sourceId: 'div26' },
+  ],
+  assumptions: {
+    periods: ['2026E', '2027E', '2028E', '2029E', '2030E'],
+    // 2026 matches the company's €2,144m sales target; growth then eases.
+    revenueGrowth: [2144 / 2041 - 1, 0.05, 0.045, 0.04, 0.035],
+    ebitdaMargin: [0.285, 0.28, 0.28, 0.28, 0.28],
+    daPctRevenue: 0.045,
+    capexPctRevenue: 0.05,
+    nwcPctDeltaRevenue: 0.2,
+    taxRate: 0.21,
+    riskFree: 0.026,
+    equityRiskPremium: 0.05,
+    beta: 0.8,
+    countryRisk: 0.01,
+    debtWeight: 0,
+    costOfDebt: 0.04,
+    terminalGrowth: 0.02,
+    netCash: 370.6,
+    netCashSource: 'q325',
+    sharesM: SHARES_M,
+    sharesSource: 'div26',
+    dpsNext: 9.9,
+    dpsGrowth: 0.07,
+    dpsYears: 5,
+    dpsTerminalGrowth: 0.025,
+    epsNext: 405 / SHARES_M,
+    epsBasis: 'management’s 2026 net profit plan of €405m[^fs26] over the shares entitled to the dividend[^div26]',
+    peLow: 16,
+    peHigh: 21,
+    rationale: {
+      riskFree: 'Long-dated euro government yield',
+      beta: 'Medicines sell through the cycle',
+      countryRisk: 'For sales in East Europe',
+    },
+  },
+  market: {
+    price: 262.5,
+    priceDate: 'September 2026',
+    priceSource: 'tv',
+    high: 270,
+    highDate: '17 July 2026',
+    highSource: 'tv',
+  },
+  sections: [
+    {
+      id: 'business',
+      title: 'The business',
+      paragraphs: [
+        'Krka was founded in Novo mesto on 23 April 1954[^hist] and has grown into an international maker of generic medicines. Prescription pharmaceuticals are the core: €1,691.7m of sales in 2025, up 8% and 83.2% of the group total[^fy25p].',
+        'It manufactures in Slovenia, at Ločna and Bršljin in Novo mesto, Krško, Šentjernej and Ljutomer, and runs production and distribution centres in Russia, Poland, Croatia and Germany[^wiki]. The group employs more than 13,000 people[^emp].',
+      ],
+    },
+    {
+      id: 'markets',
+      title: 'Markets',
+      paragraphs: [
+        'Krka reports six sales regions. East Europe is the largest at €713.4m, 35.1% of 2025 sales, and grew 12%; Central Europe follows with €460.0m, up 8%[^fy25p]. West Europe added 4% to €364.1m and South-East Europe 8% to €290.2m. The home market, Slovenia, was €130.3m. Overseas Markets, at €76.1m, was the only region to shrink[^fy25p].',
+      ],
+    },
+    {
+      id: 'financials',
+      title: 'Financial performance',
+      paragraphs: [
+        'Revenue has compounded from €1,806.4m in 2023[^r23] to €2,041.0m in 2025[^r25], while net profit rose faster, from €313.7m to €403.7m. The 2023 dip in profit came mainly from the rouble’s depreciation against the euro[^r23], a reminder of the currency exposure that comes with the eastern markets.',
+        'The first half of 2026 brought revenue of €1,119.3m, up 7%, EBITDA of €357.5m at a 31.9% margin, operating profit up 20% to €309.2m and net profit up 5% to €260.2m[^h126]. Management’s 2026 plan, set before the year began, called for €2,132m of revenue and €405m of net profit[^fs26]; it now expects about €2,144m of sales[^h126].',
+        'The balance sheet carries net cash. Cash and cash equivalents were €370.6m at 30 September 2025[^q325], and the group invested €95.5m in 2025, mostly in production capacity and automation[^ic25]. Our valuation counts only that cash, not Krka’s other financial investments, so it errs low.',
+      ],
+    },
+    {
+      id: 'ownership',
+      title: 'Ownership and capital returns',
+      paragraphs: [
+        'The two largest shareholders are state-controlled: Kapitalska družba, the pension fund manager, with 11.5%, and Slovenian Sovereign Holding with 9.74%[^own].',
+        'Dividends have risen for 27 years in a row[^fs26]: €7.50 a share for 2023[^div23], €8.25 for 2024[^div25] and €9.10 for 2025, a payout of €275.7m[^div26].',
+      ],
+    },
+    {
+      id: 'valuation',
+      title: 'Valuation',
+      paragraphs: [
+        'We value Krka three ways and take the average: a five-year free-cash-flow model with a terminal value, a two-stage dividend discount model, and a range of earnings multiples applied to the company’s own 2026 profit plan[^fs26]. For context, the shares traded at 18.3 times trailing earnings at the end of June 2026[^tv].',
+        'The cost of capital is built up from a {{rf}} euro risk-free rate, a {{erp}} equity risk premium, a beta of {{beta}} and a {{crp}} premium for country exposure, which together give {{ke}}. Krka has no meaningful debt, so this is also its weighted cost of capital. These are our assumptions, not reported figures, and every one of them can be changed in the model.',
+      ],
+    },
+  ],
+  catalysts: [
+    'Nine-month results in November: the first read on whether the first-half EBITDA margin of 31.9% holds[^h126].',
+    'Launches: six new prescription pharmaceuticals and one companion-animal product reached the market in the first half of 2026[^h126].',
+    'A 28th consecutive dividend increase would follow the 2026 accounts[^fs26].',
+  ],
+  risks: [
+    {
+      title: 'East Europe and the rouble',
+      impact: 'high',
+      body: 'East Europe is over a third of sales[^fy25p], and the rouble’s fall was the main reason profit dropped in 2023[^r23]. Sanctions, payment restrictions or a weaker rouble would cut both sales and earnings.',
+    },
+    {
+      title: 'Margin normalisation',
+      impact: 'medium',
+      body: 'Our 2026 margin of {{margin.2026E}} sits below the first half’s 31.9%[^h126]. If the first-half level holds, our value is too low; if margins slip back towards 2025’s 27.4%[^r25], the price is harder to defend.',
+    },
+    {
+      title: 'Pricing in Western markets',
+      impact: 'medium',
+      body: 'West Europe grew 4% in 2025 and Overseas Markets shrank[^fy25p]. Tender-driven generic markets limit how much of Krka’s volume growth turns into price.',
+    },
+    {
+      title: 'State shareholders',
+      impact: 'low',
+      body: 'State-controlled holders own about a fifth of the company[^own]. Their priorities on dividends, investment and management can differ from other shareholders’.',
+    },
+    {
+      title: 'Liquidity',
+      impact: 'low',
+      body: 'Krka trades on a small market: all shares on the Ljubljana Stock Exchange turned over €686.8m in 2025[^ljse25], which limits position sizes for large investors.',
+    },
+  ],
+  sources: [
+    {
+      id: 'r25',
+      title: 'Krka releases 2025 unaudited financial statements',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/media-center/news/krka-releases-2025-unaudited-financial-statements/',
+      date: '2026-03',
+      grade: 'reported',
+      quote:
+        'The Krka Group generated revenue of €2,041.0 million, up 7% on 2024. EBITDA amounted to €558.7 million, corresponding to 27.4% of total revenue. Krka Group unaudited net profit totalled €403.7 million, up 13% on 2024.',
+    },
+    {
+      id: 'r24',
+      title: 'Krka releases 2024 unaudited financial statements',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/media-center/news/krka-releases-2024-unaudited-financial-statements/',
+      date: '2025-03',
+      grade: 'reported',
+      quote:
+        'The Krka Group generated revenue of €1,909.5 million, up 6% on 2023; unaudited net profit totalled €356.2 million. EBITDA reached €520 million, a margin of 27.2%.',
+    },
+    {
+      id: 'r23',
+      title: 'Krka releases 2023 unaudited financial statements',
+      publisher: 'Krka, d. d.',
+      url: 'https://krka.biz/media-center/news/krka-releases-2023-unaudited-financial-statements',
+      date: '2024-03-14',
+      grade: 'reported',
+      quote:
+        'The Krka Group generated €1,806.4 million in revenue, up 5%; EBITDA went up 3% to €504.2 million; unaudited net profit totalled €313.7 million, lower primarily owing to the depreciation of the rouble against the euro.',
+    },
+    {
+      id: 'h126',
+      title: 'Krka reports business results for the first six months of 2026',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/media-center/news/krka-reports-business-results-for-the-first-six-months-of-2026/',
+      date: '2026-07',
+      grade: 'reported',
+      quote:
+        'Revenue of €1,119.3 million, up 7%; EBITDA of €357.5 million at a 31.9% margin; EBIT of €309.2 million, up 20%; net profit of €260.2 million, up 5%. The company confirms its 2026 target of around €2,144 million in sales.',
+    },
+    {
+      id: 'fy25p',
+      title: 'Krka FY25 results presentation',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/_assets/Krka-FY25-Results-Presentation.pdf',
+      date: '2026-03',
+      grade: 'reported',
+      quote:
+        'Sales of prescription pharmaceuticals totalled €1,691.7 million, up 8%, 83.2% of Krka Group sales. Region East Europe €713.4 million (35.1%), Central Europe €460.0 million (22.6%), West Europe €364.1 million, South-East Europe €290.2 million, Slovenia €130.3 million, Overseas Markets €76.1 million.',
+    },
+    {
+      id: 'fs26',
+      title: 'Krka factsheet 2026',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/_assets/721403-2026-KRKA-Factsheet-leaflet-EN-kor-14.4.pdf',
+      date: '2026-04',
+      grade: 'reported',
+      quote:
+        'Earnings per share of €13.2, up 14%. A 2025 dividend of €9.10 gross per share, the 27th consecutive annual increase. The 2026 business plan: revenue of €2,132 million and net profit of €405 million.',
+    },
+    {
+      id: 'div26',
+      title: 'Proposed dividend for Krka shareholders 10.3% higher than last year',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/media-center/news/proposed-dividend-for-krka-shareholders-10-3-higher-than-last-year/',
+      date: '2026-04-02',
+      grade: 'reported',
+      quote: 'To dividends €9.10 gross per share: €275,711,426.90.',
+    },
+    {
+      id: 'div25',
+      title: 'Proposed dividend for Krka shareholders 10% higher than last year',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/media-center/news/proposed-dividend-for-krka-shareholders-10-higher-than-last-year/',
+      date: '2025-04-03',
+      grade: 'reported',
+      quote: 'A dividend of €8.25 gross per share, an increase of 10.0% on last year’s dividend.',
+    },
+    {
+      id: 'div23',
+      title: 'Krka publishes preliminary FY 2023 results',
+      publisher: 'InterCapital',
+      url: 'https://inter.capital/?p=37117',
+      date: '2024-03',
+      grade: 'reported',
+      quote: 'A dividend of €7.50 gross per share for 2023, a 13.6% increase on last year.',
+    },
+    {
+      id: 'q325',
+      title: 'January to September 2025 unaudited interim report of the Krka Group',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/_assets/January-to-September-2025-Unaudited-Interim-Report-of-the-Krka-group-in-Krka-1.pdf',
+      date: '2025-11',
+      grade: 'filed',
+      quote: 'Cash and cash equivalents of €370.6 million and equity of €2,305.0 million at 30 September 2025.',
+    },
+    {
+      id: 'ic25',
+      title: 'The EUR 2 billion story: Krka crosses a milestone with even stronger margins',
+      publisher: 'InterCapital',
+      url: 'https://inter.capital/the-eur-2-billion-story-krka-crosses-a-milestone-with-even-stronger-margins/',
+      date: '2026-03',
+      grade: 'reported',
+      quote:
+        'In 2025, the Krka Group invested EUR 95.5m, primarily into production capacity, automation and operational reliability.',
+    },
+    {
+      id: 'hist',
+      title: 'History',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/about-us/at-a-glance/history/',
+      grade: 'reported',
+      quote: 'The Pharmaceutical Laboratory Krka in Novo mesto was founded on 23 April 1954.',
+    },
+    {
+      id: 'wiki',
+      title: 'Krka (company)',
+      publisher: 'Wikipedia',
+      url: 'https://en.wikipedia.org/wiki/Krka_(company)',
+      grade: 'reported',
+      quote:
+        'Production sites in Ločna and Bršljin (both in Novo mesto), Krško, Šentjernej and Ljutomer; production and distribution centres in Russia, Poland, Croatia and Germany.',
+    },
+    {
+      id: 'emp',
+      title: 'Krka factsheet',
+      publisher: 'Krka, d. d.',
+      url: 'https://www.krka.biz/_assets/KRKA-Factsheet.pdf',
+      grade: 'reported',
+      quote: 'More than 13,000 employees.',
+    },
+    {
+      id: 'own',
+      title: 'Krka, d. d. ownership structure',
+      publisher: 'Simply Wall St',
+      url: 'https://simplywall.st/stocks/de/pharmaceuticals-biotech/fra-kn8/krka-d-d-shares/ownership',
+      grade: 'reported',
+      quote:
+        'Kapitalska družba pokojninskega in invalidskega zavarovanja, d. d.: 11.5% (3,493,030 shares). Slovenian Sovereign Holding, d.d.: 9.74% (2,949,876 shares).',
+    },
+    {
+      id: 'tv',
+      title: 'Krka, d. d., Novo mesto (LJSE: KRKG)',
+      publisher: 'TradingView',
+      url: 'https://www.tradingview.com/symbols/LJSE-KRKG/',
+      date: '2026-09',
+      grade: 'reported',
+      quote: 'Price 262.50 EUR. All-time high of 270.0 EUR on 17 July 2026. P/E (TTM) of 18.3x at 30 June 2026.',
+    },
+    {
+      id: 'ljse25',
+      title: 'From activity to performance: regional markets delivered in 2025',
+      publisher: 'InterCapital',
+      url: 'https://inter.capital/?p=43849',
+      date: '2026-01',
+      grade: 'reported',
+      quote:
+        'Ljubljana Stock Exchange stock market capitalisation rose 47.9% to EUR 17.6bn; stock turnover reached EUR 686.8m.',
+    },
+  ],
+};

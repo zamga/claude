@@ -1,0 +1,35 @@
+.lost {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-7);
+  min-height: 70vh;
+  padding-block: var(--s-8);
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 34rem;
+}
+
+.title {
+  font-size: var(--t-3xl);
+  letter-spacing: -0.03em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--intaglio);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5);
+  font-weight: 650;
+}

@@ -1,0 +1,61 @@
+# Uncovered: strategy
+
+## The market today
+
+Three kinds of product sit around company research, and none of them hands a reader a finished, sourced initiation on a company nobody covers.
+
+| Space                                    | Who                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | What they sell                                                                                       | What they leave out                                                                                                                                                                                                                                                 |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Research platforms for professionals** | AlphaSense, Hebbia, Rogo and newer AI tools for sell-side analysts. New York research-AI start-ups have raised around $700 million for these tools ([Yellow](https://yellow.com/pl/news/wall-street-przyjmuje-ai-nowojorskie-startupy-pozyskują-700-milionów-dolarów-na-narzędzia-badawcze)); AlphaSense markets search across filings, transcripts and broker research to investment banks ([AlphaSense](https://www.alpha-sense.com/blog/product/alphasense-for-investment-banking)); AllMind surveys AI tools for sell-side equity research ([AllMind](https://allmind.ai/research/ai-tools-sell-side-equity-research)). | Seats for analysts at large firms: search, summaries and drafting help inside an analyst's workflow. | A finished report. They make an analyst faster; they assume there is an analyst, a budget for seats, and a company with enough documents to search.                                                                                                                 |
+| **Business information and registers**   | CompanyWall in Slovenia and the region ([University of Ljubljana library](https://www.fdv.uni-lj.si/en/library/about-us/news-and-information/trial-access-to-companywall-business)), B2B data providers ([Infobel](https://www.infobelpro.com/en/blog/b2b-data-providers-slovenia)), register access services ([Kyckr](https://www.kyckr.com/blog/slovenian-business-registry), [RBA](https://www.rba.co.uk/wordpress/?p=1534)).                                                                                                                                                                                            | Company records, financial statements, credit scores, ownership.                                     | Analysis: no thesis, no forecast, no valuation, no argument a reader can check.                                                                                                                                                                                     |
+| **Bank and broker research**             | Sell-side desks.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Deep initiations with a rating and a target price.                                                   | Almost every company. Desks cover the few names with liquid shares and investment-banking potential; Slovenia's register holds about 294,000 entities ([Kyckr](https://www.kyckr.com/blog/slovenian-business-registry)), and only a handful have ever been covered. |
+
+## The blue ocean
+
+**A finished, bank-grade initiation on any company, with every figure sourced and every valuation computed in the open, for less than an hour of an analyst's time.**
+
+The people who need one most have never been customers of any of the above: an adviser sizing up a family-owned target, a lender reading a borrower, a buyer checking a supplier, a journalist, an employee, an investor in a small listed company. Today they read raw filings, or they decide without reading anything.
+
+### Eliminate, reduce, raise, create
+
+| Eliminate                                     | Reduce                                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------------- |
+| Buy, hold and sell ratings, and target prices | Time to a first report, from weeks to minutes                             |
+| Seat licences and terminal interfaces         | Price: €49 for a single initiation                                        |
+| Chat as the interface                         | Jargon: plain English, terms explained once                               |
+| Stock imagery and "AI" decoration             | Dependence on a company having analysts, liquid shares or English filings |
+
+| Raise                                                                                                 | Create                                                                                                       |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Provenance: every reported figure footnoted to a document, quoted at the sentence, graded by evidence | A seal and serial number for every company: each report is a recognisable, shareable document                |
+| Transparency: every assumption stated with its reason and changeable                                  | Prose bound to the model: model figures in the text are computed, so the words cannot drift from the numbers |
+| Coverage: private companies, small caps, any language, starting in Slovenia                           | What the price implies: the margin and growth the market is already paying for                               |
+| Honesty about limits: unaudited figures labelled, thin evidence widens the range                      | A report that is a document: reads top to bottom, prints on A4, works without JavaScript                     |
+
+### Buyers by tier
+
+1. **Soon-to-be non-customers**: corporate-finance boutiques and small funds who look at platform pricing and do the work by hand.
+2. **Refusing non-customers**: lenders, procurement and family offices who decide on private companies from a credit score and the accounts.
+3. **Unexplored non-customers**: journalists, employees, students, suppliers and customers who have never paid for research and would pay €49 for one company that matters to them.
+
+## Pricing
+
+| Plan              | Price          | For                                                                                    |
+| ----------------- | -------------- | -------------------------------------------------------------------------------------- |
+| Single initiation | €49 per report | One company, refreshed once when new filings land                                      |
+| Desk              | €390 a month   | Twenty initiations, updates on every filing, a shared library, model export            |
+| Institution       | Custom, annual | API and white label, review and sign-off workflow, single sign-on, data kept in the EU |
+
+## Why Slovenia first
+
+Every Slovenian company files annual accounts with AJPES, so the evidence exists for almost all of the 294,000 entities, while research covers almost none of them. The market is small enough to cover thoroughly, the regulator publishes, and the same register model extends across the region.
+
+## Risks
+
+| Risk                                                | Impact                                                              | Answer                                                                                                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Register access: AJPES asks for a verified download | Private-company reports need the user's PDF, or an access agreement | The request flow asks for the filing when it is needed and marks that step "Needs you"                                                      |
+| A language model invents a figure                   | Fatal for trust                                                     | Numbers come from extracted filings or the engine, never from the model's prose; every marker and token is checked before a report is shown |
+| Regulation of investment recommendations            | Fair-value ranges on listed shares may count as investment research | No ratings or targets, disclosures on every report, legal review before launch for listed coverage                                          |
+| Liability for decisions made on a report            | Claims                                                              | Research, not advice; sources and assumptions shown; review workflow for institutions                                                       |
+| Incumbents add finished reports                     | Competition                                                         | Provenance, the price point and coverage of private companies are hard for seat-based platforms to match without undercutting themselves    |

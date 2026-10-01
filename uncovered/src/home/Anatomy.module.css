@@ -1,0 +1,445 @@
+.anatomy {
+  padding-block: var(--s-9) var(--s-8);
+  overflow: clip;
+}
+
+.title {
+  font-size: var(--t-3xl);
+  letter-spacing: -0.03em;
+  margin-top: var(--s-3);
+  max-width: 18ch;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--intaglio);
+}
+
+.head {
+  margin-bottom: var(--s-7);
+}
+
+.pages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-6) var(--s-5);
+  perspective: 1800px;
+}
+
+/* Each page is a container, so its sheet is drawn in the page's own units. */
+.pages li {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.page {
+  display: grid;
+  gap: var(--s-3);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.page:hover {
+  color: var(--ink);
+}
+
+/*
+ * A miniature page, drawn in the page's own units. Running head, title,
+ * content and folio sit where a printed report would put them.
+ */
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5.5cqi;
+  aspect-ratio: 210 / 297;
+  padding: 8cqi 8cqi 6cqi;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-sheet);
+  overflow: hidden;
+  transition:
+    transform 700ms var(--ease-out),
+    box-shadow 700ms var(--ease-out);
+}
+
+/* Fanned out from a stack just before the section arrives. At rest the pages are laid out. */
+@media (prefers-reduced-motion: no-preference) {
+  .pages[data-play='true'] .sheet {
+    animation: fan 1100ms var(--ease-out) both;
+    animation-delay: calc(var(--i) * 70ms);
+  }
+}
+
+@keyframes fan {
+  from {
+    transform: translate3d(calc((var(--n) / 2 - var(--i)) * 18%), 24px, 0) rotate(calc((var(--i) - 3.5) * 2deg));
+    opacity: 0;
+  }
+}
+
+.page:hover .sheet,
+.page:focus-visible .sheet {
+  transform: translateY(-8px) rotateX(4deg);
+  box-shadow: var(--shadow-lift);
+}
+
+.page:focus-visible {
+  outline: none;
+}
+
+.page:focus-visible .sheet {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.runningHead {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1.6cqi;
+  border-bottom: 1cqi double var(--ink);
+}
+
+.runningHead span {
+  height: 1.6cqi;
+  width: 30%;
+  background: var(--intaglio);
+  opacity: 0.8;
+}
+
+.runningHead span:last-child {
+  width: 18%;
+  background: var(--rule-2);
+}
+
+.pageTitle {
+  margin-top: 1cqi;
+  font-family: var(--font-display);
+  font-size: 8.4cqi;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.lines {
+  display: grid;
+  gap: 2.6cqi;
+}
+
+.lines span {
+  height: 1.7cqi;
+  border-radius: 1px;
+  background: var(--rule);
+}
+
+.folio {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1.6cqi;
+  border-top: 1px solid var(--rule-2);
+  font-size: 2.6cqi;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Cover */
+.coverId {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4cqi;
+  margin-top: 3cqi;
+}
+
+.coverName {
+  font-family: var(--font-display);
+  font-size: 19cqi;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.coverSeal {
+  --seal-size: 30cqi !important;
+  width: 30cqi !important;
+  height: 30cqi !important;
+}
+
+.headline {
+  height: 2.4cqi;
+  width: 78%;
+  background: var(--ink-2);
+  border-radius: 1px;
+}
+
+.valueBox {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding-block: 2.6cqi;
+  border-block: 1px solid var(--ink);
+}
+
+.range {
+  width: 46%;
+  height: 5.4cqi;
+  background: var(--intaglio);
+  border-radius: 1px;
+}
+
+.facts {
+  display: flex;
+  gap: 2.4cqi;
+}
+
+.facts span {
+  width: 7cqi;
+  height: 2.6cqi;
+  background: var(--ink-3);
+  border-radius: 1px;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 5cqi;
+}
+
+.keyData {
+  display: grid;
+  gap: 2cqi;
+}
+
+.keyData span {
+  height: 2.1cqi;
+  border-bottom: 1px solid var(--rule);
+  background: linear-gradient(90deg, var(--rule) 0 46%, transparent 46% 74%, var(--ink-3) 74%);
+  background-size: 100% 1.7cqi;
+  background-repeat: no-repeat;
+}
+
+/* Summary */
+.thesis {
+  display: grid;
+  gap: 5cqi;
+}
+
+.point {
+  display: grid;
+  grid-template-columns: 6cqi minmax(0, 1fr);
+  gap: 2cqi;
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-size: 7cqi;
+  line-height: 0.8;
+  color: var(--intaglio);
+}
+
+/* What the price implies: the fair-value band with the price marked on it */
+.implied {
+  display: grid;
+  gap: 3cqi;
+  padding: 4cqi;
+  background: var(--paper-2);
+}
+
+.impliedBand {
+  position: relative;
+  height: 4cqi;
+  margin-inline: 18% 22%;
+  background: var(--intaglio-wash);
+  border: 1px dashed var(--intaglio);
+}
+
+.impliedBand i {
+  position: absolute;
+  top: -1.6cqi;
+  bottom: -1.6cqi;
+  left: 72%;
+  width: 1px;
+  background: var(--ink);
+}
+
+/* Business: a plate of the group's plants, as dots on a field */
+.plate {
+  position: relative;
+  height: 30cqi;
+  background:
+    linear-gradient(var(--rule) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px) 0 0 / 16.66% 100%;
+  border: 1px solid var(--rule);
+}
+
+.plate span {
+  position: absolute;
+  left: calc(var(--x) * 0.9% + 4%);
+  top: calc(var(--y) * 0.8% + 8%);
+  width: 2.2cqi;
+  height: 2.2cqi;
+  border-radius: 50%;
+  background: var(--intaglio);
+}
+
+/* Markets */
+.bars {
+  display: grid;
+  gap: 2.4cqi;
+}
+
+.bars span {
+  height: 4.4cqi;
+  background: var(--intaglio);
+  border-radius: 0 1px 1px 0;
+}
+
+/* Financials */
+.table {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 2.4cqi 2.4cqi;
+  padding-bottom: 2cqi;
+  border-bottom: 1px solid var(--ink);
+}
+
+.table span {
+  height: 1.9cqi;
+  background: var(--rule-2);
+  border-radius: 1px;
+}
+
+.table span:nth-child(5n + 1) {
+  background: var(--ink-3);
+}
+
+.table span:nth-child(-n + 5) {
+  background: var(--ink);
+}
+
+/* Valuation: the football field and the sensitivity grid */
+.field {
+  position: relative;
+  display: grid;
+  gap: 2.6cqi;
+  padding-block: 1cqi;
+}
+
+.field span {
+  display: block;
+  height: 3.6cqi;
+  border-radius: 1px;
+}
+
+.field span:nth-child(1) {
+  background: var(--method-dcf);
+}
+
+.field span:nth-child(2) {
+  background: var(--method-ddm);
+}
+
+.field span:nth-child(3) {
+  background: var(--method-multiple);
+}
+
+.field span:nth-child(4) {
+  background: var(--intaglio);
+  opacity: 0.55;
+}
+
+.field i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 54%;
+  width: 1px;
+  background: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8cqi;
+}
+
+.grid span {
+  aspect-ratio: 2 / 1;
+  background: color-mix(
+    in oklab,
+    var(--method-dcf) calc(max(var(--v), 0) * 70%),
+    color-mix(in oklab, var(--method-ddm) calc(max(var(--v) * -1, 0) * 70%), var(--paper-2))
+  );
+}
+
+/* Risks and sources */
+.list {
+  display: grid;
+  gap: 3.4cqi;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 7cqi minmax(0, 1fr);
+  gap: 2cqi;
+  align-items: start;
+}
+
+.impact {
+  height: 2.6cqi;
+  background: radial-gradient(circle, var(--ink) 0 0.9cqi, transparent 1cqi) 0 50% / 2.4cqi 100% repeat-x;
+  width: calc(var(--l, 1) * 2.4cqi);
+}
+
+.impact[data-level='3'] {
+  --l: 3;
+}
+
+.impact[data-level='2'] {
+  --l: 2;
+}
+
+.ref {
+  font-size: 3cqi;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--grade-reported);
+}
+
+.ref[data-grade='filed'] {
+  color: var(--grade-filed);
+}
+
+.ref[data-grade='estimated'] {
+  color: var(--grade-estimated);
+}
+
+.meta {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.no {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--intaglio);
+}
+
+.metaTitle {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1.1;
+}
+
+.note {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+@media (max-width: 64rem) {
+  .pages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

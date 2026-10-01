@@ -1,0 +1,151 @@
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--s-4);
+}
+
+.box {
+  width: 100%;
+  overflow: hidden;
+}
+
+.box svg {
+  overflow: visible;
+}
+
+.band {
+  fill: var(--intaglio-wash);
+  stroke: var(--intaglio);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.tick line {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.tick text,
+.value {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  fill: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A halo in the sheet colour keeps labels legible where they cross a rule or the band. */
+.value,
+.rowLabel,
+.price text,
+.high text {
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.rowLabel {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.fairLabel {
+  fill: var(--intaglio);
+}
+
+.baseTick {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.fairBar {
+  fill: var(--intaglio);
+}
+
+.fairValue {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  fill: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.price line {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.price text,
+.high text {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  fill: var(--ink);
+}
+
+.high line {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.high text {
+  font-weight: 500;
+  fill: var(--ink-3);
+}
+
+/* Entrance, replayed just before the chart scrolls into view. At rest it is complete. */
+@media (prefers-reduced-motion: no-preference) {
+  .figure[data-play='true'] .bar {
+    animation: ff-grow 900ms var(--ease-engrave) both;
+    animation-delay: calc(var(--i) * 140ms);
+  }
+
+  .figure[data-play='true'] .row .value,
+  .figure[data-play='true'] .baseTick {
+    animation: ff-fade 400ms var(--ease-out) both;
+    animation-delay: calc(600ms + var(--i) * 140ms);
+  }
+
+  .figure[data-play='true'] .band,
+  .figure[data-play='true'] .fairBar,
+  .figure[data-play='true'] .fairValue {
+    animation: ff-fade 600ms var(--ease-out) 950ms both;
+  }
+}
+
+@keyframes ff-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ff-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.legend {
+  display: grid;
+  gap: 0.4rem;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.legend strong {
+  color: var(--ink);
+  font-weight: 650;
+  margin-right: 0.35rem;
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.45rem;
+  border-radius: 2px;
+  vertical-align: -0.05rem;
+}

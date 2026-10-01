@@ -1,0 +1,642 @@
+/* Exhibits: numbered, captioned above, noted below, as a printed report sets them. */
+.exhibit {
+  display: grid;
+  gap: var(--s-3);
+  margin: var(--s-6) 0;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--ink);
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.exNo {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--intaglio);
+}
+
+.exTitle {
+  font-size: var(--t-s);
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.note {
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* Key facts */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--s-6);
+  margin: var(--s-6) 0;
+  border-top: 1px solid var(--ink);
+}
+
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--t-s);
+}
+
+.facts dt {
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tables */
+/*
+ * Wide tables scroll sideways on phones. Shadows appear at whichever edge has
+ * more to see (covers move with the content, shadows stay with the box), and
+ * the row labels stay put while the numbers move.
+ */
+.scroll {
+  --shade: color-mix(in srgb, var(--ink) 16%, transparent);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  background:
+    linear-gradient(to right, var(--paper) 40%, transparent) left / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--paper) 40%, transparent) right / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--shade), transparent) left / 0.8rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--shade), transparent) right / 0.8rem 100% no-repeat scroll;
+}
+
+.scroll .table th[scope='row'] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--paper);
+}
+
+.scroll:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.table {
+  width: 100%;
+  min-width: 34rem;
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: 0.55rem 0 0.55rem 1rem;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--rule);
+}
+
+.table th[scope='row'] {
+  padding-left: 0;
+  text-align: left;
+  font-weight: 500;
+  white-space: normal;
+}
+
+.table thead th {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--ink);
+}
+
+.table[data-estimate='true'] thead th {
+  color: var(--grade-estimated);
+}
+
+.table tr[data-emphasis] th,
+.table tr[data-emphasis] td {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.table tr[data-derived] th,
+.table tr[data-derived] td {
+  padding-top: 0.2rem;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.table tr:has(+ tr[data-derived]) th,
+.table tr:has(+ tr[data-derived]) td {
+  border-bottom: 0;
+}
+
+/* Regions: a table whose cells carry their bars */
+.regions {
+  width: 100%;
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+}
+
+.regions th,
+.regions td {
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.regions thead th {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--ink);
+}
+
+.regions th[scope='row'] {
+  width: 32%;
+  padding-right: var(--s-4);
+  font-weight: 500;
+}
+
+.regions td:nth-child(2) {
+  white-space: nowrap;
+}
+
+.regions td:last-child,
+.regions thead th:last-child {
+  width: 4.5rem;
+  text-align: right;
+}
+
+.bar {
+  display: inline-block;
+  width: calc(var(--w) * 78%);
+  height: 0.85rem;
+  margin-right: 0.5rem;
+  vertical-align: -0.1rem;
+  background: var(--intaglio);
+  border-radius: 0 2px 2px 0;
+  transform-origin: left;
+}
+
+.barValue {
+  font-weight: 600;
+}
+
+/* Ownership: one bar, three holders */
+.stack {
+  position: relative;
+  height: 2.25rem;
+  margin-top: var(--s-2);
+}
+
+.segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-right: 2px solid var(--paper);
+}
+
+.segment:last-child {
+  border-right: 0;
+}
+
+.segment[data-i='0'],
+.stackLegend li[data-i='0'] .swatch {
+  background: var(--intaglio);
+}
+
+.segment[data-i='1'],
+.stackLegend li[data-i='1'] .swatch {
+  background: color-mix(in oklab, var(--intaglio) 55%, var(--sheet));
+}
+
+.segment[data-i='2'],
+.stackLegend li[data-i='2'] .swatch {
+  background: var(--rule-2);
+}
+
+.stackLegend {
+  display: grid;
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-s);
+}
+
+.stackLegend li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.share {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+}
+
+/* Dividends: columns with their values on top */
+.columns {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(0.75rem, 3vw, 2rem);
+  height: 13rem;
+  padding-top: var(--s-2);
+  border-bottom: 1px solid var(--ink);
+}
+
+.columns li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  height: 100%;
+  max-width: 6rem;
+}
+
+.colValue {
+  margin-bottom: 0.4rem;
+  font-size: var(--t-s);
+  font-weight: 650;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.colBar {
+  height: calc(var(--h) * 9rem);
+  background: var(--intaglio);
+  border-radius: 2px 2px 0 0;
+  transform-origin: bottom;
+}
+
+.columns li[data-estimate] .colBar {
+  background: repeating-linear-gradient(-45deg, var(--grade-estimated) 0 2px, transparent 2px 6px);
+  box-shadow: inset 0 0 0 1px var(--grade-estimated);
+}
+
+.columns li[data-estimate] .colValue {
+  color: var(--grade-estimated);
+}
+
+.colLabel {
+  position: relative;
+  top: 1.6rem;
+  margin-top: -1.2rem;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.columns + .note {
+  margin-top: 1.6rem;
+}
+
+/* Cost of capital, set as a build-up: each term on its line, the sum under a double rule */
+.equation {
+  display: grid;
+  max-width: 34rem;
+}
+
+.term {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+  grid-template-areas:
+    'op label value'
+    '. note value';
+  column-gap: var(--s-3);
+  row-gap: 0.1rem;
+  align-items: baseline;
+  padding-block: 0.65rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.term[data-result] {
+  margin-top: -1px;
+  border-top: 3px double var(--ink);
+  border-bottom: 0;
+}
+
+.op {
+  grid-area: op;
+  font-family: var(--font-sans);
+  font-size: var(--t-l);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink-3);
+}
+
+.termValue {
+  grid-area: value;
+  align-self: center;
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1.05;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: lining-nums;
+}
+
+.term[data-result] .termValue {
+  font-size: var(--t-2xl);
+  color: var(--intaglio);
+}
+
+.termLabel {
+  grid-area: label;
+  font-size: var(--t-s);
+  font-weight: 650;
+}
+
+.termNote {
+  grid-area: note;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+/* DCF bridge from cash flows to value per share */
+.bridge {
+  display: grid;
+  max-width: 30rem;
+  margin: var(--s-3) 0 0 auto;
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+}
+
+.bridge div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding-block: 0.4rem;
+}
+
+.bridge dt span {
+  color: var(--ink-3);
+}
+
+.bridge dd {
+  margin: 0;
+}
+
+.bridge div[data-total] {
+  border-top: 1px solid var(--ink);
+  font-weight: 700;
+}
+
+.bridge div[data-result] {
+  border-top: 3px double var(--ink);
+  padding-top: 0.6rem;
+}
+
+.bridge div[data-result] dd {
+  font-family: var(--font-display);
+  font-size: var(--t-2xl);
+  font-weight: 450;
+  color: var(--intaglio);
+  font-variant-numeric: lining-nums;
+}
+
+/* The other two methods */
+.methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-6);
+  margin: var(--s-6) 0;
+}
+
+.methods h3 {
+  margin-bottom: 0.4rem;
+  font-size: var(--t-l);
+}
+
+.methods p {
+  font-size: var(--t-s);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* What the price implies */
+.implied {
+  display: grid;
+  gap: var(--s-5);
+  margin: var(--s-7) 0;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--ink);
+  box-shadow: var(--shadow-sheet);
+}
+
+.impliedHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-5);
+}
+
+.impliedHead h3 {
+  font-size: var(--t-xl);
+}
+
+.impliedHead p {
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}
+
+.impliedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-5);
+  margin: 0;
+}
+
+.impliedGrid div {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+.impliedGrid dt {
+  font-size: var(--t-2xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.impliedGrid dd {
+  margin: 0;
+}
+
+.impliedValue {
+  font-family: var(--font-display);
+  font-size: var(--t-2xl);
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+}
+
+.impliedContext {
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* Risks, by impact */
+.risks {
+  display: grid;
+  margin: var(--s-5) 0;
+  border-top: 1px solid var(--ink);
+}
+
+.risks li {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  grid-template-areas:
+    'impact title'
+    'impact body';
+  gap: 0.35rem var(--s-5);
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.impact {
+  grid-area: impact;
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  font-size: var(--t-xs);
+  font-weight: 650;
+  color: var(--ink-2);
+}
+
+.meter {
+  display: flex;
+  gap: 3px;
+}
+
+.meter span {
+  width: 1.4rem;
+  height: 0.4rem;
+  border-radius: 1px;
+  background: var(--rule);
+}
+
+.meter span[data-on] {
+  background: var(--ink);
+}
+
+.riskTitle {
+  grid-area: title;
+  font-size: var(--t-l);
+}
+
+.riskBody {
+  grid-area: body;
+  color: var(--ink-2);
+}
+
+/* Catalysts */
+.catalysts {
+  display: grid;
+  margin: var(--s-5) 0;
+  border-top: 1px solid var(--ink);
+}
+
+.catalysts li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.catNo {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  line-height: 1.1;
+  color: var(--intaglio);
+  font-variant-numeric: lining-nums;
+}
+
+.catalysts p {
+  color: var(--ink-2);
+}
+
+@media (max-width: 48rem) {
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .impliedGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .methods {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .risks li {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'impact' 'title' 'body';
+  }
+
+  .impact {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .impliedGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media print {
+  .exhibit,
+  .implied,
+  .risks li,
+  .bridge {
+    break-inside: avoid;
+  }
+
+  .implied {
+    box-shadow: none;
+  }
+
+  .scroll {
+    overflow: visible;
+  }
+
+  .table {
+    min-width: 0;
+  }
+}
