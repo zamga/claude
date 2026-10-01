@@ -1,6 +1,7 @@
 import { KRKA } from '../report/krka';
 import { FootballField } from '../report/FootballField';
 import { Sensitivity } from '../report/Sensitivity';
+import { Landscape } from '../report/landscape/Landscape';
 import { valueReport } from '../report/valuation';
 import { eur, signedPct } from '../lib/format';
 import { Link } from '../lib/router';
@@ -23,6 +24,9 @@ export function ValuationSection() {
           range runs from {eur(V.fair.low, 0)} to {eur(V.fair.high, 0)} a share. The shares were {eur(V.price ?? 0)},{' '}
           {signedPct(V.premium ?? 0)} against the middle of the range.
         </p>
+      </div>
+      <div className={`page ${styles.land}`}>
+        <Landscape report={KRKA} />
       </div>
       <div className={`page ${styles.body}`}>
         <div className={styles.chart}>

@@ -302,8 +302,7 @@
   white-space: nowrap;
   pointer-events: none;
   --spot: radial-gradient(
-    circle var(--lamp-r, 26cqi) at calc(var(--lx, -9999px) - var(--ox, 0px))
-      calc(var(--ly, -9999px) - var(--oy, 0px)),
+    circle var(--lamp-r, 26cqi) at calc(var(--lx, -9999px) - var(--ox, 0px)) calc(var(--ly, -9999px) - var(--oy, 0px)),
     #000 0%,
     #000 38%,
     transparent 100%

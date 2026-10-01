@@ -220,9 +220,7 @@ export function Cover({
                 return (
                   <div key={f.label} className={source ? styles.marked : undefined}>
                     <dt>{f.label}</dt>
-                    <dd className="num">
-                      {f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}
-                    </dd>
+                    <dd className="num">{f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}</dd>
                     {source && <SourceMark line={sourceLine(source)} />}
                   </div>
                 );

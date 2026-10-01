@@ -4,7 +4,6 @@
   overflow: clip;
 }
 
-
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);

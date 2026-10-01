@@ -27,6 +27,10 @@
   color: var(--ink-2);
 }
 
+.land {
+  margin-bottom: var(--s-8);
+}
+
 .body {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
