@@ -1,0 +1,183 @@
+/*
+ * Plimsoll design tokens.
+ * Layout concept: an Admiralty chart sheet. A quiet paper ground, a strict
+ * 12-column survey grid, hairline rules, and colour reserved for the chart
+ * itself: buff land, blue shallows, green drying banks, magenta for the
+ * one thing you should act on.
+ *
+ * Two palettes follow real chart-display conventions: "Day chart" (paper)
+ * and "Night watch" (dimmed bridge display that preserves night vision).
+ */
+
+:root {
+  /* Ground and ink */
+  --paper: #f3f5f1;
+  --paper-raised: #fbfcf9;
+  --paper-sunken: #e8ece8;
+  --ink: #0d1b26;
+  --ink-2: #33434e;
+  --ink-3: #56656f;
+  --rule: #c8d0d1;
+  --rule-strong: #7a8890;
+
+  /* Hydrography (the market): italic, blue */
+  --water-ink: #1c5a80;
+  --water-1: #c9e2ec;
+  --water-2: #e1eef1;
+  --water-line: #6fa3bf;
+
+  /* Topography (the company): upright, buff */
+  --land-1: #efe3b9;
+  --land-2: #e3d097;
+  --land-3: #cbb26a;
+  --land-ink: #6f5a1f;
+  --land-line: #a88f4b;
+
+  /* Data marks, validated for colour-vision deficiency (see docs/DESIGN_SYSTEM.md) */
+  --mark-land: #a86b12;
+  --mark-water: #1f6fa8;
+
+  /* Drying banks: within your margin of safety either side of the coast */
+  --intertidal: #b8d2a5;
+  --intertidal-ink: #31531f;
+
+  /* Signal: chart magenta, reserved for the bearing, the coastline and actions */
+  --signal: #b0126c;
+  --signal-strong: #8c0c55;
+  --signal-ink: #ffffff;
+  --signal-wash: rgb(176 18 108 / 0.09);
+
+  /* States (separate from the accent) */
+  --good: #2f6b2a;
+  --caution: #8a5a00;
+  --danger: #9c2230;
+
+  --focus: var(--signal);
+  --shadow: 0 1px 0 rgb(13 27 38 / 0.04), 0 8px 24px -12px rgb(13 27 38 / 0.18);
+  --scrim: rgb(13 27 38 / 0.42);
+
+  /* Type */
+  --font-display: 'Newsreader Display', 'Newsreader Fallback', 'Times New Roman', Georgia, serif;
+  --font-text: 'Newsreader Text', 'Newsreader Fallback', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Archivo', 'Archivo Fallback', 'Helvetica Neue', Arial, sans-serif;
+
+  --step--2: 0.72rem;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: clamp(1.13rem, 1.06rem + 0.32vw, 1.32rem);
+  --step-2: clamp(1.38rem, 1.22rem + 0.75vw, 1.85rem);
+  --step-3: clamp(1.8rem, 1.45rem + 1.6vw, 2.75rem);
+  --step-4: clamp(2.4rem, 1.7rem + 3.1vw, 4.4rem);
+  --step-5: clamp(3rem, 1.6rem + 6.2vw, 7.6rem);
+
+  /* Space: 4px base, fluid at the larger steps */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --space-l: clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem);
+  --space-xl: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+  --space-2xl: clamp(3.5rem, 2.2rem + 5.5vw, 7.5rem);
+
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --measure: 64ch;
+  --page-max: 92rem;
+  --header-h: 3.75rem;
+
+  --radius-s: 2px;
+  --radius-m: 4px;
+  --hairline: 1px;
+
+  /* Motion: buoyant arrivals, tidal level changes, nothing that bounces */
+  --ease-buoy: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-tide: cubic-bezier(0.45, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-1: 140ms;
+  --dur-2: 260ms;
+  --dur-3: 480ms;
+  --dur-4: 900ms;
+  --dur-tide: 1400ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #071219;
+    --paper-raised: #0c1a23;
+    --paper-sunken: #040c11;
+    --ink: #dbe4e7;
+    --ink-2: #aebbc1;
+    --ink-3: #8797a0;
+    --rule: #1d303b;
+    --rule-strong: #56707d;
+    --water-ink: #86bfdf;
+    --water-1: #0e2d3e;
+    --water-2: #0a2230;
+    --water-line: #2f6684;
+    --land-1: #2a2716;
+    --land-2: #3a3420;
+    --land-3: #5a4e2a;
+    --land-ink: #cdb877;
+    --land-line: #8a7740;
+    --mark-land: #bf8426;
+    --mark-water: #3a8ac0;
+    --intertidal: #1f3824;
+    --intertidal-ink: #9fd08c;
+    --signal: #f26ab8;
+    --signal-strong: #ff8ccb;
+    --signal-ink: #1a0712;
+    --signal-wash: rgb(242 106 184 / 0.12);
+    --good: #8fd18a;
+    --caution: #e7b85c;
+    --danger: #ff8f96;
+    --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -12px rgb(0 0 0 / 0.7);
+    --scrim: rgb(2 6 9 / 0.66);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #071219;
+  --paper-raised: #0c1a23;
+  --paper-sunken: #040c11;
+  --ink: #dbe4e7;
+  --ink-2: #aebbc1;
+  --ink-3: #8797a0;
+  --rule: #1d303b;
+  --rule-strong: #56707d;
+  --water-ink: #86bfdf;
+  --water-1: #0e2d3e;
+  --water-2: #0a2230;
+  --water-line: #2f6684;
+  --land-1: #2a2716;
+  --land-2: #3a3420;
+  --land-3: #5a4e2a;
+  --land-ink: #cdb877;
+  --land-line: #8a7740;
+  --mark-land: #bf8426;
+  --mark-water: #3a8ac0;
+  --intertidal: #1f3824;
+  --intertidal-ink: #9fd08c;
+  --signal: #f26ab8;
+  --signal-strong: #ff8ccb;
+  --signal-ink: #1a0712;
+  --signal-wash: rgb(242 106 184 / 0.12);
+  --good: #8fd18a;
+  --caution: #e7b85c;
+  --danger: #ff8f96;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 30px -12px rgb(0 0 0 / 0.7);
+  --scrim: rgb(2 6 9 / 0.66);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 1ms;
+    --dur-2: 1ms;
+    --dur-3: 1ms;
+    --dur-4: 1ms;
+    --dur-tide: 1ms;
+  }
+}

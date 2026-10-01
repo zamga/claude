@@ -1,0 +1,171 @@
+.survey {
+  display: grid;
+  gap: var(--space-l);
+  padding-top: var(--space-xl);
+}
+
+.survey > * {
+  max-width: 64rem;
+}
+
+.head {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: var(--step-5);
+  font-weight: 360;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  max-width: 14ch;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.lede {
+  font-family: var(--font-text);
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-m);
+  border-top: 2px solid var(--ink);
+  padding-top: var(--space-m);
+}
+
+.example {
+  font-size: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-m);
+  background: var(--signal-wash);
+  color: var(--ink);
+}
+
+.example button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--signal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-m) var(--space-l);
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.field > input,
+.inputRow {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-m);
+  background: var(--paper-raised);
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field > input {
+  padding: 0.65rem 0.75rem;
+  font-size: 1.05rem;
+  max-width: 32rem;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+}
+
+.inputRow input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 0.65rem 0.75rem;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.inputRow:focus-within,
+.field > input:focus-visible {
+  border-color: var(--signal);
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.field input[aria-invalid='true'],
+.inputRow:has(input[aria-invalid='true']) {
+  border-color: var(--danger);
+}
+
+.unit {
+  padding-right: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+
+.hint {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+.error {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-m);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--rule);
+}
+
+.submit {
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1.4rem;
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.submit:hover {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+.small {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  max-width: 44ch;
+}

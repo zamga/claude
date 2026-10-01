@@ -1,0 +1,68 @@
+.lost {
+  display: grid;
+  gap: var(--space-m);
+  justify-items: start;
+  padding-block: var(--space-2xl);
+}
+
+.serpent {
+  width: min(28rem, 100%);
+  fill: none;
+  stroke: var(--water-line);
+  stroke-width: 1.2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .serpent path {
+    stroke-dasharray: 900;
+    animation: swim 3.2s var(--ease-buoy) both;
+  }
+
+  .serpent path:nth-child(odd) {
+    animation-delay: 0.15s;
+  }
+}
+
+@keyframes swim {
+  from {
+    stroke-dashoffset: 900;
+  }
+}
+
+.title {
+  font-size: var(--step-5);
+  line-height: 0.95;
+  color: var(--water-ink);
+}
+
+.title:focus {
+  outline: none;
+}
+
+.text {
+  font-family: var(--font-text);
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 44ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-m);
+}
+
+.primary {
+  padding: 0.75rem 1.2rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.primary:hover {
+  background: var(--signal);
+  color: var(--signal-ink);
+}

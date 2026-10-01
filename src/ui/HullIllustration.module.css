@@ -1,0 +1,104 @@
+.svg {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.hull {
+  fill: var(--ink);
+}
+
+.rubbing {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 3;
+}
+
+.paint {
+  fill: var(--paper);
+}
+
+.paintRing {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 8;
+}
+
+.letters,
+.ladderText {
+  fill: var(--paper);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+.ladderText {
+  font-size: 15px;
+}
+
+.draft text {
+  fill: var(--paper);
+  font-family: var(--font-sans);
+  font-stretch: 62%;
+  font-weight: 600;
+  font-size: 34px;
+}
+
+.water {
+  fill: var(--water-1);
+  opacity: 0.86;
+}
+
+.surface {
+  fill: none;
+  stroke: var(--water-ink);
+  stroke-width: 2;
+}
+
+.glint {
+  stroke: var(--paper-raised);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sea {
+    animation: bob 6s var(--ease-tide) infinite alternate;
+  }
+
+  .water,
+  .surface {
+    animation: roll 9s linear infinite;
+  }
+
+  .glint {
+    animation: shimmer 5s var(--ease-tide) infinite alternate;
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(6px);
+  }
+
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes roll {
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(18px);
+    opacity: 0.25;
+  }
+}

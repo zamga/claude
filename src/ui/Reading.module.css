@@ -1,0 +1,119 @@
+.reading {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+  transition: opacity var(--dur-2) linear;
+}
+
+.reading[data-stale='true'] {
+  opacity: 0.85;
+}
+
+.cell {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem 0;
+  min-width: 0;
+}
+
+.cell + .cell {
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule);
+}
+
+.cell dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.gloss {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 0.74rem;
+}
+
+.cell dd {
+  margin: 0;
+  display: grid;
+  gap: 0.3rem;
+  justify-items: start;
+}
+
+.big {
+  font-family: var(--font-sans);
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.bigWater {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.8rem);
+  line-height: 1;
+  color: var(--water-ink);
+}
+
+.market dt em {
+  font-size: 0.86rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--water-ink);
+}
+
+.sub {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  line-height: 1.35;
+}
+
+.market .sub em {
+  font-size: 0.92rem;
+  color: var(--water-ink);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border: 1px solid currentColor;
+}
+
+.chip[data-standing='safe'] {
+  color: var(--good);
+}
+
+.chip[data-standing='thin'] {
+  color: var(--caution);
+}
+
+.chip[data-standing='under'] {
+  color: var(--water-ink);
+}
+
+@media (max-width: 60rem) {
+  .reading {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cell:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .cell:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+}

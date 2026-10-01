@@ -1,0 +1,146 @@
+.figure {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.svgWrap {
+  position: relative;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+
+.land {
+  fill: var(--mark-land);
+}
+
+.water {
+  fill: var(--mark-water);
+}
+
+.land[data-active='true'],
+.water[data-active='true'] {
+  opacity: 0.72;
+}
+
+.hit {
+  fill: transparent;
+  outline: none;
+}
+
+.hit:focus-visible {
+  stroke: var(--focus);
+  stroke-width: 2;
+}
+
+.sea {
+  stroke: var(--water-ink);
+  stroke-width: 1.5;
+}
+
+.seaLabel {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  fill: var(--water-ink);
+}
+
+.load {
+  stroke: var(--intertidal-ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.value {
+  stroke: var(--signal);
+  stroke-width: 2;
+}
+
+.valueDot {
+  fill: var(--signal);
+  stroke: var(--paper);
+  stroke-width: 2;
+}
+
+.tick {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  fill: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tip {
+  position: absolute;
+  top: 0;
+  translate: -50% 0;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-m);
+  background: var(--paper-raised);
+  box-shadow: var(--shadow);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.tip strong {
+  font-size: 0.95rem;
+}
+
+.tip span {
+  color: var(--ink-3);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend span::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.kLand::before {
+  background: var(--mark-land);
+}
+
+.kWater::before {
+  background: var(--mark-water);
+}
+
+.kValue::before {
+  width: 14px !important;
+  height: 2px !important;
+  background: var(--signal);
+}
+
+.kLoad::before {
+  width: 14px !important;
+  height: 0 !important;
+  border-top: 2px dashed var(--intertidal-ink);
+}

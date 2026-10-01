@@ -1,0 +1,61 @@
+.atlas {
+  display: grid;
+  gap: var(--space-l);
+  padding-top: var(--space-xl);
+}
+
+.head {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: var(--step-5);
+  font-weight: 360;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.lede {
+  font-family: var(--font-text);
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+.controls {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.controls button {
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.42rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.controls button[aria-checked='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-xl) var(--space-l);
+}
+
+.note {
+  font-size: 0.88rem;
+  color: var(--ink-3);
+  max-width: 60ch;
+}

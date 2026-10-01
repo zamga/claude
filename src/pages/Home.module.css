@@ -1,0 +1,616 @@
+/* ---------------------------------------------------------------- hero */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(var(--rule), var(--rule)) 0 100% / 100% 1px no-repeat,
+    var(--paper);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas: 'text chart';
+  min-height: clamp(34rem, 82vh, 52rem);
+  padding-block: clamp(1.5rem, 4vh, 3rem) var(--space-l);
+  column-gap: var(--space-l);
+}
+
+.heroText {
+  grid-area: text;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-m);
+  align-content: start;
+  padding-top: clamp(0rem, 3vh, 2rem);
+}
+
+.h1 {
+  font-size: var(--step-5);
+  font-weight: 360;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  max-width: 9ch;
+}
+
+/* The headline sits half in the water: above the line in ink, below it in
+   sea blue, nudged as light bends at the surface. */
+.waterline {
+  position: relative;
+  display: inline-block;
+  font-style: italic;
+  white-space: nowrap;
+  padding-right: 0.08em;
+}
+
+.above,
+.below {
+  display: block;
+}
+
+.above {
+  color: var(--ink);
+  clip-path: inset(-20% -10% 47% -10%);
+}
+
+.below {
+  position: absolute;
+  inset: 0;
+  color: var(--water-ink);
+  clip-path: inset(53% -10% -30% -10%);
+  transform: translateX(0.035em) skewX(-4deg);
+  transform-origin: 50% 53%;
+}
+
+.waterline::after {
+  content: '';
+  position: absolute;
+  left: -0.1em;
+  top: 53%;
+  width: calc(100% + 30vw);
+  height: 2px;
+  background: linear-gradient(90deg, var(--water-line) 0 55%, transparent);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .below {
+    animation: refract 6.5s var(--ease-tide) infinite alternate;
+  }
+
+  .waterline::after {
+    animation: draw-line 1.4s var(--ease-buoy) 0.2s backwards;
+  }
+}
+
+@keyframes refract {
+  to {
+    transform: translateX(-0.025em) skewX(3deg);
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.lede {
+  font-family: var(--font-text);
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 34ch;
+}
+
+.search {
+  display: flex;
+  max-width: 28rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper-raised);
+  padding: 0.3rem;
+  box-shadow: var(--shadow);
+}
+
+.search:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 0.55rem 0.9rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.search button:hover {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+.miss {
+  min-height: 1.4em;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+
+.heroChart {
+  grid-area: chart;
+  position: relative;
+  margin-right: calc(-1 * var(--gutter));
+  margin-left: -6%;
+  min-height: 26rem;
+}
+
+.heroStage {
+  position: absolute;
+  inset: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 30rem;
+}
+
+.chipsLabel {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+
+.chips button {
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition:
+    border-color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.chips button:hover {
+  border-color: var(--ink);
+}
+
+.chips button[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.card {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  gap: 0.5rem;
+  width: min(24rem, 100%);
+  padding: 1rem 1.15rem 1.1rem;
+  background: color-mix(in srgb, var(--paper-raised) 92%, transparent);
+  border: 1px solid var(--rule-strong);
+  border-top: 2px solid var(--ink);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow);
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.cardStory {
+  font-size: 1.08rem;
+  line-height: 1.4;
+  color: var(--water-ink);
+}
+
+.cardStory strong {
+  font-weight: 520;
+}
+
+.cardLink {
+  justify-self: start;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--signal);
+  padding-bottom: 0.1rem;
+}
+
+.cardLink span {
+  display: inline-block;
+  transition: transform var(--dur-2) var(--ease-buoy);
+}
+
+.cardLink:hover span {
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------------------ sections */
+
+.h2 {
+  font-size: var(--step-4);
+  font-weight: 360;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-s) var(--space-l);
+}
+
+.sectionHead > div {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.more {
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--signal);
+}
+
+/* How to read */
+.how {
+  display: grid;
+  gap: var(--space-l);
+  padding-top: var(--space-2xl);
+}
+
+.howHead {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.howBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.howFigure {
+  position: sticky;
+  top: calc(var(--header-h) + 1.25rem);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.howCanvas {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-m);
+}
+
+.howFigure figcaption {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+
+.steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  row-gap: 0.6rem;
+  padding-block: clamp(3rem, 18vh, 9rem);
+  border-top: 1px solid var(--rule);
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.step:first-child {
+  padding-top: var(--space-m);
+}
+
+.step:not([data-active='true']) {
+  opacity: 0.55;
+}
+
+.stepNo {
+  grid-row: span 2;
+  font-family: var(--font-sans);
+  font-stretch: 62%;
+  font-weight: 300;
+  font-size: 2.6rem;
+  line-height: 0.9;
+  color: var(--ink-3);
+}
+
+.step[data-active='true'] .stepNo {
+  color: var(--signal);
+}
+
+.step h3 {
+  font-size: var(--step-3);
+  font-weight: 400;
+}
+
+.step p {
+  font-family: var(--font-text);
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 44ch;
+}
+
+/* Story */
+.story {
+  margin-top: var(--space-2xl);
+  background: var(--paper-sunken);
+  border-block: 1px solid var(--rule);
+}
+
+.storyInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: center;
+  padding-block: var(--space-2xl);
+}
+
+.storyArt {
+  min-width: 0;
+}
+
+.storyText {
+  display: grid;
+  gap: var(--space-m);
+}
+
+/* Atlas */
+.atlas {
+  display: grid;
+  gap: var(--space-l);
+  padding-top: var(--space-2xl);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-xl) var(--space-l);
+}
+
+/* Manifesto */
+.manifesto {
+  display: grid;
+  gap: var(--space-l);
+  padding-top: var(--space-2xl);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl);
+}
+
+.colHead {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.ashore li,
+.aboard li {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.2;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ashore li {
+  color: var(--ink-3);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--rule-strong);
+}
+
+.aboard em {
+  color: var(--water-ink);
+}
+
+/* CTA */
+.cta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-l);
+  align-items: center;
+  margin-top: var(--space-2xl);
+  padding-block: var(--space-xl);
+  border-top: 2px solid var(--ink);
+}
+
+.ctaMark {
+  color: var(--signal);
+}
+
+.ctaText {
+  font-family: var(--font-text);
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 52ch;
+  margin-top: 0.75rem;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.35rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.ctaButton:hover {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+/* Gentle scroll-linked arrival where supported; content is never hidden. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .h2,
+    .grid > li,
+    .columns > div {
+      animation: arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@keyframes arrive {
+  from {
+    transform: translateY(28px);
+  }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 60rem) {
+  /* On small screens the chart follows the headline, so the first screen
+     shows the instrument, not just a promise of it. */
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+    min-height: 0;
+    row-gap: var(--space-s);
+  }
+
+  .heroText {
+    display: contents;
+  }
+
+  .heroText > * {
+    grid-column: 1;
+  }
+
+  .heroText > :nth-child(1) {
+    order: 1;
+  }
+
+  .heroText > :nth-child(2) {
+    order: 2;
+  }
+
+  .heroChart {
+    order: 3;
+    grid-area: auto;
+    display: grid;
+    gap: 0;
+  }
+
+  .heroStage {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 5 / 4;
+    height: auto;
+  }
+
+  .heroText > :nth-child(n + 3) {
+    order: 4;
+  }
+
+  .h1 {
+    font-size: clamp(3rem, 2rem + 6vw, 4.6rem);
+  }
+
+  .card {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    margin: -0.5rem var(--gutter) var(--space-s);
+  }
+
+  .heroChart {
+    margin-inline: calc(-1 * var(--gutter));
+    min-height: 0;
+  }
+
+  .miss:empty {
+    display: none;
+  }
+
+  .howBody,
+  .storyInner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .howFigure {
+    top: calc(var(--header-h) + 0.5rem);
+    z-index: 1;
+    background: var(--paper);
+    padding-bottom: 0.5rem;
+  }
+
+  .howCanvas {
+    aspect-ratio: 16 / 11;
+    max-height: 42vh;
+  }
+
+  .step {
+    padding-block: var(--space-xl);
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .cta {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
