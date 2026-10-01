@@ -337,15 +337,20 @@
   row-gap: 0.6rem;
   padding-block: clamp(3rem, 18vh, 9rem);
   border-top: 1px solid var(--rule);
-  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.step h3,
+.step p {
+  transition: color var(--dur-3) var(--ease-out);
 }
 
 .step:first-child {
   padding-top: var(--space-m);
 }
 
-.step:not([data-active='true']) {
-  opacity: 0.55;
+.step:not([data-active='true']) h3,
+.step:not([data-active='true']) p {
+  color: var(--ink-3);
 }
 
 .stepNo {

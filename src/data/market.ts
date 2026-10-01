@@ -35,6 +35,7 @@ export const INDUSTRIES: Record<IndustryKey, IndustryProfile> = {
   beverages: { label: 'Beverages', beta: 0.65 },
   apparel: { label: 'Apparel & footwear', beta: 1.05 },
   private: { label: 'Private company', beta: 1.3 },
+  other: { label: 'Other industries', beta: 1 },
 };
 
 /** Cost of capital from a beta: risk-free + beta × equity risk premium. */

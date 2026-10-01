@@ -11,7 +11,8 @@ const src = 'dist-artifact/index.html';
 const out = 'dist-artifact/plimsoll.html';
 let html = readFileSync(src, 'utf8');
 
-const title = html.match(/<title>[\s\S]*?<\/title>/i)?.[0] ?? '<title>Plimsoll</title>';
+// The host shows the title as the page's name, so it carries the name alone.
+const title = '<title>Plimsoll</title>';
 html = html.replace(/<title>[\s\S]*?<\/title>/i, '');
 
 const strip = [

@@ -1,0 +1,47 @@
+.loader {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-s);
+  padding-block: var(--space-2xl);
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-1);
+}
+
+.ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.water {
+  fill: var(--water-1);
+  transform: translateY(70%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .water {
+    animation: fill 2.4s var(--ease-tide) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water {
+    transform: translateY(50%);
+  }
+}
+
+@keyframes fill {
+  0% {
+    transform: translateY(85%);
+  }
+
+  60% {
+    transform: translateY(45%);
+  }
+
+  100% {
+    transform: translateY(85%);
+  }
+}

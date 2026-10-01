@@ -19,6 +19,7 @@ import { MOATS } from '../model/survey';
 import { useAnalysis } from '../model/useAnalysis';
 import { useScenario } from '../model/useScenario';
 import { HullGauge } from '../ui/HullGauge';
+import { Loader } from '../ui/Loader';
 import { Instrument } from '../ui/Instrument';
 import { ModelTable } from '../ui/ModelTable';
 import { Reading } from '../ui/Reading';
@@ -29,6 +30,11 @@ import { NotFound } from './NotFound';
 import styles from './ChartPage.module.css';
 
 const SCENARIO_TOKEN_LENGTH = 70;
+
+/** Production builds with the API deployed can survey any SEC filer on demand. */
+export const LIVE_SURVEY = import.meta.env.VITE_LIVE_API === '1';
+
+type LiveSnapshot = Omit<CompanySnapshot, 'price'> & { price: CompanySnapshot['price'] | null };
 
 export function ChartPage({ ticker, token }: { ticker: string; token: string | null }) {
   const resolved = useMemo(() => {
@@ -53,7 +59,12 @@ export function ChartPage({ ticker, token }: { ticker: string; token: string | n
   }, [resolved]);
 
   if (!resolved) {
-    return ticker === 'custom' ? <NoCustom /> : <NotFound />;
+    if (ticker === 'custom') return <NoCustom />;
+    return LIVE_SURVEY && /^[a-z][a-z0-9.-]{0,9}$/.test(ticker) ? (
+      <LiveCompany key={ticker} ticker={ticker} token={token} />
+    ) : (
+      <NotFound />
+    );
   }
   const customToken = 'entry' in resolved && resolved.entry ? encodeCustom(resolved.entry) : null;
   return (
@@ -64,6 +75,75 @@ export function ChartPage({ ticker, token }: { ticker: string; token: string | n
       customToken={customToken}
     />
   );
+}
+
+type LiveState =
+  | { status: 'loading' }
+  | { status: 'error'; message: string }
+  | { status: 'ready'; company: LiveSnapshot };
+
+/** A company outside the atlas, surveyed from SEC filings through /api/company. */
+function LiveCompany({ ticker, token }: { ticker: string; token: string | null }) {
+  const [state, setState] = useState<LiveState>({ status: 'loading' });
+  const [price, setPrice] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/company?ticker=${encodeURIComponent(ticker)}`)
+      .then(async (res) => {
+        const body = (await res.json()) as { company?: LiveSnapshot; error?: string };
+        if (cancelled) return;
+        if (res.ok && body.company) setState({ status: 'ready', company: body.company });
+        else setState({ status: 'error', message: body.error ?? 'The survey failed.' });
+      })
+      .catch(() => {
+        if (!cancelled) setState({ status: 'error', message: 'The survey service could not be reached.' });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [ticker]);
+
+  useEffect(() => {
+    if (state.status === 'ready') document.title = `${state.company.shortName} · Plimsoll`;
+  }, [state]);
+
+  if (state.status === 'loading') return <Loader label={`Surveying ${ticker.toUpperCase()} from its SEC filings…`} />;
+  if (state.status === 'error') {
+    return (
+      <section className={`page ${styles.empty}`}>
+        <h1 data-page-focus tabIndex={-1}>Could not survey {ticker.toUpperCase()}</h1>
+        <p>{state.message}</p>
+        <Link to="/survey" className={styles.button}>
+          Enter its figures yourself
+        </Link>
+      </section>
+    );
+  }
+  const known = state.company.price ?? (price ? { value: price, asOf: new Date().toISOString().slice(0, 10), source: 'Entered by you' } : null);
+  if (!known) {
+    return (
+      <section className={`page ${styles.empty}`}>
+        <h1 data-page-focus tabIndex={-1}>{state.company.shortName}</h1>
+        <p>Surveyed from its filings. Set sea level: what is the share price?</p>
+        <form
+          className={styles.priceForm}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const v = Number(new FormData(e.currentTarget).get('price'));
+            if (v > 0) setPrice(v);
+          }}
+        >
+          <label htmlFor="live-price">Share price, USD</label>
+          <input id="live-price" name="price" inputMode="decimal" required />
+          <button type="submit" className={styles.button}>
+            Draw the chart
+          </button>
+        </form>
+      </section>
+    );
+  }
+  return <ChartView company={{ ...state.company, price: known }} sharedToken={token} customToken={null} />;
 }
 
 function NoCustom() {

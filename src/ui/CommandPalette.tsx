@@ -2,6 +2,8 @@ import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 
 import { COMPANIES } from '../data/companies';
 import { formatPrice } from '../engine/format';
 import { navigate } from '../lib/router';
+
+const LIVE_SURVEY = import.meta.env.VITE_LIVE_API === '1';
 import styles from './CommandPalette.module.css';
 
 interface Item {
@@ -42,10 +44,20 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return ITEMS.map((item) => ({ item, s: score(item, q) }))
+    const local = ITEMS.map((item) => ({ item, s: score(item, q) }))
       .filter((r) => r.s > 0)
       .sort((a, b) => b.s - a.s)
       .map((r) => r.item);
+    // With the survey API deployed, any ticker can be charted from its filings.
+    if (LIVE_SURVEY && /^[a-z][a-z0-9.-]{0,9}$/.test(q) && !local.some((i) => i.id.toLowerCase() === q)) {
+      local.push({
+        id: `live-${q}`,
+        title: `Survey ${q.toUpperCase()} from its SEC filings`,
+        detail: 'Any US-listed company, figures straight from EDGAR',
+        to: `/chart/${q}`,
+      });
+    }
+    return local;
   }, [query]);
 
   useEffect(() => {
@@ -117,7 +129,9 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             autoComplete="off"
             spellCheck={false}
           />
-          <kbd className={styles.esc}>Esc</kbd>
+          <kbd className={styles.esc} aria-hidden="true">
+            Esc
+          </kbd>
         </label>
         <ul id={listId} role="listbox" className={styles.list} aria-label="Results">
           {results.map((item, i) => (

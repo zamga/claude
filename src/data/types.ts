@@ -9,7 +9,8 @@ export type IndustryKey =
   | 'retail'
   | 'beverages'
   | 'apparel'
-  | 'private';
+  | 'private'
+  | 'other';
 
 export interface FiscalYear {
   /** Label as the company reports it, e.g. "FY2025". */
