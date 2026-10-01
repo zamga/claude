@@ -22,8 +22,44 @@
   transition-duration: 160ms;
 }
 
+/*
+ * An inspected cover: the lamp tilts it every frame (springs, not
+ * transitions), and the WebGL paper is drawn under the printed sheet once it
+ * is ready. Vertical drags still scroll the page on a phone; anything else
+ * moves the lamp.
+ */
+.cover[data-inspect] {
+  --lamp-r: 26cqi;
+  box-shadow:
+    0 1px 1px rgb(16 22 19 / 0.04),
+    var(--sx, 0px) var(--sy, 22px) 46px -20px rgb(16 22 19 / calc(0.24 + var(--lit, 0) * 0.12));
+  transition: none;
+  touch-action: pan-y;
+}
+
+.paper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.cover[data-gl='on'] .paper {
+  opacity: 1;
+}
+
+.cover[data-inspect] .glare {
+  display: none;
+}
+
 /* A4 proportions as a minimum height, not an aspect-ratio, so long names and headlines can still grow the page. */
 .sheet {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-content: space-between;
   gap: 3.6cqi;
@@ -85,12 +121,13 @@
   color: var(--ink-3);
 }
 
+/* A long name is set smaller rather than broken mid-word: full size up to eight characters. */
 .name {
-  font-size: 15cqi;
+  font-size: max(5.5cqi, calc(15cqi * min(1, 8 / var(--len, 4))));
   font-weight: 450;
   line-height: 0.9;
   letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .legal {
@@ -234,6 +271,74 @@
   margin: 0;
   font-weight: 600;
   text-align: right;
+}
+
+.keyData .marked {
+  flex-wrap: wrap;
+  row-gap: 0.5cqi;
+}
+
+/*
+ * A figure's source, printed as microtext that reads as a rule; the lamp
+ * hides the microtext and shows the same line legibly, in a circle in each
+ * element's own coordinates (--ox, --oy: where the element sits in the sheet).
+ */
+.mark {
+  position: relative;
+  display: block;
+  flex-basis: 100%;
+  height: max(9px, 1.9cqi);
+}
+
+.markWide {
+  flex-basis: 100%;
+  width: 100%;
+}
+
+.micro,
+.legible {
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  --spot: radial-gradient(
+    circle var(--lamp-r, 26cqi) at calc(var(--lx, -9999px) - var(--ox, 0px))
+      calc(var(--ly, -9999px) - var(--oy, 0px)),
+    #000 0%,
+    #000 38%,
+    transparent 100%
+  );
+}
+
+.micro {
+  right: 0;
+  top: 50%;
+  overflow: hidden;
+  font-size: max(4px, 0.92cqi);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  color: var(--intaglio);
+  opacity: 0.72;
+  transform: translateY(-50%);
+  -webkit-mask-image: var(--spot), linear-gradient(#000, #000);
+  -webkit-mask-composite: xor;
+  mask-image: var(--spot), linear-gradient(#000, #000);
+  mask-composite: exclude;
+}
+
+.legible {
+  top: 50%;
+  font-size: max(8px, 1.62cqi);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.035em;
+  color: var(--intaglio);
+  opacity: var(--lit, 0);
+  transform: translateY(-50%);
+  text-shadow: 0 0 calc(var(--uv) * 0.6em) color-mix(in srgb, var(--ovi-a) 75%, transparent);
+  -webkit-mask-image: var(--spot);
+  mask-image: var(--spot);
 }
 
 .waiting {

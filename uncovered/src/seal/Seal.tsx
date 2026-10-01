@@ -28,6 +28,8 @@ interface SealProps {
   progress?: number;
   /** Shift the ink's colour as the pointer moves, like optically variable ink. */
   sheen?: boolean;
+  /** Mark the seal as printed over foil, which an inspected sheet draws under it. */
+  foil?: boolean;
   className?: string;
   /** Accessible name; omit for a decorative seal. */
   label?: string;
@@ -48,6 +50,7 @@ export function Seal({
   duration = 2200,
   progress,
   sheen = false,
+  foil = false,
   className,
   label,
 }: SealProps) {
@@ -128,6 +131,7 @@ export function Seal({
       aria-hidden={label ? undefined : true}
       onPointerMove={onPointerMove}
       data-sheen={sheen ? 'on' : undefined}
+      data-foil={foil ? '' : undefined}
     >
       <canvas ref={canvasRef} className={styles.canvas} width={size} height={size} />
       {sheen && <div className={styles.sheen} />}

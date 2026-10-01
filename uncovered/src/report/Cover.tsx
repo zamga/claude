@@ -1,11 +1,12 @@
 import { useRef, type CSSProperties, type PointerEvent } from 'react';
+import { useInspect } from '../inspect/useInspect';
 import { Seal } from '../seal/Seal';
 import { serialFor } from '../seal/guilloche';
 import { Serial } from '../ui/Serial';
 import { longDate, moneyFor, num, signedPct } from '../lib/format';
 import { useReducedMotion } from '../lib/motion';
 import { Cited } from './Footnotes';
-import type { Report } from './types';
+import type { Grade, Report, Source } from './types';
 import { impliedMultiples, type Valuation } from './valuation';
 import styles from './Cover.module.css';
 
@@ -20,6 +21,14 @@ interface CoverProps {
   size?: 'hero' | 'page';
   /** Tilt towards the pointer like a sheet held to the light. */
   tilt?: boolean;
+  /**
+   * Make the cover an object to inspect: paper drawn in WebGL that the lamp
+   * shines through, foil under the seal, and each figure's source printed as
+   * microtext that the lamp makes legible.
+   */
+  inspect?: boolean;
+  /** On an inspected cover, sweep the lamp over it until someone takes it (the front page's cover). */
+  sweep?: boolean;
 }
 
 /**
@@ -27,8 +36,18 @@ interface CoverProps {
  * cover; with only a name, the same cover waiting for research, its seal
  * already engraved.
  */
-export function Cover({ report, valuation, name, country: pending, size = 'page', tilt = false }: CoverProps) {
+export function Cover({
+  report,
+  valuation,
+  name,
+  country: pending,
+  size = 'page',
+  tilt = false,
+  inspect = false,
+  sweep = false,
+}: CoverProps) {
   const ref = useRef<HTMLElement>(null);
+  const paperRef = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
   const title = report?.company.legalName ?? (name?.trim() || 'Your company');
   const seed = report?.company.legalName ?? title;
@@ -64,12 +83,14 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
           value: multiples?.evEbitda !== undefined ? `${num(multiples.evEbitda, 1)}×` : '—',
         },
       ];
-  const keyData = report
+  const keyData: { label: string; value: string; sourceId?: string }[] = report
     ? report.keyFacts.filter((f) => !COVER_SKIP.has(f.label)).slice(0, size === 'hero' ? 5 : 8)
     : PENDING;
+  const sourceOf = (id?: string) => (id ? report?.sources.find((s) => s.id === id) : undefined);
+  useInspect(ref, paperRef, { enabled: inspect, seed, tilt: tilt && !reduced, sweep });
 
   const onMove = (e: PointerEvent<HTMLElement>) => {
-    if (!tilt || reduced || e.pointerType !== 'mouse') return;
+    if (inspect || !tilt || reduced || e.pointerType !== 'mouse') return;
     const r = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
@@ -80,7 +101,7 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
   };
   const onLeave = () => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || inspect) return;
     el.style.setProperty('--ry', '0deg');
     el.style.setProperty('--rx', '0deg');
   };
@@ -89,12 +110,14 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
     <article
       ref={ref}
       className={`${styles.cover} ${styles[size]}`}
-      data-tilt={tilt && !reduced ? 'on' : undefined}
+      data-tilt={tilt && !reduced && !inspect ? 'on' : undefined}
+      data-inspect={inspect ? '' : undefined}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
       aria-label={`Cover of the initiation report on ${title}`}
       style={{ '--rx': '0deg', '--ry': '0deg' } as CSSProperties}
     >
+      {inspect && <canvas ref={paperRef} className={styles.paper} aria-hidden="true" />}
       <div className={styles.sheet}>
         <header className={styles.head}>
           <span className={styles.house}>Uncovered Research</span>
@@ -109,7 +132,12 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
                 ? `${report.company.sector} · ${report.company.country}`
                 : `Sector · ${pending?.name ?? 'Country'}`}
             </p>
-            <h2 className={styles.name}>{report?.company.shortName ?? title}</h2>
+            <h2
+              className={styles.name}
+              style={{ '--len': Math.max(4, (report?.company.shortName ?? title).length) } as CSSProperties}
+            >
+              {report?.company.shortName ?? title}
+            </h2>
             <p className={styles.legal}>{legal}</p>
           </div>
           <Seal
@@ -118,7 +146,8 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
             monogram={monogram}
             submark={report?.company.founded ? `${country} · ${report.company.founded}` : country}
             ring={`${title} · Initiation of coverage · ${date}`}
-            sheen
+            sheen={!inspect}
+            foil={inspect}
             duration={2200}
             className={styles.seal}
           />
@@ -156,6 +185,12 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
               </div>
             ))}
           </dl>
+          {inspect && valuation && (
+            <SourceMark
+              wide
+              line={`Computed by Uncovered · ${valuation.methods.length} methods · every input in the model`}
+            />
+          )}
         </div>
 
         <div className={styles.columns}>
@@ -180,12 +215,18 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
           <section aria-label="Key data">
             <h3 className={styles.colHead}>Key data</h3>
             <dl className={styles.keyData}>
-              {keyData.map((f) => (
-                <div key={f.label}>
-                  <dt>{f.label}</dt>
-                  <dd className="num">{f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}</dd>
-                </div>
-              ))}
+              {keyData.map((f) => {
+                const source = inspect ? sourceOf(f.sourceId) : undefined;
+                return (
+                  <div key={f.label} className={source ? styles.marked : undefined}>
+                    <dt>{f.label}</dt>
+                    <dd className="num">
+                      {f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}
+                    </dd>
+                    {source && <SourceMark line={sourceLine(source)} />}
+                  </div>
+                );
+              })}
             </dl>
           </section>
         </div>
@@ -197,6 +238,33 @@ export function Cover({ report, valuation, name, country: pending, size = 'page'
       </div>
       <span className={styles.glare} aria-hidden="true" />
     </article>
+  );
+}
+
+const GRADE: Record<Grade, string> = { filed: 'Filed', reported: 'Reported', estimated: 'Estimated' };
+const MONTH = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+/** Where a figure comes from, in one line: its grade, who published it, and when. */
+function sourceLine(s: Source): string {
+  const when = s.date ? MONTH.format(new Date(`${s.date.slice(0, 10)}T12:00:00Z`)) : undefined;
+  return [GRADE[s.grade], s.publisher, when].filter(Boolean).join(' · ');
+}
+
+/**
+ * A figure's source, printed twice: as microtext that reads as a rule, and
+ * legibly, revealed only where the lamp falls. The same source is a footnote
+ * in the report, so both are decoration here.
+ */
+function SourceMark({ line, wide = false }: { line: string; wide?: boolean }) {
+  return (
+    <span className={`${styles.mark} ${wide ? styles.markWide : ''}`} aria-hidden="true">
+      <span className={styles.micro} data-lamp-mask>
+        {`${line.toUpperCase()} · `.repeat(4)}
+      </span>
+      <span className={styles.legible} data-lamp-mask>
+        {line}
+      </span>
+    </span>
   );
 }
 

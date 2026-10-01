@@ -354,7 +354,7 @@ export function Report({ report }: { report: ReportData }) {
 
               <div className={styles.body}>
                 <section id="cover" className={styles.coverSection} aria-label="Cover">
-                  <Cover report={report} valuation={valuation} size="page" />
+                  <Cover report={report} valuation={valuation} size="page" inspect />
                 </section>
 
                 <Section id="summary">

@@ -1,4 +1,13 @@
-import { useDeferredValue, useEffect, useId, useState, type CSSProperties, type FormEvent } from 'react';
+import {
+  useDeferredValue,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from 'react';
 import { Cover } from '../report/Cover';
 import { KRKA } from '../report/krka';
 import { valueReport } from '../report/valuation';
@@ -20,20 +29,55 @@ const EXAMPLES = [
 const KRKA_VALUE = valueReport(KRKA);
 const KRKA_KEY = normaliseName('Krka');
 
+// Layout effects only run in the browser; the server render keeps the headline at its natural size.
+const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+/**
+ * The company the headline names once someone types one: the name as typed,
+ * without a trailing legal form when it is long.
+ */
+function headlineName(typed: string): string | null {
+  const name = typed.trim().replace(/\s+/g, ' ');
+  if (!name) return null;
+  const short = name.replace(/,?\s+(d\.?\s?d\.?|d\.?\s?o\.?\s?o\.?|s\.?p\.?|ltd|plc|ag|gmbh|inc|sa|nv)\.?$/i, '');
+  return name.length > 16 && short.length >= 2 ? short : name;
+}
+
 export function Hero() {
   const [company, setCompany] = useState('');
   const [country, setCountry] = useState('Slovenia');
   const [example, setExample] = useState(0);
   const inputId = useId();
   const countryId = useId();
-  // The cover follows typing, a beat behind, so the seal is not re-engraved on every key.
+  const lastLineRef = useRef<HTMLSpanElement>(null);
+  const [fit, setFit] = useState(1);
+  // The cover and the headline follow typing a beat behind, so the seal is not re-engraved on every key.
   const shown = useDeferredValue(company);
   const isKrka = shown.trim() === '' || normaliseName(shown).startsWith(KRKA_KEY);
+  const named = headlineName(shown);
 
   useEffect(() => {
     const t = window.setInterval(() => setExample((i) => (i + 1) % EXAMPLES.length), 2600);
     return () => window.clearInterval(t);
   }, []);
+
+  // A long name is set smaller, never wider than its line, so nothing below it moves while you type.
+  useBrowserLayoutEffect(() => {
+    const line = lastLineRef.current;
+    const typed = line?.querySelector<HTMLElement>('[data-typed]');
+    if (!line || !typed) {
+      setFit(1);
+      return;
+    }
+    const measure = () => {
+      const natural = typed.scrollWidth / (parseFloat(typed.style.getPropertyValue('--fit')) || 1);
+      setFit(Math.max(0.3, Math.min(1, (line.clientWidth - 4) / Math.max(1, natural))));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(line);
+    return () => ro.disconnect();
+  }, [named]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -57,13 +101,42 @@ export function Hero() {
             <span aria-hidden="true">·</span>
             <span>Slovenia and beyond</span>
           </p>
+          {/*
+           * Four lines, set explicitly. Typing a company puts its name on the last line in place of
+           * "every company"; the sentence itself stays in the document for screen readers and search
+           * engines, so the typed name is decoration.
+           */}
           <h1 id="hero-title" className={styles.title} data-page-focus tabIndex={-1}>
             <span className={styles.line} style={{ '--i': 0 } as CSSProperties}>
-              <span>Initiating coverage</span>
-            </span>
+              <span>Initiating</span>
+            </span>{' '}
             <span className={styles.line} style={{ '--i': 1 } as CSSProperties}>
+              <span>coverage</span>
+            </span>{' '}
+            <span className={styles.line} style={{ '--i': 2 } as CSSProperties}>
               <span>
-                on <em>every</em> company.
+                on{' '}
+                <span className={styles.swap} data-out={named ? '' : undefined}>
+                  <em>every</em>
+                </span>
+              </span>
+            </span>{' '}
+            <span ref={lastLineRef} className={`${styles.line} ${styles.last}`} style={{ '--i': 3 } as CSSProperties}>
+              <span>
+                <span className={styles.swap} data-out={named ? '' : undefined}>
+                  company.
+                </span>
+                {named && (
+                  <span
+                    key={named}
+                    className={styles.typed}
+                    data-typed
+                    aria-hidden="true"
+                    style={{ '--fit': fit } as CSSProperties}
+                  >
+                    <em>{named}</em>.
+                  </span>
+                )}
               </span>
             </span>
           </h1>
@@ -114,13 +187,20 @@ export function Hero() {
               valuation={isKrka ? KRKA_VALUE : undefined}
               name={shown}
               size="hero"
+              inspect
               tilt
+              sweep
             />
           </FootnoteProvider>
           <p className={styles.caption} aria-live="polite">
-            {isKrka
-              ? 'Sample cover: Krka, d. d. Type a company to engrave its seal.'
-              : `Every company gets its own seal. ${shown.trim()}’s is engraved from its name.`}
+            {isKrka ? (
+              <>
+                <span className={styles.forPointer}>Hold the cover to the light: every figure carries its source.</span>
+                <span className={styles.forTouch}>Touch the cover to hold it to the light.</span>
+              </>
+            ) : (
+              `Every company gets its own seal and paper. ${shown.trim()}’s are made from its name.`
+            )}
           </p>
         </div>
       </div>

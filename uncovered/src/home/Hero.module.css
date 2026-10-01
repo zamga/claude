@@ -4,6 +4,7 @@
   overflow: clip;
 }
 
+
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -39,12 +40,17 @@
 }
 
 /*
- * Type rises onto its baseline, one line after another. The lines stay
- * unclipped and fade in from the first frame, so the headline is painted at
- * once and the largest paint is not held back by the entrance.
+ * Engrave, then ink. Didones were cut to imitate copperplate engraving, so the
+ * headline arrives the way an intaglio print does: the plate's impression
+ * first, blind (the pale tone is painted at once, so the largest paint is not
+ * held back), then the ink wiped across it from the left.
  */
 .line {
   display: block;
+}
+
+.last {
+  white-space: nowrap;
 }
 
 .line > span {
@@ -52,16 +58,65 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .line > span {
-    animation: set 800ms var(--ease-set) both;
-    animation-delay: calc(var(--i) * 90ms);
+  .line > span,
+  .line em {
+    --ink-to: var(--ink);
+    color: transparent;
+    background: linear-gradient(90deg, var(--ink-to) 0 50%, var(--rule-2) 50% 100%) 100% 0 / 200% 100% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: ink 1300ms var(--ease-engrave) both;
+    animation-delay: calc(180ms + var(--i) * 160ms);
+  }
+
+  .line em {
+    --ink-to: var(--intaglio);
   }
 }
 
-@keyframes set {
+@keyframes ink {
+  to {
+    background-position: 0 0;
+  }
+}
+
+/*
+ * The last line names the company being typed. The sentence underneath stays
+ * in the document (visually hidden), and a long name is set smaller (--fit),
+ * so the line never wraps and nothing below it moves.
+ */
+.swap[data-out] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.typed {
+  display: inline-block;
+  font-size: calc(1em * var(--fit, 1));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .typed {
+    animation: name 560ms var(--ease-engrave) both;
+  }
+
+  /* A typed name is answered at once: its ink follows the wipe closely. */
+  .typed em {
+    animation-duration: 700ms;
+    animation-delay: 90ms;
+  }
+}
+
+@keyframes name {
   from {
-    opacity: 0;
-    transform: translateY(0.28em);
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 -0.2em 0 0);
   }
 }
 
@@ -189,6 +244,8 @@
 }
 
 .stage {
+  position: relative;
+  z-index: 2;
   display: grid;
   gap: var(--s-3);
   justify-items: center;
@@ -218,6 +275,20 @@
   color: var(--ink-3);
   text-align: center;
   min-height: 2.6em;
+}
+
+.forTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .forPointer {
+    display: none;
+  }
+
+  .forTouch {
+    display: inline;
+  }
 }
 
 .stats {
