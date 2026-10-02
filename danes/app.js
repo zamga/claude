@@ -538,7 +538,8 @@
     const el = isTop ? null : target;
     if (lenis) {
       lenis.start();
-      lenis.scrollTo(isTop ? 0 : el, { offset: isTop ? 0 : -headerOffset(), duration: 1.15, onComplete: () => done && done() });
+      /* Lenis applies the root scroll-padding-top (header height) to element targets. */
+      lenis.scrollTo(isTop ? 0 : el, { duration: 1.15, onComplete: () => done && done() });
       return;
     }
     const y = isTop ? 0 : el.getBoundingClientRect().top + window.scrollY - headerOffset();
