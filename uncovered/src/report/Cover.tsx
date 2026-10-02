@@ -34,6 +34,11 @@ interface CoverProps {
    * often scrolled away when a link to the report is followed); otherwise a report's cover always does.
    */
   carryWhenSeen?: boolean;
+  /**
+   * The key figure the lamp rests on: from the first paint, before any script runs, its source is
+   * legible under a pool of light, and the lamp starts from there.
+   */
+  rest?: string;
 }
 
 /**
@@ -51,6 +56,7 @@ export function Cover({
   inspect = false,
   sweep = false,
   carryWhenSeen = false,
+  rest,
 }: CoverProps) {
   const ref = useRef<HTMLElement>(null);
   const paperRef = useRef<HTMLCanvasElement>(null);
@@ -131,6 +137,7 @@ export function Cover({
       }
     >
       {inspect && <canvas ref={paperRef} className={styles.paper} aria-hidden="true" />}
+      {inspect && <span className={styles.glow} aria-hidden="true" />}
       <div className={styles.sheet}>
         <header className={styles.head}>
           <span className={styles.house}>Uncovered Research</span>
@@ -234,7 +241,11 @@ export function Cover({
               {keyData.map((f) => {
                 const source = inspect ? sourceOf(f.sourceId) : undefined;
                 return (
-                  <div key={f.label} className={source ? styles.marked : undefined}>
+                  <div
+                    key={f.label}
+                    className={source ? styles.marked : undefined}
+                    data-rest={source && f.label === rest ? '' : undefined}
+                  >
                     <dt>{f.label}</dt>
                     <dd className="num">{f.value || <span className={styles.redact} style={{ width: '3.5rem' }} />}</dd>
                     {source && <SourceMark line={sourceLine(source)} />}

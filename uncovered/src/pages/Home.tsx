@@ -1,5 +1,6 @@
 import { usePageMeta } from '../app/routes';
 import { Hero } from '../home/Hero';
+import { Closer } from '../home/closer/Closer';
 import { Gap } from '../home/Gap';
 import { Acts } from '../home/Acts';
 import { Anatomy } from '../home/Anatomy';
@@ -13,6 +14,7 @@ export function Home() {
   return (
     <>
       <Hero />
+      <Closer />
       <Gap />
       <Acts />
       <Anatomy />

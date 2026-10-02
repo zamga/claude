@@ -64,6 +64,8 @@ export interface ShellOptions {
   embeds?: Record<string, unknown>;
   /** A page for one visitor's errand, such as a run in progress, which search engines should leave alone. */
   noindex?: boolean;
+  /** The card shown where the page's address is shared. */
+  image?: { path: string; alt: string };
 }
 
 export function fillShell(template: string, o: ShellOptions): string {
@@ -87,6 +89,17 @@ export function fillShell(template: string, o: ShellOptions): string {
           `<meta property="og:url" content="${escapeHtml(address)}">`,
         ]
       : []),
+    // The card shown where the address is shared: absolute when the deployment names its address, as the
+    // networks require, and root-relative otherwise for the hosts that resolve it.
+    ...(o.image
+      ? [
+          `<meta property="og:image" content="${escapeHtml(`${site ?? ''}${o.image.path}`)}">`,
+          '<meta property="og:image:width" content="1200">',
+          '<meta property="og:image:height" content="630">',
+          `<meta property="og:image:alt" content="${escapeHtml(o.image.alt)}">`,
+          '<meta name="twitter:card" content="summary_large_image">',
+        ]
+      : []),
     ...(o.structuredData ? [`<script type="application/ld+json">${scriptJson(o.structuredData)}</script>`] : []),
     ...Object.entries(o.embeds ?? {}).map(
       ([id, data]) => `<script type="application/json" id="${escapeHtml(id)}">${scriptJson(data)}</script>`,
@@ -101,6 +114,10 @@ export function fillShell(template: string, o: ShellOptions): string {
     .replace(
       /<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/,
       `<meta property="og:title" content="${escapeHtml(o.title)}" />`,
+    )
+    .replace(
+      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/,
+      `<meta property="og:description" content="${escapeHtml(o.description)}" />`,
     )
     .replace('</head>', head ? `  ${head}\n  </head>` : '</head>')
     .replace('<div id="root"></div>', `<div id="root" data-path="${escapeHtml(o.path)}">${o.html}</div>`);

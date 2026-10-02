@@ -61,6 +61,7 @@ export function Register() {
                 ring={`${KRKA.company.legalName} · Initiation of coverage · ${longDate(KRKA.date)}`}
                 draw="static"
                 sheen
+                late
                 className={styles.seal}
               />
               <span className={styles.name}>{KRKA.company.shortName}</span>
@@ -91,6 +92,7 @@ export function Register() {
                     ring={`${c.name} · Not yet covered`}
                     progress={done ? 1 : BEGUN}
                     duration={1700}
+                    late
                     className={styles.seal}
                   />
                   <span className={styles.name}>{c.name.replace(/ (d\.d\.|d\.o\.o\.)$/, '')}</span>

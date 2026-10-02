@@ -37,6 +37,9 @@
   --method-market: #4b5660;
 
   --focus: #6b4bd6;
+  /* The lamp's light, as an RGB triple: warm on daylight paper, violet under UV. */
+  --lamp-tint: 255 214 150;
+  --lamp-blend: multiply;
   --uv: 0; /* hidden microtext opacity; 1 under UV */
   --shadow-sheet: 0 1px 1px rgb(16 22 19 / 0.04), 0 18px 40px -18px rgb(16 22 19 / 0.28);
   --shadow-lift: 0 30px 60px -24px rgb(16 22 19 / 0.32);
@@ -111,6 +114,8 @@
     --method-multiple: #c8762a;
     --method-market: #9aa6b4;
     --focus: #b79bff;
+    --lamp-tint: 183 155 255;
+    --lamp-blend: screen;
     --uv: 1;
     --shadow-sheet: 0 0 0 1px rgb(99 228 184 / 0.08), 0 24px 48px -20px rgb(0 0 0 / 0.8);
     --shadow-lift: 0 30px 60px -24px rgb(0 0 0 / 0.85);
@@ -141,6 +146,8 @@
   --method-multiple: #c8762a;
   --method-market: #9aa6b4;
   --focus: #b79bff;
+  --lamp-tint: 183 155 255;
+  --lamp-blend: screen;
   --uv: 1;
   --shadow-sheet: 0 0 0 1px rgb(99 228 184 / 0.08), 0 24px 48px -20px rgb(0 0 0 / 0.8);
   --shadow-lift: 0 30px 60px -24px rgb(0 0 0 / 0.85);

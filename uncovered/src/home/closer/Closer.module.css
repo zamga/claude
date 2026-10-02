@@ -1,0 +1,134 @@
+/*
+ * Look closer, as the page arrives: the same three photographs laid out as a
+ * contact sheet, which reduced motion and a page without scripts keep. The
+ * film's own styles load with the film (Film.module.css).
+ */
+
+.title,
+.display {
+  font-family: var(--font-display);
+  font-weight: 430;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.display {
+  font-style: italic;
+  font-weight: 450;
+}
+
+.sourceLine {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--intaglio);
+}
+
+.body {
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.sheetSection {
+  padding-block: var(--s-8);
+  border-top: 1px solid var(--rule);
+}
+
+.sheetHead {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 42rem;
+  margin-bottom: var(--s-7);
+}
+
+.sheetHead .title {
+  font-size: var(--t-3xl);
+}
+
+.lede {
+  font-size: var(--t-l);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.sheet {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-6) var(--s-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frame {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+}
+
+.photo {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #cac5bb;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.frameNo {
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.frame figcaption {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.caption {
+  font-size: var(--t-s);
+  color: var(--ink-3);
+}
+
+.sheet .display {
+  font-size: var(--t-2xl);
+}
+
+.sheet .sourceLine {
+  font-size: var(--t-m);
+}
+
+.sheet .body {
+  font-size: var(--t-s);
+}
+
+.after {
+  margin-top: var(--s-6);
+}
+
+@media (max-width: 56rem) {
+  .sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Narrow screens crop each photograph upright, around its subject, which sits right of centre. */
+@media (max-width: 40rem) {
+  .photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .photo img {
+    object-position: 62% 50%;
+  }
+}

@@ -1,4 +1,13 @@
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type PointerEvent,
+} from 'react';
 import { sealSpec, type SealDetail } from './guilloche';
 import { SealRenderer } from './renderer';
 import { places } from '../lib/format';
@@ -34,7 +43,14 @@ interface SealProps {
   className?: string;
   /** Accessible name; omit for a decorative seal. */
   label?: string;
+  /**
+   * Leave the ring and monogram out of the server's HTML and add them once the page runs, for seals
+   * far down a page whose first bytes are counted (the engraving itself always needs a script).
+   */
+  late?: boolean;
 }
+
+const never = () => () => {};
 
 /**
  * A company's guilloche seal: canvas engraving, a microtext ring and a
@@ -54,7 +70,13 @@ export function Seal({
   foil = false,
   className,
   label,
+  late = false,
 }: SealProps) {
+  const running = useSyncExternalStore(
+    never,
+    () => true,
+    () => false,
+  );
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<SealRenderer | null>(null);
   const [angle, setAngle] = useState(0);
@@ -136,7 +158,7 @@ export function Seal({
     >
       <canvas ref={canvasRef} className={styles.canvas} width={size} height={size} />
       {sheen && <div className={styles.sheen} />}
-      {(ringText || monogram) && (
+      {(ringText || monogram) && (running || !late) && (
         <svg className={styles.overlay} viewBox="-1 -1 2 2" aria-hidden="true">
           {ringText && (
             <>

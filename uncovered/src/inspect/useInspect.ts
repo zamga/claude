@@ -95,7 +95,14 @@ export function useInspect(
       if (sheet.dataset.lamp !== held) sheet.dataset.lamp = held;
       paperRef.current?.render(s);
     };
-    const lamp = new Lamp({ reduced: prefersReducedMotion(), sweep, onFrame: paint });
+    // The figure the first paint shows lit (data-rest): the lamp rests there first.
+    const resting = sheet.querySelector<HTMLElement>('[data-rest] [data-lamp-mask]');
+    let rest: { x: number; y: number } | undefined;
+    if (resting && width && height) {
+      const [x, y] = offsetWithin(resting, sheet);
+      rest = { x: (x + resting.offsetWidth * 0.42) / width, y: (y + resting.offsetHeight / 2) / height };
+    }
+    const lamp = new Lamp({ reduced: prefersReducedMotion(), sweep, rest, onFrame: paint });
 
     const at = (e: PointerEvent): [number, number] => {
       const r = sheet.getBoundingClientRect();
@@ -170,7 +177,8 @@ export function useInspect(
     });
     ro.observe(sheet);
 
-    lamp.start();
+    // A lamp resting on a figure stays there a moment before the assistant takes it on.
+    lamp.start(rest ? 2600 : 600);
 
     // The paper is decoration. It is made once the visitor does something (moves the pointer, touches,
     // scrolls, presses a key) while the sheet is in view, when the page is next idle: the first screen

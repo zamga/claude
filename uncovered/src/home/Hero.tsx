@@ -202,6 +202,7 @@ export function Hero() {
               tilt
               sweep
               carryWhenSeen
+              rest="Revenue 2025"
             />
           </FootnoteProvider>
           <p className={styles.caption} aria-live="polite">
@@ -225,25 +226,6 @@ export function Hero() {
           )}
         </div>
       </div>
-
-      <dl className={`page ${styles.stats}`}>
-        <div>
-          <dt>entities in Slovenia’s business register</dt>
-          <dd className="display-num">294,000</dd>
-        </div>
-        <div>
-          <dt>sources behind the sample report, each one footnoted</dt>
-          <dd className="display-num">{KRKA.sources.length}</dd>
-        </div>
-        <div>
-          <dt>valuation methods, computed in code, never typed in</dt>
-          <dd className="display-num">3</dd>
-        </div>
-        <div>
-          <dt>pages you can print, share and defend</dt>
-          <dd className="display-num">A4</dd>
-        </div>
-      </dl>
     </section>
   );
 }

@@ -37,7 +37,10 @@ export interface LampOptions {
    * after which the light rests over the key data. Without it, the lamp is off until someone points.
    */
   sweep: boolean;
-  /** Where the light rests when there is no sweep. */
+  /**
+   * Where the light rests: after the sweep, or when there is none. A sheet with a sweep starts lit
+   * there, as its first paint shows it, and the assistant takes the lamp from there.
+   */
   rest?: { x: number; y: number };
 }
 
@@ -99,8 +102,8 @@ export class Lamp {
 
   constructor(private readonly opts: LampOptions) {
     const rest = opts.rest ?? { x: 0.72, y: 0.7 };
-    const lit = opts.sweep && opts.reduced ? REST_LIT : 0;
-    this.state = { ...rest, lit: 0, tiltX: 0, tiltY: 0, held: false, grip: 0 };
+    const lit = opts.sweep && (opts.reduced || opts.rest) ? REST_LIT : 0;
+    this.state = { ...rest, lit: opts.sweep && opts.rest ? REST_LIT : 0, tiltX: 0, tiltY: 0, held: false, grip: 0 };
     this.target = { ...rest, lit, tiltX: 0, tiltY: 0, grip: 0 };
     this.sweepAllowed = opts.sweep && !opts.reduced;
   }

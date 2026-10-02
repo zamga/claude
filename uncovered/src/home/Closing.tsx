@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from '../lib/router';
+import { setThemePreference, useTheme } from '../lib/theme';
 import type { Place } from './globe/engrave';
 import { Globe } from './globe/Globe';
 import styles from './Closing.module.css';
@@ -152,7 +153,13 @@ export function Pricing() {
       </div>
       <ul className={`page ${styles.plans}`} role="list">
         {PLANS.map((p) => (
-          <li key={p.name} className={styles.plan} data-featured={p.featured ? 'true' : undefined}>
+          <li
+            key={p.name}
+            className={styles.plan}
+            data-featured={p.featured ? 'true' : undefined}
+            // A note repeats its denomination in the corner; a price by arrangement has none to repeat.
+            data-denomination={p.price.startsWith('€') ? p.price : undefined}
+          >
             <h3 className={styles.planName}>{p.name}</h3>
             <p className={styles.price}>
               <span className="display-num">{p.price}</span> <span>{p.per}</span>
@@ -172,9 +179,35 @@ export function Pricing() {
   );
 }
 
+const plate = (file: string) => `${import.meta.env.BASE_URL}plates/${file}`;
+
 export function Principles() {
+  const uv = useTheme() === 'dark';
   return (
     <section className={styles.principles} aria-labelledby="principles-title">
+      {/*
+       * The Krka cover under ultraviolet, photographed by scripts/plates: the figures go dark and the
+       * microtext beneath each one, printed in ink that fluoresces, glows. The site's dark theme is the
+       * same lamp, and the caption offers it.
+       */}
+      <figure className={styles.uvPlate}>
+        <img
+          src={plate('uv.webp')}
+          width={2000}
+          height={760}
+          alt="The Krka cover’s key data under ultraviolet light: the figures go dark and the microtext beneath each glows."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption className={`page ${styles.uvCaption}`}>
+          <span>
+            <strong>Under ultraviolet.</strong> The figures go dark; what says where they came from glows.
+          </span>
+          <button type="button" className={styles.uvSwitch} onClick={() => setThemePreference(uv ? 'light' : 'dark')}>
+            {uv ? 'Back to daylight' : 'Switch the page to UV'}
+          </button>
+        </figcaption>
+      </figure>
       <div className={`page ${styles.principlesGrid}`}>
         <div>
           <p className="eyebrow">Method</p>

@@ -1,0 +1,211 @@
+/*
+ * Look closer, the film. Loaded with the film's code, never with the page's
+ * first styles. The photographs are daylight photographs whatever the
+ * theme, so the film's words are set in daylight ink over them; the surface
+ * the sheet lies on is the section's ground, so the stage never shows a seam.
+ */
+
+.filmSection {
+  --film-ground: #cac5bb;
+  --ink: #101613;
+  --ink-2: #333c37;
+  --ink-3: #4c5651;
+  --intaglio: #155e46;
+  --focus: #6b4bd6;
+  --veil: 244 242 238;
+  position: relative;
+  background: var(--film-ground);
+  color: var(--ink);
+}
+
+/* The scroll the camera moves over: three holds and two moves. */
+.track {
+  height: 380vh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.poster,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.canvas[data-ready] {
+  opacity: 1;
+}
+
+/* Once paper fills the frame, a veil of the same paper behind the words keeps them legible. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(var(--veil) / 0.94) 0%, rgb(var(--veil) / 0.8) 30%, rgb(var(--veil) / 0) 58%);
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+  pointer-events: none;
+}
+
+.filmSection:not([data-beat='0']) .scrim {
+  opacity: 1;
+}
+
+.overlay {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+  padding-block: calc(var(--header-h) + var(--safe-top) + var(--s-5)) var(--s-6);
+}
+
+/* The three beats share one cell; the current one is set, the others are lifted off. */
+.beats {
+  display: grid;
+  align-items: center;
+}
+
+.beat {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: var(--s-4);
+  align-content: center;
+  max-width: 31rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 700ms var(--ease-set);
+  pointer-events: none;
+}
+
+.beat[data-on] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.kicker {
+  color: var(--ink-3);
+}
+
+/* One sentence runs across the three photographs, a line to each, in the display face. */
+.title,
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 1.6rem + 5.4vw, 7.25rem);
+  font-weight: 430;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.display {
+  font-style: italic;
+  font-weight: 450;
+}
+
+/* The microtext's own words, set large enough to read: the same capitals, the same ink. */
+.sourceLine {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 0.8rem + 0.6vw, 1.25rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--intaglio);
+  text-wrap: balance;
+}
+
+.body {
+  max-width: 28rem;
+  font-size: var(--t-l);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.more a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+/* A scale bar and the width of paper in view, as a photomicrograph is labelled. */
+.readout {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.scale {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.bar {
+  display: inline-block;
+  width: 64px;
+  height: 7px;
+  border-inline: 1px solid currentColor;
+  background: linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat;
+}
+
+/* Upright screens: the words sit at the foot of the frame, over a veil rising from it. */
+@media (max-aspect-ratio: 1 / 1) {
+  .scrim {
+    background: linear-gradient(
+      0deg,
+      rgb(var(--veil) / 0.97) 0%,
+      rgb(var(--veil) / 0.92) 40%,
+      rgb(var(--veil) / 0.5) 54%,
+      rgb(var(--veil) / 0) 66%
+    );
+  }
+
+  .filmSection[data-beat='0'] .scrim {
+    opacity: 1;
+  }
+
+  .beats {
+    align-items: end;
+  }
+
+  .beat {
+    align-content: end;
+    gap: var(--s-3);
+  }
+
+  .overlay {
+    gap: var(--s-4);
+    padding-block: calc(var(--header-h) + var(--safe-top) + var(--s-5)) var(--s-5);
+  }
+
+  .readout {
+    gap: var(--s-4);
+  }
+}
