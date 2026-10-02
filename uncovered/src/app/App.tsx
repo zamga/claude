@@ -1,4 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { startMagnetic } from '../motion/magnetic';
+import { startSmoothScroll } from '../motion/scroll';
 import { useLocation } from '../lib/router';
 import { Masthead } from '../ui/Masthead';
 import { Footer } from '../ui/Footer';
@@ -58,6 +60,8 @@ export function App() {
 
   useEffect(() => {
     document.documentElement.dataset.ready = 'true';
+    startSmoothScroll();
+    startMagnetic();
   }, []);
 
   return (

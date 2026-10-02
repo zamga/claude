@@ -28,6 +28,7 @@ for (const route of [...ROUTES, NOT_FOUND]) {
     manifest,
     siteUrl: process.env.SITE_URL,
     structuredData: structuredData(route.path),
+    image: route.image,
   });
   // Flat files (report/krka.html) resolve without a trailing slash on static hosts and in `vite preview`.
   const file = route.path === '/' ? 'index.html' : route.path === '/404' ? '404.html' : `${route.path.slice(1)}.html`;

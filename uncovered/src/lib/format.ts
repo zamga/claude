@@ -8,6 +8,12 @@ const NF2 = nf(2);
 /** Typographic minus for negative numbers. */
 const sign = (v: number, s: string) => (v < 0 ? `−${s.replace('-', '')}` : s);
 
+/** A coordinate or ratio cut to `n` decimals for markup, where further digits only add bytes. */
+export function places(v: number, n = 2): number {
+  const k = 10 ** n;
+  return Math.round(v * k) / k;
+}
+
 export function eur(v: number, digits = 2): string {
   const f = digits === 0 ? NF0 : digits === 1 ? NF1 : NF2;
   return sign(v, `€${f.format(Math.abs(v))}`);

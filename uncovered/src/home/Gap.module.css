@@ -46,6 +46,39 @@
   display: block;
 }
 
+/* The same dots, fluorescing where the lamp falls. */
+.field .glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    circle 7.5rem at var(--lx, -999px) var(--ly, -999px),
+    #000 0%,
+    #000 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 7.5rem at var(--lx, -999px) var(--ly, -999px),
+    #000 0%,
+    #000 30%,
+    transparent 100%
+  );
+}
+
+.field {
+  cursor: crosshair;
+}
+
+.forPointer {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .forPointer {
+    display: inline;
+  }
+}
+
 .lit {
   position: absolute;
   width: 7px;

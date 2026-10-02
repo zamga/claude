@@ -1,6 +1,16 @@
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type PointerEvent,
+} from 'react';
 import { sealSpec, type SealDetail } from './guilloche';
 import { SealRenderer } from './renderer';
+import { places } from '../lib/format';
 import { prefersReducedMotion } from '../lib/motion';
 import { token, useTheme } from '../lib/theme';
 import styles from './Seal.module.css';
@@ -28,10 +38,19 @@ interface SealProps {
   progress?: number;
   /** Shift the ink's colour as the pointer moves, like optically variable ink. */
   sheen?: boolean;
+  /** Mark the seal as printed over foil, which an inspected sheet draws under it. */
+  foil?: boolean;
   className?: string;
   /** Accessible name; omit for a decorative seal. */
   label?: string;
+  /**
+   * Leave the ring and monogram out of the server's HTML and add them once the page runs, for seals
+   * far down a page whose first bytes are counted (the engraving itself always needs a script).
+   */
+  late?: boolean;
 }
+
+const never = () => () => {};
 
 /**
  * A company's guilloche seal: canvas engraving, a microtext ring and a
@@ -48,9 +67,16 @@ export function Seal({
   duration = 2200,
   progress,
   sheen = false,
+  foil = false,
   className,
   label,
+  late = false,
 }: SealProps) {
+  const running = useSyncExternalStore(
+    never,
+    () => true,
+    () => false,
+  );
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<SealRenderer | null>(null);
   const [angle, setAngle] = useState(0);
@@ -128,10 +154,11 @@ export function Seal({
       aria-hidden={label ? undefined : true}
       onPointerMove={onPointerMove}
       data-sheen={sheen ? 'on' : undefined}
+      data-foil={foil ? '' : undefined}
     >
       <canvas ref={canvasRef} className={styles.canvas} width={size} height={size} />
       {sheen && <div className={styles.sheen} />}
-      {(ringText || monogram) && (
+      {(ringText || monogram) && (running || !late) && (
         <svg className={styles.overlay} viewBox="-1 -1 2 2" aria-hidden="true">
           {ringText && (
             <>
@@ -145,7 +172,7 @@ export function Seal({
                 <textPath
                   href={`#${pathId}`}
                   startOffset="0"
-                  textLength={TAU_R(spec.textRadius) * 0.995}
+                  textLength={places(TAU_R(spec.textRadius) * 0.995, 3)}
                   lengthAdjust="spacing"
                 >
                   {ringText}
@@ -160,12 +187,18 @@ export function Seal({
                 x="0"
                 y={submark ? 0.02 : 0.05}
                 textAnchor="middle"
-                fontSize={spec.hub * (monogram.length > 3 ? 0.62 : 0.85)}
+                fontSize={places(spec.hub * (monogram.length > 3 ? 0.62 : 0.85), 3)}
               >
                 {monogram}
               </text>
               {submark && (
-                <text className={styles.submark} x="0" y={spec.hub * 0.58} textAnchor="middle" fontSize={0.034}>
+                <text
+                  className={styles.submark}
+                  x="0"
+                  y={places(spec.hub * 0.58, 3)}
+                  textAnchor="middle"
+                  fontSize={0.034}
+                >
                   {submark}
                 </text>
               )}

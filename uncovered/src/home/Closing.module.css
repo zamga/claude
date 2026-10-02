@@ -1,7 +1,7 @@
 .coverage,
 .pricing,
 .principles {
-  padding-block: var(--s-8);
+  padding-bottom: var(--s-8);
 }
 
 .pricing {
@@ -21,8 +21,9 @@
 }
 
 .title em {
-  font-style: italic;
-  color: var(--intaglio);
+  /* The second thought in the same voice, a shade quieter: the italic is kept for the page's few key words. */
+  font-style: normal;
+  color: var(--ink-3);
 }
 
 .copy {
@@ -31,8 +32,35 @@
   font-size: var(--t-l);
 }
 
+/* The globe beside the table it engraves; above it on narrower screens. */
+.atlas {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+
+@media (max-width: 56rem) {
+  .atlas {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+
+  .atlas > :first-child {
+    max-width: min(26rem, 88vw);
+  }
+}
+
 .table {
   width: 100%;
+}
+
+.table tbody tr {
+  transition: background-color 300ms var(--ease-out);
+}
+
+.table tbody tr:hover {
+  background: var(--intaglio-wash);
 }
 
 .table th,
@@ -126,26 +154,61 @@
 }
 
 .plan {
+  position: relative;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   gap: var(--s-4);
-  padding: var(--s-6);
-  background: var(--sheet);
-  border: 1px solid var(--rule);
+  padding: calc(var(--s-6) + 0.5rem) var(--s-6) var(--s-6);
+  background:
+    /* A rose-engine rosette engraved into the corner, as on a note. */
+    repeating-radial-gradient(circle at 100% 100%, transparent 0 5px, var(--intaglio-wash) 5px 6px) 100% 100% / 55% 55%
+      no-repeat,
+    repeating-radial-gradient(circle at 100% 100%, transparent 0 9px, var(--intaglio-wash) 9px 10px) 100% 100% / 78% 78%
+      no-repeat,
+    var(--sheet);
+  border: 1px solid var(--rule-2);
+  /* The engraved frame: a second rule inside the first. */
+  outline: 1px solid var(--rule);
+  outline-offset: -7px;
+}
+
+/* A border of microtext along the top, the way a note prints its words instead of a line. */
+.plan::before {
+  content: 'UNCOVERED RESEARCH · INITIATION OF COVERAGE · EVERY FIGURE FOOTNOTED · UNCOVERED RESEARCH · INITIATION OF COVERAGE · EVERY FIGURE FOOTNOTED';
+  position: absolute;
+  inset: 11px 12px auto;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  color: var(--intaglio);
+  opacity: 0.75;
+}
+
+/* The denomination again, small, in the corner. */
+.plan::after {
+  content: attr(data-denomination);
+  position: absolute;
+  right: var(--s-5);
+  top: calc(var(--s-6) + 0.5rem);
+  font-family: var(--font-display);
+  font-size: var(--t-l);
+  line-height: 1;
+  color: var(--intaglio);
 }
 
 .plan[data-featured='true'] {
   border-color: var(--ink);
   box-shadow: var(--shadow-sheet);
-  position: relative;
-}
-
-.plan[data-featured='true']::before {
-  content: '';
-  position: absolute;
-  inset: -1px -1px auto;
-  height: 4px;
-  background: linear-gradient(90deg, var(--ovi-a), var(--ovi-b));
+  /* A security thread: foil that runs the height of the note and shifts colour along it. */
+  background:
+    linear-gradient(var(--ovi-a), var(--ovi-b), var(--ovi-a)) 14px 0 / 3px 100% no-repeat,
+    repeating-radial-gradient(circle at 100% 100%, transparent 0 5px, var(--intaglio-wash) 5px 6px) 100% 100% / 55% 55%
+      no-repeat,
+    repeating-radial-gradient(circle at 100% 100%, transparent 0 9px, var(--intaglio-wash) 9px 10px) 100% 100% / 78% 78%
+      no-repeat,
+    var(--sheet);
 }
 
 .planName {
@@ -222,11 +285,115 @@
 }
 
 .principles .title em {
+  font-style: italic;
   color: var(--accent);
 }
 
 .principles :global(.eyebrow) {
   color: color-mix(in srgb, var(--paper) 60%, transparent);
+}
+
+/* A photographic band: the cover under ultraviolet, fading into the section below it. */
+.uvPlate {
+  position: relative;
+  margin: 0 0 var(--s-8);
+  background: #120e1c;
+}
+
+.uvPlate img {
+  display: block;
+  width: 100%;
+  height: clamp(16rem, 34vw, 32rem);
+  object-fit: cover;
+}
+
+.uvPlate::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 45%;
+  background: linear-gradient(transparent, var(--ink));
+  pointer-events: none;
+}
+
+/* Under UV the section turns light: the photograph keeps its own edge rather than fading into it. */
+:global(:root[data-theme='dark']) .uvPlate::after {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .uvPlate::after {
+    display: none;
+  }
+}
+
+.uvCaption {
+  position: absolute;
+  inset: auto 0 var(--s-5);
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  color: #e8e4f4;
+  font-size: var(--t-s);
+}
+
+.uvCaption strong {
+  font-weight: 650;
+  color: #8ff0cc;
+}
+
+.uvSwitch {
+  min-height: 2.75rem;
+  padding: 0 var(--s-4);
+  border: 1px solid rgb(143 240 204 / 0.6);
+  border-radius: 999px;
+  background: rgb(18 14 28 / 0.6);
+  color: #e8e4f4;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out);
+}
+
+.uvSwitch:hover {
+  background: rgb(143 240 204 / 0.14);
+  border-color: #8ff0cc;
+}
+
+/* On a phone the photograph is too short to carry words: the caption sits under it, in the section's ink. */
+@media (max-width: 40rem) {
+  .uvPlate {
+    background: transparent;
+  }
+
+  .uvPlate img {
+    background: #120e1c;
+  }
+
+  .uvCaption {
+    position: static;
+    padding-top: var(--s-4);
+    color: color-mix(in srgb, var(--paper) 80%, transparent);
+  }
+
+  .uvCaption strong {
+    color: var(--accent);
+  }
+
+  .uvSwitch {
+    background: transparent;
+    color: var(--paper);
+    border-color: color-mix(in srgb, var(--paper) 45%, transparent);
+  }
+
+  .uvPlate::after {
+    display: none;
+  }
 }
 
 .principlesGrid {

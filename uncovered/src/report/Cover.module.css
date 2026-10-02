@@ -6,6 +6,8 @@
 .cover {
   container-type: inline-size;
   position: relative;
+  view-transition-name: var(--carry, none);
+  view-transition-class: cover;
   background: var(--sheet);
   color: var(--ink);
   border: 1px solid var(--rule);
@@ -22,8 +24,104 @@
   transition-duration: 160ms;
 }
 
+/*
+ * An inspected cover: the lamp tilts it every frame (springs, not
+ * transitions), and the WebGL paper is drawn under the printed sheet once it
+ * is ready. Vertical drags still scroll the page on a phone; anything else
+ * moves the lamp.
+ */
+/* The front page's cover flies into the report only when it is the cover on screen. */
+.cover[data-carry='seen']:not([data-onscreen]) {
+  view-transition-name: none;
+}
+
+.cover[data-inspect] {
+  --lamp-r: 26cqi;
+  box-shadow:
+    0 1px 1px rgb(16 22 19 / 0.04),
+    var(--sx, 0px) var(--sy, 22px) 46px -20px rgb(16 22 19 / calc(0.24 + var(--lit, 0) * 0.12));
+  transition: none;
+  touch-action: pan-y;
+}
+
+.paper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.cover[data-gl='on'] .paper {
+  opacity: 1;
+}
+
+/*
+ * The lamp as CSS draws it, where no GPU draws the paper: a warm pool on
+ * daylight paper, multiplied into the sheet so the ink stays ink, and a
+ * violet one under UV, screened onto the dark sheet. With the WebGL paper on,
+ * the paper carries the light.
+ */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle calc(var(--lamp-r) * 1.3) at var(--lx, -9999px) var(--ly, -9999px),
+    rgb(var(--lamp-tint) / calc(var(--lit, 0) * 0.5)) 0%,
+    rgb(var(--lamp-tint) / calc(var(--lit, 0) * 0.22)) 45%,
+    rgb(var(--lamp-tint) / 0) 75%
+  );
+  mix-blend-mode: var(--lamp-blend);
+}
+
+.cover[data-gl='on'] .glow {
+  display: none;
+}
+
+/*
+ * The first paint, before the lamp runs: it rests on one figure, whose source
+ * reads under a pool of light, so the idea is there in the first frame.
+ */
+.cover[data-inspect]:not([data-lamp]) [data-rest] {
+  position: relative;
+}
+
+.cover[data-inspect]:not([data-lamp]) [data-rest]::before {
+  content: '';
+  position: absolute;
+  inset: -70% -22%;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--lamp-tint) / 0.5) 0%,
+    rgb(var(--lamp-tint) / 0.22) 55%,
+    rgb(var(--lamp-tint) / 0) 100%
+  );
+  mix-blend-mode: var(--lamp-blend);
+}
+
+.cover[data-inspect]:not([data-lamp]) [data-rest] .micro {
+  visibility: hidden;
+}
+
+.cover[data-inspect]:not([data-lamp]) [data-rest] .legible {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.cover[data-inspect] .glare {
+  display: none;
+}
+
 /* A4 proportions as a minimum height, not an aspect-ratio, so long names and headlines can still grow the page. */
 .sheet {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-content: space-between;
   gap: 3.6cqi;
@@ -85,12 +183,13 @@
   color: var(--ink-3);
 }
 
+/* A long name is set smaller rather than broken mid-word: full size up to eight characters. */
 .name {
-  font-size: 15cqi;
+  font-size: max(5.5cqi, calc(15cqi * min(1, 8 / var(--len, 4))));
   font-weight: 450;
   line-height: 0.9;
   letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .legal {
@@ -234,6 +333,71 @@
   margin: 0;
   font-weight: 600;
   text-align: right;
+}
+
+.keyData .marked {
+  flex-wrap: wrap;
+  row-gap: 0.5cqi;
+}
+
+/*
+ * A figure's source, printed as microtext that reads as a rule; the lamp
+ * hides the microtext and shows the same line legibly, in a circle in each
+ * element's own coordinates (--ox, --oy: where the element sits in the sheet).
+ */
+.mark {
+  position: relative;
+  display: block;
+  flex-basis: 100%;
+  height: max(9px, 1.9cqi);
+}
+
+.markWide {
+  flex-basis: 100%;
+  width: 100%;
+}
+
+.micro,
+.legible {
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  --spot: radial-gradient(
+    circle var(--lamp-r, 26cqi) at calc(var(--lx, -9999px) - var(--ox, 0px)) calc(var(--ly, -9999px) - var(--oy, 0px)),
+    rgb(0 0 0 / min(1, calc(var(--lit, 0) * 1.6))) 0%,
+    rgb(0 0 0 / min(1, calc(var(--lit, 0) * 1.6))) 58%,
+    transparent 76%
+  );
+}
+
+.micro {
+  right: 0;
+  top: 50%;
+  overflow: hidden;
+  font-size: max(4px, 0.92cqi);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  color: var(--intaglio);
+  transform: translateY(-50%);
+  -webkit-mask-image: var(--spot), linear-gradient(#000, #000);
+  -webkit-mask-composite: xor;
+  mask-image: var(--spot), linear-gradient(#000, #000);
+  mask-composite: exclude;
+}
+
+.legible {
+  top: 50%;
+  font-size: max(8px, 1.62cqi);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.035em;
+  color: var(--intaglio);
+  transform: translateY(-50%);
+  text-shadow: 0 0 calc(var(--uv) * 0.6em) color-mix(in srgb, var(--ovi-a) 75%, transparent);
+  -webkit-mask-image: var(--spot);
+  mask-image: var(--spot);
 }
 
 .waiting {

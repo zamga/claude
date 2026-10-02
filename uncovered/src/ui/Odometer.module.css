@@ -1,0 +1,39 @@
+.odometer {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums lining-nums;
+  line-height: 1;
+}
+
+.char {
+  display: inline-block;
+}
+
+/* Each wheel is one digit tall; its strip of ten digits turns to --d. */
+.wheel {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+.sizer {
+  visibility: hidden;
+}
+
+.strip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: grid;
+  grid-auto-rows: 1em;
+  justify-items: center;
+  transform: translateY(calc(var(--d) * -1em));
+  transition: transform 620ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    transition: none;
+  }
+}

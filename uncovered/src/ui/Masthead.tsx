@@ -75,7 +75,7 @@ export function Masthead() {
             <span>UV</span>
             <span className="visually-hidden"> light: dark theme</span>
           </button>
-          <Link to="/initiate" className={styles.cta}>
+          <Link to="/initiate" className={styles.cta} data-magnetic>
             Initiate coverage
           </Link>
           <button

@@ -425,6 +425,8 @@ export function Initiate() {
             name={shown}
             country={{ name: request.country, code: COUNTRY_INFO[request.country]?.code ?? 'XX' }}
             size="hero"
+            inspect
+            tilt
           />
           <p className={styles.caption}>
             {shown.trim()

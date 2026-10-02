@@ -22,9 +22,11 @@ export function Serial({ value, label = 'Report number' }: { value: string; labe
               ))}
             </span>
           </span>
+        ) : ch === ' ' ? (
+          <span key={i} className={styles.gap} aria-hidden="true" />
         ) : (
           <span key={i} className={styles.char} aria-hidden="true">
-            {ch === ' ' ? ' ' : ch}
+            {ch}
           </span>
         ),
       )}

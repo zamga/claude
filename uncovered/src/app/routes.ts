@@ -5,11 +5,23 @@ import type { Report } from '../report/types';
  * Every page's title and description, in one place: the prerender writes them
  * into each page's HTML, and the client keeps them current as you navigate.
  */
+/** The card a page shows when its address is shared: a photograph of the cover, rendered by scripts/plates. */
+export interface SocialImage {
+  path: string;
+  alt: string;
+}
+
 export interface RouteMeta {
   path: string;
   title: string;
   description: string;
+  image: SocialImage;
 }
+
+const HOME_CARD: SocialImage = {
+  path: '/social/home.jpg',
+  alt: 'The cover of an Uncovered initiation on Krka, photographed, beside the words “Initiating coverage on every company.”',
+};
 
 export const ROUTES: RouteMeta[] = [
   {
@@ -17,24 +29,34 @@ export const ROUTES: RouteMeta[] = [
     title: 'Uncovered · Initiating coverage on every company',
     description:
       'Uncovered researches any company, listed or private, and writes the initiation-of-coverage report a bank’s research desk would publish: thesis, financials, forecasts, valuation and risks, with every figure traced to its source.',
+    image: HOME_CARD,
   },
   {
     path: '/report/krka',
     title: 'Krka, d. d., Novo mesto: initiation of coverage · Uncovered',
     description:
       'A sample initiation of coverage on Krka, the Slovenian generic-pharmaceuticals maker: thesis, financials, a discounted-cash-flow model, dividends and multiples, risks, and 17 graded sources.',
+    image: {
+      path: '/social/report-krka.jpg',
+      alt: 'The fair value printed on the Krka cover, €212 to €276 a share, photographed close.',
+    },
   },
   {
     path: '/initiate',
     title: 'Initiate coverage · Uncovered',
     description:
       'Commission an initiation on any company: name it, say what you need to know, attach filings if you have them, and follow the research plan as it runs.',
+    image: HOME_CARD,
   },
   {
     path: '/method',
     title: 'Method · Uncovered',
     description:
       'How Uncovered stays honest: evidence grades on every figure, prose bound to the model, the valuation formulas, primary sources by jurisdiction, and the limits of an initiation.',
+    image: {
+      path: '/social/method.jpg',
+      alt: 'The Krka cover’s key data under ultraviolet light: the figures go dark and the microtext naming each source glows.',
+    },
   },
 ];
 
@@ -42,6 +64,7 @@ export const NOT_FOUND: RouteMeta = {
   path: '/404',
   title: 'No coverage found · Uncovered',
   description: 'Nobody has written anything at this address yet.',
+  image: HOME_CARD,
 };
 
 export function metaFor(path: string): RouteMeta {
@@ -58,6 +81,7 @@ export function reportMeta(report: Report): RouteMeta {
     path,
     title: `${c.legalName}: initiation of coverage · Uncovered`,
     description: `${report.headline}. An initiation of coverage on ${c.legalName}, ${c.sector.toLowerCase()}, ${c.country}: thesis, financials, valuation and risks, with ${report.sources.length} quoted sources.`,
+    image: HOME_CARD,
   };
 }
 

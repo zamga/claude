@@ -19,12 +19,17 @@
 }
 
 .title em {
-  font-style: italic;
-  color: var(--intaglio);
+  /* The second thought in the same voice, a shade quieter: the italic is kept for the page's few key words. */
+  font-style: normal;
+  color: var(--ink-3);
 }
 
 .copy {
   color: var(--ink-2);
+}
+
+.land {
+  margin-bottom: var(--s-8);
 }
 
 .body {

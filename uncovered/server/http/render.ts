@@ -54,6 +54,7 @@ export class ReportRenderer {
         siteUrl: this.siteUrl,
         structuredData: this.bundle.structuredData(path, report),
         embeds: { 'report-data': report },
+        image: meta.image,
       }),
     );
   }
@@ -78,6 +79,7 @@ export class ReportRenderer {
         siteUrl: this.siteUrl,
         embeds: { 'run-data': run },
         noindex: true,
+        image: meta.image,
       }),
     );
   }
@@ -94,6 +96,7 @@ export class ReportRenderer {
         manifest: this.manifest,
         siteUrl: this.siteUrl,
         structuredData: this.bundle.structuredData(path),
+        image: meta.image,
       }),
     );
   }

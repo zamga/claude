@@ -4,6 +4,7 @@ import { Cover } from '../report/Cover';
 import { FootballField } from '../report/FootballField';
 import { CiteOrigin, Cited, FootnoteProvider } from '../report/Footnotes';
 import { Sensitivity } from '../report/Sensitivity';
+import { Landscape } from '../report/landscape/Landscape';
 import { bindings } from '../report/bindings';
 import {
   Catalysts,
@@ -354,7 +355,7 @@ export function Report({ report }: { report: ReportData }) {
 
               <div className={styles.body}>
                 <section id="cover" className={styles.coverSection} aria-label="Cover">
-                  <Cover report={report} valuation={valuation} size="page" />
+                  <Cover report={report} valuation={valuation} size="page" inspect />
                 </section>
 
                 <Section id="summary">
@@ -415,6 +416,9 @@ export function Report({ report }: { report: ReportData }) {
                   <Exhibit no="8" title="Sensitivity of the DCF value">
                     <Sensitivity report={report} />
                   </Exhibit>
+                  <div className={styles.landscape}>
+                    <Landscape report={report} />
+                  </div>
                   <MethodNotes report={report} valuation={valuation} />
                 </Section>
 

@@ -1,0 +1,293 @@
+/*
+ * The value landscape: the engraved block on a sheet, and beside it the
+ * readout and the two assumptions that move it.
+ */
+.landscape {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: var(--s-6) var(--s-8);
+  align-items: center;
+  margin: 0;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-sheet);
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+
+.stage[data-ready] .canvas {
+  opacity: 1;
+}
+
+.labels,
+.pin {
+  position: absolute;
+  inset: 0 auto auto 0;
+  pointer-events: none;
+}
+
+.labels {
+  inset: 0;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out) 900ms;
+}
+
+.stage[data-ready] .labels {
+  opacity: 1;
+}
+
+.labels > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+
+.tick {
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+
+.axis {
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.priceTag {
+  font-size: var(--t-2xs);
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: var(--ovi-b);
+}
+
+/* The pin's value, set above the point on a hairline stem. */
+.pin {
+  display: grid;
+  justify-items: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.stage[data-ready] .pin {
+  opacity: 1;
+}
+
+.pin span {
+  padding: 0.2rem 0.45rem;
+  background: var(--sheet);
+  border: 1px solid var(--ovi-b);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ovi-b);
+}
+
+.pin::after {
+  content: '';
+  width: 1px;
+  height: 1.6rem;
+  background: var(--ovi-b);
+}
+
+.hint {
+  position: absolute;
+  left: var(--s-4);
+  bottom: var(--s-3);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out) 1.6s;
+}
+
+.stage[data-ready] .hint {
+  opacity: 1;
+}
+
+@media (pointer: coarse) {
+  .hint {
+    display: none;
+  }
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+}
+
+.lead {
+  color: var(--ink-2);
+  max-width: 34ch;
+}
+
+.readout {
+  display: grid;
+  gap: 0.2rem;
+  padding-block: var(--s-3) var(--s-4);
+  border-block: 1px solid var(--ink);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2rem + 3vw, 4.75rem);
+  font-weight: 450;
+  letter-spacing: -0.02em;
+  color: var(--intaglio);
+}
+
+.unit {
+  font-size: var(--t-xs);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.delta {
+  font-size: var(--t-s);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.delta[data-sign='below'] {
+  color: var(--ovi-b);
+}
+
+.controls {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.control {
+  display: grid;
+  gap: 0.35rem;
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}
+
+.control strong {
+  float: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.control input {
+  width: 100%;
+  height: 1.75rem;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.control input::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--rule-2);
+}
+
+.control input::-moz-range-track {
+  height: 1px;
+  background: var(--rule-2);
+}
+
+.control input::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: -0.5rem;
+  border-radius: 50%;
+  background: var(--intaglio);
+  box-shadow: 0 0 0 3px var(--paper);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.control input::-moz-range-thumb {
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--intaglio);
+  box-shadow: 0 0 0 3px var(--paper);
+}
+
+.control input:hover::-webkit-slider-thumb,
+.control input:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.18);
+}
+
+.control input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.implied {
+  font-size: var(--t-s);
+  color: var(--ink-2);
+}
+
+.implied strong {
+  color: var(--ovi-b);
+}
+
+.reset {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--t-s);
+  font-weight: 650;
+  color: var(--intaglio);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.reset:disabled {
+  color: var(--ink-3);
+  text-decoration: none;
+  cursor: default;
+}
+
+@media (max-width: 64rem) {
+  .landscape {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stage {
+    aspect-ratio: 4 / 3.4;
+  }
+}
+
+/* On a phone the sliders below name the axes; the block keeps only its end values. */
+@media (max-width: 40rem) {
+  .axis {
+    display: none;
+  }
+}

@@ -50,11 +50,13 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
   const hi = Math.ceil((max + step * 0.4) / step) * step;
   const tickDigits = step < 1 ? 2 : 0;
   const plotW = Math.max(120, width - labelW - padR);
-  const x = (v: number) => labelW + ((v - lo) / (hi - lo)) * plotW;
+  // Whole pixels: crisp edges, and markup without fifteen-digit coordinates.
+  const x = (v: number) => Math.round(labelW + ((v - lo) / (hi - lo)) * plotW);
   // A strip above the rows carries the price and high labels, so they never sit on a bar.
   const rowsTop = narrow ? 52 : 40;
   const rowH = narrow ? ROW + 18 : ROW;
   const fairRow = methods.length;
+  const rowY = (i: number) => rowsTop + i * rowH + (narrow ? 18 : 0);
   const height = rowsTop + (methods.length + 1) * rowH + 40;
   const markerTop = rowsTop - 20;
   // Price and high are labelled away from each other: the lower one to its left, the higher to its right.
@@ -91,7 +93,7 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
           ))}
 
           {methods.map((m, i) => {
-            const y = rowsTop + i * rowH + (narrow ? 18 : 0);
+            const y = rowY(i);
             return (
               <g key={m.id} className={styles.row} style={{ '--i': i } as CSSProperties}>
                 {narrow ? (
@@ -114,12 +116,6 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
                   style={{ transformOrigin: `${x(m.low)}px ${y + 15}px` }}
                 />
                 <line className={styles.baseTick} x1={x(m.base)} x2={x(m.base)} y1={y + 2} y2={y + 28} />
-                <text className={styles.value} x={x(m.low) - 6} y={y + 19} textAnchor="end">
-                  {v(m.low)}
-                </text>
-                <text className={styles.value} x={x(m.high) + 6} y={y + 19}>
-                  {v(m.high)}
-                </text>
               </g>
             );
           })}
@@ -169,6 +165,18 @@ export function FootballField({ valuation, high, title = 'Fair value per share b
               </text>
             </g>
           )}
+
+          {/* The values last, so their halo keeps them legible where the price or the high runs through them. */}
+          {methods.map((m, i) => (
+            <g key={m.id} className={styles.row} style={{ '--i': i } as CSSProperties}>
+              <text className={styles.value} x={x(m.low) - 6} y={rowY(i) + 19} textAnchor="end">
+                {v(m.low)}
+              </text>
+              <text className={styles.value} x={x(m.high) + 6} y={rowY(i) + 19}>
+                {v(m.high)}
+              </text>
+            </g>
+          ))}
         </svg>
       </div>
       <table className="visually-hidden">

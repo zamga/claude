@@ -146,10 +146,11 @@ export class StaticSite {
   /** Send a file, compressed when the client accepts it. */
   async send(req: IncomingMessage, res: ServerResponse, file: string, status = 200) {
     const ext = extname(file);
-    const hashed = file.includes(`${sep}assets${sep}`);
+    // Hashed assets, and the film's frames (their directory carries a version), never change at an address.
+    const lasting = file.includes(`${sep}assets${sep}`) || file.includes(`${sep}film${sep}`);
     sendEncoded(req, res, await this.load(file), status, {
       'content-type': TYPES[ext] ?? 'application/octet-stream',
-      'cache-control': hashed
+      'cache-control': lasting
         ? 'public, max-age=31536000, immutable'
         : ext === '.html'
           ? 'no-cache'

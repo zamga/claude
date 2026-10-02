@@ -41,6 +41,8 @@ beforeAll(async () => {
   await writeFile(join(built, 'index.html'), '<!doctype html><head><title>Home</title></head>');
   await writeFile(join(built, 'initiate.html'), '<!doctype html><head><title>Built for a static host</title></head>');
   await writeFile(join(built, 'assets', 'app-4f2a.js'), script);
+  await mkdir(join(built, 'film', 'look-closer', 'v1', 'wide'), { recursive: true });
+  await writeFile(join(built, 'film', 'look-closer', 'v1', 'wide', '00.webp'), Buffer.from('RIFF0000WEBP'));
   const site = new StaticSite(built, '<meta name="uncovered-engine" content="fixture" data-access="code">', {
     'initiate.html': '<!doctype html><head><title>Rendered for this server</title></head>',
   });
@@ -119,6 +121,14 @@ describe('the server', () => {
     const plain = await fetch(`${base}/assets/app-4f2a.js`, { headers: { 'accept-encoding': 'identity' } });
     expect(plain.headers.get('content-encoding')).toBeNull();
     expect(Number(plain.headers.get('content-length'))).toBe(Buffer.byteLength(script));
+  });
+
+  it('keeps the film’s versioned frames for a year, as images, uncompressed', async () => {
+    const res = await fetch(`${base}/film/look-closer/v1/wide/00.webp`, { headers: { 'accept-encoding': 'br' } });
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toBe('image/webp');
+    expect(res.headers.get('content-encoding')).toBeNull();
+    expect(res.headers.get('cache-control')).toBe('public, max-age=31536000, immutable');
   });
 
   it('refuses a wrong access code before anything else', async () => {

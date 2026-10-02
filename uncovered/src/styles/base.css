@@ -1,6 +1,8 @@
 @import '@fontsource-variable/bodoni-moda/opsz.css';
 @import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 @import '@fontsource-variable/hanken-grotesk/index.css';
+/* The core character set of each face, cut small and declared last so it wins (scripts/subset-fonts.py). */
+@import './fonts.css';
 
 *,
 *::before,
@@ -107,6 +109,10 @@ table {
   display: none !important;
 }
 
+[data-magnetic] {
+  transition: translate 420ms var(--ease-out);
+}
+
 /* ------------------------------------------------------------ utilities */
 
 .page {
@@ -171,33 +177,57 @@ table {
   font-style: italic;
 }
 
-/* Page transitions (View Transitions API) */
+/*
+ * Page transitions (View Transitions API): the page is lifted away and the
+ * next one set down; the masthead stays where it is; a report's cover flies
+ * from wherever it was (the front page) to where the report sets it.
+ */
 ::view-transition-old(root) {
-  animation: vt-out 260ms var(--ease-engrave) both;
+  animation: vt-out 280ms var(--ease-engrave) both;
 }
 
 ::view-transition-new(root) {
-  animation: vt-in 520ms var(--ease-set) both;
+  animation: vt-in 560ms var(--ease-set) 60ms both;
+}
+
+::view-transition-group(masthead) {
+  animation: none;
+  z-index: 10;
+}
+
+/* Every carried cover belongs to the class "cover"; browsers without classes simply use the defaults. */
+::view-transition-group(*.cover) {
+  animation-duration: 760ms;
+  animation-timing-function: var(--ease-out);
+  z-index: 5;
+}
+
+::view-transition-old(*.cover),
+::view-transition-new(*.cover) {
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 
 @keyframes vt-out {
   to {
     opacity: 0;
-    transform: translateY(-0.6%);
+    transform: scale(0.985) translateY(-0.4%);
   }
 }
 
 @keyframes vt-in {
   from {
     opacity: 0;
-    transform: translateY(1.2%);
+    transform: translateY(1.6%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
   }
 }
 

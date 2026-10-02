@@ -12,8 +12,9 @@
 }
 
 .title em {
-  font-style: italic;
-  color: var(--intaglio);
+  /* Emphasis by position, not by ink: the italic is kept for the page's few key words. */
+  font-style: normal;
+  color: inherit;
 }
 
 .grid {

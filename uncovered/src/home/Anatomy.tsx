@@ -1,6 +1,8 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { Link } from '../lib/router';
 import { useSeen } from '../lib/hooks';
+import { prefersReducedMotion } from '../lib/motion';
+import { whenNear } from '../motion/scroll';
 import { Seal } from '../seal/Seal';
 import styles from './Anatomy.module.css';
 
@@ -17,9 +19,52 @@ const PAGES: { id: Kind; title: string; note: string }[] = [
   { id: 'sources', title: 'Sources', note: 'Every document, quoted, with its evidence grade' },
 ];
 
-/** The report laid out as a contact sheet of its pages, each a link into the sample. */
+/**
+ * The report laid out as a contact sheet of its pages, each a link into the
+ * sample. On a large screen the pages are dealt from one closed report into
+ * the grid as the section scrolls into place; elsewhere they fan out once.
+ */
 export function Anatomy() {
   const [ref, seen] = useSeen<HTMLOListElement>('0px 0px 10% 0px');
+
+  useEffect(() => {
+    const list = ref.current;
+    if (!list || prefersReducedMotion() || !window.matchMedia('(min-width: 64rem) and (pointer: fine)').matches) return;
+    const cancel = whenNear(list, ({ gsap }) => {
+      list.dataset.scrub = '';
+      const ctx = gsap.context(() => {
+        const deals = Array.from(list.querySelectorAll<HTMLElement>('[data-deal]'));
+        const metas = Array.from(list.querySelectorAll<HTMLElement>('[data-meta]'));
+        // Every page starts on the same spot: a closed report in the middle of the grid.
+        const offset = (el: HTMLElement) => {
+          const box = list.getBoundingClientRect();
+          const r = el.getBoundingClientRect();
+          return {
+            x: box.left + box.width / 2 - (r.left + r.width / 2),
+            y: box.top + box.height * 0.3 - (r.top + r.height / 2),
+          };
+        };
+        const timeline = gsap.timeline({
+          scrollTrigger: { trigger: list, start: 'top 88%', end: 'top 18%', scrub: 0.7, invalidateOnRefresh: true },
+        });
+        timeline.from(deals, {
+          x: (i) => offset(deals[i]!).x,
+          y: (i) => offset(deals[i]!).y,
+          rotation: (i) => (i - (deals.length - 1) / 2) * 2.4,
+          scale: 0.84,
+          ease: 'power2.out',
+          stagger: 0.05,
+          duration: 1,
+        });
+        timeline.from(metas, { opacity: 0, y: 12, ease: 'power1.out', stagger: 0.05, duration: 0.5 }, 0.55);
+      }, list);
+      return () => ctx.revert();
+    });
+    return () => {
+      cancel();
+      delete list.dataset.scrub;
+    };
+  }, [ref]);
   return (
     <section className={styles.anatomy} aria-labelledby="anatomy-title">
       <div className={`page ${styles.head}`}>
@@ -32,19 +77,21 @@ export function Anatomy() {
         {PAGES.map((p, i) => (
           <li key={p.id} style={{ '--i': i, '--n': PAGES.length } as CSSProperties}>
             <Link to={`/report/krka#${p.id}`} className={styles.page}>
-              <span className={styles.sheet} aria-hidden="true">
-                <span className={styles.runningHead}>
-                  <span />
-                  <span />
-                </span>
-                {p.id !== 'cover' && <span className={styles.pageTitle}>{p.title}</span>}
-                <Miniature kind={p.id} />
-                <span className={styles.folio}>
-                  <span>Krka, d. d.</span>
-                  <span>{i + 1}</span>
+              <span className={styles.deal} data-deal>
+                <span className={styles.sheet} aria-hidden="true">
+                  <span className={styles.runningHead}>
+                    <span />
+                    <span />
+                  </span>
+                  {p.id !== 'cover' && <span className={styles.pageTitle}>{p.title}</span>}
+                  <Miniature kind={p.id} />
+                  <span className={styles.folio}>
+                    <span>Krka, d. d.</span>
+                    <span>{i + 1}</span>
+                  </span>
                 </span>
               </span>
-              <span className={styles.meta}>
+              <span className={styles.meta} data-meta>
                 <span className={styles.no}>{String(i + 1).padStart(2, '0')}</span>
                 <span className={styles.metaTitle}>{p.title}</span>
                 <span className={styles.note}>{p.note}</span>
