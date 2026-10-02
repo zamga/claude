@@ -1,4 +1,4 @@
-# Kozolec — secured convertible bonds (concept site)
+# Kontinua — secured convertible bonds (concept site)
 
 A one-page site for a bond issue of up to €5m, offered without a prospectus
 under Article 72 of ZTFI-1. The bonds are secured by a pledge over the shares
@@ -8,15 +8,18 @@ into shares once the company changes from a d.o.o. into a d.d. in Q1 2027.
 **Idea:** *Danes upnik. Jutri solastnik.* (Lender today. Co-owner tomorrow.)
 The hero is the bond itself. As you scroll, its coupons are cut and flown into
 an interest tally. The talon unlocks the 2027 conversion, and the certificate
-turns over into a share. The kozolec (hayrack) carries the strategy: each bay is
-one company, and the holding fills it bay by bay.
+turns over into a share. The brand mark comes from the same security print: a
+guilloche medallion in which every company the group buys is one ring, so the
+group grows ring by ring (*Obroč za obročem, za generacije*). The working name
+Kontinua stands for continuity, the promise to founders and to bondholders.
 
 ## Files
 
 - `index.html`: all Slovenian content, semantic and complete without JavaScript
 - `styles.css`: tokens (light and dark), layout, components
-- `app.js`: terms rendering, generated engraving (guilloche, rosettes, kozolec),
-  the scroll story, strategy tabs, calculator, form, English copy
+- `app.js`: terms rendering, generated engraving (guilloche frames, rosettes,
+  the ring medallion), the scroll story, strategy tabs, calculator, form,
+  English copy
 
 There is no build step. Serve the folder with any static server, for example
 `python3 -m http.server`, and open `http://localhost:8000`.

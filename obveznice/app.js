@@ -1,7 +1,7 @@
-/* Kozolec — bond site interactions
+/* Kontinua — bond site interactions
    Progressive enhancement: the page reads complete without this file. With it the
    certificate is engraved, every figure renders from one set of terms, the bond
-   tells its story on scroll, and the bays, calculator and form come alive. GSAP,
+   tells its story on scroll, and the strategy, calculator and form come alive. GSAP,
    ScrollTrigger and Lenis are optional; every module checks for them and falls
    back to a still, fully working page. */
 (() => {
@@ -13,10 +13,10 @@
      Keys: nominal, minimum, rate, years, issue, convPrice, window.
      ------------------------------------------------------------------------ */
   const TERMS = {
-    issuer: 'Kozolec Holding d.o.o.',
-    issuerDD: 'Kozolec d.d.',
-    brand: 'Kozolec',
-    series: 'KZL1',
+    issuer: 'Kontinua Holding d.o.o.',
+    issuerDD: 'Kontinua d.d.',
+    brand: 'Kontinua',
+    series: 'KNT1',
     size: 5000000,
     nominal: 1000,
     minimum: 10000,
@@ -59,7 +59,7 @@
     get(area, k) { try { return window[area].getItem(k); } catch { return null; } },
     set(area, k, v) { try { window[area].setItem(k, v); } catch { /* storage blocked: preference is not kept */ } },
   };
-  const run = (name, fn) => { try { return fn(); } catch (err) { console.error(`[kozolec] ${name}`, err); return undefined; } };
+  const run = (name, fn) => { try { return fn(); } catch (err) { console.error(`[kontinua] ${name}`, err); return undefined; } };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ent = s => esc(s).replace(/\u00a0/g, '&nbsp;');
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -67,7 +67,7 @@
 
   /* This file runs before the animation libraries (see the script order), so the
      first frame never waits for them. `motion` is confirmed once they arrive. */
-  window.__kozolec = true;
+  window.__kontinua = true;
   let hasGsap = false;
   let motion = !mq.reduce.matches;
   root.classList.add('js');
@@ -80,7 +80,7 @@
     'skip': 'Skip to content',
     'concept': 'Concept design. The working name and values in [square brackets] are illustrative, not an offer.',
     'concept.short': 'Concept: name and [values] are illustrative, not an offer.',
-    'logo.aria': 'Kozolec, back to the top',
+    'logo.aria': 'Kontinua, back to the top',
     'nav.aria': 'Main navigation',
     'nav.opp': 'Opportunity',
     'nav.strategy': 'Strategy',
@@ -146,8 +146,8 @@
     'opp.p2': 'Companies with EBITDA of €1.5–5m are too small for large funds and too large for individual buyers. Fewer buyers leave more room for a fair deal.',
     'opp.source': 'Source: Analysis of ownership structures in the Slovenian economy, Faculty of Social Sciences and School of Economics and Business, University of Ljubljana, 2025.',
     'strat.eyebrow': 'Strategy',
-    'strat.h2': 'Like a kozolec: bay by bay, built for generations.',
-    'strat.lede': 'A kozolec is Slovenia’s traditional hayrack. Each bay is one company; together they carry more than any of them could alone. We don’t buy to sell.',
+    'strat.h2': 'Ring by ring, for generations.',
+    'strat.lede': 'Every company we buy becomes a ring of the group. It keeps its own pattern; together we hold the whole. We don’t buy to sell.',
     'strat.tabsAria': 'Ways we acquire',
     'strat.b1': 'Succession',
     'strat.b2': 'Phased handover',
@@ -309,7 +309,7 @@
     'ftr.lang': 'Language',
     'ftr.legalH': 'Important notice',
     'ftr.legal1': 'This website is an advertisement, not an offer or a recommendation to buy securities. Base any investment decision on the terms of issue. The offer is exempt from the obligation to publish a prospectus under Article 72 of the Financial Instruments Market Act (ZTFI-1). Bonds are not bank deposits and are not covered by the deposit guarantee scheme.',
-    'ftr.legal2': 'Concept design: the working name Kozolec, the values in [square brackets] and the specimen bond are illustrative.',
+    'ftr.legal2': 'Concept design: the working name Kontinua, the values in [square brackets] and the specimen bond are illustrative.',
     'ftr.top': 'Back to top',
     'dock.meta': 'Terms of issue by email',
   };
@@ -317,7 +317,7 @@
   const DYN = {
     sl: {
       locale: 'sl-SI',
-      title: 'Kozolec — Zavarovane zamenljive obveznice. Danes upnik, jutri solastnik.',
+      title: 'Kontinua — Zavarovane zamenljive obveznice. Danes upnik, jutri solastnik.',
       desc: 'Zavarovane zamenljive obveznice za prevzeme slovenskih podjetij z EBITDA od 1,5 do 5 mio €. Izdaja do 5 mio €, zastava deležev prevzetih družb, zamenjava v delnice po preoblikovanju v d.d. v začetku leta 2027.',
       date: d => `${d.getDate()}.\u00a0${d.getMonth() + 1}.\u00a0${d.getFullYear()}`,
       forms: {
@@ -344,7 +344,7 @@
     },
     en: {
       locale: 'en-GB',
-      title: 'Kozolec — Secured convertible bonds. Lender today, co-owner tomorrow.',
+      title: 'Kontinua — Secured convertible bonds. Lender today, co-owner tomorrow.',
       desc: 'Secured convertible bonds funding the acquisition of Slovenian companies with EBITDA of €1.5–5m. An issue of up to €5m, secured by a pledge over the acquired companies’ shares and convertible into shares once the company becomes a d.d. in early 2027.',
       date: d => `${d.getDate()} ${dfmt(d, { month: 'short' })} ${d.getFullYear()}`,
       forms: {
@@ -496,19 +496,8 @@
   }
 
   /* ------------------------------------------------------------------------
-     Engraving: guilloche frames, rosettes and the kozolec, drawn as SVG
+     Engraving: guilloche frames, rosettes and the medallion, drawn as SVG
      ------------------------------------------------------------------------ */
-  function rng(seed) {
-    let a = seed >>> 0;
-    return () => {
-      a = (a + 0x6D2B79F5) >>> 0;
-      let t = a;
-      t = Math.imul(t ^ (t >>> 15), t | 1);
-      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
   /* A closed polar wave: r(θ) = r0 + amp·sin(kθ + phase). */
   function polar(cx, cy, r0, amp, k, phase, steps) {
     let d = '';
@@ -572,7 +561,6 @@
     return `<defs>${defs}</defs>${body}`;
   }
 
-  const MARK = 'M2 9 16 2l14 7M5 9v14M12 9v14M20 9v14M27 9v14M5 13h22M5 16.5h22M5 20h22';
   function rosetteMarkup(kind) {
     const back = kind === 'back';
     const A = back ? 'g-b' : 'g-a';
@@ -586,7 +574,7 @@
       ring(75, 8, 20, 3, 'g-a');
       ring(58, 5, 14, 2, 'g-b');
       s += '<circle class="g-rule" r="46"/><circle class="g-rule g-rule--hair" r="42"/>';
-      s += `<g transform="translate(-35.2 -27.5) scale(2.2)"><path class="g-mark" d="${MARK}"/></g>`;
+      s += `<text class="g-initial" x="0" y="15" text-anchor="middle">${esc(TERMS.brand.charAt(0).toUpperCase())}</text>`;
     } else {
       ring(95, 3.5, 52, 2, A);
       ring(83, 8, 36, 4, B);
@@ -596,56 +584,54 @@
     return s;
   }
 
-  /* The kozolec: posts on stone footings, slats, a shingled roof, end braces,
-     and hay hung bay by bay. Drawn as an elevation, like an engraving. */
-  function kozolecMarkup(n, postH, hay, hit, step) {
-    const b = 100;
-    const W = n * b;
-    const eave = 22;
-    const ground = eave + postH;
-    const ov = 14;
-    const top = 3;
-    const rnd = rng(n * 131 + postH);
+  /* The medallion: one guilloche ring for every company in the group, oldest
+     innermost; a microtext band, as on security print; the monogram at the core. */
+  function medalMarkup(svg) {
+    const uid = svg.dataset.medal || 'm';
+    const rings = Number(svg.dataset.rings) || 4;
+    const lit = Number(svg.dataset.lit) || 0;
+    const R0 = 42;
+    const R1 = 95;
+    const step = (R1 - R0) / rings;
     let s = '';
-    s += `<path class="k-line" d="M${-ov} ${eave}H${W + ov}L${W + ov - 9} ${top}H${-ov + 9}Z"/>`;
-    let roof = `M${-ov + 5} ${r1((top + eave) / 2)}H${W + ov - 5}`;
-    for (let x = -ov + 12; x < W + ov - 10; x += 5) roof += `M${r1(x)} ${top + 2}V${eave - 2}`;
-    s += `<path class="k-thin" d="${roof}"/>`;
-    let posts = '';
-    for (let i = 0; i <= n; i += 1) posts += `M${i * b} ${eave}V${ground - 5}`;
-    posts += `M0 ${r1(eave + postH * 0.32)}L${-ov + 1} ${ground}M${W} ${r1(eave + postH * 0.32)}L${W + ov - 1} ${ground}`;
-    s += `<path class="k-line" d="${posts}"/>`;
-    let feet = '';
-    for (let i = 0; i <= n; i += 1) feet += `M${i * b - 5} ${ground}V${ground - 5}H${i * b + 5}V${ground}`;
-    s += `<path class="k-thin" d="${feet}M-20 ${ground}H${W + 20}"/>`;
-    const slats = [];
-    for (let y = eave + 11; y <= ground - 20; y += 12) slats.push(y);
-    s += `<path class="k-thin" d="${slats.map(y => `M-4 ${y}H${W + 4}`).join('')}"/>`;
-    for (let i = 0; i < n; i += 1) {
-      let d = '';
-      slats.forEach(y => {
-        for (let x = i * b + 4; x < (i + 1) * b - 3; x += step) {
-          d += `M${r1(x)} ${y + 1}l${r1((rnd() - 0.5) * 1.6)} ${r1(8 + rnd() * 3)}`;
-        }
-      });
-      const hitRect = hit ? `<rect class="k-hit" x="${i * b}" y="${eave}" width="${b}" height="${postH}"/>` : '';
-      s += `<g class="k-bay" data-i="${i}">${hitRect}<path class="k-hay k-hatch${i < hay ? ' is-on' : ''}" vector-effect="non-scaling-stroke" d="${d}"/></g>`;
+    for (let i = 0; i < rings; i += 1) {
+      const r = R0 + step * (i + 0.5);
+      const k = 14 + i * 6;
+      const n = k * 7;
+      s += `<g class="m-ring${i < lit ? ' is-on' : ''}" data-i="${i}">`
+        + `<path class="m-wave" pathLength="1" d="${polar(0, 0, r, step * 0.3, k, 0, n)}"/>`
+        + `<path class="m-wave" pathLength="1" d="${polar(0, 0, r, step * 0.3, k, Math.PI, n)}"/></g>`;
     }
-    return { markup: s, viewBox: `-20 0 ${W + 40} ${ground + 2}` };
+    for (let i = 0; i <= rings; i += 1) s += `<circle class="m-rule" r="${r1(R0 + step * i)}"/>`;
+    if (svg.classList.contains('routes__art')) {
+      for (let i = 0; i < rings; i += 1) {
+        const r = R0 + step * (i + 0.5);
+        s += `<g class="m-num" data-i="${i}"><circle cx="0" cy="${r1(-r)}" r="${r1(Math.min(6.4, step * 0.42))}"/>`
+          + `<text x="0" y="${r1(-r + 1.9)}" text-anchor="middle">${String(i + 1).padStart(2, '0')}</text></g>`;
+      }
+    }
+    const tr = 35;
+    const C = 2 * Math.PI * tr;
+    const unit = `${TERMS.brand.toUpperCase()} · ${TERMS.series} · `;
+    const text = unit.repeat(Math.max(1, Math.round(C / (unit.length * 4.4))));
+    s += `<path id="${uid}-mt" class="m-path" d="M0 ${-tr}A${tr} ${tr} 0 1 1 0 ${tr}A${tr} ${tr} 0 1 1 0 ${-tr}"/>`;
+    s += `<text class="m-micro"><textPath href="#${uid}-mt" textLength="${r1(C - 1.5)}" lengthAdjust="spacing">${esc(text)}</textPath></text>`;
+    s += `<circle class="m-core" r="29"/><text class="m-initial" x="0" y="13" text-anchor="middle">${esc(TERMS.brand.charAt(0).toUpperCase())}</text>`;
+    return s;
   }
-
-  function drawKozolci(svgs) {
+  function drawMedals(svgs) {
     svgs.forEach(svg => {
-      const n = Number(svg.dataset.kozolec) || 4;
-      const hay = Number(svg.dataset.hay) || 0;
-      const inBays = svg.classList.contains('bays__frame');
-      const small = !!svg.closest('.cert');
-      const postH = inBays ? 64 : svg.classList.contains('ftr__mark') ? 104 : 140;
-      const k = kozolecMarkup(n, postH, hay, inBays, inBays ? 2.8 : small ? 3.8 : 3.2);
-      svg.setAttribute('viewBox', k.viewBox);
-      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-      svg.innerHTML = k.markup;
+      svg.setAttribute('viewBox', '-100 -100 200 200');
+      svg.innerHTML = medalMarkup(svg);
     });
+  }
+  /* A ring is engraved in: its lines draw around the medallion. */
+  function engraveRing(g) {
+    if (!motion) return;
+    $$('.m-wave', g).forEach(p => p.animate(
+      [{ strokeDasharray: '1 1', strokeDashoffset: 1 }, { strokeDasharray: '1 1', strokeDashoffset: 0 }],
+      { duration: 1100, easing: 'cubic-bezier(.45,0,.2,1)' },
+    ));
   }
 
   function drawRosettes(svgs) {
@@ -986,7 +972,7 @@
      Hero: the bond at work. Scroll clips the coupons into the tally, the
      talon unlocks conversion, and the certificate turns into a share.
      ------------------------------------------------------------------------ */
-  const hero = { tl: null, st: null, stops: [], applyHay: null };
+  const hero = { tl: null, st: null, stops: [], applyRings: null };
 
   /* Shrink the bond until it fits the pinned stage (all sizes inside are cqw).
      Cached per viewport so repeated refreshes don't force extra layouts. */
@@ -1024,7 +1010,7 @@
     const couponsEl = $('[data-coupons]');
     const tallyEl = $('[data-tally]');
     const hint = $('[data-hint]');
-    const backHay = () => $$('.cert--back .k-hay');
+    const backRings = () => $$('.cert--back .m-ring');
     const N = Math.min(STORY_CLIPS, sheet.lis.length);
     const STEP = 0.42;
     const T_TALON = 1;
@@ -1040,7 +1026,7 @@
       const { desk } = ctx.conditions;
       let capIdx = 0;
       let lit = false;
-      let hayOn = false;
+      let ringsOn = false;
 
       const setCap = i => {
         if (i === capIdx) return;
@@ -1052,14 +1038,15 @@
         lit = on;
         sheet.talon?.classList.toggle('is-lit', on);
       };
-      const applyHay = () => backHay().forEach((h, i) => { h.style.transitionDelay = `${i * 140}ms`; h.classList.toggle('is-on', hayOn); });
-      const setHay = on => {
-        if (on === hayOn) return;
-        hayOn = on;
-        applyHay();
+      /* After the turn, the share's rings light up: a stake in the whole group. */
+      const applyRings = () => backRings().forEach((g, i) => { g.style.transitionDelay = `${i * 140}ms`; g.classList.toggle('is-on', ringsOn); });
+      const setRings = on => {
+        if (on === ringsOn) return;
+        ringsOn = on;
+        applyRings();
       };
-      hero.applyHay = applyHay;
-      applyHay();
+      hero.applyRings = applyRings;
+      applyRings();
       /* Layout positions, unaffected by the transforms this timeline applies. */
       const flights = [];
       const measure = () => {
@@ -1129,7 +1116,7 @@
         paintCoupons(t);
         setCap(t < T_TALON ? 0 : t < T_COUP ? 1 : t < T_FLIP ? 2 : 3);
         setLit(t >= T_TALON + 0.25);
-        setHay(t >= T_FLIP + 0.75);
+        setRings(t >= T_FLIP + 0.75);
         if (!desk) { dockFlags.hero = t > 0.85; updateDock(); }
       });
 
@@ -1153,8 +1140,8 @@
         sheet.slots.forEach(sl => { sl.style.opacity = ''; });
         caps.forEach(c => c.classList.remove('is-on', 'is-off'));
         sheet.talon?.classList.remove('is-lit');
-        backHay().forEach(h => h.classList.add('is-on'));
-        hero.applyHay = null;
+        backRings().forEach(g => g.classList.add('is-on'));
+        hero.applyRings = null;
         track.style.removeProperty('--hero-scroll');
       };
     });
@@ -1248,16 +1235,30 @@
   }
 
   /* ------------------------------------------------------------------------
-     Strategy: five ways to fill the kozolec, bay by bay
+     Strategy: five routes to a company; each one engraves its ring
      ------------------------------------------------------------------------ */
-  function initBays() {
-    const tabs = $$('.bay[role="tab"]');
-    const panel = $('[data-bay-panel]');
-    const texts = $$('[data-bay-text]');
-    const frame = $('.bays__frame');
+  function initRoutes() {
+    const tabs = $$('.route[role="tab"]');
+    const panel = $('[data-route-panel]');
+    const texts = $$('[data-route-text]');
+    const art = $('.routes__art');
     if (!tabs.length || !panel) return;
     const visited = new Set();
+    let current = 0;
+    let seen = !motion;
+    const paintArt = fresh => {
+      if (!art) return;
+      $$('.m-ring', art).forEach(g => {
+        const k = Number(g.dataset.i);
+        g.classList.toggle('is-on', visited.has(k));
+        g.classList.toggle('is-sel', k === current);
+        if (fresh && k === current && seen) engraveRing(g);
+      });
+      $$('.m-num', art).forEach(n => n.classList.toggle('is-sel', Number(n.dataset.i) === current));
+    };
     const select = (i, focus) => {
+      const fresh = !visited.has(i);
+      current = i;
       tabs.forEach((t, k) => {
         const on = k === i;
         t.setAttribute('aria-selected', String(on));
@@ -1271,13 +1272,8 @@
       });
       panel.setAttribute('aria-labelledby', tabs[i].id);
       visited.add(i);
-      if (frame) {
-        $$('.k-bay', frame).forEach(g => {
-          const k = Number(g.dataset.i);
-          g.classList.toggle('is-sel', k === i);
-          $('.k-hay', g)?.classList.toggle('is-on', visited.has(k));
-        });
-      }
+      tabs[i].classList.add('is-visited');
+      paintArt(fresh);
       if (focus) tabs[i].focus();
     };
     tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
@@ -1291,26 +1287,34 @@
       const n = map[e.key];
       select(n > last ? 0 : n < 0 ? last : n, true);
     });
-    frame?.addEventListener('click', e => {
-      const g = e.target.closest('.k-bay');
-      if (g) select(Number(g.dataset.i));
-    });
     select(Math.max(0, tabs.findIndex(t => t.getAttribute('aria-selected') === 'true')));
+    /* The first ring engraves itself when the medallion comes into view. */
+    if (art && !seen) {
+      const io = new IntersectionObserver(entries => {
+        if (!entries.some(en => en.isIntersecting)) return;
+        io.disconnect();
+        seen = true;
+        $$('.m-ring.is-on', art).forEach(engraveRing);
+      }, { threshold: 0.4 });
+      io.observe(art);
+    }
   }
 
-  /* Founders and footer: hay goes up bay by bay when the kozolec comes into view. */
-  function initHayFill() {
+  /* Founders and footer: the rings engrave one by one as the medallion comes into view. */
+  function initRingFill() {
     if (!motion) return;
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => {
         if (!en.isIntersecting) return;
         io.unobserve(en.target);
-        const n = Number(en.target.dataset.hay) || 0;
-        $$('.k-hay', en.target).forEach((h, i) => { if (i < n) setTimeout(() => h.classList.add('is-on'), 200 + i * 260); });
+        const n = Number(en.target.dataset.lit) || 0;
+        $$('.m-ring', en.target).forEach((g, i) => {
+          if (i < n) setTimeout(() => { g.classList.add('is-on'); engraveRing(g); }, 200 + i * 240);
+        });
       });
     }, { threshold: 0.45 });
     $$('.founders__art, .ftr__mark').forEach(svg => {
-      $$('.k-hay', svg).forEach(h => h.classList.remove('is-on'));
+      $$('.m-ring', svg).forEach(g => g.classList.remove('is-on'));
       io.observe(svg);
     });
   }
@@ -1577,7 +1581,7 @@
       root.dataset.lang = next;
       applyStatic();
       renderAllDynamic();
-      store.set('localStorage', 'kozolec-lang', next);
+      store.set('localStorage', 'kontinua-lang', next);
     };
     const after = () => { if (hasGsap) ScrollTrigger.refresh(); };
     if (document.startViewTransition && !mq.reduce.matches) {
@@ -1624,7 +1628,7 @@
     await nextTask();
 
     /* 2. Engrave the front of the certificate (sized to fit the stage first). */
-    run('engrave', () => { drawKozolci($$('.cert--front svg[data-kozolec]')); drawRosettes($$('.cert--front svg[data-rosette]')); });
+    run('engrave', () => { drawMedals($$('.cert--front svg[data-medal]')); drawRosettes($$('.cert--front svg[data-rosette]')); });
     const fitW = motion ? run('fit', fitBond) : 0;
     run('frames', () => drawFrames(['front'], fitW));
     run('engrave-enter', engraveEnter);
@@ -1649,8 +1653,8 @@
 
     /* 4. Everything below the fold. */
     if (lang !== 'sl') run('stats', renderStats);
-    run('bays-art', () => drawKozolci($$('.bays__frame')));
-    run('bays', initBays);
+    run('routes-art', () => drawMedals($$('.routes__art')));
+    run('routes', initRoutes);
     run('spy', initSpy);
     run('dock', initDock);
     run('year', renderYear);
@@ -1669,15 +1673,15 @@
        here keeps the two honest without paying for Intl during load. */
     whenIdle(() => {
       run('engrave-back', () => {
-        drawKozolci($$('.cert--back svg[data-kozolec]'));
+        drawMedals($$('.cert--back svg[data-medal]'));
         drawRosettes($$('.cert--back svg[data-rosette]'));
         drawFrames(['back']);
-        hero.applyHay?.();
+        hero.applyRings?.();
       });
       run('frames-watch', watchFrames);
       whenIdle(() => {
-        run('art', () => { drawKozolci($$('.founders__art, .ftr__mark')); drawRosettes($$('svg[data-rosette="seal"]')); });
-        run('hay', initHayFill);
+        run('art', () => { drawMedals($$('.founders__art, .ftr__mark')); drawRosettes($$('svg[data-rosette="seal"]')); });
+        run('rings', initRingFill);
         const prime = () => run('prime', primeSections);
         if (lang !== 'sl') { prime(); return; }
         whenIdle(() => {

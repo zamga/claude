@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Kozolec — secured convertible bonds
+   Kontinua — secured convertible bonds
    Layout: a 12-column grid on security paper. The hero is a bond certificate
    with a coupon sheet; night sections carry the strategy and the form.
    ========================================================================== */
@@ -25,7 +25,7 @@
 :root {
   color-scheme: light;
 
-  /* Color: security paper, engraving ink, hay gold */
+  /* Color: security paper, engraving ink, seal gold */
   --paper: #EEF0EA;
   --sheet: #FAFBF7;
   --ink: #13261F;
@@ -308,8 +308,8 @@ em { font-style: italic; }
   width: min(100% - 2 * var(--gutter), var(--maxw)); margin-inline: auto;
 }
 .logo { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; margin-right: auto; min-height: 44px; }
-.logo__mark { width: 30px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
-.logo__mark path { stroke-linejoin: round; }
+.logo__mark { width: 28px; height: 28px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.logo__mark .logo__dot { fill: var(--gold); stroke: none; }
 .logo__word { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600; letter-spacing: .01em; line-height: 1; }
 
 .nav { display: none; }
@@ -475,15 +475,15 @@ em { font-style: italic; }
 }
 .cert--back { transform: rotateY(180deg); }
 .cert__frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-/* Guilloche (generated): green and hay-gold engraving lines */
+/* Guilloche (generated): green and gold engraving lines */
 .cert__frame path, .cert__frame rect, .rosette path, .rosette circle { fill: none; }
 .g-a { stroke: var(--line); stroke-width: .7; }
 .g-b { stroke: var(--line-2); stroke-width: .7; }
 .g-rule { stroke: var(--line); stroke-width: .8; }
 .g-rule--b { stroke-width: 1.5; }
 .g-rule--hair { stroke-width: .5; opacity: .7; }
-.g-mark { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.rosette path, .rosette circle, .rosette .g-mark { vector-effect: non-scaling-stroke; }
+.g-initial { font-family: var(--font-serif); font-weight: 600; font-size: 46px; fill: var(--accent); }
+.rosette path, .rosette circle { vector-effect: non-scaling-stroke; }
 :root:not(.js) .cert { outline: 1px solid var(--line); outline-offset: -2.4cqw; }
 .cert__body {
   position: absolute; inset: 12.5% 8.5% 11%;
@@ -500,7 +500,7 @@ em { font-style: italic; }
 .cert__title--share { font-size: 6.4cqw; letter-spacing: .3em; }
 .cert__vignette { position: relative; align-self: center; min-height: 0; aspect-ratio: 2 / 1; }
 .cert__vignette .rosette { position: absolute; inset: -18% -6%; width: 112%; height: 136%; opacity: .55; }
-.cert__vignette .kozolec { position: relative; width: 70%; height: 100%; margin-inline: auto; }
+.cert__vignette .medal { position: relative; height: 100%; width: auto; aspect-ratio: 1; margin-inline: auto; }
 .cert__terms { align-self: center; display: grid; gap: 1.1cqw; }
 .cert__terms div { display: grid; gap: .2cqw; padding-bottom: .9cqw; border-bottom: 1px dotted var(--rule-strong); }
 .cert__terms dt { font-size: max(8.5px, 1.35cqw); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
@@ -617,17 +617,27 @@ em { font-style: italic; }
 .odo__col { transition: opacity var(--dur-2) ease; }
 .odo__col.is-lead { opacity: .22; }
 
-/* Kozolec line art (generated) */
-.kozolec { color: var(--ink); overflow: visible; }
-.kozolec .k-line { fill: none; stroke: currentColor; stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linecap: round; }
-.kozolec .k-thin { fill: none; stroke: currentColor; stroke-width: .7; vector-effect: non-scaling-stroke; opacity: .7; }
-.kozolec .k-hatch { stroke: var(--gold); stroke-width: 1; }
-.kozolec .k-hay { opacity: 0; transition: opacity var(--dur-3) ease; }
-.kozolec .k-hay.is-on { opacity: 1; }
-.kozolec--night { color: var(--on-night); }
-.kozolec--night .k-hatch { stroke: var(--night-gold); }
-.kozolec--field { color: var(--on-field); }
-.kozolec--field .k-hatch { stroke: var(--night-gold); }
+/* Medallion (generated): a guilloche ring per company, microtext, monogram */
+.medal {
+  display: block; overflow: visible;
+  --m-off: var(--line); --m-on: var(--gold); --m-rule: var(--rule-strong);
+  --m-text: var(--ink-3); --m-core: var(--sheet); --m-initial: var(--accent);
+}
+.medal .m-wave { fill: none; stroke: var(--m-off); stroke-width: .6; opacity: .36; vector-effect: non-scaling-stroke; transition: stroke var(--dur-3) ease, opacity var(--dur-3) ease, stroke-width var(--dur-3) ease; }
+.medal .m-ring.is-on .m-wave { stroke: var(--m-on); opacity: 1; stroke-width: .9; }
+.medal .m-rule { fill: none; stroke: var(--m-rule); stroke-width: .6; vector-effect: non-scaling-stroke; }
+.medal .m-path { fill: none; stroke: none; }
+.medal .m-micro { font-family: var(--font-sans); font-weight: 600; font-size: 6px; letter-spacing: .14em; fill: var(--m-text); }
+.medal .m-core { fill: var(--m-core); stroke: var(--m-rule); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.medal .m-initial { font-family: var(--font-serif); font-weight: 600; font-size: 38px; fill: var(--m-initial); }
+.medal .m-num circle { fill: var(--m-core); }
+.medal .m-num text { font-family: var(--font-sans); font-weight: 700; font-size: 5.4px; letter-spacing: .04em; fill: var(--m-text); transition: fill var(--dur-2) ease; }
+.medal--night { --m-off: var(--on-night-2); --m-on: var(--night-gold); --m-rule: var(--night-line); --m-text: var(--on-night-2); --m-core: var(--night); --m-initial: var(--on-night); }
+.medal--field { --m-off: var(--on-field-2); --m-on: var(--night-gold); --m-rule: var(--field-line); --m-text: var(--on-field-2); --m-core: var(--field); --m-initial: var(--on-field); }
+/* Strategy medallion: explored routes stay engraved, the selected one is bright. */
+.routes__art .m-ring.is-on:not(.is-sel) .m-wave { opacity: .45; }
+.routes__art .m-ring.is-sel .m-wave { stroke-width: 1.4; }
+.routes__art .m-num.is-sel text { fill: var(--m-on); }
 
 /* --------------------------------------------------------------------------
    Opportunity
@@ -666,40 +676,40 @@ em { font-style: italic; }
 .source { font-size: var(--t-xs); color: var(--ink-3); max-width: 60ch; }
 
 /* --------------------------------------------------------------------------
-   Strategy: bays
+   Strategy: the medallion grows a ring for every company; five routes in
    -------------------------------------------------------------------------- */
 .strat-head { grid-column: 1 / -1; }
 @media (min-width: 900px) { .strat-head { grid-column: 1 / span 8; } }
-.bays { grid-column: 1 / -1; position: relative; display: grid; gap: 1.5rem; }
-.strat { overflow-x: clip; }
-.bays__frame { width: 100%; height: auto; }
-@media (min-width: 760px) {
-  /* The drawing spans -20…520 units; posts 0…500 sit on the tab edges. */
-  .bays__frame { width: 108%; max-width: none; margin-left: -4%; }
-}
-.k-hit { fill: transparent; stroke: none; pointer-events: all; cursor: pointer; }
-.bays__frame .k-hay.is-on { opacity: .34; }
-.bays__frame .k-bay:hover .k-hay { opacity: .6; }
-.bays__frame .k-bay.is-sel .k-hay { opacity: 1; }
-.bays__tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; }
-.bay {
-  display: grid; gap: .3rem; align-content: start; text-align: left;
-  padding: 1rem 1rem 1.1rem 0; min-height: 44px;
-  border: 0; border-top: 2px solid var(--night-line); background: none; color: var(--on-night-2);
+.routes { grid-column: 1 / -1; display: grid; gap: 2.5rem; align-items: center; }
+.routes__art { width: 100%; max-width: 19rem; height: auto; aspect-ratio: 1; justify-self: center; }
+.routes__ui { display: grid; gap: 1.75rem; min-width: 0; }
+.routes__tabs { display: grid; border-bottom: 1px solid var(--night-line); }
+.route {
+  display: grid; grid-template-columns: 2.75rem 1fr auto; align-items: baseline; gap: .5rem;
+  padding: .95rem 0; min-height: 44px; text-align: left;
+  border: 0; border-top: 1px solid var(--night-line); background: none; color: var(--on-night-2);
   transition: color var(--dur-2) ease, border-color var(--dur-2) ease;
 }
-.bay__n { font-size: var(--t-xs); font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
-.bay__t { font-family: var(--font-serif); font-size: var(--t-lg); font-weight: 300; line-height: 1.1; }
-.bay:hover { color: var(--on-night); }
-.bay[aria-selected="true"] { color: var(--on-night); border-top-color: var(--night-gold); }
-.bays__panel { max-width: 44rem; }
-.bays__lead { font-family: var(--font-serif); font-weight: 300; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); line-height: 1.18; letter-spacing: -.01em; color: var(--on-night); }
-.bays__lead.is-in { animation: lead-in .5s var(--ease-out) both; }
+/* A small ring marks the routes already explored, like the rings they draw. */
+.route::after {
+  content: ""; align-self: center; width: .6rem; height: .6rem; border-radius: 50%;
+  border: 1.5px solid var(--night-line); transition: background-color var(--dur-2) ease, border-color var(--dur-2) ease;
+}
+.route.is-visited::after { border-color: var(--night-gold); }
+.route[aria-selected="true"]::after { background: var(--night-gold); border-color: var(--night-gold); }
+.route__n { font-size: var(--t-xs); font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.route__t { font-family: var(--font-serif); font-size: var(--t-lg); font-weight: 300; line-height: 1.1; }
+.route:hover { color: var(--on-night); }
+.route[aria-selected="true"] { color: var(--on-night); border-top-color: var(--night-gold); }
+.route[aria-selected="true"] .route__n { color: var(--night-gold); }
+.routes__panel { font-family: var(--font-serif); font-weight: 300; font-size: clamp(1.35rem, 1.05rem + 1.2vw, 2.1rem); line-height: 1.2; letter-spacing: -.01em; min-height: 4.8em; }
+.routes__lead { color: var(--on-night); max-width: 34ch; text-wrap: pretty; }
+.routes__lead.is-in { animation: lead-in .5s var(--ease-out) both; }
 @keyframes lead-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@media (max-width: 759.98px) {
-  .bays__tabs { grid-template-columns: 1fr; }
-  .bay { grid-template-columns: 2.25rem 1fr; align-items: baseline; padding: .85rem 0; border-top-width: 1px; }
-  .bay[aria-selected="true"] { border-top-color: var(--night-gold); }
+@media (min-width: 900px) {
+  .routes { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2.5rem, 6vw, 6rem); }
+  .routes__art { max-width: 34rem; }
+  .routes__panel { min-height: 3.6em; }
 }
 .criteria { grid-column: 1 / -1; display: grid; gap: 1.25rem; }
 .criteria__h { font-size: var(--t-xs); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--on-night-2); margin-top: 1rem; }
@@ -850,11 +860,11 @@ em { font-style: italic; }
 /* --------------------------------------------------------------------------
    Founders
    -------------------------------------------------------------------------- */
-.founders__art { grid-column: 1 / -1; width: 100%; max-width: 32rem; height: auto; }
+.founders__art { grid-column: 1 / -1; width: 100%; max-width: 16rem; height: auto; aspect-ratio: 1; justify-self: center; }
 .founders__copy { grid-column: 1 / -1; display: grid; gap: 1.25rem; align-content: center; }
 .founders__copy .btn { justify-self: start; }
 @media (min-width: 900px) {
-  .founders__art { grid-column: 1 / span 5; align-self: center; }
+  .founders__art { grid-column: 1 / span 5; align-self: center; max-width: 24rem; }
   .founders__copy { grid-column: 7 / -1; }
 }
 
@@ -939,7 +949,7 @@ em { font-style: italic; }
 .ftr { background: var(--night); color: var(--on-night); padding: clamp(4rem, 8vw, 7rem) 0 calc(2rem + env(safe-area-inset-bottom, 0px)); --focus: var(--on-night); box-shadow: inset 0 1px 0 var(--night-line); }
 .ftr__grid { display: grid; gap: 2.5rem; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
 .ftr__grid > * { grid-column: 1 / -1; min-width: 0; }
-.ftr__mark { width: 100%; max-width: 22rem; height: auto; margin-bottom: 1.5rem; }
+.ftr__mark { width: 6.5rem; height: 6.5rem; margin-bottom: 1.75rem; }
 .ftr__tag { font-family: var(--font-serif); font-weight: 300; font-size: var(--t-xl); line-height: 1.02; max-width: 14ch; }
 .ftr h2 { font-size: var(--t-xs); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--on-night-2); margin-bottom: .9rem; }
 .ftr ul { list-style: none; display: grid; gap: .1rem; }
@@ -986,6 +996,7 @@ em { font-style: italic; }
 :root:not(.js) .hdr { background: var(--paper); box-shadow: 0 1px 0 var(--rule); }
 :root:not(.js) .lang, :root:not(.js) .menu-btn { display: none; }
 :root:not(.js) .hdr__cta { display: inline-flex; }
+:root:not(.js) .medal { display: none; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .38s; animation-timing-function: var(--ease-in-out); }
 
 @media (prefers-reduced-motion: reduce) {
