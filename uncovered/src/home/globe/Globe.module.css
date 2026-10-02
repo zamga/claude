@@ -1,0 +1,49 @@
+/* The engraved globe beside the coverage table. */
+.globe {
+  position: relative;
+  width: 100%;
+  max-width: 34rem;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.globe:active {
+  cursor: grabbing;
+}
+
+/* Until the engraving is drawn, the limb alone, ruled once. */
+.globe::before {
+  content: '';
+  position: absolute;
+  inset: 7%;
+  border: 1px solid var(--rule-2);
+  border-radius: 50%;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.globe[data-ready]::before {
+  opacity: 0;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.globe[data-ready] .canvas {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe::before,
+  .canvas {
+    transition: none;
+  }
+}

@@ -31,8 +31,35 @@
   font-size: var(--t-l);
 }
 
+/* The globe beside the table it engraves; above it on narrower screens. */
+.atlas {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+
+@media (max-width: 56rem) {
+  .atlas {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+
+  .atlas > :first-child {
+    max-width: min(26rem, 88vw);
+  }
+}
+
 .table {
   width: 100%;
+}
+
+.table tbody tr {
+  transition: background-color 300ms var(--ease-out);
+}
+
+.table tbody tr:hover {
+  background: var(--intaglio-wash);
 }
 
 .table th,

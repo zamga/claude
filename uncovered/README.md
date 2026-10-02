@@ -74,26 +74,28 @@ Give it a persistent volume for `/data`, a TLS-terminating proxy in front (with 
 
 ## Where things are
 
-| Path                        | What                                                                                                     |
-| --------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `src/report/types.ts`       | The report as data: sources (passages with quotation, page and grade), lines, assumptions, prose         |
-| `src/report/valuation.ts`   | DCF, dividend discount, earnings and EV/EBITDA multiples, fair-value range, sensitivity, implied values  |
-| `src/report/bindings.ts`    | Model figures that prose quotes as `{{tokens}}`                                                          |
-| `src/report/krka.ts`        | The hand-written sample report                                                                           |
-| `src/pages/Report.tsx`      | The reader, for any report                                                                               |
-| `src/pages/LiveRun.tsx`     | A run as it happens, on the request slip                                                                 |
-| `src/inspect/`              | The cover as an object to inspect: the lamp, the WebGL paper (watermark, fibres, foil), the source marks |
-| `src/report/landscape/`     | The value landscape: the DCF's value as an engraved block you can move                                   |
-| `src/motion/`               | Scroll choreography (GSAP ScrollTrigger, Lenis) and magnetic actions, loaded on demand                   |
-| `server/engine/research.ts` | The research loop: web search, document reading, recording evidence                                      |
-| `server/engine/ledger.ts`   | The evidence ledger: what enters only with a verified quotation                                          |
-| `server/engine/gate.ts`     | The checks every report passes before it is shown                                                        |
-| `server/engine/pipeline.ts` | One run, from request to checked report                                                                  |
-| `server/http/`              | The server: API, progress stream, static site, rendered reports                                          |
-| `server/fixtures/`          | The scripted test engine and its fictional company's annual report                                       |
-| `scripts/prerender.mjs`     | Static HTML for every route                                                                              |
-| `scripts/subset-fonts.py`   | Cuts the typefaces to the characters the site sets (`src/styles/fonts/`); rerun after a font upgrade     |
-| `docs/`                     | Creative direction, design system, storyboard, architecture, strategy, award audit                       |
+| Path                        | What                                                                                                            |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `src/report/types.ts`       | The report as data: sources (passages with quotation, page and grade), lines, assumptions, prose                |
+| `src/report/valuation.ts`   | DCF, dividend discount, earnings and EV/EBITDA multiples, fair-value range, sensitivity, implied values         |
+| `src/report/bindings.ts`    | Model figures that prose quotes as `{{tokens}}`                                                                 |
+| `src/report/krka.ts`        | The hand-written sample report                                                                                  |
+| `src/pages/Report.tsx`      | The reader, for any report                                                                                      |
+| `src/pages/LiveRun.tsx`     | A run as it happens, on the request slip                                                                        |
+| `src/inspect/`              | The cover as an object to inspect: the lamp, the WebGL paper (watermark, fibres, foil), the source marks        |
+| `src/report/landscape/`     | The value landscape: the DCF's value as an engraved block you can move                                          |
+| `src/home/globe/`           | The coverage globe: Natural Earth coastlines engraved in line weight, turned by hand and by the table beside it |
+| `src/motion/`               | Scroll choreography (GSAP ScrollTrigger, Lenis) and magnetic actions, loaded on demand                          |
+| `server/engine/research.ts` | The research loop: web search, document reading, recording evidence                                             |
+| `server/engine/ledger.ts`   | The evidence ledger: what enters only with a verified quotation                                                 |
+| `server/engine/gate.ts`     | The checks every report passes before it is shown                                                               |
+| `server/engine/pipeline.ts` | One run, from request to checked report                                                                         |
+| `server/http/`              | The server: API, progress stream, static site, rendered reports                                                 |
+| `server/fixtures/`          | The scripted test engine and its fictional company's annual report                                              |
+| `scripts/prerender.mjs`     | Static HTML for every route                                                                                     |
+| `scripts/subset-fonts.py`   | Cuts the typefaces to the characters the site sets (`src/styles/fonts/`); rerun after a font upgrade            |
+| `scripts/geography.mjs`     | Cuts the globe's geography from Natural Earth (public domain) into `src/home/globe/geography.json`              |
+| `docs/`                     | Creative direction, design system, storyboard, architecture, strategy, award audit                              |
 
 ## Principles
 

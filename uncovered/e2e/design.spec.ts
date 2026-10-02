@@ -3,7 +3,8 @@ import { expect, test, type Page } from '@playwright/test';
 /*
  * The interactions the design is built on: the headline that takes up the
  * company being typed, the lamp that makes a figure's source legible, the
- * value landscape's assumptions, and the register's seals. Each must also
+ * value landscape's assumptions, the register's seals and the coverage
+ * globe. Each must also
  * work as plain HTML for assistive technology, and rest when motion is
  * reduced.
  */
@@ -76,6 +77,25 @@ test('a seal in the register starts an initiation for its company', async ({ pag
   await seal.click();
   await expect(page).toHaveURL(/\/initiate$/);
   await expect(page.locator('input[name="company"]')).toHaveValue('Pipistrel d.o.o.');
+});
+
+test('the coverage globe turns to the place you point at in the table', async ({ page }, info) => {
+  test.skip(
+    info.project.name !== 'desktop',
+    'pointing at a row is a mouse gesture; the table reads the same on a phone',
+  );
+  const errors = watchErrors(page);
+  await page.goto('/');
+  const section = page.locator('section[aria-labelledby="coverage-title"]');
+  await section.scrollIntoViewIfNeeded();
+  // The engraving loads as the section approaches; it is decoration, hidden from assistive technology.
+  const globe = section.locator('[aria-hidden="true"][data-ready]');
+  await expect(globe).toBeAttached();
+  await page.getByRole('rowheader', { name: 'United States' }).hover();
+  await expect(globe).toHaveAttribute('data-focus', 'us');
+  await page.getByRole('rowheader', { name: 'European Union' }).hover();
+  await expect(globe).toHaveAttribute('data-focus', 'eu');
+  expect(errors).toEqual([]);
 });
 
 test('with reduced motion the lamp is set down, not swept, and nothing turns', async ({ browser }) => {

@@ -1,25 +1,32 @@
+import { useState } from 'react';
 import { Link } from '../lib/router';
+import type { Place } from './globe/engrave';
+import { Globe } from './globe/Globe';
 import styles from './Closing.module.css';
 
-const COVERAGE = [
+const COVERAGE: { region: string; place: Place; listed: string; private: string }[] = [
   {
     region: 'Slovenia',
+    place: 'si',
     listed: 'Ljubljana Stock Exchange announcements and annual reports',
     private:
       'AJPES annual reports and the business register: upload the filing, or let Uncovered fetch it where the register allows',
   },
   {
     region: 'European Union',
+    place: 'eu',
     listed: 'Annual reports in the European single electronic format, read as structured data',
     private: 'National business registers; upload annual reports in any EU language',
   },
   {
     region: 'United States',
+    place: 'us',
     listed: 'SEC EDGAR filings',
     private: 'Upload financial statements',
   },
   {
     region: 'Anywhere else',
+    place: 'world',
     listed: 'Exchange filings and company reports, found by research',
     private: 'Upload financial statements; Uncovered researches the rest',
   },
@@ -78,6 +85,8 @@ const PRINCIPLES = [
 ];
 
 export function Coverage() {
+  // The place the reader points at in the table; the globe turns to it.
+  const [focus, setFocus] = useState<Place | null>(null);
   return (
     <section className={styles.coverage} aria-labelledby="coverage-title">
       <div className={`page ${styles.head}`}>
@@ -89,9 +98,15 @@ export function Coverage() {
           Start in Slovenia, where most companies are private and every annual report is public. Then anywhere.
         </p>
       </div>
-      {/* Roles are explicit because phones restack the rows as blocks, which drops implicit table semantics. */}
-      <div className="page">
-        <table className={styles.table} role="table" aria-label="What Uncovered reads">
+      <div className={`page ${styles.atlas}`}>
+        <Globe focus={focus} />
+        {/* Roles are explicit because phones restack the rows as blocks, which drops implicit table semantics. */}
+        <table
+          className={styles.table}
+          role="table"
+          aria-label="What Uncovered reads"
+          onPointerLeave={() => setFocus(null)}
+        >
           <thead role="rowgroup">
             <tr role="row">
               <th scope="col" role="columnheader">
@@ -107,7 +122,7 @@ export function Coverage() {
           </thead>
           <tbody role="rowgroup">
             {COVERAGE.map((c) => (
-              <tr key={c.region} role="row">
+              <tr key={c.region} role="row" onPointerEnter={() => setFocus(c.place)}>
                 <th scope="row" role="rowheader">
                   {c.region}
                 </th>
