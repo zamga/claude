@@ -2,12 +2,14 @@ import { useEffect, useRef, type RefObject } from 'react';
 import { prefersReducedMotion } from '../lib/motion';
 import { token, useTheme } from '../lib/theme';
 import { Lamp, type LampState } from './lamp';
+import { TILT_GRANTED, tiltNeedsPermission } from './tilt';
 import type { Paper } from './paper';
 
 /*
  * Make a sheet inspectable. The lamp follows the pointer, a finger or the idle
- * sweep; the sheet tilts towards it (or with the phone); and once the page is
- * idle, the WebGL paper is drawn under the printed HTML. The lamp is written to
+ * sweep; the sheet tilts towards it (or with the phone); and once the visitor
+ * acts with the sheet in view, the WebGL paper is drawn under the printed HTML,
+ * when the page is next idle. The lamp is written to
  * the sheet as CSS custom properties, so masks and tilt stay in CSS:
  * --lx and --ly (px from the sheet's corner), --lit (0 to 1), --rx and --ry
  * (degrees). The sheet carries data-lamp="held" while a person holds the lamp,
@@ -127,7 +129,11 @@ export function useInspect(
       else lamp.tilt(e.gamma / 25, (e.beta - 40) / 25);
     };
     const coarse = window.matchMedia('(pointer: coarse)').matches;
-    if (coarse) window.addEventListener('deviceorientation', onOrient);
+    const listenToTilt = () => window.addEventListener('deviceorientation', onOrient);
+    if (coarse) {
+      if (tiltNeedsPermission()) window.addEventListener(TILT_GRANTED, listenToTilt);
+      else listenToTilt();
+    }
 
     // Work only while the sheet can be seen.
     let inView = false;
@@ -137,6 +143,7 @@ export function useInspect(
       if (inView) sheet.dataset.onscreen = '';
       else delete sheet.dataset.onscreen;
       updateVisible();
+      startPaper();
     });
     io.observe(sheet);
     document.addEventListener('visibilitychange', updateVisible);
@@ -165,10 +172,32 @@ export function useInspect(
 
     lamp.start();
 
-    // The paper is decoration: it loads when the page has nothing better to do.
-    idle(() => {
-      void import('./paper').then(({ Paper, canInspect }) => {
-        if (disposed || !canInspect()) return;
+    // The paper is decoration. It is made once the visitor does something (moves the pointer, touches,
+    // scrolls, presses a key) while the sheet is in view, when the page is next idle: the first screen
+    // never waits for WebGL, and a sheet nobody touches or sees never pays for it (making it can hold a
+    // weak GPU's frames for seconds). Until then the lamp still reveals the sources, in CSS.
+    const events = ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'] as const;
+    let acted = false;
+    let started = false;
+    function startPaper() {
+      if (started || !acted || !inView) return;
+      started = true;
+      idle(load);
+    }
+    const begin = () => {
+      events.forEach((type) => window.removeEventListener(type, begin));
+      acted = true;
+      startPaper();
+    };
+    events.forEach((type) => window.addEventListener(type, begin, { passive: true }));
+    const load = () => {
+      // The visitor may have scrolled the sheet away before the page was idle: wait until it is back.
+      if (!inView) {
+        started = false;
+        return;
+      }
+      void import('./paper').then(({ Paper, wantsPaper }) => {
+        if (disposed || !wantsPaper()) return;
         let paper: Paper;
         try {
           paper = new Paper(canvas, seedRef.current, () => {
@@ -185,15 +214,17 @@ export function useInspect(
         paper.render(lastRef.current ?? { x: 0.72, y: 0.7, lit: 0, tiltX: 0, tiltY: 0, held: false, grip: 0 });
         sheet.dataset.gl = 'on';
       });
-    });
+    };
 
     return () => {
       disposed = true;
+      events.forEach((type) => window.removeEventListener(type, begin));
       lamp.destroy();
       io.disconnect();
       ro.disconnect();
       document.removeEventListener('visibilitychange', updateVisible);
       window.removeEventListener('deviceorientation', onOrient);
+      window.removeEventListener(TILT_GRANTED, listenToTilt);
       sheet.removeEventListener('pointermove', onMove);
       sheet.removeEventListener('pointerdown', onDown);
       sheet.removeEventListener('pointerup', onUp);

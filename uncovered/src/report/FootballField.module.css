@@ -44,6 +44,11 @@
   stroke-linejoin: round;
 }
 
+/* Values sit above the price and the high, and are small: a wider halo closes the gaps between figures. */
+.value {
+  stroke-width: 6px;
+}
+
 .rowLabel {
   font-family: var(--font-sans);
   font-size: 13px;

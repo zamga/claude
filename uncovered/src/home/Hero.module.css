@@ -280,6 +280,16 @@
   display: none;
 }
 
+.tilt {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--rule-2);
+  border-radius: 999px;
+  background: var(--sheet);
+  font-size: var(--t-xs);
+  font-weight: 650;
+  color: var(--ink-2);
+}
+
 @media (hover: none) {
   .forPointer {
     display: none;

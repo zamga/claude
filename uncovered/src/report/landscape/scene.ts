@@ -1,4 +1,5 @@
 import { Camera, Geometry, Mesh, Program, Renderer, Transform, Vec3 } from 'ogl';
+import { claimGpu } from '../../lib/gpu';
 
 /*
  * The value landscape: the DCF's value across the cost of capital (left to
@@ -252,6 +253,8 @@ function blockGeometry(renderer: Renderer, data: LandscapeData): Geometry {
 }
 
 export class LandscapeScene {
+  /** Drawn in software: every frame is read back to be composited, so the block should move only when handled. */
+  readonly software: boolean;
   private readonly renderer: Renderer;
   private readonly camera: Camera;
   private readonly scene = new Transform();
@@ -270,6 +273,14 @@ export class LandscapeScene {
     private readonly data: LandscapeData,
     colors: LandscapeColors,
   ) {
+    this.software = !claimGpu(canvas, {
+      alpha: true,
+      antialias: true,
+      depth: true,
+      stencil: false,
+      premultipliedAlpha: false,
+      powerPreference: 'default',
+    });
     this.renderer = new Renderer({
       canvas,
       dpr: Math.min(window.devicePixelRatio || 1, 2),

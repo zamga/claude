@@ -4,7 +4,7 @@ import { KRKA } from '../report/krka';
 import { Cited, FootnoteProvider, citations } from '../report/Footnotes';
 import { bindings } from '../report/bindings';
 import { dcf } from '../report/valuation';
-import { pct } from '../lib/format';
+import { pct, places } from '../lib/format';
 import styles from './Acts.module.css';
 
 const ACTS = [
@@ -113,7 +113,11 @@ function Pane({ act }: { act: number }) {
       <>
         <div className={styles.model}>
           {PATH.map((p, i) => (
-            <div key={p.label} className={styles.col} style={{ '--h': p.revenue / PEAK, '--i': i } as CSSProperties}>
+            <div
+              key={p.label}
+              className={styles.col}
+              style={{ '--h': places(p.revenue / PEAK, 3), '--i': i } as CSSProperties}
+            >
               <span className={styles.bar} data-forecast={p.forecast} />
               <span className={styles.year}>{p.label}</span>
             </div>

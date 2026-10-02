@@ -1,5 +1,6 @@
 import { useSyncExternalStore, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
+import { gpuDraws } from './gpu';
 
 /*
  * A small router. Production uses real paths (/report/krka); the single-file
@@ -91,14 +92,15 @@ export function href(path: string): string {
 /**
  * Move focus to the new page's heading. Pages load lazily, and while one loads
  * React keeps the outgoing page mounted but hidden, so wait for a heading that
- * is actually rendered before settling for the main landmark.
+ * is actually rendered (up to three seconds, however slowly frames come on a
+ * slow device) before settling for the main landmark.
  */
-function focusPage(frames = 40) {
+function focusPage(until = performance.now() + 3000) {
   const target = Array.from(document.querySelectorAll<HTMLElement>('[data-page-focus]')).find(
     (el) => el.getClientRects().length > 0,
   );
   if (target) target.focus({ preventScroll: true });
-  else if (frames > 0) requestAnimationFrame(() => focusPage(frames - 1));
+  else if (performance.now() < until) requestAnimationFrame(() => focusPage(until));
   else document.getElementById('main')?.focus({ preventScroll: true });
 }
 
@@ -110,6 +112,17 @@ function afterNavigate(scrollTop: boolean, anchor?: string) {
     focusPage();
   });
 }
+
+/*
+ * Page transitions only where a GPU composites the page. Compositing in
+ * software, Chrome can spend its whole four-second limit capturing these pages
+ * (masks under a named masthead and cover) and then draw no further frames, so
+ * there the page simply changes. A device that is slow to capture anyway (the
+ * old page is normally captured within a frame) gets no more transitions this
+ * visit: a page held behind a stalled transition is worse than a cut.
+ */
+const MOST_TO_CAPTURE = 400;
+let transitions = true;
 
 export function navigate(to: string) {
   const [path = '/', anchor] = to.split('#');
@@ -129,10 +142,13 @@ export function navigate(to: string) {
     else if (!same) afterNavigate(true);
   };
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!same && typeof document.startViewTransition === 'function' && !reduce) {
+  if (!same && transitions && !reduce && typeof document.startViewTransition === 'function' && gpuDraws()) {
     // Focus and scroll wait for the new page's DOM, not the outgoing snapshot.
     const transition = document.startViewTransition(() => flushSync(commit));
     transition.updateCallbackDone.then(after, after);
+    const slow = window.setTimeout(() => (transitions = false), MOST_TO_CAPTURE);
+    const captured = () => window.clearTimeout(slow);
+    transition.updateCallbackDone.then(captured, captured);
   } else {
     commit();
     after();

@@ -16,7 +16,7 @@ Slovenia's business register holds about 294,000 entities. Research desks cover 
 
 A banknote earns trust with security features anyone can check: hold it to the light and a watermark appears, tilt it and the foil changes colour, put it under a UV lamp and hidden ink glows. Uncovered makes the same promise about research (every claim can be checked), so the site lets you check it the same way. The report is a physical object you inspect, and light is the interface.
 
-- **Hold it to the light.** Move over the cover and a lamp shines through it from behind: the company's seal appears as a watermark, the security thread as a dark line, the fibres in the paper. The room dims around the sheet while you look.
+- **Hold it to the light.** Move over the cover and a lamp shines through it from behind: the company's seal appears as a watermark, the security thread as a dark line, the fibres in the paper, and the source printed under each figure becomes legible. While you hold it, the sheet turns toward the lamp and its shadow deepens; let go and it settles.
 - **Switch on the UV lamp** (the UV theme). The room goes dark and the lamp shines from the front: fluorescent fibres glow, and so does the invisible ink printed on every cover, which carries the source of each figure.
 - **Tilt it.** The foil under the seal shifts colour with the angle: the pointer on a desk, the phone's own tilt in the hand.
 - **Every company is engraved.** Its seal from its name; its value landscape from its own model. There is no stock photography. A photograph, when one is used, goes through the same engraving.

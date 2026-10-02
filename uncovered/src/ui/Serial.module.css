@@ -40,6 +40,11 @@
   white-space: pre;
 }
 
+/* A thin space between groups, as a gap: the typeface draws no U+2009, and asking for one fetches its whole Latin file. */
+.gap {
+  width: 0.2em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reel {
     transition: none;

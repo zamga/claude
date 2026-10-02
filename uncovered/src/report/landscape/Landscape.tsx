@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { moneyFor, pct } from '../../lib/format';
+import { moneyFor, pct, places } from '../../lib/format';
 import { prefersReducedMotion } from '../../lib/motion';
 import { token, useTheme } from '../../lib/theme';
 import { Odometer } from '../../ui/Odometer';
@@ -114,9 +114,9 @@ export function Landscape({ report }: { report: Report }) {
       renderRef.current();
     });
 
-    // Rise from the floor the first time the block is in view.
+    // Rise from the floor the first time the block is in view (or stand at once, drawn in software).
     const rise = () => {
-      if (prefersReducedMotion()) {
+      if (prefersReducedMotion() || scene?.software) {
         view.current.rise = 1;
         renderRef.current();
         return;
@@ -222,19 +222,19 @@ export function Landscape({ report }: { report: Report }) {
       >
         <canvas ref={canvasRef} className={styles.canvas} />
         <div ref={labelsRef} className={styles.labels} aria-hidden="true">
-          <span data-at={`0,0,${data.low}`} className={styles.tick}>
+          <span data-at={`0,0,${places(data.low)}`} className={styles.tick}>
             {pct(data.waccs[0]!)}
           </span>
-          <span data-at={`1,0,${data.low}`} className={styles.tick}>
+          <span data-at={`1,0,${places(data.low)}`} className={styles.tick}>
             {pct(data.waccs[N - 1]!)}
           </span>
-          <span data-at={`0.5,-0.08,${data.low}`} className={`${styles.axis} ${styles.axisX}`}>
+          <span data-at={`0.5,-0.08,${places(data.low)}`} className={`${styles.axis} ${styles.axisX}`}>
             Cost of capital →
           </span>
-          <span data-at={`1,1,${data.low}`} className={styles.tick}>
+          <span data-at={`1,1,${places(data.low)}`} className={styles.tick}>
             {pct(data.growths[M - 1]!)}
           </span>
-          <span data-at={`1.08,0.5,${data.low}`} className={`${styles.axis} ${styles.axisZ}`}>
+          <span data-at={`1.08,0.5,${places(data.low)}`} className={`${styles.axis} ${styles.axisZ}`}>
             Terminal growth →
           </span>
           {price !== undefined && (

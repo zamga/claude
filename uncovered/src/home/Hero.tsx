@@ -5,6 +5,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type FormEvent,
 } from 'react';
@@ -15,6 +16,7 @@ import { FootnoteProvider } from '../report/Footnotes';
 import { Link, navigate } from '../lib/router';
 import { normaliseName } from '../lib/random';
 import { COUNTRIES, setDraft } from '../lib/request';
+import { askForTilt, tiltNeedsPermission } from '../inspect/tilt';
 import styles from './Hero.module.css';
 
 // The first example needs only the basic Latin font subset, so the first screen loads no extra font.
@@ -28,6 +30,8 @@ const EXAMPLES = [
 ];
 const KRKA_VALUE = valueReport(KRKA);
 const KRKA_KEY = normaliseName('Krka');
+
+const never = () => () => {};
 
 // Layout effects only run in the browser; the server render keeps the headline at its natural size.
 const useBrowserLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
@@ -55,6 +59,13 @@ export function Hero() {
   const shown = useDeferredValue(company);
   const isKrka = shown.trim() === '' || normaliseName(shown).startsWith(KRKA_KEY);
   const named = headlineName(shown);
+  // Only a phone whose browser asks before reporting its tilt gets the offer, after hydration.
+  const askTilt = useSyncExternalStore(
+    never,
+    () => tiltNeedsPermission() && window.matchMedia('(pointer: coarse)').matches,
+    () => false,
+  );
+  const [tiltAnswered, setTiltAnswered] = useState(false);
 
   useEffect(() => {
     const t = window.setInterval(() => setExample((i) => (i + 1) % EXAMPLES.length), 2600);
@@ -203,6 +214,15 @@ export function Hero() {
               `Every company gets its own seal and paper. ${shown.trim()}’s are made from its name.`
             )}
           </p>
+          {askTilt && !tiltAnswered && (
+            <button
+              type="button"
+              className={styles.tilt}
+              onClick={() => void askForTilt().then(() => setTiltAnswered(true))}
+            >
+              Tilt the phone to move the foil
+            </button>
+          )}
         </div>
       </div>
 

@@ -310,8 +310,8 @@
   pointer-events: none;
   --spot: radial-gradient(
     circle var(--lamp-r, 26cqi) at calc(var(--lx, -9999px) - var(--ox, 0px)) calc(var(--ly, -9999px) - var(--oy, 0px)),
-    #000 0%,
-    #000 38%,
+    rgb(0 0 0 / var(--lit, 0)) 0%,
+    rgb(0 0 0 / var(--lit, 0)) 38%,
     transparent 100%
   );
 }
@@ -325,7 +325,6 @@
   line-height: 1;
   letter-spacing: 0.05em;
   color: var(--intaglio);
-  opacity: 0.72;
   transform: translateY(-50%);
   -webkit-mask-image: var(--spot), linear-gradient(#000, #000);
   -webkit-mask-composite: xor;
@@ -340,7 +339,6 @@
   line-height: 1;
   letter-spacing: 0.035em;
   color: var(--intaglio);
-  opacity: var(--lit, 0);
   transform: translateY(-50%);
   text-shadow: 0 0 calc(var(--uv) * 0.6em) color-mix(in srgb, var(--ovi-a) 75%, transparent);
   -webkit-mask-image: var(--spot);

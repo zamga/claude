@@ -111,6 +111,29 @@
   color: var(--ovi-b);
 }
 
+/* What choosing the seal does: part of the link's name always, shown once the seal is engraved or on hover. */
+.action {
+  font-size: var(--t-xs);
+  font-weight: 650;
+  color: var(--ovi-b);
+  opacity: 0;
+  transform: translateY(-3px);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+.covered .action {
+  color: var(--intaglio);
+}
+
+.card:hover .action,
+.card:focus-visible .action,
+.card[data-engraved] .action {
+  opacity: 1;
+  transform: none;
+}
+
 .card[data-engraved] .dot {
   background: var(--ovi-b);
 }

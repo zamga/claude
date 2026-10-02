@@ -1,6 +1,8 @@
 @import '@fontsource-variable/bodoni-moda/opsz.css';
 @import '@fontsource-variable/bodoni-moda/opsz-italic.css';
 @import '@fontsource-variable/hanken-grotesk/index.css';
+/* The core character set of each face, cut small and declared last so it wins (scripts/subset-fonts.py). */
+@import './fonts.css';
 
 *,
 *::before,

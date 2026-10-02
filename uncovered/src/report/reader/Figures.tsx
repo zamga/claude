@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { moneyFor, num, pct, signedPct, type Money } from '../../lib/format';
+import { moneyFor, num, pct, places, signedPct, type Money } from '../../lib/format';
 import { Cited, Ref } from '../Footnotes';
 import type { Line, Period, Report } from '../types';
 import { basisOf, costOfEquity, ddm, dividendModel, implied, impliedMultiples, type Valuation } from '../valuation';
@@ -294,7 +294,11 @@ export function DividendBars({ report, no }: { report: Report; no: string }) {
     >
       <ol className={styles.columns} role="list">
         {bars.map((b) => (
-          <li key={b.year} data-estimate={b.estimate || undefined} style={{ '--h': b.dps / max } as CSSProperties}>
+          <li
+            key={b.year}
+            data-estimate={b.estimate || undefined}
+            style={{ '--h': places(b.dps / max, 3) } as CSSProperties}
+          >
             <span className={styles.colValue}>
               {money.amount(b.dps)}
               {b.sourceId && <Ref id={b.sourceId} />}

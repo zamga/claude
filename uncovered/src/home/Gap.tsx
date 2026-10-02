@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSeen, useWidth } from '../lib/hooks';
 import { prefersReducedMotion } from '../lib/motion';
 import { token, useTheme } from '../lib/theme';
-import { scrollKit } from '../motion/scroll';
+import { whenNear } from '../motion/scroll';
 import styles from './Gap.module.css';
 
 const ENTITIES = 294_000;
@@ -102,23 +102,23 @@ export function Gap() {
     };
     field.addEventListener('pointermove', move);
     field.addEventListener('pointerleave', leave);
-    let revert = () => {};
-    let cancelled = false;
-    void scrollKit().then(({ ScrollTrigger }) => {
-      if (cancelled) return;
-      const trigger = ScrollTrigger.create({
-        trigger: field,
-        start: 'top 85%',
-        end: 'bottom 45%',
-        scrub: true,
-        onUpdate: (self) => sweep(self.progress),
-      });
-      sweep(trigger.progress);
-      revert = () => trigger.kill();
-    });
+    const cancel = whenNear(
+      field,
+      ({ ScrollTrigger }) => {
+        const trigger = ScrollTrigger.create({
+          trigger: field,
+          start: 'top 85%',
+          end: 'bottom 45%',
+          scrub: true,
+          onUpdate: (self) => sweep(self.progress),
+        });
+        sweep(trigger.progress);
+        return () => trigger.kill();
+      },
+      '15%',
+    );
     return () => {
-      cancelled = true;
-      revert();
+      cancel();
       field.removeEventListener('pointermove', move);
       field.removeEventListener('pointerleave', leave);
     };

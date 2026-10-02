@@ -1,6 +1,7 @@
-import { Mesh, Program, Renderer, Texture, Triangle } from 'ogl';
+import { Mesh, Program, Renderer, RenderTarget, Texture, Triangle } from 'ogl';
+import { claimGpu } from '../lib/gpu';
 import type { LampState } from './lamp';
-import { paperMap } from './paperMap';
+import { WATERMARK, watermarkImage } from './paperMap';
 
 /*
  * The sheet itself, drawn by one fragment shader under the cover's printed
@@ -98,23 +99,80 @@ function rgb(color: string, fallback: [number, number, number]): [number, number
   return [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255) as [number, number, number];
 }
 
-/** WebGL that can run this shader, and a person who has not asked to save data. */
-export function canInspect(): boolean {
+/** The paper is decoration: leave it out for a person who has asked to save data. */
+export function wantsPaper(): boolean {
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  if (connection?.saveData) return false;
-  try {
-    const probe = document.createElement('canvas');
-    return Boolean(probe.getContext('webgl2') ?? probe.getContext('webgl'));
-  } catch {
-    return false;
-  }
+  return !connection?.saveData;
 }
+
+/*
+ * The paper's map is baked once on the GPU, never drawn on the CPU: R the
+ * watermark (from a small canvas of the company's seal), G the fibres seen
+ * against the light, B the fluorescent fibres, A the hue each glows in. Each
+ * fibre is a short straight strand, one in about half of the cells of a
+ * grid, found from the nine cells around a point.
+ */
+const BAKE = /* glsl */ `
+precision highp float;
+varying vec2 vUv;
+uniform sampler2D uWatermark;
+uniform vec4 uMark;
+uniform float uSeed;
+uniform vec2 uCells;
+
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+vec2 fibre(vec2 st, float cells, float aspect, float seed) {
+  vec2 p = st * vec2(cells, cells * aspect);
+  vec2 cell = floor(p);
+  float best = 0.0;
+  float hue = 0.0;
+  for (int j = -1; j <= 1; j++) {
+    for (int i = -1; i <= 1; i++) {
+      vec2 c = cell + vec2(float(i), float(j));
+      float present = step(0.48, hash(c + seed * 5.3));
+      vec2 centre = c + vec2(hash(c + seed), hash(c + seed * 2.1));
+      float ang = hash(c + seed * 1.7) * 6.2831853;
+      vec2 reach = vec2(cos(ang), sin(ang)) * (0.45 + 0.65 * hash(c + seed * 3.1)) * 0.5;
+      vec2 a = centre - reach;
+      vec2 ba = 2.0 * reach;
+      float t = clamp(dot(p - a, ba) / dot(ba, ba), 0.0, 1.0);
+      float d = length(p - a - ba * t);
+      float w = 0.045 + 0.03 * hash(c + seed * 4.7);
+      float v = present * (1.0 - smoothstep(w * 0.5, w * 1.6, d)) * (0.45 + 0.55 * hash(c + seed * 6.1));
+      if (v > best) {
+        best = v;
+        hue = hash(c + seed * 7.9);
+      }
+    }
+  }
+  return vec2(best, hue);
+}
+
+void main() {
+  vec2 st = vec2(vUv.x, 1.0 - vUv.y);
+  float aspect = uMark.w;
+  vec2 wm = (st - uMark.xy) * vec2(1.0, aspect) / (2.0 * uMark.z) + 0.5;
+  float inside = step(0.0, wm.x) * step(wm.x, 1.0) * step(0.0, wm.y) * step(wm.y, 1.0);
+  float mark = inside * texture2D(uWatermark, vec2(wm.x, 1.0 - wm.y)).r;
+  vec2 day = fibre(st, uCells.x, aspect, uSeed);
+  vec2 glow = fibre(st, uCells.y, aspect, uSeed + 13.0);
+  gl_FragColor = vec4(mark, day.x, glow.x, glow.y);
+}`;
+
+const BAKE_WIDTH = 1024;
 
 export class Paper {
   private readonly renderer: Renderer;
   private readonly program: Program;
   private readonly mesh: Mesh;
-  private texture: Texture;
+  private readonly bakeProgram: Program;
+  private readonly bakeMesh: Mesh;
+  private readonly watermark: Texture;
+  private target: RenderTarget;
+  private aspect = 297 / 210;
   private lost = false;
 
   constructor(
@@ -122,49 +180,67 @@ export class Paper {
     seed: string,
     private readonly onLost: () => void,
   ) {
-    this.renderer = new Renderer({
-      canvas,
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
-      alpha: false,
-      antialias: false,
-      depth: false,
-      powerPreference: 'low-power',
-    });
+    const attributes = { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' } as const;
+    // The paper is decoration: drawn in software it would cost more than it gives, so the sheet stays plain.
+    if (!claimGpu(canvas, { ...attributes, stencil: false, premultipliedAlpha: false })) {
+      throw new Error('No GPU to draw the paper');
+    }
+    this.renderer = new Renderer({ canvas, dpr: Math.min(window.devicePixelRatio || 1, 2), ...attributes });
     const gl = this.renderer.gl;
-    this.texture = this.makeTexture(seed);
-    this.program = new Program(gl, {
-      vertex: VERTEX,
-      fragment: FRAGMENT,
-      uniforms: {
-        uMap: { value: this.texture },
-        uLight: { value: [0.7, 0.6] },
-        uLit: { value: 0 },
-        uUV: { value: 0 },
-        uTilt: { value: [0, 0] },
-        uFoil: { value: [0.8, 0.2, 0] },
-        uAspect: { value: 297 / 210 },
-        uPaper: { value: [1, 1, 1] },
-        uPaperUV: { value: [0.086, 0.078, 0.122] },
-        uThread: { value: [0.034, 0.0045] },
-      },
-    });
-    this.mesh = new Mesh(gl, { geometry: new Triangle(gl), program: this.program });
-    canvas.addEventListener('webglcontextlost', this.contextLost, false);
-  }
-
-  private makeTexture(seed: string): Texture {
-    const gl = this.renderer.gl;
-    const map = paperMap(seed);
-    return new Texture(gl, {
-      image: map.data,
-      width: map.width,
-      height: map.height,
+    const triangle = new Triangle(gl);
+    this.watermark = new Texture(gl, {
+      image: watermarkImage(seed),
       generateMipmaps: false,
       minFilter: gl.LINEAR,
       magFilter: gl.LINEAR,
       wrapS: gl.CLAMP_TO_EDGE,
       wrapT: gl.CLAMP_TO_EDGE,
     });
+    this.bakeProgram = new Program(gl, {
+      vertex: VERTEX,
+      fragment: BAKE,
+      uniforms: {
+        uWatermark: { value: this.watermark },
+        uMark: { value: [WATERMARK.x, WATERMARK.y, WATERMARK.r, this.aspect] },
+        uSeed: { value: seedNumber(seed) },
+        uCells: { value: [70, 26] },
+      },
+    });
+    this.bakeMesh = new Mesh(gl, { geometry: triangle, program: this.bakeProgram });
+    this.target = this.makeTarget();
+    this.program = new Program(gl, {
+      vertex: VERTEX,
+      fragment: FRAGMENT,
+      uniforms: {
+        uMap: { value: this.target.texture },
+        uLight: { value: [0.7, 0.6] },
+        uLit: { value: 0 },
+        uUV: { value: 0 },
+        uTilt: { value: [0, 0] },
+        uFoil: { value: [0.8, 0.2, 0] },
+        uAspect: { value: this.aspect },
+        uPaper: { value: [1, 1, 1] },
+        uPaperUV: { value: [0.086, 0.078, 0.122] },
+        uThread: { value: [0.034, 0.0045] },
+      },
+    });
+    this.mesh = new Mesh(gl, { geometry: triangle, program: this.program });
+    this.bake();
+    canvas.addEventListener('webglcontextlost', this.contextLost, false);
+  }
+
+  private makeTarget(): RenderTarget {
+    return new RenderTarget(this.renderer.gl, {
+      width: BAKE_WIDTH,
+      height: Math.round(BAKE_WIDTH * this.aspect),
+      depth: false,
+    });
+  }
+
+  /** Bake the map for the sheet's current proportions. */
+  private bake() {
+    this.bakeProgram.uniforms.uMark!.value = [WATERMARK.x, WATERMARK.y, WATERMARK.r, this.aspect];
+    this.renderer.render({ scene: this.bakeMesh, target: this.target });
   }
 
   private contextLost = (e: Event) => {
@@ -175,8 +251,10 @@ export class Paper {
 
   /** A new company: its own watermark and fibres. */
   setSeed(seed: string) {
-    this.texture = this.makeTexture(seed);
-    this.program.uniforms.uMap!.value = this.texture;
+    this.watermark.image = watermarkImage(seed);
+    this.watermark.needsUpdate = true;
+    this.bakeProgram.uniforms.uSeed!.value = seedNumber(seed);
+    this.bake();
   }
 
   /** Daylight or UV, with the sheet's colour in each from the page's tokens. */
@@ -192,11 +270,18 @@ export class Paper {
     this.program.uniforms.uFoil!.value = [x, y, r];
   }
 
-  /** The sheet's size in CSS pixels. */
+  /** The sheet's size in CSS pixels. A sheet whose proportions change is baked again, so fibres stay round. */
   resize(width: number, height: number) {
     if (width < 1 || height < 1) return;
     this.renderer.setSize(width, height);
-    this.program.uniforms.uAspect!.value = height / width;
+    const aspect = height / width;
+    this.program.uniforms.uAspect!.value = aspect;
+    if (Math.abs(aspect - this.aspect) / this.aspect > 0.02) {
+      this.aspect = aspect;
+      this.target = this.makeTarget();
+      this.program.uniforms.uMap!.value = this.target.texture;
+      this.bake();
+    }
   }
 
   render(state: LampState) {
@@ -212,4 +297,11 @@ export class Paper {
     this.renderer.gl.canvas.removeEventListener('webglcontextlost', this.contextLost);
     this.renderer.gl.getExtension('WEBGL_lose_context')?.loseContext();
   }
+}
+
+/** A small number from a name, for the shader's hashes (kept small so float precision holds). */
+function seedNumber(seed: string): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) % 9973;
+  return h / 97;
 }

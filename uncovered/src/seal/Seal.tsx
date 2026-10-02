@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { sealSpec, type SealDetail } from './guilloche';
 import { SealRenderer } from './renderer';
+import { places } from '../lib/format';
 import { prefersReducedMotion } from '../lib/motion';
 import { token, useTheme } from '../lib/theme';
 import styles from './Seal.module.css';
@@ -149,7 +150,7 @@ export function Seal({
                 <textPath
                   href={`#${pathId}`}
                   startOffset="0"
-                  textLength={TAU_R(spec.textRadius) * 0.995}
+                  textLength={places(TAU_R(spec.textRadius) * 0.995, 3)}
                   lengthAdjust="spacing"
                 >
                   {ringText}
@@ -164,12 +165,18 @@ export function Seal({
                 x="0"
                 y={submark ? 0.02 : 0.05}
                 textAnchor="middle"
-                fontSize={spec.hub * (monogram.length > 3 ? 0.62 : 0.85)}
+                fontSize={places(spec.hub * (monogram.length > 3 ? 0.62 : 0.85), 3)}
               >
                 {monogram}
               </text>
               {submark && (
-                <text className={styles.submark} x="0" y={spec.hub * 0.58} textAnchor="middle" fontSize={0.034}>
+                <text
+                  className={styles.submark}
+                  x="0"
+                  y={places(spec.hub * 0.58, 3)}
+                  textAnchor="middle"
+                  fontSize={0.034}
+                >
                   {submark}
                 </text>
               )}

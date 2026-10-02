@@ -2,7 +2,7 @@ import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { Link } from '../lib/router';
 import { useSeen } from '../lib/hooks';
 import { prefersReducedMotion } from '../lib/motion';
-import { scrollKit } from '../motion/scroll';
+import { whenNear } from '../motion/scroll';
 import { Seal } from '../seal/Seal';
 import styles from './Anatomy.module.css';
 
@@ -30,10 +30,7 @@ export function Anatomy() {
   useEffect(() => {
     const list = ref.current;
     if (!list || prefersReducedMotion() || !window.matchMedia('(min-width: 64rem) and (pointer: fine)').matches) return;
-    let revert = () => {};
-    let cancelled = false;
-    void scrollKit().then(({ gsap }) => {
-      if (cancelled) return;
+    const cancel = whenNear(list, ({ gsap }) => {
       list.dataset.scrub = '';
       const ctx = gsap.context(() => {
         const deals = Array.from(list.querySelectorAll<HTMLElement>('[data-deal]'));
@@ -61,11 +58,10 @@ export function Anatomy() {
         });
         timeline.from(metas, { opacity: 0, y: 12, ease: 'power1.out', stagger: 0.05, duration: 0.5 }, 0.55);
       }, list);
-      revert = () => ctx.revert();
+      return () => ctx.revert();
     });
     return () => {
-      cancelled = true;
-      revert();
+      cancel();
       delete list.dataset.scrub;
     };
   }, [ref]);

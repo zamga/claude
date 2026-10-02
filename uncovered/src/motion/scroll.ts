@@ -41,11 +41,35 @@ export function scrollKit(): Promise<ScrollKit> {
   return kit;
 }
 
-/** Start smooth scrolling once the page has settled, if this person's setup wants it. */
+/** Smooth scrolling starts with the first turn of the wheel, if this person's setup wants it: nothing loads before. */
 export function startSmoothScroll() {
   if (typeof window === 'undefined' || !smoothWanted()) return;
-  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-  const go = () => void scrollKit();
-  if (w.requestIdleCallback) w.requestIdleCallback(go, { timeout: 2500 });
-  else window.setTimeout(go, 1200);
+  window.addEventListener('wheel', () => void scrollKit(), { once: true, passive: true });
+}
+
+/**
+ * Run `start` with the scroll kit once `el` comes within `margin` of the viewport (a screen and a half
+ * by default), so the choreography's code loads only for a person on their way to it. A section just
+ * below the first screen passes a small margin, so nothing loads before anyone scrolls. Returns a
+ * function that cancels.
+ */
+export function whenNear(el: Element, start: (kit: ScrollKit) => () => void, margin = '150%'): () => void {
+  let stop = () => {};
+  let cancelled = false;
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      void scrollKit().then((kit) => {
+        if (!cancelled) stop = start(kit);
+      });
+    },
+    { rootMargin: `${margin} 0px ${margin} 0px` },
+  );
+  io.observe(el);
+  return () => {
+    cancelled = true;
+    io.disconnect();
+    stop();
+  };
 }

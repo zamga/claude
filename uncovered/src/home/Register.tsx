@@ -16,7 +16,7 @@ import styles from './Register.module.css';
 const WAITING: { name: string; mark: string; listed: boolean }[] = [
   { name: 'Petrol d.d.', mark: 'PETG', listed: true },
   { name: 'Pipistrel d.o.o.', mark: 'P', listed: false },
-  { name: 'Akrapovič d.d.', mark: 'A', listed: false },
+  { name: 'Lek d.d.', mark: 'L', listed: false },
   { name: 'Luka Koper d.d.', mark: 'LKPG', listed: true },
   { name: 'Gorenje d.o.o.', mark: 'G', listed: false },
   { name: 'Elan d.o.o.', mark: 'E', listed: false },
@@ -52,11 +52,7 @@ export function Register() {
       <div className="page">
         <ul className={styles.grid} role="list">
           <li className={styles.covered}>
-            <Link
-              to="/report/krka"
-              className={styles.card}
-              aria-label={`${KRKA.company.legalName}: covered. Read the initiation.`}
-            >
+            <Link to="/report/krka" className={styles.card}>
               <Seal
                 seed={KRKA.company.legalName}
                 size={152}
@@ -72,6 +68,7 @@ export function Register() {
                 <span className={styles.dot} aria-hidden="true" />
                 Covered {longDate(KRKA.date)}
               </span>
+              <span className={styles.action}>Read the initiation →</span>
             </Link>
           </li>
           {WAITING.map((c, i) => {
@@ -85,7 +82,6 @@ export function Register() {
                   onPointerEnter={() => engrave(c.name)}
                   onFocus={() => engrave(c.name)}
                   onClick={() => setDraft({ company: c.name, country: 'Slovenia' })}
-                  aria-label={`${c.name}: not yet covered. Initiate coverage.`}
                 >
                   <Seal
                     seed={c.name}
@@ -100,8 +96,9 @@ export function Register() {
                   <span className={styles.name}>{c.name.replace(/ (d\.d\.|d\.o\.o\.)$/, '')}</span>
                   <span className={styles.status}>
                     <span className={styles.dot} aria-hidden="true" />
-                    {done ? 'Initiate coverage →' : 'Not yet covered'}
+                    Not yet covered
                   </span>
+                  <span className={styles.action}>Initiate coverage →</span>
                 </Link>
               </li>
             );
