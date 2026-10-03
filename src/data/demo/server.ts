@@ -147,6 +147,18 @@ export class DemoServer {
     return DEMO_START + this.db.clockOffsetMs;
   }
 
+  /**
+   * A timestamp for something the person creates or saves (notes, saved research, lists, alerts).
+   * It belongs to the simulated session, like everything else on screen, rather than to the wall
+   * clock, and moves forward by at least a second per stamp so newest-first order stays exact while
+   * the market clock stands still. Session security and cooldowns keep using real time.
+   */
+  private stamp(): string {
+    const at = Math.max(this.now(), (this.db.lastStamp ?? 0) + 1000);
+    this.db.lastStamp = at;
+    return iso(at);
+  }
+
   private commit(): void {
     writeDb(this.db);
   }
@@ -1233,7 +1245,7 @@ export class DemoServer {
             details: check.duplicateOf ? { existingId: check.duplicateOf } : {},
           });
         }
-        const now = iso(Date.now());
+        const now = this.stamp();
         const list: Watchlist = {
           id: newId('wl'),
           name: check.value,
@@ -1268,7 +1280,7 @@ export class DemoServer {
     }
     list.name = check.value;
     list.version += 1;
-    list.updatedAt = iso(Date.now());
+    list.updatedAt = this.stamp();
     this.commit();
     return list;
   }
@@ -1289,14 +1301,15 @@ export class DemoServer {
     const list = this.ownedList(user, listId);
     this.resolveInstrument(instrumentId);
     if (!list.members.some((member) => member.instrumentId === instrumentId)) {
+      const at = this.stamp();
       list.members.push({
         instrumentId,
         symbol: INSTRUMENT_BY_ID.get(instrumentId)!.symbol,
         position: list.members.length,
-        addedAt: iso(Date.now()),
+        addedAt: at,
       });
       list.version += 1;
-      list.updatedAt = iso(Date.now());
+      list.updatedAt = at;
       this.commit();
     }
     // Duplicate membership is an idempotent success (spec page 49).
@@ -1312,7 +1325,7 @@ export class DemoServer {
       .map((member, position) => ({ ...member, position }));
     if (list.members.length !== before) {
       list.version += 1;
-      list.updatedAt = iso(Date.now());
+      list.updatedAt = this.stamp();
       this.commit();
     }
     return list;
@@ -1330,11 +1343,11 @@ export class DemoServer {
     const existing = user.savedReports.find((saved) => saved.reportId === reportId);
     if (existing) {
       existing.version = version;
-      existing.savedAt = iso(Date.now());
+      existing.savedAt = this.stamp();
       this.commit();
       return existing;
     }
-    const saved: SavedReport = { reportId, version, savedAt: iso(Date.now()), readingOffset: 0 };
+    const saved: SavedReport = { reportId, version, savedAt: this.stamp(), readingOffset: 0 };
     user.savedReports.unshift(saved);
     this.commit();
     return saved;
@@ -1367,7 +1380,7 @@ export class DemoServer {
         ...input,
         id: existing?.id ?? newId('scn'),
         version: (existing?.version ?? 0) + 1,
-        savedAt: iso(Date.now()),
+        savedAt: this.stamp(),
       };
       user.scenarios = [saved, ...user.scenarios.filter((scenario) => scenario.id !== saved.id)];
       this.commit();
@@ -1527,7 +1540,7 @@ export class DemoServer {
     return this.idempotent(idempotencyKey, { op: 'createAlert', input }, () => {
       const { threshold } = this.validateRule(user, input);
       const instrument = INSTRUMENT_BY_ID.get(input.instrumentId)!;
-      const now = iso(Date.now());
+      const now = this.stamp();
       let rule: AlertRule = {
         id: newId('rule'),
         instrumentId: input.instrumentId,
@@ -1634,7 +1647,7 @@ export class DemoServer {
       repeat: input.repeat,
       channels: input.channels,
       version: rule.version + 1,
-      updatedAt: iso(Date.now()),
+      updatedAt: this.stamp(),
     };
     // Editing the condition resets the baseline (spec page 52).
     if (rule.type === 'price') next = this.rearm(next);
@@ -1655,7 +1668,7 @@ export class DemoServer {
         { details: { latest: rule } },
       );
     }
-    let next: AlertRule = { ...rule, version: rule.version + 1, updatedAt: iso(Date.now()) };
+    let next: AlertRule = { ...rule, version: rule.version + 1, updatedAt: this.stamp() };
     if (paused) next = { ...next, state: 'paused' };
     else next = rule.type === 'price' ? this.rearm(next) : { ...next, state: 'armed' };
     // Pausing cancels unsent deliveries for this rule.
@@ -1917,7 +1930,7 @@ export class DemoServer {
         throw new ApiError('validation', 'Check the highlighted fields.', {
           fieldErrors: { body: error },
         });
-      const now = iso(Date.now());
+      const now = this.stamp();
       const entry: JournalEntry = {
         id: newId('jnl'),
         instrumentId,
@@ -1960,7 +1973,7 @@ export class DemoServer {
     const next: ReviewTrigger = {
       instrumentId,
       text: text.trim(),
-      updatedAt: iso(Date.now()),
+      updatedAt: this.stamp(),
       version: (existing?.version ?? 0) + 1,
     };
     user.reviewTriggers = [

@@ -17,12 +17,20 @@ own rule (page 41): nothing is marked as passing without a recorded run.
 
 - **Build**: branch `claude/new-session-pjhs5b`, 3 October 2026, demo mode (`VITE_DATA_MODE=demo`),
   production bundle served by `vite preview`.
-- **Unit**: Vitest 5.0.3 on Node 22.22.0 — 90 tests in 10 files, all passing.
+- **Unit**: Vitest 5.0.3 on Node 22.22.0 — 91 tests in 11 files, all passing.
 - **Browser**: Playwright 1.63.0 driving Chromium 141.0.7390.37 (headless). Two projects run every
   spec: **phone** (Pixel 7 emulation, 412 px, touch) and **desktop** (1440 × 900, split view).
-  Locale en-GB, time zone Europe/Ljubljana. Result: **82 passed, 4 skipped** (phone-only checks on
-  the desktop project). The navigation and accessibility specs were also repeated 3× under four
-  parallel workers: 144 passed.
+  Locale en-GB, time zone Europe/Ljubljana. Result: **100 passed, 4 skipped** (phone-only checks on
+  the desktop project), including the journeys J01–J08 in `journeys`. The navigation and
+  accessibility specs were also repeated 3× under four parallel workers: 144 passed.
+- **Click-through audit** (`npm run audit:clicks`, not in CI): every routed screen, signed in and
+  signed out, with each control activated on its own from a fresh load and then every control that
+  activation revealed (sheets, dialogs, menus). Phone and desktop on the production build: 3,677
+  activations. Found and fixed: sign-out leaving signed-in state on screen, saved items stamped
+  with the wall clock, a desktop deep link showing another tab's list, a dead "Refresh all data".
+  Final runs: no JavaScript errors, error screens, failed requests or links out of the app; every
+  activation without a visible effect is a current tab, a disabled control that explains itself or
+  a component-catalogue specimen.
 - **Accessibility**: axe-core 4.13 with WCAG 2.0/2.1/2.2 A and AA rules plus axe best practices,
   on 35 routes in both layouts. The gate fails on any violation of any impact. Result: none.
 - **Lighthouse**: 12.6.1 through LHCI 0.15.1, mobile form factor, simulated throttling (150 ms RTT,
@@ -117,18 +125,18 @@ Spec names below refer to `tests/e2e/<name>.spec.ts`; unit names to `src/**/__te
 
 ## Journeys J01–J10 (spec page 46)
 
-| ID  | Journey              | Status    | Evidence and gap                                                                                                                                                                                                                                                 |
-| --- | -------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| J01 | First use            | PARTIAL   | `auth`: register → verify in the demo mailbox → preferences → resume the original destination → first-use watchlist. Saving from a pick, reload and a second device: NOT RUN.                                                                                    |
-| J02 | Research             | NOT RUN   | Each screen is built; the journey has no end-to-end test.                                                                                                                                                                                                        |
-| J03 | Catalyst             | PARTIAL   | Calendar → event → reminder is built; unconfirmed times are labelled; reminders skip postponed and cancelled events. The demo cannot reschedule an event, so that leg is NOT RUN.                                                                                |
-| J04 | Alert                | PARTIAL   | Preview → confirm → exactly one rule: PASS. Firing runs in the in-browser demo engine (inbox, demo mailbox, browser notification). "Close the app, server observes": configuration required.                                                                     |
-| J05 | Paper tracking       | PARTIAL   | A buy is previewed (shares after), saved once and recorded in the position; overselling is refused: PASS. Cash and average cost on screen, journal notes, a partial sell and the return comparison: built, NOT RUN end to end; their arithmetic PASS (F03, F04). |
-| J06 | Honest history       | PARTIAL   | Losses, a delisted instrument and pending windows are in the archive (unit PASS). The browser journey: NOT RUN.                                                                                                                                                  |
-| J07 | Recovery             | PARTIAL   | Offline reading and recovery: PASS. A save attempted offline and token expiry: NOT RUN.                                                                                                                                                                          |
-| J08 | Account lifecycle    | NOT RUN   | Change email, devices, export and deletion are built against the demo service; revoking a real second session needs the server.                                                                                                                                  |
-| J09 | Publisher            | Not built | No editorial or review tools in this repository.                                                                                                                                                                                                                 |
-| J10 | Optional paid access | Not built | Billing is off.                                                                                                                                                                                                                                                  |
+| ID  | Journey              | Status    | Evidence and gap                                                                                                                                                                                                                                                        |
+| --- | -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| J01 | First use            | PARTIAL   | `auth`: register → verify in the demo mailbox → preferences → resume the original destination → first-use watchlist. `journeys` J01: a guest saves a pick → sign in → back on the pick → saved; reload and a second tab show it. A second real device needs the server. |
+| J02 | Research             | PARTIAL   | `journeys` J02: search → filter → pick → thesis → source sheet → valuation edit → saved scenario, which reopens with its values and its original reference price and time. A failed range or source request is not simulated: NOT RUN.                                  |
+| J03 | Catalyst             | PARTIAL   | `journeys` J03: calendar → event → reminder (preview, confirm) → the rule; an unknown release time reads as unconfirmed: PASS. The demo cannot reschedule an event, so that leg is NOT RUN.                                                                             |
+| J04 | Alert                | PARTIAL   | Preview → confirm → exactly one rule: PASS. Firing runs in the in-browser demo engine (inbox, demo mailbox, browser notification). "Close the app, server observes": configuration required.                                                                            |
+| J05 | Paper tracking       | PASS      | `journeys` J05: insufficient cash refused → buy → average entry → journal note → partial sell → realized result and trade history after reload → return against the benchmark. Overselling refused (`portfolio`).                                                       |
+| J06 | Honest history       | PASS      | `journeys` J06: archive (pending windows, a delisted instrument) → losses filter → the losing pick → matched-benchmark outcome → research as published (v1) → the revision (v2).                                                                                        |
+| J07 | Recovery             | PARTIAL   | `offline`: reading and recovery. `journeys` J07: a save attempted offline is explained, then saves once reconnected: PASS. Token expiry: NOT RUN.                                                                                                                       |
+| J08 | Account lifecycle    | PARTIAL   | `journeys` J08: change email → verify in the demo mailbox → export downloaded → deletion confirmed → signed out, and the account cannot sign in again: PASS. Revoking a real second session needs the server.                                                           |
+| J09 | Publisher            | Not built | No editorial or review tools in this repository.                                                                                                                                                                                                                        |
+| J10 | Optional paid access | Not built | Billing is off.                                                                                                                                                                                                                                                         |
 
 ## Platform and operations (spec pages 42–57, 61–64)
 

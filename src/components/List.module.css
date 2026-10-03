@@ -59,7 +59,8 @@
   box-shadow: inset 2px 0 0 var(--accent-deco);
 }
 
-.row[data-selected='true'] .main {
+.row[data-selected='true'] .main,
+.row[data-selected='true'] .footer {
   padding-left: var(--space-3);
 }
 
@@ -99,9 +100,10 @@
 
 .kv {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: 2px var(--space-4);
   min-height: 40px;
   padding: var(--space-2) 0;
   border-bottom: var(--hairline) solid var(--rule);
@@ -113,8 +115,15 @@
   color: var(--fg);
 }
 
+/*
+ * The value takes the rest of the line and wraps there; only when one of its words no longer fits
+ * beside the label (enlarged text) does it move under it, still aligned right.
+ */
 .kv dd {
+  flex: 1 1 0;
+  max-width: 100%;
   margin: 0;
+  overflow-wrap: break-word;
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-weight: var(--weight-medium);
@@ -165,7 +174,8 @@
     text-align: left;
   }
 
-  .row[data-reflow='true'] .chevron {
+  .row[data-reflow='true'] .chevron,
+  .row[data-reflow='true'] .action {
     grid-area: 1 / 3;
   }
 }

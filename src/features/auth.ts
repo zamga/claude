@@ -27,8 +27,9 @@ export function useCompleteSignIn() {
   const { push } = useAppNavigation();
   return useCallback(
     async (me: Me, returnTo: string | null) => {
-      queryClient.removeQueries({ queryKey: ['private'] });
       queryClient.setQueryData(qk.me, me);
+      // Another account's private data is reset in place; mounted screens refetch as this account.
+      void queryClient.resetQueries({ queryKey: ['private'] });
       const target = safeReturnTo(returnTo);
       let onboarded = true;
       try {

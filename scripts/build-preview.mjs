@@ -44,10 +44,15 @@ for (const name of assets.filter((file) => file.endsWith('.css'))) {
 const html = readFileSync(join(out, 'index.html'), 'utf8');
 const pick = (pattern) => [...html.matchAll(pattern)].map((match) => match[0]);
 const styles = pick(/<style[^>]*>[\s\S]*?<\/style>/g).map(embedFonts);
-// Entry stylesheets are inlined, so the first frame never waits on a second request.
+// Entry stylesheets are inlined, so the first frame never waits on a second request. A typed link
+// (neither fetched nor applied) tells Vite's chunk loader each file is already present, so the
+// first lazy route does not download it again. The app moves both into <head> at start.
 const linkedStyles = [
   ...html.matchAll(/<link rel="stylesheet"[^>]*href="\.\/(assets\/[^"]+\.css)"[^>]*>/g),
-].map(([, file]) => `<style>${readFileSync(join(out, file), 'utf8')}</style>`);
+].map(
+  ([, file]) =>
+    `<style data-href="./${file}">${readFileSync(join(out, file), 'utf8')}</style><link rel="stylesheet" type="text/x-inlined" href="./${file}">`,
+);
 const scripts = pick(/<script type="module"[^>]*><\/script>/g);
 const preloads = pick(/<link rel="modulepreload"[^>]*>/g);
 const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1]?.trim() ?? '<div id="root"></div>';

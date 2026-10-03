@@ -24,7 +24,7 @@ import { qk, useSessions } from '@/data/queries';
 import type { SessionInfo } from '@/data/types';
 import { PasswordField } from '@/features/PasswordField';
 import { QueryState, useOffline } from '@/features/status';
-import { deviceTimeZone } from '@/features/time';
+import { useUserTimeZone } from '@/features/time';
 import { useDocumentTitle } from '@/features/title';
 import { haptics } from '@/lib/haptics';
 import shared from '../shared.module.css';
@@ -32,6 +32,7 @@ import shared from '../shared.module.css';
 /** Password change, active sessions with revocation, and an honest two-step verification status. */
 export default function AccountSecurityScreen() {
   const sessions = useSessions();
+  const zone = useUserTimeZone();
   const queryClient = useQueryClient();
   const toast = useToast();
   const offline = useOffline();
@@ -87,8 +88,9 @@ export default function AccountSecurityScreen() {
       const remaining = await api.me.revokeSession(session.id);
       haptics.success();
       if (session.current) {
-        clearPrivateClientState(null);
-        queryClient.setQueryData(qk.me, null);
+        // This account's drafts and offline copy go with the session (as the dialog says).
+        const me = queryClient.getQueryData(qk.me) as { id: string } | null | undefined;
+        clearPrivateClientState(me?.id ?? null);
         push('/auth/sign-in', { replace: true });
         return;
       }
@@ -165,7 +167,7 @@ export default function AccountSecurityScreen() {
                       {session.current && <Tag tone="positive">This device</Tag>}
                     </span>
                   }
-                  detail={`Last active ${formatDateTime(Date.parse(session.lastSeenAt), deviceTimeZone())} · signed in ${formatDateTime(Date.parse(session.createdAt), deviceTimeZone())}`}
+                  detail={`Last active ${formatDateTime(Date.parse(session.lastSeenAt), zone)} · signed in ${formatDateTime(Date.parse(session.createdAt), zone)}`}
                   action={
                     <Button
                       size="small"

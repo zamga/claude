@@ -1,8 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { loadDemoServer, loadedDemoServer } from '@/data/api';
+import { api, loadDemoServer, loadedDemoServer } from '@/data/api';
 import { DB_KEY, SESSION_KEY } from '@/data/demo/db';
-import { configurePrivatePersistence, restorePrivateCache } from '@/data/queryClient';
+import {
+  clearPrivateClientState,
+  configurePrivatePersistence,
+  restorePrivateCache,
+} from '@/data/queryClient';
 import { qk, usePreferences } from '@/data/queries';
 import { DATA_MODE } from '@/data/transport';
 import { inboxTargetPath } from '@/features/notifications';
@@ -26,8 +30,19 @@ export function DemoBridge() {
         void queryClient.invalidateQueries();
       }
       if (event.key === SESSION_KEY) {
-        void queryClient.invalidateQueries({ queryKey: qk.me });
-        queryClient.removeQueries({ queryKey: ['private'] });
+        // Another tab signed in or out: follow it, and never show one account's data to another.
+        const before = (queryClient.getQueryData(qk.me) as { id: string } | null | undefined)?.id;
+        void queryClient
+          .fetchQuery({
+            queryKey: qk.me,
+            queryFn: ({ signal }) => api.me.get(signal),
+            staleTime: 0,
+          })
+          .then((me) => {
+            if (!me) clearPrivateClientState(before ?? null);
+            else if (me.id !== before) void queryClient.resetQueries({ queryKey: ['private'] });
+          })
+          .catch(() => undefined);
       }
     };
     window.addEventListener('storage', onStorage);

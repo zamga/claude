@@ -92,8 +92,8 @@ export default function RegisterScreen() {
         acceptedTerms: accepted,
       });
       haptics.success();
-      queryClient.removeQueries({ queryKey: ['private'] });
       queryClient.setQueryData(qk.me, me);
+      void queryClient.resetQueries({ queryKey: ['private'] });
       setValues((current) => ({ ...current, password: '', confirm: '' }));
       rememberReturnTo(returnTo);
       push(`/auth/verify?sent=1&returnTo=${encodeURIComponent(returnTo)}`, { replace: true });

@@ -35,7 +35,10 @@
 }
 
 .leadingLabel {
+  min-width: 0;
   padding-left: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   transition: opacity var(--dur-feedback) var(--ease-standard);
 }
@@ -186,16 +189,26 @@
 
 .section {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-1) var(--space-3);
   padding: var(--space-5) var(--gutter) var(--space-2);
 }
 
-/* Asides (eyebrows, tags) never break mid-word; the title takes the remaining width. */
+/*
+ * The title takes the free width and wraps its own words first. An aside (eyebrow, tag) keeps its
+ * width rather than breaking mid-word; when it no longer fits beside the title (enlarged text) it
+ * moves under it, and it wraps between words only if it is wider than the column itself.
+ */
+.section > :first-child {
+  flex: 1 1 0;
+  max-width: 100%; /* so a word longer than the column breaks (overflow-wrap) instead of spilling */
+}
+
 .section > :not(:first-child) {
   flex: none;
-  white-space: nowrap;
+  max-width: 100%;
 }
 
 .sectionTitle {
@@ -204,6 +217,7 @@
   font-size: var(--fs-section);
   line-height: var(--lh-section);
   letter-spacing: var(--track-section);
+  overflow-wrap: break-word;
 }
 
 .sectionTitle[data-size='large'] {

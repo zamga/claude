@@ -233,7 +233,8 @@ function useHeadlineFit(
     return () => cancelAnimationFrame(frame);
   }, [enabled, textScale]);
 
-  // Refit when the column width changes and once the web fonts have loaded.
+  // Refit when the column width changes, when the pane does (a pane container query can step the
+  // base size while a capped column keeps its width) and once the web fonts have loaded.
   useLayoutEffect(() => {
     const element = ref.current;
     if (!enabled || !element || typeof ResizeObserver === 'undefined') return undefined;
@@ -245,10 +246,22 @@ function useHeadlineFit(
         fitRef.current();
       });
     };
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry && Math.abs(entry.contentRect.width - last.current.width) >= 0.5) schedule();
+    let pane: Element | null = null;
+    for (let node = element.parentElement; node && !pane; node = node.parentElement)
+      if (getComputedStyle(node).containerName.split(/\s+/).includes('pane')) pane = node;
+    let paneWidth = pane?.clientWidth ?? -1;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        if (entry.target === element && Math.abs(width - last.current.width) >= 0.5) schedule();
+        if (entry.target === pane && Math.abs(width - paneWidth) >= 0.5) {
+          paneWidth = width;
+          schedule();
+        }
+      }
     });
     observer.observe(element);
+    if (pane) observer.observe(pane);
     void document.fonts?.ready.then(schedule);
     return () => {
       observer.disconnect();

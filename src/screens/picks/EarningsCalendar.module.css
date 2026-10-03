@@ -130,6 +130,15 @@
   border-left: var(--hairline) solid var(--rule);
 }
 
+/* Enlarged text: the row reflows and the EPS sits under the company, without its divider. */
+@container pane (max-width: 19.5em) {
+  .metric {
+    min-width: 0;
+    padding: var(--space-2) 0 0;
+    border-left: 0;
+  }
+}
+
 .metricLabel {
   color: var(--fg-muted);
   font-size: var(--fs-micro);

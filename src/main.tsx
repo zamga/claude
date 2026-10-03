@@ -7,6 +7,11 @@ import { assertConfiguration } from './app/config';
 import { loadDemoServer } from './data/api';
 import { DATA_MODE } from './data/transport';
 
+// A host page may put the entry stylesheets in <body> (the static preview). Route chunks append
+// theirs to <head>, so move ours there first: routes must keep the later place in the cascade.
+for (const sheet of document.body.querySelectorAll('style, link[rel="stylesheet"]'))
+  document.head.appendChild(sheet);
+
 assertConfiguration();
 // Fetch the demo service in parallel with the first render; requests await it.
 if (DATA_MODE === 'demo') void loadDemoServer();

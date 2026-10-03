@@ -35,6 +35,20 @@
   border-left: var(--hairline) solid var(--rule);
 }
 
+/* Enlarged text (never at the default size, even in a 320 px pane): one index per line. */
+@container pane (max-width: 21em) {
+  .indices {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .index + .index {
+    margin-top: var(--space-2);
+    padding: var(--space-2) 0 0;
+    border-left: 0;
+    border-top: var(--hairline) solid var(--rule);
+  }
+}
+
 .index[aria-pressed='true'] .indexName {
   color: var(--accent-fg);
 }

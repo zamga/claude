@@ -26,8 +26,11 @@
 
   /*
    * Size / line height pairs measured from the photos at 390 px (logical px at 100% text). The
-   * photos use one headline tier for every screen title. Display sizes follow the text setting but
-   * are capped by the pane width (cqi), so at 200% text a headline word still fits its column.
+   * photos use one headline tier for every screen title. Headlines are capped by the pane width
+   * (cqi), so at 200% text a headline word still fits its column; so are the largest figures
+   * (quotes, model values, table columns), which cannot wrap. Smaller figures and titles use
+   * clamp(floor, cqi, size): the photographed size at 100% and a rem floor that grows with the
+   * text setting, so enlarged text enlarges them too.
    */
   --fs-display: min(4rem, 16.4cqi); /* 64 */
   --lh-display: 0.82; /* 52, measured 0.80-0.84 */

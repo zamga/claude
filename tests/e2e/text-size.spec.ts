@@ -35,17 +35,21 @@ const PRIVATE = [
  * piece of text that leaves its box or the screen. Scrolling strips, ellipsised secondary text and
  * screen-reader-only text are deliberate and skipped.
  */
-async function textSpills(page: Page, path: string): Promise<string[]> {
+async function textSpills(page: Page, path: string, scale: number): Promise<string[]> {
   await page.goto(path);
   await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
   await expect(page.locator('[data-skeleton]')).toHaveCount(0);
   await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(() => document.documentElement.style.setProperty('--text-scale', '2'));
+  await page.evaluate(
+    (value) => document.documentElement.style.setProperty('--text-scale', String(value)),
+    scale,
+  );
   await page.evaluate(
     () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
   );
   return page.evaluate(() => {
-    const width = window.innerWidth;
+    // The layout viewport: with mobile emulation, innerWidth grows to fit content that overflows.
+    const width = document.documentElement.clientWidth;
     const problems: string[] = [];
     const sideways = document.documentElement.scrollWidth - width;
     if (sideways > 1) problems.push(`the page scrolls sideways by ${sideways}px`);
@@ -72,17 +76,26 @@ async function textSpills(page: Page, path: string): Promise<string[]> {
   });
 }
 
-test.describe('200% text (acceptance check 10)', () => {
+/** Intermediate sizes too: a layout can fit at 200% (stacked) and still overflow at 130%. */
+const SCALES = [1.3, 1.5, 2];
+
+test.describe('enlarged text up to 200% (acceptance check 10)', () => {
   test.beforeEach(({ page }) => {
     test.skip(!isPhone(page), 'enlarged text runs out of room at phone width');
   });
 
   test('public screens keep every word inside its box', async ({ page }) => {
-    for (const path of PUBLIC) expect(await textSpills(page, path), path).toEqual([]);
+    test.setTimeout(180_000);
+    for (const path of PUBLIC)
+      for (const scale of SCALES)
+        expect(await textSpills(page, path, scale), `${path} at ${scale * 100}%`).toEqual([]);
   });
 
   test('signed-in screens keep every word inside its box', async ({ page }) => {
+    test.setTimeout(180_000);
     await signIn(page);
-    for (const path of PRIVATE) expect(await textSpills(page, path), path).toEqual([]);
+    for (const path of PRIVATE)
+      for (const scale of SCALES)
+        expect(await textSpills(page, path, scale), `${path} at ${scale * 100}%`).toEqual([]);
   });
 });

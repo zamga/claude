@@ -14,3 +14,4 @@ blob-report
 .lighthouseci
 typography-report
 dist-preview
+click-audit*.jsonl

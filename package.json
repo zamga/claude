@@ -22,7 +22,8 @@
     "fonts": "python3 scripts/build-fonts.py",
     "icons": "node scripts/render-icons.mjs",
     "check": "npm run typecheck && npm run lint && npm run test && npm run build",
-    "typography:verify": "node scripts/typography/verify.mjs"
+    "typography:verify": "node scripts/typography/verify.mjs",
+    "audit:clicks": "node scripts/click-audit.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "5.104.1",

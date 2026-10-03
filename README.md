@@ -59,10 +59,11 @@ its response, browse the component catalogue, or reset all demo data.
 | `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)             |
 | `npm run format:check`                        | Prettier check (`npm run format` writes)                                    |
 | `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world                 |
-| `npm run test:e2e`                            | Playwright journeys, axe, 200% text and reduced motion; phone + desktop     |
+| `npm run test:e2e`                            | Playwright journeys J01–J08, axe, enlarged text, reduced motion; both sizes |
 | `npm run check`                               | typecheck, lint, unit tests and build in one go                             |
 | `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)              |
 | `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs             |
+| `npm run audit:clicks -- --base <url>`        | Activate every control on every screen and summarise what needs a look      |
 | `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)          |
 
 ### End-to-end tests

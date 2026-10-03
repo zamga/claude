@@ -17,6 +17,7 @@ import {
   TAB_ROOTS,
   type NavState,
   type RouteMeta,
+  type TabId,
 } from './routeTable';
 import styles from './Shell.module.css';
 import { TabBar } from './TabBar';
@@ -48,10 +49,16 @@ function collectionFor(location: Location, route: RouteMeta, tab: string): PaneL
     }
     cursor = cursor.state?.from;
   }
+  // A deep link has no in-app origin: the collection beside it belongs to the tab the navigation
+  // highlights, even when the structural parents lead into another tab's list.
+  const highlighted = route.tab === null ? null : (tab as TabId);
   let path = parentPath(matchRoute(location.pathname), location.search);
   for (let depth = 0; depth < 6; depth += 1) {
     const [pathname = '/', search = ''] = path.split('?');
     const match = matchRoute(pathname);
+    const owner = match.route.tab;
+    const otherTab = Boolean(highlighted && owner && owner !== 'inherit' && owner !== highlighted);
+    if (match.route.kind === 'collection' && otherTab) break;
     if (match.route.kind === 'collection') {
       return {
         pathname,
@@ -63,7 +70,8 @@ function collectionFor(location: Location, route: RouteMeta, tab: string): PaneL
     }
     path = parentPath(match, search ? `?${search}` : '');
   }
-  const root = route.defaultTab ? TAB_ROOTS[route.defaultTab] : '/';
+  const fallback = highlighted ?? route.defaultTab;
+  const root = fallback ? TAB_ROOTS[fallback] : '/';
   return { pathname: root, search: '', hash: '', state: null, key: `collection:${root}` };
 }
 
@@ -318,7 +326,16 @@ export function Shell() {
       className={styles.shell}
       data-layout={split ? 'split' : standalone ? 'standalone' : 'single'}
     >
-      <a className={styles.skip} href="#main-content">
+      <a
+        className={styles.skip}
+        href="#main-content"
+        onClick={(event) => {
+          // Focus the landmark without touching the URL: with hash routing, "#main-content" would
+          // be read as a route.
+          event.preventDefault();
+          document.getElementById('main-content')?.focus();
+        }}
+      >
         Skip to content
       </a>
       {split && <NavRail current={tab ?? 'picks'} />}

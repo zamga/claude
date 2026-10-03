@@ -25,7 +25,10 @@ const PUBLIC_ROUTES = [
 
 /**
  * The entry stylesheets are small (about 7 kB compressed) but render-blocking; inlining them in
- * index.html removes two round trips before the first paint on slow mobile connections.
+ * index.html removes two round trips before the first paint on slow mobile connections. Each
+ * inlined file keeps a `<link rel="stylesheet">` with a non-CSS type: browsers neither fetch nor
+ * apply it, but Vite's chunk loader sees the file as present and does not download it again when
+ * the first lazy route asks for it.
  */
 function inlineEntryCss(): Plugin {
   return {
@@ -46,7 +49,7 @@ function inlineEntryCss(): Plugin {
               typeof asset.source === 'string'
                 ? asset.source
                 : new TextDecoder().decode(asset.source);
-            return `<style data-href="/${file}">${css}</style>`;
+            return `<style data-href="/${file}">${css}</style><link rel="stylesheet" type="text/x-inlined" href="/${file}">`;
           },
         );
       },

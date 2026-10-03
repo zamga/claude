@@ -17,7 +17,7 @@ import type { DataRequest } from '@/data/types';
 import { DATA_MODE, newIdempotencyKey } from '@/data/transport';
 import { useReauthentication } from '@/features/reauth';
 import { QueryState, useOffline } from '@/features/status';
-import { deviceTimeZone } from '@/features/time';
+import { useUserTimeZone } from '@/features/time';
 import { useDocumentTitle } from '@/features/title';
 import { haptics } from '@/lib/haptics';
 import shared from '../shared.module.css';
@@ -38,6 +38,7 @@ const STATUS: Record<
 /** Export, privacy information and the path to deletion (spec pages 55, 57). */
 export default function AccountDataScreen() {
   const requests = useDataRequests();
+  const zone = useUserTimeZone();
   const queryClient = useQueryClient();
   const toast = useToast();
   const offline = useOffline();
@@ -139,9 +140,9 @@ export default function AccountDataScreen() {
                         <Tag tone={STATUS[request.status].tone}>{STATUS[request.status].label}</Tag>
                       </span>
                     }
-                    detail={`Requested ${formatDateTime(Date.parse(request.requestedAt), deviceTimeZone())}${
+                    detail={`Requested ${formatDateTime(Date.parse(request.requestedAt), zone)}${
                       request.expiresAt && request.status === 'ready'
-                        ? ` · available until ${formatDateTime(Date.parse(request.expiresAt), deviceTimeZone())}`
+                        ? ` · available until ${formatDateTime(Date.parse(request.expiresAt), zone)}`
                         : ''
                     }`}
                     action={

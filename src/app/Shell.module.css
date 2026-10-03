@@ -133,20 +133,13 @@
   font-size: min(0.6875rem, 15px);
   line-height: 1.1;
   font-weight: var(--weight-medium);
-  color: var(--c-muted);
+  /* The surface's muted ink: it follows night appearance and the Increase contrast setting. */
+  color: var(--fg-muted);
   transition: color var(--dur-feedback) var(--ease-standard);
 }
 
-:global([data-appearance='night']) .tab {
-  color: #9aa199;
-}
-
 .tab[aria-current='page'] {
-  color: var(--c-accent-strong);
-}
-
-:global([data-appearance='night']) .tab[aria-current='page'] {
-  color: var(--c-accent);
+  color: var(--accent-fg);
 }
 
 .tab:focus-visible {

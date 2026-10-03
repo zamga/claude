@@ -3,10 +3,10 @@ import { DATA_MODE } from '@/data/transport';
 import { useInbox } from '@/data/queries';
 import { ICON_STROKE } from '@/components/icons';
 import { useAppNavigation } from './navigation';
-import { TAB_LABELS, TAB_ROOTS, type TabId } from './routeTable';
+import { TAB_LABELS, type TabId } from './routeTable';
 import { useSession } from './session';
 import styles from './Shell.module.css';
-import { TAB_ICONS } from './TabBar';
+import { TAB_ICONS, useTabHrefs } from './TabBar';
 
 const ORDER: TabId[] = ['picks', 'watchlist', 'research', 'profile'];
 
@@ -16,10 +16,11 @@ export function NavRail({ current }: { current: TabId }) {
   const { signedIn, me } = useSession();
   const inbox = useInbox('all', signedIn);
   const unread = (inbox.data ?? []).filter((item) => !item.readAt).length;
+  const hrefs = useTabHrefs();
   return (
     <nav className={styles.rail} aria-label="Primary" data-surface="paper">
       <a
-        href="/"
+        href={hrefs.picks}
         className={styles.brand}
         onClick={(event) => {
           if (event.metaKey || event.ctrlKey || event.button !== 0) return;
@@ -36,7 +37,7 @@ export function NavRail({ current }: { current: TabId }) {
           return (
             <li key={tab}>
               <a
-                href={TAB_ROOTS[tab]}
+                href={hrefs[tab]}
                 className={styles.railItem}
                 aria-current={selected ? 'page' : undefined}
                 onClick={(event) => {

@@ -35,14 +35,15 @@
 .cardTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: min(1.75rem, 7.2cqi);
+  font-size: clamp(1.25rem, 7.2cqi, 1.75rem);
   line-height: 1.05;
   letter-spacing: var(--track-display);
   text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .card[data-featured='true'] .cardTitle {
-  font-size: min(2.5rem, 10.3cqi);
+  font-size: clamp(1.75rem, 10.3cqi, 2.5rem);
   line-height: 0.95;
 }
 

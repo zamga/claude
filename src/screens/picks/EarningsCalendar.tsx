@@ -84,6 +84,7 @@ function EventRow({ event }: { event: EarningsEvent }) {
       selected={selected}
       chevron={false}
       anchorFor="ticker"
+      reflow
       aside={
         <span className={styles.metric}>
           <span className={styles.metricLabel}>{metricLabel}</span>

@@ -25,6 +25,5 @@ export function useSignOut() {
       (queryClient.getQueryData(qk.me) as { id: string } | null | undefined)?.id ?? null;
     await api.me.signOut();
     clearPrivateClientState(accountId);
-    queryClient.setQueryData(qk.me, null);
   }, [queryClient]);
 }

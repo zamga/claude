@@ -252,7 +252,14 @@ export default function DemoToolsScreen() {
               title="Component catalogue"
               detail="Every component, token and state"
             />
-            <Row icon={RefreshCw} title="Refresh all data" onPress={refresh} />
+            <Row
+              icon={RefreshCw}
+              title="Refresh all data"
+              onPress={() => {
+                refresh();
+                toast({ message: 'All data refreshed' });
+              }}
+            />
             <Row
               icon={Trash2}
               title="Reset demo data"

@@ -133,10 +133,25 @@ export function startCachePersistence(): () => void {
   };
 }
 
+/**
+ * Drop every private query without pulling it out from under a mounted screen: a query that is
+ * still observed (the tab bar's unread dot, the screen that signed out) is reset in place, so its
+ * observers lose the data at once; unobserved ones are removed. Removing an observed query would
+ * leave its observers showing the old account's data until they remount.
+ */
+export function dropPrivateQueries(): void {
+  const cache = queryClient.getQueryCache();
+  for (const query of cache.findAll({ queryKey: ['private'] })) {
+    if (query.getObserversCount() > 0) query.reset();
+    else cache.remove(query);
+  }
+}
+
 /** Sign-out: clear private queries, drafts and this account's offline copy (spec page 55). */
 export function clearPrivateClientState(accountId: string | null): void {
-  queryClient.removeQueries({ queryKey: ['private'] });
-  queryClient.removeQueries({ queryKey: ['me'] });
+  // Signed out first, in place, so every mounted screen re-renders as a guest in the same pass.
+  queryClient.setQueryData(['me'], null);
+  dropPrivateQueries();
   try {
     if (accountId) localStorage.removeItem(PRIVATE_CACHE_PREFIX + accountId);
     // Drafts (session and device) and reading positions belong to the signed-in person.

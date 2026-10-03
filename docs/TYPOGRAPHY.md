@@ -175,6 +175,13 @@ to …"), password progress and errors, the journal's save state, filter group l
 range control. Photographed microcopy (eyebrows, stat captions, table heads, the tab bar, axis
 labels, day names) is set at 11 px, and nothing is smaller.
 
+**Enlarged text.** Headlines and the largest figures (quotes, model values, table columns) are
+capped by the column width, so at 200 % text a word or a number still fits. Smaller figures and
+card titles keep the photographed size at 100 % and grow with the text setting from a rem floor.
+Rows, key-value pairs, segmented controls and section asides reflow (the value under its label,
+options onto a second line) instead of widening the screen; checked at 320, 360, 390 and 412 px
+and 100, 130, 150 and 200 % text.
+
 **Tracking.** Numeric data columns are not tracked, as the specification asks: the earnings
 results table, the archive's return column, key-value values and row prices. Single figures
 (quotes, model values, stat strips) keep the photographed −0.02 em.

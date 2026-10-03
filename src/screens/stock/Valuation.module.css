@@ -9,7 +9,7 @@
 .scenarioHead,
 .scenarioRow {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: var(--space-3);
 }

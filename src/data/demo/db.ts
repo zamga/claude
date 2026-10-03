@@ -99,6 +99,8 @@ export interface DemoDb {
   users: Record<string, UserData>;
   /** Added after schema 1 shipped; older stored databases simply lack it. */
   supportTickets?: SupportTicket[];
+  /** The last content timestamp handed out (see DemoServer.stamp); absent in older databases. */
+  lastStamp?: number;
   seq: number;
 }
 
