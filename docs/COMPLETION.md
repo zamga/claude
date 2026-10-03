@@ -179,12 +179,12 @@ Lighthouse, mobile, simulated slow 4G and 4× CPU, one run per URL on the final 
 
 | URL            | Performance | Accessibility | Best practices | SEO | FCP   | LCP   | TBT    | CLS   |
 | -------------- | ----------- | ------------- | -------------- | --- | ----- | ----- | ------ | ----- |
-| `/`            | 83          | 100           | 100            | 100 | 2.2 s | 3.1 s | 359 ms | 0.035 |
-| `/stocks/NVDA` | 83          | 100           | 100            | 100 | 2.0 s | 2.2 s | 535 ms | 0.031 |
-| `/research`    | 80          | 100           | 100            | 100 | 2.1 s | 3.8 s | 306 ms | 0     |
+| `/`            | 82          | 100           | 100            | 100 | 2.2 s | 3.2 s | 377 ms | 0.037 |
+| `/stocks/NVDA` | 92          | 100           | 100            | 100 | 2.2 s | 2.3 s | 243 ms | 0.031 |
+| `/research`    | 82          | 100           | 100            | 100 | 2.2 s | 3.6 s | 269 ms | 0     |
 
-Single runs vary: runs on the final typography builds ranged 79–85 for performance and
-270–600 ms for total blocking time, with accessibility at 100 and CLS at or below 0.04 in all.
+Single runs vary: runs on the final typography and click-audit builds ranged 79–92 for performance
+and 240–600 ms for total blocking time, with accessibility at 100 and CLS at or below 0.04 in all.
 
 Bundle (gzip): about 150 kB of JavaScript before first render (React 65 kB, router 30 kB, query
 14 kB, app entry 26 kB, shared modules 18 kB), plus the 36 kB demo service fetched in parallel and
