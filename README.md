@@ -49,20 +49,21 @@ its response, browse the component catalogue, or reset all demo data.
 
 ## Scripts
 
-| Command                                       | What it does                                                            |
-| --------------------------------------------- | ----------------------------------------------------------------------- |
-| `npm run dev`                                 | Vite dev server on port 5173                                            |
-| `npm run build`                               | Type-check (`tsc -b`) and production build to `dist/`                   |
-| `npm run preview`                             | Serve the production build on port 4173                                 |
-| `npm run typecheck`                           | TypeScript project build, strict                                        |
-| `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)         |
-| `npm run format:check`                        | Prettier check (`npm run format` writes)                                |
-| `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world             |
-| `npm run test:e2e`                            | Playwright journeys, axe, 200% text and reduced motion; phone + desktop |
-| `npm run check`                               | typecheck, lint, unit tests and build in one go                         |
-| `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)          |
-| `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs         |
-| `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)      |
+| Command                                       | What it does                                                                |
+| --------------------------------------------- | --------------------------------------------------------------------------- |
+| `npm run dev`                                 | Vite dev server on port 5173                                                |
+| `npm run build`                               | Type-check (`tsc -b`) and production build to `dist/`                       |
+| `npm run build:preview`                       | Static demo in `dist-preview/`: hash routes, relative paths, embedded fonts |
+| `npm run preview`                             | Serve the production build on port 4173                                     |
+| `npm run typecheck`                           | TypeScript project build, strict                                            |
+| `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)             |
+| `npm run format:check`                        | Prettier check (`npm run format` writes)                                    |
+| `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world                 |
+| `npm run test:e2e`                            | Playwright journeys, axe, 200% text and reduced motion; phone + desktop     |
+| `npm run check`                               | typecheck, lint, unit tests and build in one go                             |
+| `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)              |
+| `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs             |
+| `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)          |
 
 ### End-to-end tests
 

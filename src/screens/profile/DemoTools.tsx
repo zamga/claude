@@ -24,6 +24,7 @@ import {
 } from '@/data/transport';
 import { DemoMailbox } from '@/features/DemoMailbox';
 import { notifyDemoClock, useDemoNow } from '@/features/time';
+import { restartApp } from '@/app/restart';
 import { useDocumentTitle } from '@/features/title';
 import shared from '../shared.module.css';
 
@@ -107,7 +108,7 @@ export default function DemoToolsScreen() {
     setConditions({ offline: false, slow: false, nextWrite: 'normal' });
     clearPrivateClientState(null);
     queryClient.clear();
-    window.location.assign('/');
+    restartApp();
   };
 
   if (!state) {

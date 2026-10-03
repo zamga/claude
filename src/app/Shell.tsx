@@ -330,7 +330,7 @@ export function Shell() {
         </main>
       </div>
       {showTabBar && <TabBar current={tab ?? 'picks'} />}
-      <UpdatePrompt />
+      {import.meta.env.VITE_PWA !== 'off' && <UpdatePrompt />}
     </div>
   );
 }

@@ -13,3 +13,4 @@ blob-report
 *.tsbuildinfo
 .lighthouseci
 typography-report
+dist-preview

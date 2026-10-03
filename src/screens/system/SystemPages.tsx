@@ -7,6 +7,7 @@ import { ArrowRight, BookOpen, Lock, RefreshCw, Search } from '@/components/icon
 import { Notice } from '@/components/Status';
 import { DATA_MODE } from '@/data/transport';
 import { AuthLayout } from '@/features/AuthLayout';
+import { restartApp } from '@/app/restart';
 import { useDocumentTitle } from '@/features/title';
 import styles from './SystemPages.module.css';
 
@@ -136,12 +137,7 @@ export function MaintenanceScreen() {
           Set them in the deployment’s secret store and redeploy. Values are never shown here.
         </Notice>
       )}
-      <Button
-        full
-        icon={RefreshCw}
-        iconPosition="start"
-        onClick={() => window.location.assign('/')}
-      >
+      <Button full icon={RefreshCw} iconPosition="start" onClick={restartApp}>
         Try again
       </Button>
       {!configuration && (
