@@ -1,0 +1,201 @@
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: calc(var(--topbar-h) + var(--safe-top));
+  padding: var(--safe-top) calc(var(--gutter) - 12px) 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.topBar::after {
+  content: '';
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  border-bottom: var(--hairline) solid var(--rule);
+  opacity: 0;
+  transition: opacity var(--dur-feedback) var(--ease-standard);
+}
+
+.topBar[data-ruled='true']::after,
+.topBar[data-compact='true']::after {
+  opacity: 1;
+}
+
+.leading {
+  display: flex;
+  align-items: center;
+  min-width: var(--hit);
+}
+
+.leadingLabel {
+  padding-left: 12px;
+  white-space: nowrap;
+  transition: opacity var(--dur-feedback) var(--ease-standard);
+}
+
+/* Two trailing controls leave less room for a centered title. */
+.topBar:has(.trailing > :nth-child(2)) .center {
+  max-width: calc(100% - 2 * (var(--gutter) + 92px));
+}
+
+/* The compact title replaces the section label so the two never overlap. */
+.topBar[data-compact='true'] .leadingLabel {
+  opacity: 0;
+}
+
+/* Centered on the bar itself (not between unequal side controls); labels may use the free width. */
+.center {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  display: grid;
+  align-items: center;
+  height: var(--topbar-h);
+  max-width: calc(100% - 2 * (var(--gutter) + 52px));
+  transform: translateX(-50%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+}
+
+.center > * {
+  grid-area: 1 / 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trailing {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: var(--hit);
+  gap: 0;
+}
+
+.compactTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--dur-feedback) var(--ease-standard),
+    transform var(--dur-feedback) var(--ease-out);
+}
+
+.topBar[data-compact='true'] .compactTitle {
+  opacity: 1;
+  transform: none;
+}
+
+.topBar[data-compact='true'] .hideWhenCompact {
+  opacity: 0;
+}
+
+.hideWhenCompact {
+  transition: opacity var(--dur-feedback) var(--ease-standard);
+}
+
+.eyebrow {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.eyebrow[data-tone='accent'] {
+  color: var(--accent-fg);
+}
+
+.eyebrow[data-tone='muted'] {
+  color: var(--fg-muted);
+}
+
+.largeTitle {
+  padding: var(--space-2) var(--gutter) var(--space-3);
+}
+
+.metaRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--lh-micro);
+  margin-bottom: var(--space-2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--track-display);
+  text-wrap: balance;
+  outline: none;
+}
+
+.title[data-size='display'] {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+}
+
+.title[data-size='title'] {
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+}
+
+.title:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.subtitle {
+  margin-top: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+}
+
+.sentinel {
+  height: 1px;
+  margin-top: -1px;
+}
+
+.section {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--gutter) var(--space-2);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  letter-spacing: var(--track-section);
+}
+
+.sectionTitle[data-size='small'] {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+@container pane (min-width: 560px) {
+  .title[data-size='display'] {
+    font-size: calc(var(--fs-display) * 1.25);
+  }
+  .title[data-size='title'] {
+    font-size: calc(var(--fs-title) * 1.2);
+  }
+}

@@ -1,0 +1,103 @@
+.revision {
+  margin: var(--space-3) var(--gutter) 0;
+}
+
+.point {
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.point:first-child {
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.pointButton {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) 0;
+  text-align: left;
+}
+
+.pointButton:focus-visible {
+  outline-offset: 2px;
+}
+
+.pointTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+
+.pointSummary {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.chevron {
+  margin-left: auto;
+  flex: none;
+  color: var(--fg-muted);
+  transition: transform var(--dur-feedback) var(--ease-out);
+}
+
+.pointButton[aria-expanded='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+.evidence {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 0 var(--space-4) calc(22px + var(--space-3));
+}
+
+.evidenceItem {
+  display: grid;
+  gap: 4px;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.sourceButton {
+  justify-self: start;
+  min-height: 32px;
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: var(--fs-label);
+}
+
+.noSource {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+}
+
+.riskIcon {
+  flex: none;
+  color: var(--negative);
+  margin-top: 2px;
+}
+
+.list {
+  margin: 0 var(--gutter);
+}
+
+.monitor {
+  display: grid;
+  gap: 2px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.estimate {
+  font-style: italic;
+  color: var(--fg-muted);
+}

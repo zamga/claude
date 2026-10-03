@@ -1,0 +1,120 @@
+.searchRow {
+  padding: var(--space-2) var(--gutter) 0;
+}
+
+.searchField {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  min-height: var(--input-h);
+  padding: 0 52px 0 44px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--control-border);
+  font-size: var(--fs-body);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--fg);
+}
+
+.clear {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 0 6px 0 12px;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px var(--fg);
+  font-size: var(--fs-label);
+  font-weight: 500;
+}
+
+.chipRemove {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.chipRemove:hover {
+  background: var(--press-tint);
+}
+
+.themeChip {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px var(--control-border);
+  font-size: var(--fs-label);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter) var(--space-2);
+}
+
+.count {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.sort {
+  max-width: 180px;
+}
+
+.sheetGroup {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.sheetLabel {
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.recent {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

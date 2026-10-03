@@ -1,0 +1,151 @@
+.list {
+  margin: 0 var(--gutter);
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-3) 0;
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.row:first-child {
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.list[data-flush-top='true'] .row:first-child {
+  border-top: 0;
+}
+
+.row[data-align='start'] {
+  align-items: flex-start;
+}
+
+.row[data-dense='true'] {
+  min-height: var(--hit);
+  padding: var(--space-2) 0;
+}
+
+.rowLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.rowLink:focus-visible {
+  outline-offset: -2px;
+}
+
+.row[data-pressed='true'] {
+  background: var(--press-tint);
+}
+
+.row[data-selected='true'] {
+  background: var(--press-tint);
+  box-shadow: inset 2px 0 0 var(--accent-deco);
+}
+
+.row[data-selected='true'] .main {
+  padding-left: var(--space-3);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.aside {
+  flex: none;
+  text-align: right;
+}
+
+.action {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  margin-right: -10px;
+}
+
+.chevron {
+  flex: none;
+  color: var(--fg-muted);
+}
+
+.title {
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+  font-weight: 500;
+}
+
+.detail {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.kv {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 40px;
+  padding: var(--space-2) 0;
+  border-bottom: var(--hairline) solid var(--rule);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.kv dt {
+  color: var(--fg);
+}
+
+.kv dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.kvMuted dt {
+  color: var(--fg-muted);
+}
+
+.kvList {
+  margin: 0 var(--gutter);
+}
+
+.kvList[data-top-rule='true'] {
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.leadIcon {
+  flex: none;
+  color: var(--fg);
+}
+
+/* Enlarged text (never at the default size, even in a 320 px pane): value under its label. */
+@container pane (max-width: 19.5em) {
+  .row[data-reflow='true'] {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: var(--space-3);
+    row-gap: 2px;
+  }
+
+  .row[data-reflow='true'] .main {
+    grid-area: 1 / 2;
+  }
+
+  .row[data-reflow='true'] .aside {
+    grid-area: 2 / 2 / 3 / 4;
+    text-align: left;
+  }
+
+  .row[data-reflow='true'] .chevron {
+    grid-area: 1 / 3;
+  }
+}

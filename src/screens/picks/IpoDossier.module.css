@@ -1,0 +1,67 @@
+.sector {
+  margin-top: var(--space-1);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.terms {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-4) var(--gutter) 0;
+}
+
+.termsValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 2.1rem + 2cqi, 3.25rem);
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.termsLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.listed {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.listedRow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.case {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--gutter) 0;
+}
+
+.caseTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  letter-spacing: var(--track-section);
+}
+
+.caseTitle:not(:first-child) {
+  margin-top: var(--space-3);
+}
+
+.caseText {
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+  color: var(--fg);
+}

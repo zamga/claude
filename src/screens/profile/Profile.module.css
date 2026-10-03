@@ -1,0 +1,183 @@
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--gutter) var(--space-4);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+.identityText {
+  display: grid;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.email {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.access {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 2 * var(--gutter));
+  margin: 0 var(--gutter) var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--fg);
+  text-align: left;
+}
+
+.access:hover {
+  background: var(--press-tint);
+}
+
+.access > span {
+  display: grid;
+  gap: 2px;
+}
+
+.accessLabel {
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.accessPlan {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.accessDetail {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.aside {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter) 0;
+}
+
+.member {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.signOut {
+  color: var(--accent-fg);
+}
+
+.guest {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--gutter) var(--space-5);
+}
+
+.sheetBody {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* ---------- Settings ---------- */
+
+.group {
+  padding-top: var(--space-2);
+}
+
+.rows {
+  margin: 0 var(--gutter);
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.rows > * {
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.field {
+  padding: var(--space-3) 0;
+}
+
+.scale {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.scale > span {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.inlineTimes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  padding: var(--space-2) 0 var(--space-3);
+}
+
+.permission {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  font-size: var(--fs-label);
+}
+
+.permissionText {
+  color: var(--fg-muted);
+}
+
+.permissionText[data-state='denied'] {
+  color: var(--warning-fg);
+}
+
+.preview {
+  margin: var(--space-3) var(--gutter) 0;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+
+.previewTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+}

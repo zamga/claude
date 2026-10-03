@@ -1,0 +1,169 @@
+.demoTag {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--demo-fg);
+  white-space: nowrap;
+}
+
+.statusLine {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.statusLine[data-tone='warning'] {
+  color: var(--warning-fg);
+}
+
+.statusIcon {
+  flex: none;
+}
+
+.sep {
+  opacity: 0.6;
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin: var(--space-3) var(--gutter);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+/* Inside a container that already supplies the gutter, a notice spans its full width. */
+dialog [data-notice],
+[data-inset] [data-notice] {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.notice[data-tone='warning'] {
+  box-shadow: inset 0 0 0 1px var(--warning-fill);
+  color: var(--warning-fg);
+}
+
+[data-surface='paper'] .notice[data-tone='warning'] {
+  background: color-mix(in srgb, var(--c-warning) 22%, var(--bg));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-warning) 70%, var(--bg));
+  color: var(--fg);
+}
+
+.notice[data-tone='neutral'] {
+  background: var(--bg-tint);
+  color: var(--fg);
+}
+
+.notice[data-tone='error'] {
+  box-shadow: inset 0 0 0 1px var(--negative);
+  color: var(--fg);
+}
+
+.noticeBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.noticeTitle {
+  font-weight: 600;
+}
+
+.noticeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--gutter) var(--space-6);
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--fg);
+  margin-bottom: var(--space-2);
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  letter-spacing: var(--track-display);
+  text-wrap: balance;
+  max-width: 14ch;
+}
+
+.emptyTitle[data-size='section'] {
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  max-width: 22ch;
+}
+
+.emptyBody {
+  max-width: 34ch;
+  color: var(--fg-muted);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+}
+
+.emptyActions {
+  display: grid;
+  gap: var(--space-3);
+  width: min(100%, 340px);
+  margin-top: var(--space-3);
+}
+
+.skeleton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--skeleton);
+}
+
+/* The sheen moves with a transform only, so it never repaints the placeholder. */
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bg) 45%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: global(shimmer) 1400ms linear infinite;
+}
+
+:global(:root[data-motion='reduced']) .skeleton::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(:root:not([data-motion='full'])) .skeleton::after {
+    display: none;
+  }
+}
+
+.skeletonGroup {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter);
+}

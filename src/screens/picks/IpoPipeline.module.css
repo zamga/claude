@@ -1,0 +1,94 @@
+.regions {
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.regions > [role='radiogroup'] {
+  width: 100%;
+}
+
+.rank {
+  display: block;
+  padding-top: 8px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px var(--space-2);
+}
+
+.ticker {
+  font-size: 1.75rem;
+  line-height: 1.05;
+}
+
+.name {
+  display: block;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: var(--space-3);
+}
+
+.fact {
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  min-width: 0;
+  padding: 0 var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+}
+
+.fact:first-child {
+  padding-left: 0;
+}
+
+.fact + .fact {
+  border-left: var(--hairline) solid var(--rule);
+}
+
+@container pane (max-width: 19.5em) {
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+
+  .fact,
+  .fact:first-child {
+    padding: 0;
+  }
+
+  .fact + .fact {
+    border-left: 0;
+  }
+}
+
+.factValue {
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.factValue[data-pending='true'] {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: var(--fs-label);
+}
+
+.factNote {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

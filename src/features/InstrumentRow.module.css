@@ -1,0 +1,49 @@
+.ticker {
+  display: inline-block;
+}
+
+.name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.lead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.quote {
+  display: grid;
+  justify-items: end;
+  gap: 1px;
+  min-width: 76px;
+}
+
+.spark {
+  flex: none;
+  position: relative;
+}
+
+.meta {
+  margin-top: 2px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+/* A narrow pane (or enlarged text, since this is in em) needs the room for the figures. */
+@container pane (max-width: 22em) {
+  .spark {
+    display: none;
+  }
+}

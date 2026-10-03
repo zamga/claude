@@ -1,0 +1,74 @@
+.screen {
+  container: pane / inline-size;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.screen[data-role='collection'],
+.screen[data-role='detail'] {
+  min-height: 100%;
+}
+
+.content {
+  flex: 1;
+  padding-bottom: var(--space-6);
+}
+
+.screen[data-has-tabbar='true'] .content {
+  padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom) + var(--space-6));
+}
+
+.actionBar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  display: grid;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding: var(--space-3) var(--gutter) calc(var(--space-3) + var(--safe-bottom));
+  background: linear-gradient(to bottom, transparent, var(--bg) 18%);
+}
+
+.actionBar[data-columns='2'] {
+  grid-template-columns: 1fr 1fr;
+}
+
+.actionNote {
+  text-align: center;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+}
+
+.block {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.rule {
+  height: 0;
+  margin: 0 var(--gutter);
+  border: 0;
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.readable {
+  max-width: var(--reading-measure);
+}
+
+/* Sentences, so the 13 px label step rather than the 11 px micro step used for badges. */
+.disclaimer {
+  padding: var(--space-5) var(--gutter) 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}

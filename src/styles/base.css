@@ -1,0 +1,354 @@
+/* Global reset, typography roles and application-wide behaviour. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* In-app text size (S22) multiplies the user's browser default. */
+  font-size: calc(100% * var(--text-scale, 1));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--shell-bg, #f8f5ed);
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  /*
+   * Bodoni Moda's automatic optical size thins hairlines to near-invisibility at display sizes on
+   * screens. Optically checked against the boards: opsz 16 keeps the high-contrast character with
+   * hairlines that survive 1x displays and reduced text sizes. Inter has no opsz axis here.
+   */
+  font-variation-settings: 'opsz' 16;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  background-color: var(--shell-bg, #f8f5ed);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ol,
+ul {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: inherit;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring, #111613);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background: rgb(243 72 45 / 0.22);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Typography roles ---------- */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  text-wrap: balance;
+}
+
+.t-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  letter-spacing: var(--track-display);
+  text-wrap: balance;
+}
+
+.t-quote {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.t-section {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  letter-spacing: var(--track-section);
+  text-wrap: balance;
+}
+
+.t-ticker {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-ticker);
+  line-height: var(--lh-ticker);
+  letter-spacing: -0.01em;
+}
+
+.t-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.t-body-sm {
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+}
+
+.t-label {
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.t-micro {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+}
+
+.t-eyebrow {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.t-muted {
+  color: var(--fg-muted);
+}
+
+.t-strong {
+  font-weight: 600;
+}
+
+.t-medium {
+  font-weight: 500;
+}
+
+.num {
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0;
+}
+
+.t-positive {
+  color: var(--positive);
+}
+
+.t-negative {
+  color: var(--negative);
+}
+
+.t-accent {
+  color: var(--accent-fg);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- View transitions (detail.enter / detail.exit / tab.change) ---------- */
+
+@view-transition {
+  navigation: none;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(*) {
+  animation-duration: var(--dur-detail-enter);
+  animation-timing-function: var(--ease-out);
+}
+
+/* push: the incoming view rises 24 px and fades in over the stationary previous view */
+:root[data-nav='push']::view-transition-old(screen) {
+  animation: none;
+}
+
+:root[data-nav='push']::view-transition-new(screen) {
+  animation: vt-detail-enter var(--dur-detail-enter) var(--ease-out) both;
+}
+
+/* back: the detail reverses out and reveals the restored view */
+:root[data-nav='pop']::view-transition-old(screen) {
+  animation: vt-detail-exit var(--dur-detail-exit) var(--ease-exit) both;
+  z-index: 1;
+}
+
+:root[data-nav='pop']::view-transition-new(screen) {
+  animation: none;
+}
+
+/* tab change: crossfade while navigation stays anchored */
+:root[data-nav='tab']::view-transition-old(screen) {
+  animation: vt-fade-out var(--dur-tab) var(--ease-standard) both;
+}
+
+:root[data-nav='tab']::view-transition-new(screen) {
+  animation: vt-fade-in var(--dur-tab) var(--ease-standard) both;
+}
+
+:root[data-nav='tab']::view-transition-old(collection),
+:root[data-nav='tab']::view-transition-new(collection) {
+  animation-duration: var(--dur-tab);
+  animation-timing-function: var(--ease-standard);
+}
+
+::view-transition-group(anchor-ticker) {
+  animation-duration: var(--dur-detail-enter);
+  animation-timing-function: var(--ease-out);
+}
+
+:root[data-nav='pop']::view-transition-group(anchor-ticker) {
+  animation-duration: var(--dur-detail-exit);
+}
+
+@keyframes vt-detail-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--detail-offset));
+  }
+}
+
+@keyframes vt-detail-exit {
+  to {
+    opacity: 0;
+    transform: translateY(var(--detail-offset));
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  scroll-behavior: auto !important;
+}

@@ -1,0 +1,104 @@
+.reference {
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.scenarios {
+  margin: var(--space-4) var(--gutter) 0;
+}
+
+.scenarioHead,
+.scenarioRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.scenarioHead {
+  padding-bottom: var(--space-2);
+  border-bottom: var(--hairline) solid var(--rule);
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.scenarioHead span:not(:first-child),
+.cell {
+  text-align: right;
+}
+
+.scenarioRow {
+  position: relative;
+  min-height: 48px;
+  padding: 0 var(--space-2);
+  margin: 0 calc(var(--space-2) * -1);
+  border-bottom: var(--hairline) solid var(--rule);
+  border-radius: 2px;
+  font-size: var(--fs-body-sm);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.scenarioRow[aria-checked='true'] {
+  background: var(--bg-raised);
+  box-shadow: inset 2px 0 0 var(--accent-deco);
+}
+
+.scenarioRow:focus-visible {
+  outline-offset: -2px;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.cell[data-flash='true'] {
+  animation: flash var(--dur-feedback) var(--ease-standard);
+}
+
+@keyframes flash {
+  from {
+    background: color-mix(in srgb, var(--accent-deco) 28%, transparent);
+  }
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding: 0 var(--gutter);
+}
+
+@container pane (max-width: 360px) {
+  .inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.derived {
+  margin-top: var(--space-4);
+}
+
+.formula {
+  padding: var(--space-3) var(--gutter) 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.sensitivity {
+  padding: 0 var(--gutter);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.savedNote {
+  margin: var(--space-3) var(--gutter) 0;
+}

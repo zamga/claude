@@ -1,0 +1,187 @@
+.weekRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: 0 calc(var(--gutter) - 10px) 0 var(--gutter);
+}
+
+.weekNav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin: var(--space-2) var(--gutter) 0;
+  padding-bottom: var(--space-2);
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.day {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  min-height: 68px;
+  padding: 8px 0 6px;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color var(--dur-feedback) var(--ease-standard),
+    color var(--dur-feedback) var(--ease-standard);
+}
+
+.day:hover {
+  background: var(--press-tint);
+}
+
+.day + .day::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 14px;
+  bottom: 14px;
+  width: var(--hairline);
+  background: var(--rule);
+}
+
+.day[aria-checked='true'] {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+.day[aria-checked='true'] .dayName,
+.day[aria-checked='true'] .dayDot {
+  opacity: 1;
+}
+
+.day[aria-checked='true']::before,
+.day[aria-checked='true'] + .day::before {
+  opacity: 0;
+}
+
+.dayName {
+  font-size: var(--fs-micro);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  opacity: 0.8;
+}
+
+.day[data-today='true']:not([aria-checked='true']) .dayName {
+  color: var(--accent-fg);
+  opacity: 1;
+}
+
+.dayNumber {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.625rem;
+  line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.dayDots {
+  display: flex;
+  gap: 3px;
+  height: 4px;
+}
+
+.dayDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.ticker {
+  font-size: 1.75rem;
+  line-height: 1.05;
+}
+
+.name {
+  display: block;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.metric {
+  display: grid;
+  justify-items: start;
+  min-width: 96px;
+  padding-left: var(--space-3);
+  border-left: var(--hairline) solid var(--rule);
+}
+
+.metricLabel {
+  color: var(--fg-muted);
+  font-size: 0.625rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.metricValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.625rem;
+  line-height: 1.1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.metricNote {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  white-space: nowrap;
+}
+
+.rowSkeleton {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter);
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.skeleton {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter);
+}
+
+.watchNumber {
+  display: inline-grid;
+  place-items: center;
+  min-width: max(24px, 2.2em);
+  min-height: max(22px, 1.6em);
+  border-radius: 3px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.reminder {
+  padding: var(--space-5) var(--gutter) 0;
+}
