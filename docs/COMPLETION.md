@@ -181,9 +181,9 @@ Lighthouse, mobile, simulated slow 4G and 4× CPU, one run per URL on the final 
 
 | URL            | Performance | Accessibility | Best practices | SEO | FCP   | LCP   | TBT    | CLS   |
 | -------------- | ----------- | ------------- | -------------- | --- | ----- | ----- | ------ | ----- |
-| `/`            | 82          | 100           | 100            | 100 | 2.2 s | 3.2 s | 377 ms | 0.037 |
-| `/stocks/NVDA` | 92          | 100           | 100            | 100 | 2.2 s | 2.3 s | 243 ms | 0.031 |
-| `/research`    | 82          | 100           | 100            | 100 | 2.2 s | 3.6 s | 269 ms | 0     |
+| `/`            | 84          | 100           | 100            | 100 | 2.2 s | 3.2 s | 325 ms | 0.037 |
+| `/stocks/NVDA` | 88          | 100           | 100            | 100 | 2.0 s | 2.3 s | 362 ms | 0.031 |
+| `/research`    | 79          | 100           | 100            | 100 | 2.0 s | 3.6 s | 375 ms | 0     |
 
 Single runs vary: runs on the final typography and click-audit builds ranged 79–92 for performance
 and 240–600 ms for total blocking time, with accessibility at 100 and CLS at or below 0.04 in all.
