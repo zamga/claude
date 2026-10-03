@@ -45,10 +45,12 @@ button.company:hover {
   line-height: var(--lh-label);
 }
 
-/* The quote in the company card is set larger than a list row (30 px in the photo). */
-.companyPrice {
+/* The quote in the company card is set larger than a list row (30 px in the photo). The
+   selector outranks the shared Price size rule whatever order the stylesheets load in. */
+.companyQuote > .companyPrice[data-size] {
   font-size: 1.875rem;
   line-height: 1.05;
+  letter-spacing: var(--track-quote);
 }
 
 .companyQuote {

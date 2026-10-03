@@ -66,7 +66,7 @@
 }
 
 .dayName {
-  font-size: 0.625rem; /* 10, as photographed */
+  font-size: var(--fs-micro); /* 11: the micro floor (photographed at 10) */
   line-height: 1;
   font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
@@ -132,7 +132,7 @@
 
 .metricLabel {
   color: var(--fg-muted);
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   line-height: 1.3;
   font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);

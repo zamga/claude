@@ -563,7 +563,6 @@ function Position({ instrument }: { instrument: Instrument }) {
               </Button>
               <Button
                 variant="text"
-                size="small"
                 onClick={() => window.dispatchEvent(new Event('journal:compose'))}
               >
                 Add a note

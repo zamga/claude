@@ -113,6 +113,7 @@ export default function PickArchiveScreen() {
         />
         <UnderlineTabs<Status>
           label="Pick status"
+          size="lg"
           value={status}
           controls="archive-table"
           onChange={(value) => update('status', value, 'all')}

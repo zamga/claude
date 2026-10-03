@@ -29,6 +29,16 @@
   padding: var(--space-2) 0;
 }
 
+/* The footer wraps onto its own line and spans the row, under the leading column too. */
+.row[data-footer='true'] {
+  flex-wrap: wrap;
+}
+
+.footer {
+  flex: 1 0 100%;
+  min-width: 0;
+}
+
 .rowLink {
   position: absolute;
   inset: 0;
@@ -121,8 +131,7 @@
 .kvList[data-values='display'] dd {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.96875rem; /* 15.5, as photographed */
-  letter-spacing: var(--track-quote);
+  font-size: 0.96875rem; /* 15.5, as photographed; a value column, so not tracked */
 }
 
 .kvList {

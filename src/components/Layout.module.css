@@ -30,18 +30,20 @@
   gap: var(--space-2);
   margin-top: auto;
   padding: var(--space-3) var(--gutter) calc(var(--space-3) + var(--safe-bottom));
-  background: linear-gradient(to bottom, transparent, var(--bg) 18%);
+  /* Fades in over the top padding only, so outlined buttons never show the page through them. */
+  background: linear-gradient(to bottom, transparent, var(--bg) var(--space-3));
 }
 
 .actionBar[data-columns='2'] {
   grid-template-columns: 1fr 1fr;
 }
 
+/* The note says why the action is unavailable ("Reconnect to …"), so it keeps the 13 px floor. */
 .actionNote {
   text-align: center;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
 }
 
 .block {

@@ -52,8 +52,11 @@ export function UnderlineTabs<T extends string>({
   label: string;
   pending?: T | null;
   controls?: string;
-  /** 'sm' (14 px) where the photo sets the tabs smaller, as on Today's picks. */
-  size?: 'md' | 'sm';
+  /**
+   * 'sm' (14 px) and 'lg' (18 px) where a photo sets the tabs consistently smaller (Today's picks)
+   * or larger (the alert inbox, research history) than the shared 16 px.
+   */
+  size?: 'sm' | 'md' | 'lg';
 }) {
   const ref = useRef<HTMLDivElement>(null);
   return (
@@ -109,7 +112,7 @@ export function Segmented<T extends string>({
   onChange: (value: T) => void;
   label: string;
   variant?: 'solid' | 'accent' | 'ghost';
-  /** 'sm' (11.5 px): the chart range row under the S02 chart. */
+  /** 'sm' (13 px, the control floor): the chart range row under the S02 chart. */
   size?: 'md' | 'sm';
   pending?: T | null;
   className?: string;

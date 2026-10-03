@@ -51,6 +51,10 @@
   font-size: 0.875rem;
 }
 
+.underline[data-size='lg'] .tab {
+  font-size: 1.125rem; /* 18: the inbox and history tabs measure 17.8-19.7 px */
+}
+
 .tab[aria-selected='true'] {
   color: var(--fg);
   font-weight: var(--weight-figure);
@@ -135,8 +139,9 @@
   background: var(--accent-deco);
 }
 
+/* The chart range photographs at 11.4 px; controls keep the 13 px label floor. */
 .segmented[data-size='sm'] .segment {
-  font-size: 0.71875rem;
+  font-size: var(--fs-label);
 }
 
 .segment[data-pending='true'] {

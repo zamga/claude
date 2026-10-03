@@ -200,7 +200,7 @@ export default function PaperTransactionScreen() {
   const company = instrument.data;
   return (
     <ScreenBody>
-      <TopBar title="Update paper position" ruled trailing={<Tag tone="outline">Paper</Tag>} />
+      <TopBar title="Paper trade" ruled trailing={<Tag tone="outline">Paper</Tag>} />
       <Content>
         <LargeTitle
           title="Record a paper trade."

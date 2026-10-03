@@ -178,6 +178,7 @@ export default function AlertInboxScreen() {
         <LargeTitle title="Your alerts." meta={<DemoTag />} sentinelRef={sentinel} />
         <UnderlineTabs
           label="Alert type"
+          size="lg"
           value={category}
           controls="inbox-list"
           onChange={(value) =>

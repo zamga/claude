@@ -73,14 +73,17 @@
   line-height: 1.05;
 }
 
+/* Row prices form a column down a list, which is not tracked. */
 .price[data-size='md'] {
   font-size: 1.5rem; /* 24: list rows */
   line-height: 1.1;
+  letter-spacing: 0;
 }
 
 .price[data-size='sm'] {
   font-size: var(--fs-body-sm);
   line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .rank {

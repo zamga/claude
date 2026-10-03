@@ -9,10 +9,12 @@
   font-weight: var(--weight-medium);
 }
 
+/* Hints can carry the only statement of a rule ("8–128 characters"), so they keep the 13 px label
+   floor; the photographed hint ("Ivory discovery, charcoal analysis.") measures 11.9. */
 .hint {
   color: var(--fg-muted);
-  font-size: var(--fs-note); /* 12 ("Ivory discovery, charcoal analysis.") */
-  line-height: var(--lh-note);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
 }
 
 .control {

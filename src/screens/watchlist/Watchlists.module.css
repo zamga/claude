@@ -104,7 +104,8 @@
 .cached {
   padding: var(--space-2) var(--gutter) 0;
   color: var(--warning-fg);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label); /* "Changes need a connection." is an instruction: 13 px */
+  line-height: var(--lh-label);
 }
 
 .catalystWrap {

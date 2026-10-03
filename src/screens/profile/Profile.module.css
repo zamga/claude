@@ -96,14 +96,16 @@
 
 .member {
   color: var(--fg-muted);
-  font-size: 0.625rem; /* 10 */
+  font-size: var(--fs-micro); /* 11: the micro floor (the photo sets this line at 10) */
   font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
 }
 
+/* Red and not underlined, as photographed. */
 .signOut {
   color: var(--accent-fg);
+  text-decoration: none;
 }
 
 .guest {

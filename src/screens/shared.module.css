@@ -38,10 +38,16 @@
 .bigTicker {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(3rem, 2.4rem + 4cqi, 4.5rem);
+  font-size: var(--fs-display); /* 64: the photographed "NVDA" shares the headline tier */
   line-height: 0.95;
   letter-spacing: var(--track-display);
   outline: none;
+}
+
+@container pane (min-width: 560px) {
+  .bigTicker {
+    font-size: calc(var(--fs-display) * 1.125);
+  }
 }
 
 .lede {
@@ -140,6 +146,7 @@
   line-height: 1.05;
 }
 
+/* The feature strips measure about 34 px on S08 and 40 px on S24: one shared size between them. */
 .statValue[data-size='xl'] {
   font-size: min(2.375rem, 9.6cqi);
   line-height: 1;

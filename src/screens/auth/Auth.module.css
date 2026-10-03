@@ -42,10 +42,11 @@
   right: 0;
 }
 
+/* Notes with links, password progress and the terms error are read to act: 13 px, not micro. */
 .muted {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
   text-align: center;
 }
 
@@ -53,8 +54,8 @@
   display: grid;
   gap: 4px;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
 }
 
 .rule[data-met='true'] {

@@ -131,7 +131,8 @@
 
 .syncState {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label); /* "Not saved yet. Your draft is kept on this device." */
+  line-height: var(--lh-label);
 }
 
 .syncState[data-state='unsynced'] {

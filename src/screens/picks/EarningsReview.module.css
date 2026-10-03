@@ -43,11 +43,11 @@
   color: var(--fg-muted);
 }
 
+/* Table figures are not tracked (spec: avoid tracking numeric data columns). */
 .results .actual {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.5rem; /* 24 */
-  letter-spacing: var(--track-quote);
   width: 34%;
 }
 
@@ -65,7 +65,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.25rem;
-  letter-spacing: var(--track-quote);
 }
 
 .reaction {

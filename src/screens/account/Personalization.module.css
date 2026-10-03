@@ -24,13 +24,13 @@
 .note {
   padding: var(--space-2) var(--gutter) 0;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label); /* 13 ("You can change this anytime." measures 12.7) */
 }
 
 .step {
   padding-right: 12px;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label); /* 13 ("2 of 3" measures 12.7) */
   font-variant-numeric: tabular-nums;
 }
 

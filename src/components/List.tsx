@@ -42,6 +42,8 @@ interface RowProps {
   align?: 'center' | 'start';
   /** Label/value rows: with enlarged text the value moves under its label instead of colliding. */
   reflow?: boolean;
+  /** A full-width line under the row (the IPO facts strip), outside the leading and action columns. */
+  footer?: ReactNode;
 }
 
 /**
@@ -66,6 +68,7 @@ export function Row({
   as: Tag = 'li',
   align = 'center',
   reflow,
+  footer,
 }: RowProps) {
   const { pressed, handlers } = usePress<HTMLElement>(!to && !onPress);
   const content = (
@@ -82,6 +85,7 @@ export function Row({
       {chevron && (
         <ChevronRight className={styles.chevron} size={18} strokeWidth={ICON_STROKE} aria-hidden />
       )}
+      {footer && <div className={styles.footer}>{footer}</div>}
     </>
   );
   return (
@@ -92,6 +96,7 @@ export function Row({
       data-dense={dense}
       data-align={align}
       data-reflow={reflow}
+      data-footer={footer ? true : undefined}
     >
       {to && (
         <AppLink

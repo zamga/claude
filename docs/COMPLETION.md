@@ -135,7 +135,7 @@ Spec names below refer to `tests/e2e/<name>.spec.ts`; unit names to `src/**/__te
 | Area                                      | Build                   | Notes                                                                                                                                      |
 | ----------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Client app, navigation, split view        | Built                   | Route table is the single source of truth; per-tab stacks; deep links Back to their structural parent.                                     |
-| PWA                                       | Built                   | Precached shell (140 entries), explicit update prompt, notification click opens the exact item, push display for live builds.              |
+| PWA                                       | Built                   | Precached shell (141 entries), explicit update prompt, notification click opens the exact item, push display for live builds.              |
 | `/api/v1` contract                        | Built (demo)            | Envelope, error codes, idempotency keys, record versions and lost-reply behaviour as specified; served in the browser by the demo service. |
 | Live API, database, row-level security    | Configuration required  | No server, schema or migrations ship here. A live build refuses every request with `not_configured` and never shows demo data.             |
 | Market data ingestion                     | Not built               | Deterministic demo price paths only.                                                                                                       |
@@ -156,7 +156,9 @@ Spec names below refer to `tests/e2e/<name>.spec.ts`; unit names to `src/**/__te
 | ------------------------------------------------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Display type keeps the photographed letterforms and numerals | Built: FreeSerif Bold (Times Roman design)                  | Measured with `npm run typography:verify` (needs the spec's images; not part of CI): elastic Dice 0.834 on 51 display samples; first of 37 serif families in the comparison (41 samples); named samples in docs/TYPOGRAPHY.md. |
 | Interface type keeps weights, spacing and numeric appearance | Built: Roboto Flex 400–700                                  | Measured: 0.723 on 61 interface samples, fitted without tracking at natural width; weights 400/450/550/600 from ink mass. First of 39 sans families on samples of 15 px and above.                                             |
-| Sizes and tracking follow the photographs where they differ  | Built: measured roles in `tokens.css`, per-screen overrides | REVIEWED: photograph-beside-app boards for S01–S24 at 390 px (`docs/typography/`). The photographs disagree with each other on some roles; the median governs and the exceptions are listed.                                   |
+| Sizes and tracking follow the photographs where they differ  | Built: measured roles in `tokens.css`, per-screen overrides | REVIEWED: photograph-beside-app boards for S01–S24 at 390 px (`docs/typography/`). Audit of 201 photographed elements: median deviation 3.4 %, 184 within 10 %, the rest explained in docs/TYPOGRAPHY.md.                      |
+| Important labels at 13 px or above; nothing below 11 px      | Built: label and micro floors                               | Hints, step counters, legal links, unavailable-action notes, password progress, save state, filter labels and chart ranges at 13 px or more. Scan of 48 routes at 390 px: no rendered text below 11 px.                        |
+| No tracking on numeric data columns                          | Built                                                       | Earnings results table, archive returns, key-value values and row prices set at 0 em; single figures keep −0.02 em.                                                                                                            |
 | Photographed line breaks                                     | Built: headline fit in `ScreenHeading`                      | REVIEWED: "Today's / picks.", "The investment / case.", "Inside the / semiconductor / cycle.", "Stay informed." match their photographs. PASS `text-size` (no word leaves its box at 200%).                                    |
 | Verified assets recorded, licence files bundled              | Built                                                       | docs/TYPOGRAPHY.md (sources, versions, SHA-256); `public/fonts/FreeSerif-LICENSE.txt`, `public/fonts/RobotoFlex-OFL.txt`; reproducible `npm run fonts`.                                                                        |
 | Loading fallbacks never become the design                    | Built                                                       | Latin files preloaded; metric-matched local fallbacks only while loading; Lighthouse CLS ≤ 0.04.                                                                                                                               |
@@ -168,12 +170,12 @@ Lighthouse, mobile, simulated slow 4G and 4× CPU, one run per URL on the final 
 
 | URL            | Performance | Accessibility | Best practices | SEO | FCP   | LCP   | TBT    | CLS   |
 | -------------- | ----------- | ------------- | -------------- | --- | ----- | ----- | ------ | ----- |
-| `/`            | 81          | 100           | 100            | 100 | 2.0 s | 3.2 s | 420 ms | 0.037 |
-| `/stocks/NVDA` | 82          | 100           | 100            | 100 | 2.0 s | 2.3 s | 570 ms | 0.032 |
-| `/research`    | 79          | 100           | 100            | 100 | 2.2 s | 3.8 s | 340 ms | 0     |
+| `/`            | 83          | 100           | 100            | 100 | 2.2 s | 3.1 s | 359 ms | 0.035 |
+| `/stocks/NVDA` | 83          | 100           | 100            | 100 | 2.0 s | 2.2 s | 535 ms | 0.031 |
+| `/research`    | 80          | 100           | 100            | 100 | 2.1 s | 3.8 s | 306 ms | 0     |
 
-Single runs vary: the two runs on the final typography build ranged 79–85 for performance and
-270–600 ms for total blocking time, with accessibility at 100 and CLS at or below 0.04 in both.
+Single runs vary: runs on the final typography builds ranged 79–85 for performance and
+270–600 ms for total blocking time, with accessibility at 100 and CLS at or below 0.04 in all.
 
 Bundle (gzip): about 150 kB of JavaScript before first render (React 65 kB, router 30 kB, query
 14 kB, app entry 26 kB, shared modules 18 kB), plus the 36 kB demo service fetched in parallel and

@@ -300,7 +300,6 @@ export function OnboardingScreen() {
         </Button>
         <Button
           variant="text"
-          size="small"
           onClick={() => void save(DEFAULT_RESEARCH).then((ok) => ok && setStep(3))}
         >
           Skip for now

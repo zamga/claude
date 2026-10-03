@@ -170,7 +170,6 @@ export default function MarketOverviewScreen() {
                 <SectionHeader
                   title="Leading sectors"
                   aside={<Eyebrow tone="muted">US · today</Eyebrow>}
-                  size="small"
                 />
                 <List label="Sector performance">
                   {data.sectors.map((sector) => (
@@ -201,7 +200,6 @@ export default function MarketOverviewScreen() {
                 <SectionHeader
                   title="Upcoming catalysts"
                   aside={<Eyebrow tone="muted">Your time · {zoneLabel(now, zone)}</Eyebrow>}
-                  size="small"
                 />
                 <List label="Upcoming catalysts">
                   {data.catalysts.map((item) => {

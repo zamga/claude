@@ -15,7 +15,7 @@
   gap: var(--space-3);
   justify-items: center;
   padding: var(--space-5) var(--gutter) 0;
-  font-size: var(--fs-label);
+  font-size: 0.875rem; /* 14 ("New here? Create account" measures 14.2 by width) */
   text-align: center;
 }
 
@@ -25,7 +25,7 @@
   gap: var(--space-3);
   padding: var(--space-6) var(--gutter) 0;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label); /* links are controls: the 13 px floor ("Terms" measures 12.4) */
 }
 
 .legal a {
@@ -43,7 +43,7 @@
 .step {
   padding-right: 12px;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label);
   font-variant-numeric: tabular-nums;
 }
 

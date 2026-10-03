@@ -149,7 +149,6 @@ export default function ProfileScreen() {
               </span>
               <Button
                 variant="text"
-                size="small"
                 className={styles.signOut}
                 pending={signingOut}
                 onClick={() => void doSignOut()}

@@ -32,7 +32,7 @@
 
 .axisLabel {
   fill: var(--chart-axis);
-  font-size: 10.5px; /* axis labels measure 10-11 px */
+  font-size: 11px; /* axis labels measure 10-11 px; 11 is the micro floor */
   font-family: var(--font-ui);
   font-variant-numeric: tabular-nums;
 }
@@ -238,7 +238,7 @@
 .markerLabel {
   paint-order: stroke;
   stroke: var(--bg);
-  stroke-width: 3px;
+  stroke-width: 6px; /* wide enough to knock the series out between the letters */
   stroke-linejoin: round;
   fill: var(--fg-muted);
   font-size: 12px; /* "Entry $128.00", 12 px in the photo */

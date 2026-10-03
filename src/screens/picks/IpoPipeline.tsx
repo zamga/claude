@@ -51,6 +51,24 @@ function IssuerRow({ ipo, rank }: { ipo: IpoIssuer; rank: number }) {
         </span>
       }
       action={<SaveToggle instrumentId={ipo.instrumentId} symbol={ipo.proposedSymbol} />}
+      footer={
+        <div className={styles.facts}>
+          <span className={styles.fact}>{ipo.sector}</span>
+          <span className={styles.fact}>
+            <span className={styles.factValue}>{terms.value}</span>
+            <span className={styles.factNote}>{terms.final ? 'Final price' : terms.label}</span>
+          </span>
+          <span className={styles.fact}>
+            <span className={styles.factNote}>{date.note}</span>
+            <span
+              className={styles.factValue}
+              data-pending={!ipo.dateConfirmed && ipo.status !== 'listed'}
+            >
+              {date.value}
+            </span>
+          </span>
+        </div>
+      }
     >
       <div className={styles.identity}>
         <Ticker symbol={ipo.proposedSymbol} anchor="ticker" className={styles.ticker} />
@@ -58,24 +76,6 @@ function IssuerRow({ ipo, rank }: { ipo: IpoIssuer; rank: number }) {
         {ipo.status === 'listed' && <Tag tone="positive">Listed</Tag>}
       </div>
       <span className={styles.name}>{ipo.name}</span>
-      <div className={styles.facts}>
-        <span className={styles.fact}>{ipo.sector}</span>
-        <span className={styles.fact}>
-          <span className={styles.factValue}>{terms.value}</span>
-          <span className={styles.factNote}>
-            {terms.final ? 'Final price' : terms.value === '—' ? terms.label : 'Indicative'}
-          </span>
-        </span>
-        <span className={styles.fact}>
-          <span className={styles.factNote}>{date.note}</span>
-          <span
-            className={styles.factValue}
-            data-pending={!ipo.dateConfirmed && ipo.status !== 'listed'}
-          >
-            {date.value}
-          </span>
-        </span>
-      </div>
     </Row>
   );
 }

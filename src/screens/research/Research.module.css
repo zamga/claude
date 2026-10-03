@@ -290,8 +290,7 @@
 .rowReturn {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: min(1.625rem, 7cqi); /* 26 */
-  letter-spacing: var(--track-quote);
+  font-size: min(1.625rem, 7cqi); /* 26; a table column, so not tracked */
   font-variant-numeric: lining-nums tabular-nums;
 }
 

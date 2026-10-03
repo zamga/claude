@@ -774,23 +774,13 @@ export const PriceChart = memo(function PriceChart({
               />
             )}
             {geometry.markerY != null && marker && (
-              <g>
-                <line
-                  x1={0}
-                  x2={geometry.plotW}
-                  y1={geometry.markerY}
-                  y2={geometry.markerY}
-                  className={styles.markerLine}
-                />
-                <text
-                  x={geometry.plotW - 6}
-                  y={geometry.markerY - 6}
-                  className={styles.markerLabel}
-                  textAnchor="end"
-                >
-                  {marker.label}
-                </text>
-              </g>
+              <line
+                x1={0}
+                x2={geometry.plotW}
+                y1={geometry.markerY}
+                y2={geometry.markerY}
+                className={styles.markerLine}
+              />
             )}
             {geometry.compLine && (
               <path d={geometry.compLine} className={styles.comparison} fill="none" />
@@ -818,6 +808,17 @@ export const PriceChart = memo(function PriceChart({
                 <circle cx={geometry.single.x} cy={geometry.single.y} r={4} fill={stroke} />
               )}
             </g>
+            {/* The marker label sits above the series, its halo keeping it legible where they cross. */}
+            {geometry.markerY != null && marker && (
+              <text
+                x={geometry.plotW - 6}
+                y={geometry.markerY - 6}
+                className={styles.markerLabel}
+                textAnchor="end"
+              >
+                {marker.label}
+              </text>
+            )}
           </svg>
         )}
         {width > 0 && valid === 0 && (

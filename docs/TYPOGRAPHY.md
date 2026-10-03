@@ -123,42 +123,68 @@ Licences page names both.
 ## Size, weight and tracking
 
 Sizes were measured from the ink height of each crop against the glyph extents of the same text
-in the matched face, in CSS px at 390 px. The photographs are generated and not always consistent
-with each other (tabs measure 13.8–18.9 px on different screens), so each role takes the median,
-and a screen that consistently differs from the median gets its own value.
+in the matched face, in CSS px at 390 px; underlined text (text actions, links) is measured by its
+ink width instead, because the underline inflates the height. The photographs are generated and
+not always consistent with each other (tabs measure 13.8–19.7 px on different screens), so each
+role takes the median, as the specification's visual completion gate asks ("shared rules resolve
+incidental image inconsistencies"), and only a screen whose every sample differs from the median
+by 10 % or more gets its own value.
 
 | Role                               | Measured                            | Set                                             |
 | ---------------------------------- | ----------------------------------- | ----------------------------------------------- |
 | Screen headline                    | 59–72, median 64; leading 0.80–0.84 | 64, line height 0.82, −0.045 em; line fit below |
+| Detail ticker (S02, S08, S10, S16) | 64.5–64.8                           | 64, the headline tier                           |
 | Model value, offer range, reaction | 50–58                               | 54 (S15, S16), 50 (S08, S10)                    |
 | Quote, threshold entry             | 44–47                               | 46                                              |
-| Feature figures, plan name         | 36–43                               | 38 (S08, S24), 40 (S21)                         |
+| Feature figures, plan name         | ≈34 (S08), 39.5–42.9 (S24), 40.4    | 37.4 shared (S08, S24), 40 (S21)                |
 | Feature section                    | 29–33                               | 31                                              |
 | Pick ticker / pick price (S01)     | 38.8 / 34.0                         | 38 / 34                                         |
 | Section heading                    | 23–28                               | 25                                              |
 | List ticker                        | 26–30                               | 28 (30 on S07)                                  |
-| Row price                          | 23.5–24.5                           | 24                                              |
+| Row price                          | 23.5–24.5                           | 24, untracked (a numeric column)                |
 | Row title, small section           | 18–23                               | 21–22                                           |
 | Stat figure                        | 17–22                               | 18 (S02 ratings), 22                            |
 | Lede                               | 17.7–18.7                           | 18                                              |
 | Primary button                     | 16.6–18.9                           | 17                                              |
 | Entered value                      | 16–17                               | 16 (also keeps iOS from zooming on focus)       |
-| Tabs                               | 13.8–18.9, median 16.6              | 16; 14 on S01; chart ranges 11.5 on S02         |
+| Tabs                               | 13.8–19.7, median 16.6              | 16; 14 on S01; 18 on S19 and S23                |
+| Chart range control (S02)          | 11.4                                | 13, the control floor                           |
 | Row change                         | 15–17                               | 16; 14 in the S01 radar rows                    |
 | Body, rows, other buttons          | 14.3–16.2                           | 15, summaries 16, buttons 15.5                  |
+| Text actions (by width)            | 12.6–14.8                           | 14                                              |
 | Form label                         | 13.9–15.5                           | 14                                              |
+| Form hint, step counter, legal     | 11.9–13.2                           | 13, the label floor                             |
 | Meta, names, chips                 | 12.5–14                             | 13–14, chips 12                                 |
 | Footnote                           | 11.1–13.5                           | 12                                              |
 | Eyebrow                            | 10–11.5, +0.13–0.24 em              | 11, +0.2 em                                     |
 | Stat and table labels              | 10–12, +0.00–0.06 em                | 11, +0.04 em (sentence case on S02)             |
 | Top-bar title                      | 11.5–12.5, +0.11–0.24 em            | 12, +0.12 em                                    |
-| Tab bar, chart axes                | 10–11                               | 11, 10.5                                        |
+| Tab bar, chart axes, day names     | 10–11                               | 11, the micro floor                             |
 
 Weights come from ink mass at the measured size: body copy ≈ 410 → 400, rows and controls
 ≈ 440–450 → 450, change figures ≈ 570 → 550, eyebrows ≈ 610 → 600. Every serif in the
 photographs is bold: lighter-looking serif lines (the IPO sector line, earnings estimates) carry
 0.76–0.83 of FreeSerif Bold's ink, the same as titles that are plainly bold ("Demand", 0.81),
 because thin strokes never reach full ink in a soft image.
+
+**Floors.** The specification also says to keep important labels at 13 px or above and that 11 px
+microcopy cannot carry the only required instruction. Text a person reads in order to act stays at
+13 px or more even where its photograph is smaller: form hints (they state rules such as "8–128
+characters"), step counters, legal links, notes that say why an action is unavailable ("Reconnect
+to …"), password progress and errors, the journal's save state, filter group labels and the chart
+range control. Photographed microcopy (eyebrows, stat captions, table heads, the tab bar, axis
+labels, day names) is set at 11 px, and nothing is smaller.
+
+**Tracking.** Numeric data columns are not tracked, as the specification asks: the earnings
+results table, the archive's return column, key-value values and row prices. Single figures
+(quotes, model values, stat strips) keep the photographed −0.02 em.
+
+**Audit.** Every photographed text element that the app also renders was matched by its text and
+its computed size compared with the measurement: 201 elements on 24 screens, median deviation
+3.4 %, 184 within 10 %. Each of the other 17 has a known cause: the matcher picked a different
+element or the crop was poor (5), an underline inflated the height (2, sized by width instead), the
+serif button above (1), a shared size where the photographs disagree (7, for example "Notify me
+about" at 18.3 px beside "Quiet hours" at 20.8 px on the same screen) or one of the floors (2).
 
 **Line breaks.** Headlines keep the photographed breaks: a title is set at 64 px unless a word
 would not fit its column (then at the size where it fits) or unless coming down, to no less than
