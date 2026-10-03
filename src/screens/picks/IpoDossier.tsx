@@ -18,7 +18,13 @@ import { KeyValue, KeyValueList, List, Row } from '@/components/List';
 import { Change, Price, Tag } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, Skeleton } from '@/components/Status';
 import { computeChange } from '@/domain/change';
-import { formatCompactNumber, formatDate, formatMoney, formatShare } from '@/domain/format';
+import {
+  formatCompactNumber,
+  formatDate,
+  formatMoney,
+  formatShare,
+  keepFilingCodesWhole,
+} from '@/domain/format';
 import { useIpo, useQuote, useSources } from '@/data/queries';
 import type { IpoIssuer, Source } from '@/data/types';
 import { dayLabel } from '@/features/earnings';
@@ -216,7 +222,7 @@ function Dossier({ ipo }: { ipo: IpoIssuer }) {
                 <Row
                   key={item.id}
                   icon={FileText}
-                  title={item.title}
+                  title={keepFilingCodesWhole(item.title)}
                   detail={`${item.publisher}${item.url ? '' : ' · no document attached'}`}
                   onPress={() => setSource(item)}
                   dense

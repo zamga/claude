@@ -286,3 +286,14 @@ export function formatDuration(seconds: number): string {
 export function pluralize(count: number, singular: string, plural = `${singular}s`): string {
   return `${count} ${count === 1 ? singular : plural}`;
 }
+
+/**
+ * Filing names ("Form 10-Q", "Form S-1/A") stay on one line where they fit: a no-break space after
+ * "Form" and a word joiner after the code's hyphen. The joiner has no width, needs no glyph and is
+ * not announced, so the text reads and measures exactly as written.
+ */
+export function keepFilingCodesWhole(text: string): string {
+  return text
+    .replace(/\bForm (?=[A-Z0-9]{1,3}-[A-Z0-9])/g, 'Form\u00a0')
+    .replace(/\b([A-Z0-9]{1,3})-(?=[A-Z0-9]{1,3}\b)/g, '$1-\u2060');
+}

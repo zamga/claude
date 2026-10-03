@@ -98,6 +98,9 @@ function FilterSheet({
     open,
   );
   const count = preview.data?.length;
+  const draftIsDefault = (Object.keys(draft) as (keyof Filters)[]).every(
+    (key) => draft[key] === DEFAULT_FILTERS[key],
+  );
   return (
     <Sheet
       open={open}
@@ -109,7 +112,12 @@ function FilterSheet({
           <Button full onClick={() => onApply(draft)} pending={preview.isFetching && count == null}>
             {count == null ? 'Show results' : `Show ${count} result${count === 1 ? '' : 's'}`}
           </Button>
-          <Button full variant="text" onClick={() => setDraft(DEFAULT_FILTERS)}>
+          <Button
+            full
+            variant="text"
+            onClick={() => setDraft(DEFAULT_FILTERS)}
+            disabledReason={draftIsDefault ? 'No filters are set.' : undefined}
+          >
             Reset filters
           </Button>
         </>

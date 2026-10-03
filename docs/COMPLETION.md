@@ -28,10 +28,12 @@ own rule (page 41): nothing is marked as passing without a recorded run.
   activation revealed (sheets, dialogs, menus). Phone and desktop on the production build: 3,677
   activations; phone on the hash-routed preview build: 1,362 more (5,039 in all). Found and fixed:
   sign-out leaving signed-in state on screen, saved items stamped with the wall clock, a desktop
-  deep link showing another tab's list, a dead "Refresh all data".
-  Final runs: no JavaScript errors, error screens, failed requests or links out of the app; every
-  activation without a visible effect is a current tab, a disabled control that explains itself or
-  a component-catalogue specimen.
+  deep link showing another tab's list, a silent "Refresh all data", a "Reset filters" that did
+  nothing when no filter was set, filing names breaking inside "10-Q". Final runs: no JavaScript
+  errors, error screens, failed requests or links out of the app; the one new window is the
+  deliberate "filing index on SEC EDGAR" alternate source. Every activation without a visible
+  change is a current choice (tab, option, pressed toggle), a disabled control that says why, a
+  field or scrollable table taking focus, or a component-catalogue specimen.
 - **Accessibility**: axe-core 4.13 with WCAG 2.0/2.1/2.2 A and AA rules plus axe best practices,
   on 35 routes in both layouts. The gate fails on any violation of any impact. Result: none.
 - **Lighthouse**: 12.6.1 through LHCI 0.15.1, mobile form factor, simulated throttling (150 ms RTT,
@@ -200,6 +202,11 @@ time, then deferring below-the-fold sections; see the README's next steps.
 ## Known limitations
 
 - Everything is illustrative demo data generated in the browser; nothing is market data.
+- The demo keeps two clocks. Market data, research and everything a person saves follow the
+  simulated session clock (Wed 21 Oct 2026, 14:25 New York time). Sign-in sessions, data exports
+  and the demo mailbox follow the device's real clock, because link expiry, resend cooldowns, export
+  readiness and the re-authentication window run on real elapsed time, so their dates can differ
+  from the session's.
 - Live services (API, database, email, push, market data, identity providers, billing) are not
   part of this repository.
 - Tested in Chromium only; no Safari, Firefox or real-device evidence yet.

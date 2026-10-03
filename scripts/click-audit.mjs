@@ -215,7 +215,12 @@ function installProbe() {
     },
     dialogs: () =>
       [...document.querySelectorAll('[role="dialog"], [role="alertdialog"], dialog[open]')].length,
-    location: () => ({ href: location.href, pathname: location.pathname, hash: location.hash }),
+    location: () => ({
+      href: location.href,
+      pathname: location.pathname,
+      search: location.search,
+      hash: location.hash,
+    }),
     active: () => {
       const el = document.activeElement;
       return el ? `${el.tagName}#${el.id}:${(el.textContent ?? '').slice(0, 20)}` : '';

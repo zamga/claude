@@ -7,6 +7,7 @@ import {
   formatPoints,
   formatQuantity,
   formatSignedMoney,
+  keepFilingCodesWhole,
   relativeDayLabel,
   UNAVAILABLE,
   zoneLabel,
@@ -52,5 +53,17 @@ describe('formatting', () => {
     expect(relativeDayLabel(Date.UTC(2026, 9, 21, 7), now, 'Europe/Ljubljana')).toBe('Today');
     expect(relativeDayLabel(Date.UTC(2026, 9, 20, 7), now, 'Europe/Ljubljana')).toBe('Yesterday');
     expect(relativeDayLabel(Date.UTC(2026, 9, 18, 7), now, 'Europe/Ljubljana')).toBe('Sun 18 Oct');
+  });
+
+  it('keeps filing codes on one line without changing what is read', () => {
+    expect(keepFilingCodesWhole('Quarterly report (Form 10-Q), Q2 FY2027')).toBe(
+      'Quarterly report (Form\u00a010-\u2060Q), Q2 FY2027',
+    );
+    expect(keepFilingCodesWhole('Registration statement (Form S-1/A), amendment 3')).toBe(
+      'Registration statement (Form\u00a0S-\u20601/A), amendment 3',
+    );
+    expect(keepFilingCodesWhole('A year-on-year COVID-19 comparison')).toBe(
+      'A year-on-year COVID-19 comparison',
+    );
   });
 });

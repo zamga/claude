@@ -27,6 +27,7 @@ import {
   formatDuration,
   formatMoney,
   formatPercent,
+  keepFilingCodesWhole,
   zoneLabel,
 } from '@/domain/format';
 import { useEarning, useInstrument, useReport, useSources } from '@/data/queries';
@@ -133,7 +134,10 @@ function MetricSheet({
               : 'Surprise = (actual − estimate) ÷ estimate. Units match the company’s reporting currency.'}
           </p>
           <p className="t-label t-muted">
-            Actual: {release ? `${release.title}, ${release.publisher}` : 'company results release'}
+            Actual:{' '}
+            {release
+              ? `${keepFilingCodesWhole(release.title)}, ${release.publisher}`
+              : 'company results release'}
             {event.actual ? `, ${formatDate(Date.parse(event.actual.reportedAt), timeZone)}` : ''}.
             Estimate: {event.consensus.source}, as of{' '}
             {formatDate(Date.parse(event.consensus.asOf), timeZone)}.
@@ -345,7 +349,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
               <Row
                 key={item.id}
                 icon={FileText}
-                title={item.title}
+                title={keepFilingCodesWhole(item.title)}
                 detail={`${item.publisher}${item.period ? ` · ${item.period}` : ''}${item.url ? '' : ' · no document attached'}`}
                 onPress={() => setSource(item)}
                 dense

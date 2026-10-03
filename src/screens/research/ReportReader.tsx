@@ -18,7 +18,7 @@ import { Content, Disclaimer, ScreenBody } from '@/components/Layout';
 import { List, Row } from '@/components/List';
 import { Ticker } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, Skeleton } from '@/components/Status';
-import { formatDate } from '@/domain/format';
+import { formatDate, keepFilingCodesWhole } from '@/domain/format';
 import { useInstrument, useReport } from '@/data/queries';
 import type { Report, Source } from '@/data/types';
 import { useSavedReport } from '@/features/research';
@@ -265,7 +265,7 @@ function Reader({ report }: { report: Report }) {
                   <Row
                     key={item.id}
                     icon={FileText}
-                    title={item.title}
+                    title={keepFilingCodesWhole(item.title)}
                     detail={`${item.publisher}${item.period ? ` · ${item.period}` : ''}${item.url ? '' : ' · no document attached'}`}
                     onPress={() => setSource(item)}
                     dense

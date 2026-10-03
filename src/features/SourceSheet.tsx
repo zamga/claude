@@ -3,7 +3,7 @@ import { ExternalLink, Info } from '@/components/icons';
 import { KeyValue, KeyValueList } from '@/components/List';
 import { Sheet } from '@/components/Sheet';
 import { Notice } from '@/components/Status';
-import { formatDate } from '@/domain/format';
+import { formatDate, keepFilingCodesWhole } from '@/domain/format';
 import type { Source } from '@/data/types';
 
 const KIND: Record<Source['kind'], string> = {
@@ -29,7 +29,12 @@ export function SourceSheet({
   timeZone: string;
 }) {
   return (
-    <Sheet open={source != null} onClose={onClose} title={source?.title ?? 'Source'} size="auto">
+    <Sheet
+      open={source != null}
+      onClose={onClose}
+      title={source ? keepFilingCodesWhole(source.title) : 'Source'}
+      size="auto"
+    >
       {source && (
         <div style={{ display: 'grid', gap: 16 }}>
           <KeyValueList label="Source details">

@@ -16,7 +16,7 @@ import { List, Row } from '@/components/List';
 import { RankBadge, Tag } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, SkeletonRows } from '@/components/Status';
 import { UnderlineTabs } from '@/components/Tabs';
-import { formatDate, formatWeekdayDate } from '@/domain/format';
+import { formatDate, formatWeekdayDate, keepFilingCodesWhole } from '@/domain/format';
 import { useInstrument, usePickForInstrument, useReport, useReports } from '@/data/queries';
 import type { Instrument, Report, Source, ThesisPoint } from '@/data/types';
 import { EVIDENCE_LABEL, EVIDENCE_TONE, useSavedReport } from '@/features/research';
@@ -99,7 +99,7 @@ function Point({
                       className={styles.sourceButton}
                       onClick={() => onSource(source)}
                     >
-                      Source: {source.title}
+                      Source: {keepFilingCodesWhole(source.title)}
                     </button>
                   ) : (
                     <span className={styles.noSource}>
@@ -413,7 +413,7 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
                 <Row
                   key={item.id}
                   onPress={() => setSource(item)}
-                  title={item.title}
+                  title={keepFilingCodesWhole(item.title)}
                   detail={`${item.publisher} · ${formatDate(Date.parse(item.publishedAt), zone)}`}
                   leading={<ArrowUpRight size={18} strokeWidth={ICON_STROKE} aria-hidden />}
                   chevron={false}
