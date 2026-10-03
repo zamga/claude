@@ -32,7 +32,7 @@
 
 .axisLabel {
   fill: var(--chart-axis);
-  font-size: 10px;
+  font-size: 10.5px; /* axis labels measure 10-11 px */
   font-family: var(--font-ui);
   font-variant-numeric: tabular-nums;
 }
@@ -218,7 +218,7 @@
   top: 0;
   background: var(--bg);
   color: var(--fg-muted);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .comparison {
@@ -241,7 +241,7 @@
   stroke-width: 3px;
   stroke-linejoin: round;
   fill: var(--fg-muted);
-  font-size: 10px;
+  font-size: 12px; /* "Entry $128.00", 12 px in the photo */
   font-family: var(--font-ui);
   font-variant-numeric: tabular-nums;
 }
@@ -252,7 +252,7 @@
   gap: var(--space-4);
   margin-top: var(--space-2);
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-note);
 }
 
 .legendItem {
@@ -274,7 +274,7 @@
 
 .tooltipKey {
   font-family: var(--font-ui);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   font-size: var(--fs-micro);
   color: var(--fg-muted);
 }

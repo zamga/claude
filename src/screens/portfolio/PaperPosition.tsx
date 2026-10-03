@@ -415,16 +415,17 @@ function Position({ instrument }: { instrument: Instrument }) {
                   <p className={styles.value}>
                     {position.value ? formatMoney(position.value, 'USD') : '—'}
                   </p>
-                  <p className="t-label t-muted">
+                  <p className={styles.valueCaption}>
                     Current model value{instrument.currency !== 'USD' ? ' in USD' : ''}
                   </p>
                   {position.unrealized != null ? (
                     <p
                       className={styles.gain}
+                      data-face="ui"
                       data-direction={Number(position.unrealized) >= 0 ? 'up' : 'down'}
                     >
-                      {formatSignedMoney(position.unrealized, 'USD')}{' '}
-                      <Change value={position.unrealizedPct} size="md" />
+                      {formatSignedMoney(position.unrealized, 'USD')} (
+                      <Change value={position.unrealizedPct} size="inline" />)
                     </p>
                   ) : (
                     <p className={styles.gainMuted}>Gain unavailable without a current quote</p>
@@ -491,7 +492,7 @@ function Position({ instrument }: { instrument: Instrument }) {
               )}
 
               {held && (
-                <KeyValueList label="Position">
+                <KeyValueList label="Position" values="large">
                   <KeyValue label="Shares" value={formatQuantity(position.units)} />
                   <KeyValue
                     label="Average entry"

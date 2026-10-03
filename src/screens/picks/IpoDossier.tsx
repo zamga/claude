@@ -143,7 +143,7 @@ function Dossier({ ipo }: { ipo: IpoIssuer }) {
             <span className={shared.statLabel}>
               {terms.final ? 'Valuation at offer' : 'Indicative valuation'}
             </span>
-            <span className={shared.statValue}>
+            <span className={shared.statValue} data-size="lg">
               {ipo.indicativeValuationB
                 ? `${formatMoney(ipo.indicativeValuationB, ipo.currency, 1)}B`
                 : '—'}
@@ -152,7 +152,7 @@ function Dossier({ ipo }: { ipo: IpoIssuer }) {
           </div>
           <div className={shared.stat}>
             <span className={shared.statLabel}>Shares offered</span>
-            <span className={shared.statValue}>
+            <span className={shared.statValue} data-size="lg">
               {ipo.sharesOfferedM
                 ? `${formatCompactNumber(Number(ipo.sharesOfferedM) * 1_000_000)}`
                 : '—'}
@@ -163,7 +163,7 @@ function Dossier({ ipo }: { ipo: IpoIssuer }) {
 
         <section aria-labelledby="setup-heading">
           <SectionHeader title="Listing setup" id="setup-heading" />
-          <KeyValueList label="Listing setup">
+          <KeyValueList label="Listing setup" values="display">
             <KeyValue label={listed ? 'Listed' : 'Expected listing'} value={expected} />
             <KeyValue label="Exchange" value={ipo.exchange} />
             <KeyValue label="Status" value={IPO_STATUS_LABEL[ipo.status]} />

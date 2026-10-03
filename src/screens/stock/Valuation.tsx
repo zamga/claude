@@ -211,6 +211,7 @@ function ValuationView({ instrument, model }: { instrument: Instrument; model: V
             </>
           }
           subtitle={`Illustrative 12-month scenarios · model ${model.modelVersion} · base date ${formatDate(Date.parse(model.baseDate), zone)}`}
+          subtitleSize="note"
         />
         <div className={styles.reference}>
           <Price value={model.referencePrice} currency={model.currency} size="hero" />
@@ -249,7 +250,7 @@ function ValuationView({ instrument, model }: { instrument: Instrument; model: V
               );
             })}
           </div>
-          <p className="t-micro t-muted" style={{ marginTop: 6 }}>
+          <p className="t-note t-muted" style={{ marginTop: 6 }}>
             Rounded sample values. Not a price target or a recommendation.
           </p>
         </div>
@@ -265,7 +266,7 @@ function ValuationView({ instrument, model }: { instrument: Instrument; model: V
           </div>
         )}
 
-        <SectionHeader title={`${LABEL[selected]}-case assumptions`} size="small" />
+        <SectionHeader title={`${LABEL[selected]}-case assumptions`} />
         <p className="t-label t-muted" style={{ padding: '0 var(--gutter) 12px' }}>
           {model.scenarios[selected].narrative}
         </p>
@@ -321,7 +322,7 @@ function ValuationView({ instrument, model }: { instrument: Instrument; model: V
           </Notice>
         )}
 
-        <SectionHeader title="Sensitivity" size="small" />
+        <SectionHeader title="Sensitivity" />
         <div className={styles.sensitivity}>
           <Slider
             label="Exit multiple"

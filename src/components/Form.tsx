@@ -214,6 +214,7 @@ export function Switch({
 
 export function SwitchRow({
   label,
+  labelStyle = 'text',
   detail,
   checked,
   onChange,
@@ -222,6 +223,8 @@ export function SwitchRow({
   icon,
 }: {
   label: string;
+  /** 'figure': the label is a value, set in the display face ("22:00–07:00"). */
+  labelStyle?: 'text' | 'figure';
   detail?: ReactNode;
   checked: boolean;
   onChange: (next: boolean) => void;
@@ -234,7 +237,7 @@ export function SwitchRow({
     <div className={styles.switchRow}>
       {icon}
       <div className={styles.switchText}>
-        <div className={styles.switchLabel} id={`${id}-label`}>
+        <div className={styles.switchLabel} data-style={labelStyle} id={`${id}-label`}>
           {label}
         </div>
         {detail && (

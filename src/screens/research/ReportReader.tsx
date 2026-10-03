@@ -14,7 +14,7 @@ import {
   Info,
   TriangleAlert,
 } from '@/components/icons';
-import { ActionBar, Content, Disclaimer, ScreenBody } from '@/components/Layout';
+import { Content, Disclaimer, ScreenBody } from '@/components/Layout';
 import { List, Row } from '@/components/List';
 import { Ticker } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, Skeleton } from '@/components/Status';
@@ -161,9 +161,7 @@ function Reader({ report }: { report: Report }) {
           <div className={shared.headline}>
             <ScreenHeading>{report.title}</ScreenHeading>
           </div>
-          <p className={shared.lede} style={{ color: 'var(--fg-muted)' }}>
-            {report.dek}
-          </p>
+          <p className={styles.dek}>{report.dek}</p>
           <p className={styles.byline}>
             <span>By {report.current.author}</span>
             <span aria-hidden>·</span>
@@ -246,7 +244,7 @@ function Reader({ report }: { report: Report }) {
 
           {body.monitor.length > 0 && (
             <section aria-labelledby="monitor-heading">
-              <SectionHeader title="What to monitor" id="monitor-heading" />
+              <SectionHeader title="What to monitor" id="monitor-heading" size="large" />
               <MonitorList items={body.monitor} />
             </section>
           )}
@@ -277,6 +275,24 @@ function Reader({ report }: { report: Report }) {
             )}
           </section>
 
+          {/* As photographed, saving follows the source checklist; the top bar keeps it in reach. */}
+          <div className={shared.endAction}>
+            <Button
+              full
+              variant="secondary"
+              icon={save.saved ? BookmarkCheck : Bookmark}
+              iconPosition="start"
+              pending={save.pending}
+              disabledReason={offline ? 'Needs a connection.' : undefined}
+              onClick={() => void save.toggle()}
+            >
+              {save.saved
+                ? `Saved (version ${save.record?.version ?? viewing})`
+                : 'Save to research'}
+            </Button>
+            {offline && <p className="t-note t-muted">Reconnect to change saved research.</p>}
+          </div>
+
           {report.instrumentIds.length > 0 && (
             <section aria-labelledby="companies-heading">
               <SectionHeader title="Companies in this report" id="companies-heading" size="small" />
@@ -294,19 +310,6 @@ function Reader({ report }: { report: Report }) {
           </Disclaimer>
         </div>
       </Content>
-      <ActionBar note={offline ? 'Reconnect to change saved research.' : undefined}>
-        <Button
-          full
-          variant={save.saved ? 'secondary' : 'primary'}
-          icon={save.saved ? BookmarkCheck : Bookmark}
-          iconPosition="start"
-          pending={save.pending}
-          disabledReason={offline ? 'Needs a connection.' : undefined}
-          onClick={() => void save.toggle()}
-        >
-          {save.saved ? `Saved (version ${save.record?.version ?? viewing})` : 'Save to research'}
-        </Button>
-      </ActionBar>
       <SourceSheet source={source} onClose={() => setSource(null)} timeZone={zone} />
       {save.intent && (
         <AccountPrompt

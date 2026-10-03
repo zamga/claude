@@ -18,39 +18,56 @@
   --c-warning: #e9af49;
   --c-white: #ffffff;
 
-  /* Typography */
-  --font-display: 'Bodoni Moda', 'Bodoni Moda Fallback', Georgia, 'Times New Roman', serif;
+  /* Typography — matched to the reference images (spec page 29; docs/TYPOGRAPHY.md) */
+  --font-display:
+    'FreeSerif', 'FreeSerif Fallback', 'Times New Roman', Times, 'Liberation Serif', serif;
   --font-ui:
-    'Inter', 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
+    'Roboto Flex', 'Roboto Flex Fallback', Roboto, 'Helvetica Neue', Arial, system-ui, sans-serif;
 
   /*
-   * Size / line height pairs from the type scale (logical px at 100% text). Display sizes follow
-   * the text setting but are capped by the pane width (cqi), so at 200% text a headline word still
-   * fits its column instead of breaking mid-word.
+   * Size / line height pairs measured from the photos at 390 px (logical px at 100% text). The
+   * photos use one headline tier for every screen title. Display sizes follow the text setting but
+   * are capped by the pane width (cqi), so at 200% text a headline word still fits its column.
    */
-  --fs-display: min(3rem, 14cqi); /* 48 */
-  --lh-display: 1; /* 48 */
-  --fs-title: min(2.25rem, 11cqi); /* 36 */
-  --lh-title: 1.0834; /* 39 */
-  --fs-quote: min(2.5rem, 12cqi); /* 40 */
-  --lh-quote: 1.1; /* 44 */
-  --fs-section: 1.5rem; /* 24 */
-  --lh-section: 1.2084; /* 29 */
-  --fs-ticker: 1.25rem; /* 20 — compact display step for list rows */
-  --lh-ticker: 1.2;
-  --fs-body: 1rem; /* 16 */
-  --lh-body: 1.4375; /* 23 */
+  --fs-display: min(4rem, 16.4cqi); /* 64 */
+  --lh-display: 0.82; /* 52, measured 0.80-0.84 */
+  --fs-title: var(--fs-display);
+  --lh-title: var(--lh-display);
+  --fs-quote: min(2.875rem, 11.8cqi); /* 46 */
+  --lh-quote: 1;
+  --fs-section-lg: 1.9375rem; /* 31: feature sections measure 29-33 px ("Results at a glance") */
+  --fs-section: 1.5625rem; /* 25 */
+  --lh-section: 1.12;
+  --fs-section-sm: 1.3125rem; /* 21 */
+  --fs-ticker: 1.75rem; /* 28: list-row tickers measure 26-30 px */
+  --lh-ticker: 1.05;
+  --fs-lede: 1.125rem; /* 18: screen ledes */
+  --lh-lede: 1.35;
+  --fs-body: 0.9375rem; /* 15 */
+  --lh-body: 1.4667; /* 22 */
   --fs-body-sm: 0.9375rem; /* 15 */
   --lh-body-sm: 1.4;
+  --fs-dek: 1rem; /* 16: card summaries, takeaways */
+  --lh-dek: 1.5;
   --fs-label: 0.8125rem; /* 13 */
   --lh-label: 1.3847; /* 18 */
+  --fs-note: 0.75rem; /* 12: footnotes and captions */
+  --lh-note: 1.45;
   --fs-micro: 0.6875rem; /* 11 */
   --lh-micro: 1.3637; /* 15 */
 
-  --track-display: -0.025em;
-  --track-section: -0.015em;
-  --track-eyebrow: 0.12em;
+  /* Weights measured as ink mass against the photos: copy 400, rows and controls ~450,
+     figures ~550, eyebrows and ticker labels ~600. */
+  --weight-regular: 400;
+  --weight-medium: 450;
+  --weight-figure: 550;
+  --weight-label: 600;
+
+  --track-display: -0.045em;
+  --track-quote: -0.02em;
+  --track-section: -0.033em;
+  --track-eyebrow: 0.2em;
+  --track-bar-title: 0.12em;
 
   /* Spacing scale */
   --space-1: 4px;

@@ -28,29 +28,32 @@
   display: block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.0625rem;
-  line-height: 1.3;
+  font-size: 1.375rem; /* 22, as photographed ("NVDA reached $150") */
+  line-height: 1.2;
+  letter-spacing: var(--track-section);
 }
 
 .title[data-unread='false'] {
   font-weight: 400;
   font-family: var(--font-ui);
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
+  letter-spacing: 0;
 }
 
 .body {
   display: block;
   margin-top: 2px;
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: 0.96875rem; /* 15.5: alert bodies measure 15-16 px */
+  line-height: 1.4;
 }
 
 .meta {
   display: block;
   margin-top: 4px;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
   font-variant-numeric: tabular-nums;
 }
 
@@ -58,6 +61,6 @@
   display: block;
   margin-top: 2px;
   color: var(--warning-fg);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-note);
+  line-height: var(--lh-note);
 }

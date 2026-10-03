@@ -363,7 +363,7 @@ export function SupportScreen() {
               onChange={setIncludeDiagnostics}
             />
             {includeDiagnostics && diagnostics.length > 0 && (
-              <p className="t-micro t-muted" style={{ marginTop: 4 }}>
+              <p className="t-note t-muted" style={{ marginTop: 4 }}>
                 Latest: {diagnostics[diagnostics.length - 1]!.requestId} (
                 {diagnostics[diagnostics.length - 1]!.outcome})
               </p>

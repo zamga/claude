@@ -17,11 +17,15 @@ Version 3_ (26 screens, 4 tabs, supporting routes, interaction and data contract
 Most finance apps sell confidence: neon green, live tickers, celebration. Stock Picks sells a
 record. Two surfaces carry that idea through every screen:
 
-- **Paper** (`#F8F5ED`, Bodoni Moda display over Inter) for discovery and reading. Picks, research
-  and the archive are set like a broadsheet: numbered arguments, sources one tap away, revisions
-  kept, losses printed at the same size as wins.
+- **Paper** (`#F8F5ED`) for discovery and reading. Picks, research and the archive are set like a
+  broadsheet: numbered arguments, sources one tap away, revisions kept, losses printed at the same
+  size as wins.
 - **Charcoal** for analysis. Price, valuation and earnings live on a dark instrument surface where
   every figure carries its time, zone, currency and data status.
+
+Type follows the reference photographs: a bold Times Roman display (FreeSerif Bold) over the
+Roboto interface face (Roboto Flex), chosen by rendering 76 licensed families against the
+photographs and set at the sizes measured from them — see [docs/TYPOGRAPHY.md](docs/TYPOGRAPHY.md).
 
 The signature moment is the chart. Hold and drag, and the quote above it _becomes_ the moment under
 your finger — time, price and change rewritten together, with a 180 ms hold that never fights the
@@ -45,19 +49,20 @@ its response, browse the component catalogue, or reset all demo data.
 
 ## Scripts
 
-| Command                                        | What it does                                                            |
-| ---------------------------------------------- | ----------------------------------------------------------------------- |
-| `npm run dev`                                  | Vite dev server on port 5173                                            |
-| `npm run build`                                | Type-check (`tsc -b`) and production build to `dist/`                   |
-| `npm run preview`                              | Serve the production build on port 4173                                 |
-| `npm run typecheck`                            | TypeScript project build, strict                                        |
-| `npm run lint`                                 | ESLint (typescript-eslint + React Hooks / React Compiler rules)         |
-| `npm run format:check`                         | Prettier check (`npm run format` writes)                                |
-| `npm test`                                     | Vitest unit tests: domain fixtures F01–F04, F06, demo world             |
-| `npm run test:e2e`                             | Playwright journeys, axe, 200% text and reduced motion; phone + desktop |
-| `npm run check`                                | typecheck, lint, unit tests and build in one go                         |
-| `npm run fonts -- --inter <InterVariable.ttf>` | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)          |
-| `npm run icons`                                | Re-render PWA icons and the Open Graph image (Playwright Chromium)      |
+| Command                                       | What it does                                                            |
+| --------------------------------------------- | ----------------------------------------------------------------------- |
+| `npm run dev`                                 | Vite dev server on port 5173                                            |
+| `npm run build`                               | Type-check (`tsc -b`) and production build to `dist/`                   |
+| `npm run preview`                             | Serve the production build on port 4173                                 |
+| `npm run typecheck`                           | TypeScript project build, strict                                        |
+| `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)         |
+| `npm run format:check`                        | Prettier check (`npm run format` writes)                                |
+| `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world             |
+| `npm run test:e2e`                            | Playwright journeys, axe, 200% text and reduced motion; phone + desktop |
+| `npm run check`                               | typecheck, lint, unit tests and build in one go                         |
+| `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)          |
+| `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs         |
+| `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)      |
 
 ### End-to-end tests
 
@@ -140,7 +145,7 @@ src/
   screens/      one folder per tab plus auth, account and system pages
   sw.ts         service worker (precache, update step, notification routing, push)
 tests/e2e/      Playwright journeys and axe audits
-scripts/        font subsetting and icon rendering
+scripts/        font subsetting, typography verification and icon rendering
 docs/           architecture notes and the completion matrix
 ```
 

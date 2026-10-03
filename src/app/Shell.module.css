@@ -11,7 +11,7 @@
   border-radius: var(--radius-sm);
   background: var(--c-ink);
   color: var(--c-paper);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   transform: translateY(-200%);
 }
 
@@ -132,8 +132,13 @@
   /* Like native tab bars, labels grow with the text setting only up to what four columns hold. */
   font-size: min(0.6875rem, 15px);
   line-height: 1.1;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
+  color: var(--c-muted);
   transition: color var(--dur-feedback) var(--ease-standard);
+}
+
+:global([data-appearance='night']) .tab {
+  color: #9aa199;
 }
 
 .tab[aria-current='page'] {
@@ -217,7 +222,7 @@
   padding: 0 var(--space-2);
   border-radius: var(--radius);
   font-size: var(--fs-body-sm);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   transition:
     background-color var(--dur-feedback) var(--ease-standard),
     color var(--dur-feedback) var(--ease-standard);
@@ -252,7 +257,7 @@
 }
 
 .railUser {
-  font-weight: 600;
+  font-weight: var(--weight-label);
   font-size: var(--fs-label);
 }
 
@@ -287,7 +292,7 @@
   min-height: 32px;
   padding: 0 10px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -341,7 +346,7 @@
   justify-content: center;
   min-height: var(--button-h);
   border-radius: var(--radius-sm);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   font-size: var(--fs-body-sm);
 }
 

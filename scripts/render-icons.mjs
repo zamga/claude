@@ -12,13 +12,13 @@ const favicon = readFileSync(resolve(root, 'public/favicon.svg'), 'utf8');
 // Fonts are inlined as data URLs: pages created with setContent cannot load file:// resources.
 const dataUrl = (file) =>
   `data:font/woff2;base64,${readFileSync(resolve(root, file)).toString('base64')}`;
-const bodoni = dataUrl('public/fonts/bodoni-moda-700-latin.woff2');
-const inter = dataUrl('public/fonts/inter-400-600-latin.woff2');
+const serif = dataUrl('public/fonts/freeserif-700-latin.woff2');
+const sans = dataUrl('public/fonts/roboto-flex-400-700-latin.woff2');
 const executablePath = process.env.CHROMIUM_PATH || undefined;
 
 const fontFaces = `
-  @font-face { font-family: 'Bodoni Moda'; src: url('${bodoni}') format('woff2'); font-weight: 700; }
-  @font-face { font-family: 'Inter'; src: url('${inter}') format('woff2'); font-weight: 400 600; }
+  @font-face { font-family: 'FreeSerif'; src: url('${serif}') format('woff2'); font-weight: 700; }
+  @font-face { font-family: 'Roboto Flex'; src: url('${sans}') format('woff2'); font-weight: 400 700; }
 `;
 
 function iconHtml(size, { maskable = false } = {}) {
@@ -33,19 +33,19 @@ function iconHtml(size, { maskable = false } = {}) {
 
 const ogHtml = `<!doctype html><html><head><style>
   ${fontFaces}
-  html, body { margin: 0; width: 1200px; height: 630px; background: #F8F5ED; color: #111613; font-variation-settings: 'opsz' 20; }
+  html, body { margin: 0; width: 1200px; height: 630px; background: #F8F5ED; color: #111613; }
   .page { position: relative; box-sizing: border-box; width: 1200px; height: 630px; padding: 72px 80px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; }
-  .eyebrow { display: flex; align-items: center; gap: 16px; font: 600 18px/1 Inter, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: #BB321D; }
+  .eyebrow { display: flex; align-items: center; gap: 16px; font: 600 18px/1 'Roboto Flex', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: #BB321D; }
   .eyebrow::before { content: ''; width: 56px; height: 5px; background: #F3482D; }
-  h1 { margin: 36px 0 0; font: 700 150px/0.92 'Bodoni Moda', serif; letter-spacing: -0.03em; }
-  p { margin: 32px 0 0; font: 400 26px/1.4 Inter, sans-serif; color: #4e554d; max-width: 560px; }
+  h1 { margin: 36px 0 0; font: 700 150px/0.82 FreeSerif, serif; letter-spacing: -0.045em; }
+  p { margin: 32px 0 0; font: 400 26px/1.4 'Roboto Flex', sans-serif; color: #4e554d; max-width: 560px; }
   .card { align-self: center; background: #101512; color: #F4F1E8; border-radius: 20px; padding: 36px; }
-  .card .t { font: 600 14px/1 Inter, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: #9AA199; }
-  .card .k { margin-top: 14px; font: 700 76px/1 'Bodoni Moda', serif; letter-spacing: -0.02em; }
-  .card .q { margin-top: 10px; font: 700 40px/1 'Bodoni Moda', serif; }
-  .card .q span { margin-left: 14px; font: 500 24px Inter, sans-serif; color: #8EDDB0; }
+  .card .t { font: 600 14px/1 'Roboto Flex', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: #9AA199; }
+  .card .k { margin-top: 14px; font: 700 76px/1 FreeSerif, serif; letter-spacing: -0.02em; }
+  .card .q { margin-top: 10px; font: 700 40px/1 FreeSerif, serif; }
+  .card .q span { margin-left: 14px; font: 500 24px 'Roboto Flex', sans-serif; color: #8EDDB0; }
   .card svg { margin-top: 26px; display: block; }
-  .demo { position: absolute; right: 80px; bottom: 40px; font: 500 14px Inter, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #687067; }
+  .demo { position: absolute; right: 80px; bottom: 40px; font: 500 14px 'Roboto Flex', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #626960; }
 </style></head><body><div class="page">
   <div>
     <div class="eyebrow">Daily selection</div>

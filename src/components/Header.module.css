@@ -109,8 +109,17 @@
 .eyebrow {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Centered screen titles in the bar: tighter than eyebrows (measured +0.11 to +0.16em). */
+.barTitle {
+  font-size: 0.75rem;
+  line-height: var(--lh-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--track-bar-title);
   text-transform: uppercase;
 }
 
@@ -161,6 +170,11 @@
 .subtitle {
   margin-top: var(--space-2);
   color: var(--fg-muted);
+  font-size: var(--fs-lede); /* the photographed lede ("Your research, in one place.") */
+  line-height: var(--lh-lede);
+}
+
+.subtitle[data-size='note'] {
   font-size: var(--fs-body-sm);
   line-height: var(--lh-body-sm);
 }
@@ -178,6 +192,12 @@
   padding: var(--space-5) var(--gutter) var(--space-2);
 }
 
+/* Asides (eyebrows, tags) never break mid-word; the title takes the remaining width. */
+.section > :not(:first-child) {
+  flex: none;
+  white-space: nowrap;
+}
+
 .sectionTitle {
   font-family: var(--font-display);
   font-weight: 700;
@@ -186,16 +206,19 @@
   letter-spacing: var(--track-section);
 }
 
+.sectionTitle[data-size='large'] {
+  font-size: var(--fs-section-lg);
+  line-height: 1.05;
+}
+
 .sectionTitle[data-size='small'] {
-  font-size: 1.25rem;
-  line-height: 1.2;
+  font-size: var(--fs-section-sm);
+  line-height: 1.15;
 }
 
 @container pane (min-width: 560px) {
-  .title[data-size='display'] {
-    font-size: calc(var(--fs-display) * 1.25);
-  }
+  .title[data-size='display'],
   .title[data-size='title'] {
-    font-size: calc(var(--fs-title) * 1.2);
+    font-size: calc(var(--fs-display) * 1.125);
   }
 }

@@ -19,8 +19,8 @@
   border-bottom: var(--hairline) solid var(--rule);
   color: var(--fg-muted);
   font-size: var(--fs-micro);
-  font-weight: 600;
-  letter-spacing: var(--track-eyebrow);
+  font-weight: var(--weight-label);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -36,7 +36,7 @@
   margin: 0 calc(var(--space-2) * -1);
   border-bottom: var(--hairline) solid var(--rule);
   border-radius: 2px;
-  font-size: var(--fs-body-sm);
+  font-size: 1.0625rem; /* 17: scenario values measure 17-18 px */
   font-variant-numeric: tabular-nums;
   cursor: pointer;
 }
@@ -51,7 +51,7 @@
 }
 
 .name {
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .cell[data-flash='true'] {

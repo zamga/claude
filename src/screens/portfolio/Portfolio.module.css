@@ -7,17 +7,33 @@
 .value {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.25rem, 1.9rem + 2cqi, 3rem);
-  line-height: 1.05;
-  letter-spacing: var(--track-display);
+  font-size: min(3.375rem, 13.8cqi); /* 54: model values measure 53-58 px */
+  line-height: 1;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
 .gain {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 1.4375rem; /* 23, as photographed on the portfolio */
+  line-height: 1.2;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The position screen sets its gain in the interface face (20 px in the photo). */
+.gain[data-face='ui'] {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-regular);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+}
+
+.valueCaption {
+  color: var(--fg-muted);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
 }
 
 .gain[data-direction='up'] {
@@ -32,7 +48,8 @@
   color: var(--fg-muted);
   font-family: var(--font-ui);
   font-weight: 400;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label);
+  letter-spacing: 0;
 }
 
 .gainMuted {
@@ -46,7 +63,7 @@
   gap: var(--space-2);
   margin-top: var(--space-1);
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-body-sm); /* 15 ("Paper results • sample data") */
 }
 
 .rowTicker {
@@ -59,8 +76,8 @@
 }
 
 .shares {
-  color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  color: var(--fg);
+  font-size: var(--fs-body-sm); /* 15 ("20 shares") */
   font-variant-numeric: tabular-nums;
 }
 
@@ -94,8 +111,8 @@
 }
 
 .entryBody {
-  font-size: var(--fs-body-sm);
-  line-height: var(--lh-body-sm);
+  font-size: 1.0625rem; /* 17: journal entries measure 16-18 px */
+  line-height: 1.45;
   white-space: pre-wrap;
 }
 
@@ -126,7 +143,8 @@
   padding: var(--space-3) 0;
   border-top: var(--hairline) solid var(--rule);
   border-bottom: var(--hairline) solid var(--rule);
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
 }
 
 .ledgerAmount {
@@ -143,7 +161,7 @@
 }
 
 .previewTitle {
-  font-weight: 600;
+  font-weight: var(--weight-label);
   font-size: var(--fs-label);
 }
 

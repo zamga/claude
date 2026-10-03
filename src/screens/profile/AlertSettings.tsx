@@ -216,7 +216,7 @@ export default function AlertSettingsScreen() {
                   );
                 })}
               </div>
-              <p className="t-micro t-muted" style={{ padding: '8px var(--gutter) 0' }}>
+              <p className="t-note t-muted" style={{ padding: '8px var(--gutter) 0' }}>
                 Turning a category off stops push and email for it. Alerts still arrive in your
                 inbox so nothing is lost.
               </p>
@@ -270,6 +270,7 @@ export default function AlertSettingsScreen() {
                 <SwitchRow
                   icon={<Moon size={18} strokeWidth={ICON_STROKE} aria-hidden />}
                   label={`${draft.notifications.quietHours.start}–${draft.notifications.quietHours.end}`}
+                  labelStyle="figure"
                   detail="Push and email wait until quiet hours end; the inbox records the alert straight away."
                   checked={draft.notifications.quietHours.enabled}
                   onChange={(next) =>

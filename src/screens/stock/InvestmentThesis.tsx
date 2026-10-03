@@ -11,7 +11,7 @@ import {
   History,
   ICON_STROKE,
 } from '@/components/icons';
-import { ActionBar, Content, ScreenBody } from '@/components/Layout';
+import { Content, ScreenBody } from '@/components/Layout';
 import { List, Row } from '@/components/List';
 import { RankBadge, Tag } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, SkeletonRows } from '@/components/Status';
@@ -66,45 +66,53 @@ function Point({
             aria-hidden
           />
         )}
+        {/* Arguments set a serif title over a summary; risks are one sans line, as photographed. */}
         <span>
-          <span className={styles.pointTitle}>{point.title}</span>
-          <span className={styles.pointSummary} style={{ display: 'block' }}>
-            {point.summary}
+          <span className={styles.pointTitle} data-tone={tone}>
+            {point.title}
           </span>
+          {tone === 'argument' && (
+            <span className={styles.pointSummary} style={{ display: 'block' }}>
+              {point.summary}
+            </span>
+          )}
         </span>
         <ChevronDown className={styles.chevron} size={18} strokeWidth={ICON_STROKE} aria-hidden />
       </button>
       {open && (
-        <ul className={styles.evidence} id={panelId} aria-label={`Evidence for ${point.title}`}>
-          {point.evidence.map((item, i) => {
-            const source = item.sourceId
-              ? sources.find((candidate) => candidate.id === item.sourceId)
-              : null;
-            return (
-              <li key={i} className={styles.evidenceItem}>
-                <span>
-                  <Tag tone={EVIDENCE_TONE[item.kind]}>{EVIDENCE_LABEL[item.kind]}</Tag>
-                </span>
-                <span>{item.statement}</span>
-                {source ? (
-                  <button
-                    type="button"
-                    className={styles.sourceButton}
-                    onClick={() => onSource(source)}
-                  >
-                    Source: {source.title}
-                  </button>
-                ) : (
-                  <span className={styles.noSource}>
-                    {item.sourceId
-                      ? 'Source record unavailable'
-                      : 'No source: analyst judgement or model input'}
+        <div className={styles.panel} id={panelId}>
+          {tone === 'risk' && <p className={styles.pointSummary}>{point.summary}</p>}
+          <ul className={styles.evidence} aria-label={`Evidence for ${point.title}`}>
+            {point.evidence.map((item, i) => {
+              const source = item.sourceId
+                ? sources.find((candidate) => candidate.id === item.sourceId)
+                : null;
+              return (
+                <li key={i} className={styles.evidenceItem}>
+                  <span>
+                    <Tag tone={EVIDENCE_TONE[item.kind]}>{EVIDENCE_LABEL[item.kind]}</Tag>
                   </span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  <span>{item.statement}</span>
+                  {source ? (
+                    <button
+                      type="button"
+                      className={styles.sourceButton}
+                      onClick={() => onSource(source)}
+                    >
+                      Source: {source.title}
+                    </button>
+                  ) : (
+                    <span className={styles.noSource}>
+                      {item.sourceId
+                        ? 'Source record unavailable'
+                        : 'No source: analyst judgement or model input'}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
     </li>
   );
@@ -239,7 +247,7 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
               </div>
               {body.arguments.length > 0 && (
                 <>
-                  <SectionHeader title="The case" size="small" />
+                  <SectionHeader title="The case" />
                   <ul className={styles.list} aria-label="Numbered investment arguments">
                     {body.arguments.map((point, index) => (
                       <Point
@@ -256,7 +264,7 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
               )}
               {body.risks.length > 0 && (
                 <>
-                  <SectionHeader title="What could change the view?" size="small" />
+                  <SectionHeader title="What could change the view?" />
                   <ul className={styles.list} aria-label="Conditions that weaken the thesis">
                     {body.risks.slice(0, 2).map((point, index) => (
                       <Point
@@ -292,7 +300,7 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
               </div>
               {body.monitor.length > 0 && (
                 <>
-                  <SectionHeader title="What to monitor" size="small" />
+                  <SectionHeader title="What to monitor" />
                   <ol className={shared.numbered}>
                     {body.monitor.map((item, index) => (
                       <li key={item.title} className={shared.numberedItem}>
@@ -373,7 +381,7 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
 
           {tab === 'risks' && (
             <>
-              <SectionHeader title="Risks and invalidation" size="small" />
+              <SectionHeader title="Risks and invalidation" />
               <ul className={styles.list} aria-label="Risks">
                 {body.risks.map((point, index) => (
                   <Point
@@ -399,7 +407,6 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
             <SectionHeader
               title="Source documents"
               aside={<Eyebrow tone="muted">Illustrative sources</Eyebrow>}
-              size="small"
             />
             <List label="Source documents">
               {report.sources.map((item) => (
@@ -416,27 +423,28 @@ function Thesis({ instrument, report }: { instrument: Instrument; report: Report
             </List>
           </>
         )}
+        {/* As photographed, saving closes the note in the flow; the top bar keeps it in reach. */}
+        <div className={shared.endAction}>
+          <Button
+            full
+            variant="secondary"
+            icon={Bookmark}
+            iconPosition="start"
+            pending={save.pending}
+            onClick={save.toggle}
+          >
+            {save.saved
+              ? save.record && save.record.version !== viewing
+                ? `Saved version ${save.record.version} · save this version`
+                : 'Saved to research'
+              : 'Save research'}
+          </Button>
+        </div>
         <p className={shared.footnote}>
           Sample research for the demo build. Reported facts, estimates, management statements and
           model assumptions are labelled separately. Not investment advice.
         </p>
       </Content>
-      <ActionBar>
-        <Button
-          full
-          variant={save.saved ? 'secondary' : 'primary'}
-          icon={Bookmark}
-          iconPosition="start"
-          pending={save.pending}
-          onClick={save.toggle}
-        >
-          {save.saved
-            ? save.record && save.record.version !== viewing
-              ? `Saved version ${save.record.version} · save this version`
-              : 'Saved to research'
-            : 'Save research'}
-        </Button>
-      </ActionBar>
       <SourceSheet source={source} onClose={() => setSource(null)} timeZone={zone} />
       <AccountPrompt
         intent={save.intent}

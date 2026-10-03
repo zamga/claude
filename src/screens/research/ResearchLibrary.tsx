@@ -30,7 +30,16 @@ const VIEWS: { value: View; label: string }[] = [
   { value: 'saved', label: 'Saved' },
 ];
 
-function ArticleCard({ report, saved }: { report: ReportSummary; saved?: SavedReport }) {
+function ArticleCard({
+  report,
+  saved,
+  featured = false,
+}: {
+  report: ReportSummary;
+  saved?: SavedReport;
+  /** The lead story of the Latest feed is set larger, as photographed. */
+  featured?: boolean;
+}) {
   const pane = usePane();
   const zone = useUserTimeZone();
   const offline = useOffline();
@@ -41,7 +50,12 @@ function ArticleCard({ report, saved }: { report: ReportSummary; saved?: SavedRe
       : `/research/${report.id}`;
   const selected = pane.detailPath === `/research/${report.id}`;
   return (
-    <article className={styles.card} data-selected={selected} aria-labelledby={`card-${report.id}`}>
+    <article
+      className={styles.card}
+      data-selected={selected}
+      data-featured={featured}
+      aria-labelledby={`card-${report.id}`}
+    >
       <AppLink
         to={to}
         className={styles.cardLink}
@@ -49,7 +63,7 @@ function ArticleCard({ report, saved }: { report: ReportSummary; saved?: SavedRe
         aria-describedby={`dek-${report.id}`}
       />
       <div className={styles.cardMeta}>
-        <Eyebrow tone={report.status === 'withdrawn' ? 'muted' : 'accent'}>
+        <Eyebrow tone={report.status === 'withdrawn' ? 'muted' : 'default'}>
           {report.label} / {report.readingMinutes} min
         </Eyebrow>
         {report.status === 'withdrawn' && <Tag tone="warning">Withdrawn</Tag>}
@@ -223,7 +237,13 @@ export default function ResearchLibraryScreen() {
                 items.length === 0 ? (
                   <EmptyState size="section" title="No reports in this view yet." />
                 ) : (
-                  items.map((report) => <ArticleCard key={report.id} report={report} />)
+                  items.map((report, index) => (
+                    <ArticleCard
+                      key={report.id}
+                      report={report}
+                      featured={view === 'latest' && index === 0}
+                    />
+                  ))
                 )
               }
             </QueryState>

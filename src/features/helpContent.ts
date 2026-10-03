@@ -322,7 +322,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Typefaces',
         paragraphs: [
-          'Bodoni Moda and Inter are used under the SIL Open Font License 1.1; the licence texts ship with the fonts.',
+          'Display type is FreeSerif Bold from GNU FreeFont (GPL 3 or later, with the GNU FreeFont font exception, so pages that use it are not covered by the GPL). Interface type is Roboto Flex (SIL Open Font License 1.1). The licence texts ship with the fonts in /fonts.',
         ],
       },
       {

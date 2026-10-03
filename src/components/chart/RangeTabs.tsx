@@ -22,6 +22,7 @@ export function RangeTabs({
     <Segmented
       label={label}
       variant="ghost"
+      size="sm"
       value={requested}
       pending={requested !== value ? requested : null}
       onChange={onChange}

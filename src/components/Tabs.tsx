@@ -44,6 +44,7 @@ export function UnderlineTabs<T extends string>({
   label,
   pending,
   controls,
+  size = 'md',
 }: {
   items: TabItem<T>[];
   value: T;
@@ -51,12 +52,15 @@ export function UnderlineTabs<T extends string>({
   label: string;
   pending?: T | null;
   controls?: string;
+  /** 'sm' (14 px) where the photo sets the tabs smaller, as on Today's picks. */
+  size?: 'md' | 'sm';
 }) {
   const ref = useRef<HTMLDivElement>(null);
   return (
     <div
       ref={ref}
       className={styles.underline}
+      data-size={size}
       role="tablist"
       aria-label={label}
       onKeyDown={(event) => moveFocus(event, items, value, onChange)}
@@ -96,6 +100,7 @@ export function Segmented<T extends string>({
   onChange,
   label,
   variant = 'solid',
+  size = 'md',
   pending,
   className,
 }: {
@@ -104,6 +109,8 @@ export function Segmented<T extends string>({
   onChange: (value: T) => void;
   label: string;
   variant?: 'solid' | 'accent' | 'ghost';
+  /** 'sm' (11.5 px): the chart range row under the S02 chart. */
+  size?: 'md' | 'sm';
   pending?: T | null;
   className?: string;
 }) {
@@ -113,6 +120,7 @@ export function Segmented<T extends string>({
       role="radiogroup"
       aria-label={label}
       data-variant={variant}
+      data-size={size}
       onKeyDown={(event) => moveFocus(event, items, value ?? items[0]!.value, onChange)}
     >
       {items.map((item) => {

@@ -8,6 +8,11 @@
   border-bottom: var(--hairline) solid var(--rule);
 }
 
+.heroRank {
+  align-self: start;
+  margin-top: 2px;
+}
+
 .heroBody {
   min-width: 0;
 }
@@ -16,7 +21,7 @@
   color: var(--fg-muted);
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
 }
@@ -31,7 +36,7 @@
 .heroTicker {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 2.5rem;
+  font-size: 2.375rem; /* 38, measured */
   line-height: 1;
   letter-spacing: var(--track-display);
 }

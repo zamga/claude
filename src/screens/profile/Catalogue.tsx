@@ -91,15 +91,14 @@ export default function CatalogueScreen() {
 
         <SectionHeader title="Typography" size="small" />
         <div className={styles.stack}>
-          <p className="t-display">Display 44</p>
-          <p className="t-title">Title 32</p>
+          <p className="t-display">Display 64</p>
           <p className="t-quote num">$142.80</p>
-          <p className="t-section">Section 22</p>
+          <p className="t-section">Section 25</p>
           <p className="t-ticker">NVDA</p>
-          <p className="t-body">Body 16 — Inter for reading and data.</p>
-          <p className="t-body-sm">Body small 15</p>
-          <p className="t-label">Label 14</p>
-          <p className="t-eyebrow">Eyebrow 12</p>
+          <p className="t-body">Body 15, Roboto Flex for reading and data.</p>
+          <p className="t-label">Label 13</p>
+          <p className="t-note">Note 12</p>
+          <p className="t-eyebrow">Eyebrow 11</p>
         </div>
 
         <SectionHeader title="Colour tokens" size="small" />

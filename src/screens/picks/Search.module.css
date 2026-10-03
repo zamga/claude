@@ -23,7 +23,7 @@
   border-radius: var(--radius-sm);
   background: var(--bg-raised);
   box-shadow: inset 0 0 0 1px var(--control-border);
-  font-size: var(--fs-body);
+  font-size: 1.0625rem; /* 17, as photographed */
   -webkit-appearance: none;
   appearance: none;
 }
@@ -59,8 +59,8 @@
   padding: 0 6px 0 12px;
   border-radius: 18px;
   box-shadow: inset 0 0 0 1px var(--fg);
-  font-size: var(--fs-label);
-  font-weight: 500;
+  font-size: 0.875rem; /* 14 */
+  font-weight: var(--weight-medium);
 }
 
 .chipRemove {
@@ -80,7 +80,7 @@
   padding: 0 14px;
   border-radius: 20px;
   box-shadow: inset 0 0 0 1px var(--control-border);
-  font-size: var(--fs-label);
+  font-size: 0.875rem;
 }
 
 .toolbar {
@@ -93,7 +93,7 @@
 
 .count {
   color: var(--fg-muted);
-  font-size: var(--fs-label);
+  font-size: 0.875rem; /* 14 ("12 results") */
 }
 
 .sort {
@@ -107,7 +107,7 @@
 
 .sheetLabel {
   font-size: var(--fs-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
   color: var(--fg-muted);

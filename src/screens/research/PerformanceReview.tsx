@@ -87,20 +87,35 @@ export default function PerformanceReviewScreen() {
                 <div className={shared.grid3}>
                   <div className={shared.stat}>
                     <span className={shared.statLabel}>Average return</span>
-                    <span className={shared.statValue} data-tone={tone(summary.meanPct)}>
+                    <span
+                      className={shared.statValue}
+                      data-size="xl"
+                      data-tone={tone(summary.meanPct)}
+                    >
                       {formatPercent(summary.meanPct, 1)}
                     </span>
                   </div>
                   <div className={shared.stat}>
                     <span className={shared.statLabel}>Benchmark</span>
-                    <span className={shared.statValue} data-tone={tone(summary.benchmarkMeanPct)}>
+                    <span
+                      className={shared.statValue}
+                      data-size="xl"
+                      data-tone={tone(summary.benchmarkMeanPct)}
+                    >
                       {formatPercent(summary.benchmarkMeanPct, 1)}
                     </span>
                   </div>
                   <div className={shared.stat}>
                     <span className={shared.statLabel}>Difference</span>
-                    <span className={shared.statValue} data-tone={tone(summary.differencePp)}>
-                      {formatPoints(summary.differencePp)}
+                    <span
+                      className={shared.statValue}
+                      data-size="xl"
+                      data-tone={tone(summary.differencePp)}
+                    >
+                      {formatPoints(summary.differencePp).replace(/ pp$/, '')}
+                      {/ pp$/.test(formatPoints(summary.differencePp)) && (
+                        <span className={shared.statUnit}> pp</span>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -114,14 +129,16 @@ export default function PerformanceReviewScreen() {
                 >
                   <div className={shared.stat}>
                     <span className={shared.statLabel}>Closed samples</span>
-                    <span className={shared.statValue}>{summary.complete}</span>
+                    <span className={shared.statValue} data-size="xl">
+                      {summary.complete}
+                    </span>
                     {summary.pending > 0 && (
                       <span className={shared.statNote}>{summary.pending} pending, excluded</span>
                     )}
                   </div>
                   <div className={shared.stat}>
                     <span className={shared.statLabel}>Positive outcomes</span>
-                    <span className={shared.statValue}>
+                    <span className={shared.statValue} data-size="xl">
                       {summary.positive} of {summary.complete}
                     </span>
                     {summary.medianPct != null && (
@@ -139,11 +156,7 @@ export default function PerformanceReviewScreen() {
                 )}
 
                 <section aria-labelledby="rules-heading">
-                  <SectionHeader
-                    title="Measurement rules"
-                    id="rules-heading"
-                    aside={<Eyebrow tone="muted">{data.method.version}</Eyebrow>}
-                  />
+                  <SectionHeader title="Measurement rules" size="large" id="rules-heading" />
                   <KeyValueList label="Measurement rules">
                     <KeyValue label="Start" value={data.method.entry} />
                     <KeyValue label="Window" value={data.method.window} />
@@ -155,8 +168,8 @@ export default function PerformanceReviewScreen() {
                     <KeyValue label="Universe" value={data.method.universe} />
                   </KeyValueList>
                   <p className={shared.footnote}>
-                    Sample figures demonstrate the reporting design. They are not audited results or
-                    a forecast.
+                    Method {data.method.version}. Sample figures demonstrate the reporting design.
+                    They are not audited results or a forecast.
                   </p>
                 </section>
 

@@ -278,7 +278,7 @@ function Analysis({ instrument }: { instrument: Instrument }) {
           <>
             {pick.data && (
               <section aria-labelledby="thesis-heading">
-                <SectionHeader title="The thesis" id="thesis-heading" />
+                <SectionHeader title="The thesis" id="thesis-heading" size="large" />
                 <p className={styles.thesisLine}>{pick.data.thesisLine}</p>
                 <div style={{ marginTop: 12 }}>
                   <List label="Thesis">
@@ -327,11 +327,13 @@ function Analysis({ instrument }: { instrument: Instrument }) {
                         onClick={() => setAssessment(item)}
                         aria-label={`${item.label}: ${item.value}. ${item.basis === 'rule' ? 'Rule-based' : 'Analyst assessment'}. Show definition`}
                       >
-                        <span className={shared.statLabel}>{item.label}</span>
+                        <span className={shared.statLabel} data-case="sentence">
+                          {item.label}
+                        </span>
                         <span
                           className={shared.statValue}
                           data-tone={item.tone === 'neutral' ? undefined : item.tone}
-                          style={{ fontSize: '1.125rem' }}
+                          data-size="sm"
                         >
                           {item.value}
                         </span>

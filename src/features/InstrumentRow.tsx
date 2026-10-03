@@ -23,6 +23,7 @@ export function InstrumentRow({
   meta,
   action,
   showSpark = true,
+  variant = 'default',
 }: {
   symbol: string;
   name: string;
@@ -34,6 +35,8 @@ export function InstrumentRow({
   meta?: ReactNode;
   action?: ReactNode;
   showSpark?: boolean;
+  /** 'compact': the photographed "On the radar" row — sans ticker and name on one line, change only. */
+  variant?: 'default' | 'compact';
 }) {
   const pane = usePane();
   const change = quote ? computeChange(quote.price, quote.previousClose) : null;
@@ -48,7 +51,11 @@ export function InstrumentRow({
       selected={selected}
       anchorFor="ticker"
       chevron={false}
-      leading={<div className={styles.lead}>{rank != null && <RankBadge rank={rank} />}</div>}
+      leading={
+        <div className={styles.lead}>
+          {rank != null && <RankBadge rank={rank} size={variant === 'compact' ? 'sm' : 'md'} />}
+        </div>
+      }
       aside={
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {showSpark && sparkline && sparkline.length > 1 && (
@@ -62,20 +69,41 @@ export function InstrumentRow({
               />
             </span>
           )}
-          <span className={styles.quote}>
-            <Price value={quote?.price ?? null} currency={quote?.currency ?? 'USD'} size="md" />
-            {quote?.price ? (
-              <Change value={change?.percent ?? null} />
-            ) : (
-              <span className={styles.meta}>{quote ? 'Not quoted' : ''}</span>
-            )}
-          </span>
+          {variant === 'compact' ? (
+            <span className={styles.compactChange}>
+              {quote?.price ? (
+                <Change value={change?.percent ?? null} size="compact" />
+              ) : (
+                <span className={styles.meta}>{quote ? 'Not quoted' : ''}</span>
+              )}
+            </span>
+          ) : (
+            <span className={styles.quote}>
+              <Price value={quote?.price ?? null} currency={quote?.currency ?? 'USD'} size="md" />
+              {quote?.price ? (
+                <Change value={change?.percent ?? null} size="md" />
+              ) : (
+                <span className={styles.meta}>{quote ? 'Not quoted' : ''}</span>
+              )}
+            </span>
+          )}
         </div>
       }
       action={action}
     >
-      <Ticker symbol={symbol} anchor="ticker" className={styles.ticker} />
-      <span className={styles.name}>{name}</span>
+      {variant === 'compact' ? (
+        <span className={styles.compactLine}>
+          <span className={styles.compactTicker} data-anchor="ticker">
+            {symbol}
+          </span>
+          <span className={styles.compactName}>{name}</span>
+        </span>
+      ) : (
+        <>
+          <Ticker symbol={symbol} anchor="ticker" className={styles.ticker} />
+          <span className={styles.name}>{name}</span>
+        </>
+      )}
       {meta && <div className={styles.meta}>{meta}</div>}
     </Row>
   );

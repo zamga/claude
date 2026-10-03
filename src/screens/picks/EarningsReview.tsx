@@ -171,6 +171,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
       <section aria-labelledby="glance-heading">
         <SectionHeader
           title="Results at a glance"
+          size="large"
           id="glance-heading"
           aside={<Tag tone="positive">Reported</Tag>}
         />
@@ -232,6 +233,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
           <span className={shared.statLabel}>Revenue surprise</span>
           <span
             className={shared.statValue}
+            data-size="xl"
             data-tone={
               revenueSurprise == null
                 ? undefined
@@ -248,6 +250,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
           <span className={shared.statLabel}>EPS surprise</span>
           <span
             className={shared.statValue}
+            data-size="xl"
             data-tone={
               epsSurprise == null ? undefined : Number(epsSurprise) >= 0 ? 'positive' : 'negative'
             }
@@ -262,6 +265,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
           <span className={shared.statLabel}>Guidance</span>
           <span
             className={shared.statValue}
+            data-size="lg"
             data-tone={
               guidance
                 ? GUIDANCE_TONE[guidance.direction] === 'neutral'
@@ -280,6 +284,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
       <section aria-labelledby="reaction-heading">
         <SectionHeader
           title="Market reaction"
+          size="large"
           id="reaction-heading"
           aside={<Tag tone="outline">Price data</Tag>}
         />
@@ -305,6 +310,7 @@ function ReportedView({ event, instrument }: { event: EarningsEvent; instrument:
         <section aria-labelledby="read-heading">
           <SectionHeader
             title="Read-through"
+            size="large"
             id="read-heading"
             aside={<Tag tone="neutral">Analyst view</Tag>}
           />

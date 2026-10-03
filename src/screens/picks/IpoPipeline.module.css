@@ -26,8 +26,8 @@
 .name {
   display: block;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: 0.875rem; /* 14, as photographed ("Alto Systems") */
+  line-height: 1.35;
 }
 
 .facts {
@@ -43,19 +43,22 @@
   min-width: 0;
   padding: 0 var(--space-2);
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
 }
 
+/* Sector, 14 px in the photo. */
 .fact:first-child {
   padding-left: 0;
+  font-size: 0.875rem;
 }
 
 .fact + .fact {
   border-left: var(--hairline) solid var(--rule);
 }
 
-@container pane (max-width: 19.5em) {
+/* Narrow panes (320 px; em is the pane's 15 px) and enlarged text: one fact per line. */
+@container pane (max-width: 21.5em) {
   .facts {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-2);
@@ -75,16 +78,23 @@
   color: var(--fg);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 1.25rem; /* 20: price range; dates are 16 */
+  line-height: 1.15;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
   white-space: nowrap;
 }
 
-.factValue[data-pending='true'] {
+.fact:last-child .factValue {
+  font-size: 1rem;
+}
+
+.factValue[data-pending='true'],
+.fact:last-child .factValue[data-pending='true'] {
   font-family: var(--font-ui);
-  font-weight: 500;
-  font-size: var(--fs-label);
+  font-weight: var(--weight-medium);
+  font-size: 0.875rem;
+  letter-spacing: 0;
 }
 
 .factNote {

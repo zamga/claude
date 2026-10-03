@@ -45,7 +45,7 @@ export function QuoteHero({
             size="hero"
             anchor={anchor}
           />
-          <Change value={change?.percent ?? null} size="md" suffix={series.reference.label} />
+          <Change value={change?.percent ?? null} size="figure" suffix={series.reference.label} />
         </div>
         <span className={styles.meta}>
           {inspection.mode === 'pinned' ? 'Pinned' : 'Inspecting'} ·{' '}
@@ -59,7 +59,7 @@ export function QuoteHero({
     <div className={styles.hero} data-state="rest">
       <div className={styles.priceRow}>
         <Price value={quote.price} currency={quote.currency} size="hero" anchor={anchor} />
-        <Change value={change.percent} size="md" suffix={quote.price ? suffix : undefined} />
+        <Change value={change.percent} size="figure" suffix={quote.price ? suffix : undefined} />
         {aside}
       </div>
       <DataStatusLine

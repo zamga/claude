@@ -29,7 +29,8 @@ export function Change({
   currency?: CurrencyCode;
   digits?: number;
   suffix?: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
+  /** 'inline' takes the surrounding size and weight, for a change set inside a sentence. */
+  size?: 'sm' | 'compact' | 'md' | 'figure' | 'lg' | 'inline';
   className?: string;
 }) {
   const text =
@@ -88,9 +89,9 @@ export function Price({
   );
 }
 
-export function RankBadge({ rank }: { rank: number }) {
+export function RankBadge({ rank, size = 'md' }: { rank: number; size?: 'md' | 'sm' }) {
   return (
-    <span className={styles.rank} aria-label={`Pick ${rank}`}>
+    <span className={styles.rank} data-size={size} aria-label={`Pick ${rank}`}>
       {String(rank).padStart(2, '0')}
     </span>
   );

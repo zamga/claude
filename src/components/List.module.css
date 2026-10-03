@@ -78,7 +78,7 @@
 .title {
   font-size: var(--fs-body-sm);
   line-height: var(--lh-body-sm);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .detail {
@@ -95,8 +95,8 @@
   min-height: 40px;
   padding: var(--space-2) 0;
   border-bottom: var(--hairline) solid var(--rule);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-body-sm); /* key-value rows measure 15-16 px */
+  line-height: var(--lh-body-sm);
 }
 
 .kv dt {
@@ -107,11 +107,22 @@
   margin: 0;
   text-align: right;
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .kvMuted dt {
   color: var(--fg-muted);
+}
+
+.kvList[data-values='large'] dd {
+  font-size: 1.0625rem;
+}
+
+.kvList[data-values='display'] dd {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.96875rem; /* 15.5, as photographed */
+  letter-spacing: var(--track-quote);
 }
 
 .kvList {

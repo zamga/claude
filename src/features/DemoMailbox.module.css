@@ -11,7 +11,7 @@
   align-items: center;
   gap: 6px;
   font-size: var(--fs-label);
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .note,
@@ -36,7 +36,7 @@
 }
 
 .subject {
-  font-weight: 600;
+  font-weight: var(--weight-label);
   font-size: var(--fs-body-sm);
 }
 

@@ -31,24 +31,30 @@
   gap: var(--space-2);
 }
 
+/* Story titles: 28 px, and 40 px for the lead story (measured 25-28 and 39-41 px). */
 .cardTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.5rem, 1.25rem + 1.2cqi, 1.875rem);
-  line-height: 1.08;
+  font-size: min(1.75rem, 7.2cqi);
+  line-height: 1.05;
   letter-spacing: var(--track-display);
   text-wrap: balance;
 }
 
+.card[data-featured='true'] .cardTitle {
+  font-size: min(2.5rem, 10.3cqi);
+  line-height: 0.95;
+}
+
 .cardDek {
   color: var(--fg-muted);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-dek);
+  line-height: 1.4;
 }
 
 .savedNote {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-note);
 }
 
 .cardFoot {
@@ -62,8 +68,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  font-size: var(--fs-label);
-  font-weight: 500;
+  font-size: 0.875rem; /* 14 ("Read analysis") */
+  font-weight: var(--weight-medium);
 }
 
 .rule {
@@ -164,7 +170,8 @@
   min-height: var(--hit);
   padding: var(--space-2) 0;
   text-align: left;
-  font-size: var(--fs-body-sm);
+  font-size: 1.125rem; /* 18 ("Order visibility") */
+  line-height: 1.3;
 }
 
 .monitorButton svg {
@@ -178,24 +185,33 @@
 }
 
 .monitorDetail {
-  padding: 0 0 var(--space-3) 36px;
+  padding: 0 0 var(--space-3) calc(1.875rem + var(--space-3));
   color: var(--fg-muted);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
 }
 
+/* The photographed 30 px rank square with 15 px numerals (as RankBadge). */
 .number {
   display: inline-grid;
   place-items: center;
   flex: none;
-  width: 24px;
-  height: 22px;
-  border-radius: 3px;
+  min-width: 2em;
+  min-height: 2em;
+  border-radius: 2px;
   background: var(--accent-fill);
   color: var(--on-accent);
-  font-size: var(--fs-micro);
-  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1;
+  font-weight: var(--weight-regular);
   font-variant-numeric: tabular-nums;
+}
+
+.dek {
+  padding: var(--space-3) var(--gutter) 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-lede);
+  line-height: var(--lh-lede);
 }
 
 /* ---------- Archive ---------- */
@@ -223,9 +239,9 @@
   padding-bottom: var(--space-2);
   border-bottom: var(--hairline) solid var(--rule);
   color: var(--fg-muted);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: var(--track-eyebrow);
+  font-size: var(--fs-micro);
+  font-weight: var(--weight-label);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -252,7 +268,8 @@
   min-width: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: min(1.25rem, 7cqi);
+  font-size: min(1.625rem, 7cqi); /* 26, as photographed */
+  letter-spacing: var(--track-display);
 }
 
 .tickerStack {
@@ -263,8 +280,8 @@
 
 .rowDate {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  font-weight: 600;
+  font-size: 0.875rem; /* 14 ("02 SEP") */
+  font-weight: var(--weight-medium);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -273,7 +290,8 @@
 .rowReturn {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: min(1.625rem, 7cqi); /* 26 */
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -287,13 +305,13 @@
 
 .rowPending {
   color: var(--fg-muted);
-  font-size: var(--fs-label);
+  font-size: 0.875rem;
 }
 
 .countLine {
   padding: var(--space-2) var(--gutter) 0;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-label);
 }
 
 .visible {
@@ -307,8 +325,15 @@
 .visibleTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-section);
-  line-height: var(--lh-section);
+  font-size: var(--fs-section-lg);
+  line-height: 1.05;
+  letter-spacing: var(--track-section);
+}
+
+.visibleDek {
+  color: var(--fg-muted);
+  font-size: var(--fs-dek);
+  line-height: 1.4;
 }
 
 .outcome {

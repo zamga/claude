@@ -1,7 +1,11 @@
+/* The sector line is set in the display face under the ticker (21 px in the photo). */
 .sector {
   margin-top: var(--space-1);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section-sm);
+  line-height: 1.2;
+  letter-spacing: var(--track-section);
 }
 
 .terms {
@@ -13,9 +17,9 @@
 .termsValue {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.5rem, 2.1rem + 2cqi, 3.25rem);
+  font-size: min(3.125rem, 12.8cqi); /* 50, as photographed */
   line-height: 1;
-  letter-spacing: var(--track-display);
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -23,8 +27,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--fg-muted);
-  font-size: var(--fs-label);
+  font-size: var(--fs-dek); /* 16, as photographed ("Indicative offer range") */
+  line-height: var(--lh-dek);
 }
 
 .listed {

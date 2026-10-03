@@ -28,8 +28,8 @@
   min-height: var(--hit);
   padding: 0;
   color: var(--fg-muted);
-  font-size: var(--fs-body-sm);
-  font-weight: 500;
+  font-size: 1rem; /* 16: tabs measure 15-18 px across the photos */
+  font-weight: var(--weight-medium);
   white-space: nowrap;
   transition: color var(--dur-feedback) var(--ease-standard);
 }
@@ -47,8 +47,13 @@
   transition: transform var(--dur-feedback) var(--ease-out);
 }
 
+.underline[data-size='sm'] .tab {
+  font-size: 0.875rem;
+}
+
 .tab[aria-selected='true'] {
   color: var(--fg);
+  font-weight: var(--weight-figure);
 }
 
 .tab[aria-selected='true']::after {
@@ -83,8 +88,8 @@
   text-align: center;
   border-radius: var(--radius-sm);
   color: var(--fg);
-  font-size: var(--fs-label);
-  font-weight: 500;
+  font-size: var(--fs-body-sm); /* 15, as photographed */
+  font-weight: var(--weight-medium);
   box-shadow: inset 0 0 0 1px var(--control-border);
   transition:
     background-color var(--dur-feedback) var(--ease-standard),
@@ -102,7 +107,7 @@
   background: var(--selected-bg);
   color: var(--accent-fg);
   box-shadow: inset 0 0 0 1px var(--accent-deco);
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .segmented[data-variant='ghost'] {
@@ -117,7 +122,7 @@
 
 .segmented[data-variant='ghost'] .segment[aria-checked='true'] {
   color: var(--fg);
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .segmented[data-variant='ghost'] .segment[aria-checked='true']::after {
@@ -128,6 +133,10 @@
   bottom: 6px;
   height: 2px;
   background: var(--accent-deco);
+}
+
+.segmented[data-size='sm'] .segment {
+  font-size: 0.71875rem;
 }
 
 .segment[data-pending='true'] {

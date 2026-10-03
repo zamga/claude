@@ -192,7 +192,7 @@ export default function MarketOverviewScreen() {
                             }}
                           />
                         </span>
-                        <Change value={sector.changePct} />
+                        <Change value={sector.changePct} size="md" />
                       </div>
                     </Row>
                   ))}
@@ -235,6 +235,7 @@ export default function MarketOverviewScreen() {
                         aside={
                           <Change
                             value={computeChange(europe.value, europe.previousClose).percent}
+                            size="md"
                           />
                         }
                       />

@@ -4,15 +4,15 @@
 }
 
 .label {
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
-  font-weight: 500;
+  font-size: 0.875rem; /* 14, as photographed ("Email address", "Condition") */
+  line-height: 1.43;
+  font-weight: var(--weight-medium);
 }
 
 .hint {
   color: var(--fg-muted);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-note); /* 12 ("Ivory discovery, charcoal analysis.") */
+  line-height: var(--lh-note);
 }
 
 .control {
@@ -32,7 +32,7 @@
   background: var(--bg-raised);
   box-shadow: inset 0 0 0 1px var(--control-border);
   color: var(--fg);
-  font-size: var(--fs-body);
+  font-size: 1rem; /* 16: entered values measure 16-17 px; also keeps iOS from zooming on focus */
   line-height: var(--lh-body);
   transition: box-shadow var(--dur-feedback) var(--ease-standard);
   -webkit-appearance: none;
@@ -65,12 +65,14 @@
   box-shadow: inset 0 0 0 2px var(--negative);
 }
 
+/* Threshold and amount entry: the photographed "$150.00" is set at quote size (46 px). */
 .input[data-size='large'] {
-  min-height: 64px;
+  min-height: 68px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-quote);
+  line-height: 1.2;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: tabular-nums;
 }
 
@@ -87,6 +89,10 @@
   padding-left: 34px;
 }
 
+.input[data-size='large'].withPrefix {
+  padding-left: calc(var(--space-4) + 0.53em);
+}
+
 .prefix {
   position: absolute;
   left: var(--space-4);
@@ -98,8 +104,9 @@
 .input[data-size='large'] + .prefix,
 .prefixLarge {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: var(--fs-quote);
   font-weight: 700;
+  letter-spacing: var(--track-quote);
 }
 
 .trailing {
@@ -132,7 +139,7 @@
   color: var(--negative);
   font-size: var(--fs-label);
   line-height: var(--lh-label);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .switch {
@@ -199,6 +206,16 @@
   line-height: var(--lh-body-sm);
 }
 
+/* A setting whose label is a value ("22:00–07:00") is set in the display face, as photographed. */
+.switchLabel[data-style='figure'] {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section-sm);
+  line-height: 1.15;
+  letter-spacing: var(--track-quote);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
 .switchDetail {
   color: var(--fg-muted);
   font-size: var(--fs-label);
@@ -256,14 +273,15 @@
 
 .checkText {
   flex: 1;
-  font-size: var(--fs-body-sm);
-  line-height: var(--lh-body-sm);
+  font-size: 0.875rem; /* 14: option rows measure 13-14 px */
+  line-height: var(--lh-label);
 }
 
 .checkDetail {
   display: block;
   color: var(--fg-muted);
-  font-size: var(--fs-label);
+  font-size: var(--fs-note);
+  line-height: var(--lh-note);
 }
 
 .slider {
@@ -394,6 +412,7 @@
   padding: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.2;
+  font-size: var(--fs-section-sm);
+  line-height: 1.15;
+  letter-spacing: var(--track-section);
 }

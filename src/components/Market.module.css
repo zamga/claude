@@ -1,6 +1,6 @@
 .change {
   font-variant-numeric: tabular-nums lining-nums;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   white-space: nowrap;
 }
 
@@ -26,11 +26,28 @@
 }
 
 .change[data-size='md'] {
-  font-size: var(--fs-body);
+  font-size: 1rem; /* 16: list rows and sector bars, measured 15-17 px in the photos */
+}
+
+/* The headline change beside a quote ("+2.34% today"), measured at 22 px in the photos. */
+.change[data-size='figure'] {
+  font-size: 1.375rem;
+  line-height: 1.1;
+  font-weight: var(--weight-figure);
+  letter-spacing: 0.01em;
 }
 
 .change[data-size='sm'] {
   font-size: var(--fs-label);
+}
+
+/* "On the radar" rows: 14 px. */
+.change[data-size='compact'] {
+  font-size: 0.875rem;
+}
+
+.change[data-size='inline'] {
+  font-weight: inherit;
 }
 
 .suffix {
@@ -42,7 +59,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-quote);
   white-space: nowrap;
 }
 
@@ -52,13 +69,13 @@
 }
 
 .price[data-size='lg'] {
-  font-size: 1.75rem;
-  line-height: 1.1;
+  font-size: 2.125rem; /* 34: featured pick */
+  line-height: 1.05;
 }
 
 .price[data-size='md'] {
-  font-size: 1.125rem;
-  line-height: 1.2;
+  font-size: 1.5rem; /* 24: list rows */
+  line-height: 1.1;
 }
 
 .price[data-size='sm'] {
@@ -69,16 +86,21 @@
 .rank {
   display: inline-grid;
   place-items: center;
-  min-width: max(22px, 2em);
-  min-height: max(22px, 1.6em);
+  min-width: 2em;
+  min-height: 2em;
   padding: 0 4px;
   border-radius: 2px;
   background: var(--accent-fill);
   color: var(--on-accent);
-  font-size: var(--fs-micro);
-  font-weight: 600;
+  font-size: 0.9375rem; /* 15 in a 30 px square, as photographed */
+  line-height: 1;
+  font-weight: var(--weight-regular);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+}
+
+/* Radar rows: 13 px numerals in a 26 px square. */
+.rank[data-size='sm'] {
+  font-size: var(--fs-label);
 }
 
 .tag {
@@ -88,9 +110,9 @@
   min-height: 20px;
   padding: 2px 6px;
   border-radius: 3px;
-  font-size: var(--fs-micro);
+  font-size: 0.75rem; /* 12: chips measure 11.5-13 px */
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   white-space: nowrap;
 }
 
@@ -129,7 +151,7 @@
   font-weight: 700;
   font-size: var(--fs-ticker);
   line-height: var(--lh-ticker);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-display);
 }
 
 .dot {

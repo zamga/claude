@@ -204,7 +204,12 @@ function CompanyCard({
       <span className={styles.companyQuote}>
         {instrument.status === 'listed' ? (
           <>
-            <Price value={quote.data?.price ?? null} currency={instrument.currency} size="md" />
+            <Price
+              value={quote.data?.price ?? null}
+              currency={instrument.currency}
+              size="md"
+              className={styles.companyPrice}
+            />
             {change?.percent && <Change value={change.percent} />}
           </>
         ) : (
@@ -663,7 +668,7 @@ export function CreateAlertScreen() {
     <ScreenBody>
       <TopBar title="New alert" ruled trailing={<DemoTag />} />
       <Content>
-        <LargeTitle title="Stay informed." size="title" />
+        <LargeTitle title="Stay informed." size="title" lines={1} />
         <form
           id="alert-form"
           className={`${shared.form} ${shared.formNarrow}`}

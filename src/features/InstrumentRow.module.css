@@ -2,6 +2,7 @@
   display: inline-block;
 }
 
+/* Company name under the ticker: plain sans in its own case, as in the photos ("Microsoft"). */
 .name {
   display: block;
   max-width: 100%;
@@ -9,10 +10,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
 }
 
 .lead {
@@ -39,6 +38,36 @@
   color: var(--fg-muted);
   font-size: var(--fs-label);
   line-height: var(--lh-label);
+}
+
+/* Compact "On the radar" row: ticker and name share one line in the interface face. */
+.compactLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.compactTicker {
+  flex: none;
+  font-size: 0.84375rem; /* 13.5 ("MSFT") */
+  line-height: var(--lh-body-sm);
+  font-weight: var(--weight-label);
+  letter-spacing: 0.02em;
+}
+
+.compactName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.compactChange {
+  min-width: 64px;
+  text-align: right;
 }
 
 /* A narrow pane (or enlarged text, since this is in em) needs the room for the figures. */

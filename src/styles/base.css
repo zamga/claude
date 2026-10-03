@@ -22,13 +22,7 @@ body {
   font-family: var(--font-ui);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
-  font-weight: 400;
-  /*
-   * Bodoni Moda's automatic optical size thins hairlines to near-invisibility at display sizes on
-   * screens. Optically checked against the boards: opsz 16 keeps the high-contrast character with
-   * hairlines that survive 1x displays and reduced text sizes. Inter has no opsz axis here.
-   */
-  font-variation-settings: 'opsz' 16;
+  font-weight: var(--weight-regular);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -143,7 +137,7 @@ table {
   font-weight: 700;
   font-size: var(--fs-quote);
   line-height: var(--lh-quote);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: tabular-nums lining-nums;
 }
 
@@ -161,7 +155,7 @@ table {
   font-weight: 700;
   font-size: var(--fs-ticker);
   line-height: var(--lh-ticker);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-display);
 }
 
 .t-body {
@@ -179,6 +173,11 @@ table {
   line-height: var(--lh-label);
 }
 
+.t-note {
+  font-size: var(--fs-note);
+  line-height: var(--lh-note);
+}
+
 .t-micro {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
@@ -187,7 +186,7 @@ table {
 .t-eyebrow {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
 }
@@ -197,11 +196,11 @@ table {
 }
 
 .t-strong {
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .t-medium {
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 .num {

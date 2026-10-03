@@ -91,6 +91,19 @@ clocks and decimal inputs.
 - **Private routes** without a session go to `/access-denied?returnTo=…`; sign-in, registration
   and email verification all resume the original destination.
 
+## Typography
+
+- Faces are matched to the reference photographs: FreeSerif Bold for display and figures, Roboto
+  Flex (weight 400–700) for the interface. The method, scores and shipped files are recorded in
+  [TYPOGRAPHY.md](TYPOGRAPHY.md); `npm run typography:verify` re-scores them against the photographs.
+- `src/styles/tokens.css` holds the measured roles (64 px headlines, 46 px quotes, 31/25/21 px
+  sections, 15 px copy, 11 px eyebrows) and weights (400, 450, 550, 600); screens that the
+  photographs set differently override locally.
+- `ScreenHeading` fits each headline to its column: the photographed line breaks are kept by
+  setting a title smaller only when a word would not fit or when, at no less than 80 %, that brings
+  it within its photographed line count. It refits on width changes, web-font load and the in-app
+  text size.
+
 ## Motion
 
 Motion explains hierarchy and state; nothing loops for decoration.
@@ -125,8 +138,10 @@ visible. The idea survives intact: nothing about the record depends on movement.
 
 - Entry: React, router and query in their own long-cached chunks; screens lazy-loaded per route with
   the daily picks screen eager (it is the landing view); the demo service deferred past first paint.
-- Entry CSS is inlined into `index.html` by a build plugin; two subset WOFF2 fonts (Bodoni Moda 700
-  and Inter 400–600, latin) are preloaded, latin-ext loads only on demand via `unicode-range`.
+- Entry CSS is inlined into `index.html` by a build plugin; two subset WOFF2 fonts (FreeSerif Bold
+  and Roboto Flex 400–700, latin, about 50 kB together) are preloaded, latin-ext loads only on
+  demand via `unicode-range`; metric-matched local fallbacks hold the space while they load
+  (docs/TYPOGRAPHY.md).
 - Skeletons reserve the final geometry; secondary sections wait for the primary query, so the page
   does not shift when data lands.
 
@@ -147,7 +162,7 @@ size.
 
 **Large text.** Text follows the browser's font size and the in-app setting (up to 150%), and is
 tested at 200% at phone width on 23 main screens. Display type is capped by the pane width
-(`min(3rem, 14cqi)`), so a headline word never breaks mid-word; components reflow with
+(`min(4rem, 16.4cqi)`, then fitted to the column so a word never breaks mid-word); components reflow with
 `em`-based container queries that never trigger at the default size: tabs wrap instead of
 scrolling out of sight, three-column figures become a list, label/value rows put the value under
 its label, and the row sparkline steps aside for the price. Tab-bar labels stop growing at what

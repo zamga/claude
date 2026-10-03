@@ -10,7 +10,7 @@ import { IconButton } from '@/components/IconButton';
 import { Briefcase, Plus, TriangleAlert } from '@/components/icons';
 import { Content, Disclaimer, ScreenBody } from '@/components/Layout';
 import { List, Row } from '@/components/List';
-import { Change, Tag, Ticker } from '@/components/Market';
+import { Change, Ticker } from '@/components/Market';
 import { DemoTag, EmptyState, Notice, Skeleton } from '@/components/Status';
 import { UnderlineTabs } from '@/components/Tabs';
 import {
@@ -49,7 +49,7 @@ function PositionRow({ position }: { position: PositionSummary }) {
       aside={
         <span className={styles.positionAside}>
           <span className={styles.shares}>{pluralize(Number(position.units), 'share')}</span>
-          <Change value={position.unrealizedPct} />
+          <Change value={position.unrealizedPct} size="figure" />
         </span>
       }
       detail={
@@ -148,9 +148,7 @@ export default function PaperPortfolioScreen() {
                   ) : (
                     <p className={styles.gainMuted}>Gain unavailable while a quote is missing</p>
                   )}
-                  <p className={styles.paperLabel}>
-                    <Tag tone="outline">Paper</Tag> Simulated results · sample data · not real money
-                  </p>
+                  <p className={styles.paperLabel}>Paper results · sample data · not real money</p>
                   {data.incomplete && (
                     <Notice
                       tone="warning"
@@ -227,6 +225,7 @@ export default function PaperPortfolioScreen() {
 
                 <SectionHeader
                   title="Positions"
+                  size="large"
                   aside={<span className={styles.cash}>Cash {formatMoney(data.cash, 'USD')}</span>}
                 />
                 {positions.length === 0 ? (

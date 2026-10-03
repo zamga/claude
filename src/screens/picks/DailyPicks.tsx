@@ -51,7 +51,9 @@ function HeroPick({
         anchorFor="ticker"
         aria-label={`Open ${pick.symbol} pick analysis`}
       />
-      <RankBadge rank={pick.order} />
+      <span className={styles.heroRank}>
+        <RankBadge rank={pick.order} />
+      </span>
       <div className={styles.heroBody}>
         <span className={styles.heroName}>{pick.name}</span>
         <div className={styles.heroTickerRow}>
@@ -78,7 +80,7 @@ function HeroPick({
         )}
         <div className={styles.heroPriceRow}>
           <Price value={quote?.price ?? null} currency={quote?.currency ?? 'USD'} size="lg" />
-          <Change value={change?.percent ?? null} size="md" />
+          <Change value={change?.percent ?? null} size="figure" />
         </div>
       </div>
       <div className={styles.heroSpark} aria-hidden>
@@ -131,6 +133,7 @@ function RadarRow({ pick, quote }: { pick: Pick; quote: Quote | undefined }) {
       sparkWindow={series.data?.window}
       rank={pick.order}
       meta={pick.headline}
+      variant="compact"
     />
   );
 }
@@ -208,6 +211,7 @@ export default function DailyPicksScreen() {
           )}
         </LargeTitle>
         <UnderlineTabs
+          size="sm"
           label="Pick category"
           value={category}
           controls="pick-list"

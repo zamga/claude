@@ -2,8 +2,9 @@
   margin-bottom: var(--space-2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.125rem;
-  line-height: 1.25;
+  font-size: var(--fs-section-sm); /* 21: "Alert type", "Deliver to" measure 20-23 px */
+  line-height: 1.15;
+  letter-spacing: var(--track-section);
 }
 
 .types {
@@ -34,14 +35,20 @@ button.company:hover {
 }
 
 .companyTicker {
-  font-size: 1.375rem;
+  font-size: 1.625rem; /* 26 */
   line-height: 1.1;
 }
 
 .companyName {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+/* The quote in the company card is set larger than a list row (30 px in the photo). */
+.companyPrice {
+  font-size: 1.875rem;
+  line-height: 1.05;
 }
 
 .companyQuote {

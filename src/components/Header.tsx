@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useDisplay } from '@/app/display';
 import { useAppNavigation } from '@/app/navigation';
 import { usePane } from '@/app/pane';
 import styles from './Header.module.css';
@@ -87,7 +88,7 @@ export function TopBar({
       </div>
       <div className={styles.center}>
         {title && (
-          <span className={[styles.eyebrow, compactTitle ? styles.hideWhenCompact : ''].join(' ')}>
+          <span className={[styles.barTitle, compactTitle ? styles.hideWhenCompact : ''].join(' ')}>
             {title}
           </span>
         )}
@@ -112,7 +113,11 @@ interface LargeTitleProps {
   meta?: ReactNode;
   title: ReactNode;
   size?: 'display' | 'title';
+  /** Most lines the headline may take before it is set smaller (see ScreenHeading). */
+  lines?: number;
   subtitle?: ReactNode;
+  /** 'lede' (18 px) introduces a screen; 'note' (15 px) carries metadata, as on Valuation. */
+  subtitleSize?: 'lede' | 'note';
   sentinelRef?: React.RefObject<HTMLDivElement | null>;
   children?: ReactNode;
 }
@@ -123,7 +128,9 @@ export function LargeTitle({
   meta,
   title,
   size = 'display',
+  lines,
   subtitle,
+  subtitleSize = 'lede',
   sentinelRef,
   children,
 }: LargeTitleProps) {
@@ -135,27 +142,142 @@ export function LargeTitle({
           {meta}
         </div>
       )}
-      <ScreenHeading size={size}>{title}</ScreenHeading>
-      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+      <ScreenHeading size={size} lines={lines}>
+        {title}
+      </ScreenHeading>
+      {subtitle && (
+        <p className={styles.subtitle} data-size={subtitleSize}>
+          {subtitle}
+        </p>
+      )}
       {children}
       <div ref={sentinelRef} className={styles.sentinel} aria-hidden />
     </div>
   );
 }
 
+let measureContext: CanvasRenderingContext2D | null = null;
+
+/**
+ * Headlines are set at the photographed 64 px and only set smaller when a word would not fit the
+ * column, or (to no less than 80%) when that brings the title within `lines` lines. This
+ * reproduces the photographed breaks: "Today's / picks." stays at full size, "The investment
+ * case." comes down to two lines, and "Inside the / semiconductor / cycle." keeps three lines at
+ * the size where "semiconductor" fits.
+ */
+function useHeadlineFit(
+  ref: React.RefObject<HTMLHeadingElement | null>,
+  lines: number,
+  enabled: boolean,
+  textScale: number,
+) {
+  // The last fit: re-measure only when the text, the line budget or the column width changes.
+  const last = useRef({ text: '', lines: 0, width: -1 });
+  const fitRef = useRef<() => void>(() => undefined);
+  // After each render, refit only if the title or its line budget changed (cheap check).
+  useLayoutEffect(() => {
+    fitRef.current = () => {
+      const element = ref.current;
+      if (!enabled || !element) return;
+      element.style.fontSize = '';
+      const style = getComputedStyle(element);
+      const base = parseFloat(style.fontSize);
+      const width = element.clientWidth;
+      last.current = { text: element.textContent ?? '', lines, width };
+      if (!base || !width) return;
+      measureContext ??= document.createElement('canvas').getContext('2d');
+      const context = measureContext;
+      if (!context) return;
+      context.font = `${style.fontWeight} ${base}px ${style.fontFamily}`;
+      const spacing = parseFloat(style.letterSpacing) || 0;
+      const measure = (text: string) =>
+        context.measureText(text).width + spacing * [...text].length;
+      const segments = element.innerText
+        .split('\n')
+        .map((segment) => segment.trim())
+        .filter(Boolean)
+        .map((segment) => segment.split(/\s+/).map(measure));
+      if (segments.length === 0) return;
+      const space = measure(' ');
+      const longest = Math.max(...segments.flat());
+      const lineCount = (scale: number) =>
+        segments.reduce((total, words) => {
+          let count = 1;
+          let used = 0;
+          for (const word of words) {
+            const next = used === 0 ? word * scale : used + space * scale + word * scale;
+            if (used > 0 && next > width) {
+              count += 1;
+              used = word * scale;
+            } else used = next;
+          }
+          return total + count;
+        }, 0);
+      // First the largest size at which the longest word fits the column, then smaller (to 80%)
+      // only while that reaches the photographed line count; otherwise keep the word fit.
+      let scale = Math.max(0.6, Math.min(1, width / longest));
+      let fitted = scale;
+      while (fitted > 0.8 && lineCount(fitted) > lines) fitted -= 0.02;
+      if (lineCount(fitted) <= lines) scale = fitted;
+      if (scale < 1) element.style.fontSize = `${(base * scale).toFixed(2)}px`;
+    };
+    const element = ref.current;
+    if (!enabled || !element) return;
+    if (element.textContent !== last.current.text || lines !== last.current.lines) fitRef.current();
+  });
+
+  // A text-size change moves the base size: refit once DisplayProvider has applied it.
+  useEffect(() => {
+    if (!enabled) return undefined;
+    const frame = requestAnimationFrame(() => fitRef.current());
+    return () => cancelAnimationFrame(frame);
+  }, [enabled, textScale]);
+
+  // Refit when the column width changes and once the web fonts have loaded.
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!enabled || !element || typeof ResizeObserver === 'undefined') return undefined;
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        fitRef.current();
+      });
+    };
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry && Math.abs(entry.contentRect.width - last.current.width) >= 0.5) schedule();
+    });
+    observer.observe(element);
+    void document.fonts?.ready.then(schedule);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+      element.style.fontSize = '';
+      last.current = { text: '', lines: 0, width: -1 };
+    };
+  }, [enabled, ref]);
+}
+
 /** The destination heading that receives focus after navigation (spec page 45). */
 export function ScreenHeading({
   children,
   size = 'display',
+  lines = 2,
   className,
 }: {
   children: ReactNode;
   size?: 'display' | 'title' | 'none';
+  lines?: number;
   className?: string;
 }) {
   const pane = usePane();
+  const { effective } = useDisplay();
+  const ref = useRef<HTMLHeadingElement>(null);
+  useHeadlineFit(ref, lines, size !== 'none', effective.textScale);
   return (
     <h1
+      ref={ref}
       className={[size === 'none' ? '' : styles.title, className ?? ''].join(' ')}
       data-size={size}
       data-screen-heading={pane.role === 'collection' ? undefined : ''}
@@ -175,7 +297,7 @@ export function SectionHeader({
 }: {
   title: ReactNode;
   aside?: ReactNode;
-  size?: 'default' | 'small';
+  size?: 'large' | 'default' | 'small';
   id?: string;
   as?: 'h2' | 'h3';
 }) {

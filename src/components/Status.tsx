@@ -182,7 +182,7 @@ export function InlineError({
         ) : undefined
       }
     >
-      {requestId && <span className="t-micro t-muted">Reference {requestId}</span>}
+      {requestId && <span className="t-note t-muted">Reference {requestId}</span>}
     </Notice>
   );
 }

@@ -7,9 +7,9 @@
   min-height: var(--button-h);
   padding: 0 var(--space-4);
   border-radius: var(--radius-sm);
-  font-size: var(--fs-body-sm);
+  font-size: 0.96875rem; /* 15.5: buttons measure 14.9-16 px in the photos */
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   letter-spacing: 0;
   text-align: center;
   user-select: none;
@@ -41,6 +41,7 @@
 .primary {
   background: var(--primary-bg);
   color: var(--primary-fg);
+  font-size: 1.0625rem; /* 17: primary actions measure 16.6-18.3 px */
 }
 
 .primary[data-pressed='true'] {

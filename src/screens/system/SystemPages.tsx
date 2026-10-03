@@ -156,7 +156,7 @@ export function MaintenanceScreen() {
         </Button>
       )}
       {configuration && DATA_MODE === 'live' && (
-        <p className="t-micro t-muted">Running the demo build instead needs no configuration.</p>
+        <p className="t-note t-muted">Running the demo build instead needs no configuration.</p>
       )}
     </AuthLayout>
   );

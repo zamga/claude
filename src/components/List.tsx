@@ -129,13 +129,19 @@ export function KeyValueList({
   children,
   label,
   topRule = true,
+  values = 'ui',
 }: {
   children: ReactNode;
   label?: string;
   topRule?: boolean;
+  /**
+   * 'display': values in the display face, as on the IPO dossier ("24 Oct", "180 days");
+   * 'large': 17 px interface figures, as on the position screen.
+   */
+  values?: 'ui' | 'display' | 'large';
 }) {
   return (
-    <dl className={styles.kvList} aria-label={label} data-top-rule={topRule}>
+    <dl className={styles.kvList} aria-label={label} data-top-rule={topRule} data-values={values}>
       {children}
     </dl>
   );

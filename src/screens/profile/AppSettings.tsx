@@ -150,7 +150,7 @@ export default function AppSettingsScreen() {
             )}
 
             <section className={styles.group} aria-labelledby="display-heading">
-              <SectionHeader title="Display" id="display-heading" size="small" />
+              <SectionHeader title="Display" id="display-heading" />
               <div className={styles.rows}>
                 <div className={styles.field}>
                   <SelectField
@@ -182,7 +182,7 @@ export default function AppSettingsScreen() {
             </section>
 
             <section className={styles.group} aria-labelledby="regional-heading">
-              <SectionHeader title="Regional" id="regional-heading" size="small" />
+              <SectionHeader title="Regional" id="regional-heading" />
               {!signedIn && (
                 <p className={shared.footnote}>
                   Regional settings belong to your account. Sign in to change them.
@@ -228,7 +228,7 @@ export default function AppSettingsScreen() {
             </section>
 
             <section className={styles.group} aria-labelledby="access-heading">
-              <SectionHeader title="Accessibility" id="access-heading" size="small" />
+              <SectionHeader title="Accessibility" id="access-heading" />
               <div className={styles.rows}>
                 <div className={styles.field}>
                   <SelectField
@@ -267,7 +267,7 @@ export default function AppSettingsScreen() {
         )}
 
         <section className={styles.group} aria-labelledby="data-heading">
-          <SectionHeader title="Data controls" id="data-heading" size="small" />
+          <SectionHeader title="Data controls" id="data-heading" />
           <List label="Data controls">
             <Row
               icon={Download}

@@ -25,16 +25,27 @@
 }
 
 .pointTitle {
+  display: block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.125rem;
-  line-height: 1.25;
+  font-size: 1.375rem; /* 22, as photographed ("Demand", "Earnings") */
+  line-height: 1.2;
+  letter-spacing: var(--track-section);
+}
+
+.pointTitle[data-tone='risk'] {
+  padding-top: 1px;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-regular);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+  letter-spacing: 0;
 }
 
 .pointSummary {
   color: var(--fg-muted);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
 }
 
 .chevron {
@@ -48,10 +59,16 @@
   transform: rotate(180deg);
 }
 
+/* Aligned under the title: the marker column is the 30 px rank badge (2em of 15 px). */
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 0 var(--space-4) calc(1.875rem + var(--space-3));
+}
+
 .evidence {
   display: grid;
   gap: var(--space-3);
-  padding: 0 0 var(--space-4) calc(22px + var(--space-3));
 }
 
 .evidenceItem {
@@ -77,6 +94,7 @@
 
 .riskIcon {
   flex: none;
+  width: 1.875rem;
   color: var(--negative);
   margin-top: 2px;
 }

@@ -66,9 +66,9 @@
 }
 
 .dayName {
-  font-size: var(--fs-micro);
+  font-size: 0.625rem; /* 10, as photographed */
   line-height: 1;
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   opacity: 0.8;
 }
@@ -81,7 +81,7 @@
 .dayNumber {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.625rem;
+  font-size: 1.5rem; /* 24 */
   line-height: 1;
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -101,15 +101,15 @@
 }
 
 .ticker {
-  font-size: 1.75rem;
+  font-size: 1.875rem; /* 30, as photographed */
   line-height: 1.05;
 }
 
 .name {
   display: block;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -134,7 +134,7 @@
   color: var(--fg-muted);
   font-size: 0.625rem;
   line-height: 1.3;
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
   white-space: nowrap;
@@ -143,8 +143,9 @@
 .metricValue {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.625rem;
-  line-height: 1.1;
+  font-size: 2.125rem; /* 34: consensus EPS, as photographed */
+  line-height: 1.05;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -172,13 +173,14 @@
 .watchNumber {
   display: inline-grid;
   place-items: center;
-  min-width: max(24px, 2.2em);
-  min-height: max(22px, 1.6em);
-  border-radius: 3px;
+  min-width: 2em;
+  min-height: 2em;
+  border-radius: 2px;
   background: var(--accent-fill);
   color: var(--on-accent);
-  font-size: var(--fs-micro);
-  font-weight: 600;
+  font-size: var(--fs-label); /* 13 in a 26 px square, as photographed */
+  line-height: 1;
+  font-weight: var(--weight-regular);
   font-variant-numeric: tabular-nums;
 }
 

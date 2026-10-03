@@ -3,7 +3,7 @@
 }
 
 .singleName {
-  font-weight: 600;
+  font-weight: var(--weight-label);
   font-size: var(--fs-body-sm);
 }
 
@@ -23,7 +23,7 @@
   gap: var(--space-3);
   color: var(--fg-muted);
   white-space: nowrap;
-  font-size: var(--fs-label);
+  font-size: 0.875rem; /* 14 ("6 stocks") */
   font-variant-numeric: tabular-nums;
 }
 
@@ -32,7 +32,7 @@
   align-items: center;
   min-height: var(--hit);
   color: var(--fg);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -45,7 +45,7 @@
   gap: 6px;
   min-height: var(--hit);
   color: var(--fg);
-  font-size: var(--fs-label);
+  font-size: 0.875rem; /* 14 ("Daily change") */
 }
 
 .sort select {
@@ -54,7 +54,7 @@
   padding: 0 2px;
   border: 0;
   background: transparent;
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   cursor: pointer;
 }
 
@@ -82,7 +82,7 @@
   padding: 0 14px;
   border-radius: 18px;
   box-shadow: inset 0 0 0 1px var(--control-border);
-  font-size: var(--fs-label);
+  font-size: 0.875rem;
   white-space: nowrap;
   transition:
     background-color var(--dur-feedback) var(--ease-standard),
@@ -139,19 +139,20 @@
 .catalystTicker {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 1.25rem; /* 20, as photographed */
   line-height: 1.2;
+  letter-spacing: var(--track-quote);
 }
 
 .catalystDetail {
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
 }
 
 .catalystStatus {
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-note);
+  line-height: var(--lh-note);
 }
 
 .catalystStatus[data-active='true'] {

@@ -208,7 +208,7 @@ export default function PickArchiveScreen() {
           <>
             <div className={styles.visible}>
               <h2 className={styles.visibleTitle}>Every pick stays visible.</h2>
-              <p className="t-label t-muted">
+              <p className={styles.visibleDek}>
                 Review the original thesis and subsequent changes; losses and delistings stay in the
                 record.
               </p>

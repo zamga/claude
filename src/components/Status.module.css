@@ -1,7 +1,7 @@
 .demoTag {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--demo-fg);
@@ -76,7 +76,7 @@ dialog [data-notice],
 }
 
 .noticeTitle {
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .noticeActions {

@@ -20,7 +20,7 @@
   color: var(--fg-muted);
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
 }
@@ -35,7 +35,7 @@
   gap: 6px;
   min-height: var(--hit);
   margin: -10px 0;
-  font-size: var(--fs-body-sm);
+  font-size: 1.0625rem; /* 17, as photographed */
   text-align: left;
 }
 
@@ -43,10 +43,11 @@
   color: var(--fg-muted);
 }
 
-.actual {
+.results .actual {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.375rem;
+  font-size: 1.5rem; /* 24 */
+  letter-spacing: var(--track-quote);
   width: 34%;
 }
 
@@ -58,9 +59,13 @@
   color: var(--negative);
 }
 
-.estimate {
+/* Estimates are set in the display face too, one step down (20 px in the photo). */
+.results .estimate {
   width: 26%;
-  font-size: var(--fs-body);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: var(--track-quote);
 }
 
 .reaction {
@@ -75,7 +80,9 @@
 }
 
 .reactionValue[data-size='lg'] {
-  font-size: 2.5rem;
+  font-size: min(3.125rem, 12.8cqi); /* 50, as photographed */
+  line-height: 1;
+  letter-spacing: var(--track-quote);
 }
 
 .reactionPending {
@@ -105,8 +112,8 @@
 }
 
 .assessment {
-  font-size: var(--fs-label);
-  font-weight: 500;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--weight-medium);
 }
 
 .assessment[data-tone='positive'] {
@@ -127,7 +134,7 @@
   background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--fs-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   font-variant-numeric: tabular-nums;
 }
 
@@ -151,7 +158,7 @@
 }
 
 .period strong {
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .periodDetail {

@@ -80,11 +80,11 @@
   align-content: start;
   gap: 4px;
   min-width: 0;
-  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+  padding: var(--space-3) var(--space-2) var(--space-3) 0;
 }
 
 .stat + .stat {
-  padding-left: var(--space-3);
+  padding-left: var(--space-2);
   border-left: var(--hairline) solid var(--rule);
 }
 
@@ -100,22 +100,55 @@
   }
 }
 
+/*
+ * Stat labels are small tracked capitals in the photos ("RETURN", "AVERAGE RETURN", "SHARES
+ * OFFERED"); the S02 ratings strip sets them in sentence case ("Momentum", "Quality", "Risk").
+ */
 .statLabel {
   color: var(--fg-muted);
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
-  font-weight: 600;
-  letter-spacing: var(--track-eyebrow);
+  font-weight: var(--weight-label);
+  letter-spacing: 0.04em; /* strip labels are set tighter than eyebrows (0.00-0.06em measured) */
   text-transform: uppercase;
 }
 
+.statLabel[data-case='sentence'] {
+  font-size: 0.75rem;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* 22 px by default (paper portfolio); 18 for the S02 ratings, 30 and 38 for the feature strips. */
 .statValue {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.125rem, 0.8rem + 2.4cqi, 1.5rem);
+  font-size: min(1.375rem, 6cqi);
   line-height: 1.1;
+  letter-spacing: var(--track-quote);
   font-variant-numeric: tabular-nums lining-nums;
   white-space: nowrap;
+}
+
+.statValue[data-size='sm'] {
+  font-size: min(1.125rem, 5cqi);
+}
+
+.statValue[data-size='lg'] {
+  font-size: min(1.875rem, 8cqi);
+  line-height: 1.05;
+}
+
+.statValue[data-size='xl'] {
+  font-size: min(2.375rem, 9.6cqi);
+  line-height: 1;
+}
+
+/* Units after a figure ("+1.6 pp") are set smaller, as photographed. */
+.statUnit {
+  font-size: 0.6em;
+  letter-spacing: 0;
 }
 
 .statValue[data-tone='positive'] {
@@ -147,11 +180,19 @@
   box-shadow: inset 0 0 0 1px var(--rule-strong);
 }
 
+/* A closing action set in the flow of a long read (S11 thesis, S18 reader), not over it. */
+.endAction {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--gutter) 0;
+  text-align: center;
+}
+
 .footnote {
   padding: var(--space-3) var(--gutter) 0;
   color: var(--fg-muted);
-  font-size: var(--fs-micro);
-  line-height: var(--lh-micro);
+  font-size: var(--fs-note);
+  line-height: var(--lh-note);
 }
 
 .chartBlock {
@@ -195,8 +236,8 @@
 
 .takeawayText {
   margin-top: var(--space-2);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
 }
 
 .numbered {
@@ -271,7 +312,7 @@
 .dataTable thead th {
   color: var(--fg-muted);
   font-size: var(--fs-micro);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
