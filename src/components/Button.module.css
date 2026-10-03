@@ -1,0 +1,145 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--button-h);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.96875rem; /* 15.5: buttons measure 14.9-16 px in the photos */
+  line-height: 1.2;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform var(--dur-press-out) var(--ease-out),
+    background-color var(--dur-feedback) var(--ease-standard),
+    color var(--dur-feedback) var(--ease-standard),
+    border-color var(--dur-feedback) var(--ease-standard),
+    opacity var(--dur-feedback) var(--ease-standard);
+  -webkit-touch-callout: none;
+}
+
+.button[data-pressed='true'] {
+  transform: scale(var(--press-scale));
+  transition-duration: var(--dur-press-in);
+}
+
+.full {
+  display: flex;
+  width: 100%;
+}
+
+.between {
+  justify-content: space-between;
+  text-align: left;
+}
+
+.primary {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  font-size: 1.0625rem; /* 17: primary actions measure 16.6-18.3 px */
+}
+
+.primary[data-pressed='true'] {
+  background: var(--primary-bg-pressed);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg);
+}
+
+.secondary[data-pressed='true'],
+.quiet[data-pressed='true'] {
+  background: var(--press-tint);
+}
+
+.quiet {
+  background: transparent;
+  color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--control-border);
+}
+
+.accent {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+.danger {
+  background: transparent;
+  color: var(--negative);
+  box-shadow: inset 0 0 0 1px var(--negative);
+}
+
+/* Text actions ("Skip for now", "Sign out", "Add a note") measure 12.6-14.8 px by width. */
+.text {
+  min-height: var(--hit);
+  padding: 0 var(--space-2);
+  background: transparent;
+  color: var(--fg);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.small {
+  min-height: 40px;
+  font-size: var(--fs-label);
+}
+
+.button:disabled,
+.button[aria-disabled='true'] {
+  opacity: 0.42;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: var(--space-2);
+  width: 100%;
+  transition: opacity var(--dur-feedback) var(--ease-standard);
+}
+
+.content[data-hidden] {
+  opacity: 0;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.spinner::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:global(:root[data-motion='reduced']) .spinner::after {
+  animation-duration: 1600ms;
+}
+
+.icon {
+  flex: none;
+}

@@ -1,0 +1,169 @@
+.tableWrap {
+  padding: 0 var(--gutter);
+}
+
+.results {
+  width: 100%;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.results th,
+.results td {
+  padding: 10px 0;
+  border-bottom: var(--hairline) solid var(--rule);
+  text-align: right;
+  font-weight: 400;
+}
+
+.results thead th {
+  padding-top: 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+}
+
+.results th:first-child {
+  text-align: left;
+}
+
+.metricButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--hit);
+  margin: -10px 0;
+  font-size: 1.0625rem; /* 17, as photographed */
+  text-align: left;
+}
+
+.metricButton svg {
+  color: var(--fg-muted);
+}
+
+/* Table figures are not tracked (spec: avoid tracking numeric data columns). */
+.results .actual {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem; /* 24 */
+  width: 34%;
+}
+
+.actual[data-beat='true'] {
+  color: var(--positive);
+}
+
+.actual[data-beat='false'] {
+  color: var(--negative);
+}
+
+/* Estimates are set in the display face too, one step down (20 px in the photo). */
+.results .estimate {
+  width: 26%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.reaction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--gutter);
+}
+
+.reactionValue {
+  flex: none;
+}
+
+.reactionValue[data-size='lg'] {
+  font-size: min(3.125rem, 12.8cqi); /* 50, as photographed */
+  line-height: 1;
+  letter-spacing: var(--track-quote);
+}
+
+.reactionPending {
+  color: var(--fg-muted);
+  font-size: var(--fs-body);
+}
+
+.reactionSpark {
+  flex: 1;
+  min-width: 0;
+}
+
+.readIcon {
+  flex: none;
+}
+
+.readIcon[data-tone='positive'] {
+  color: var(--positive);
+}
+
+.readIcon[data-tone='negative'] {
+  color: var(--negative);
+}
+
+.readIcon[data-tone='neutral'] {
+  color: var(--fg-muted);
+}
+
+.assessment {
+  font-size: var(--fs-body-sm);
+  font-weight: var(--weight-medium);
+}
+
+.assessment[data-tone='positive'] {
+  color: var(--positive);
+}
+
+.assessment[data-tone='negative'] {
+  color: var(--negative);
+}
+
+.number {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: var(--fs-micro);
+  font-weight: var(--weight-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheetBody {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.kvLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.period {
+  display: block;
+  margin-top: var(--space-2);
+  padding: 0 var(--gutter);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+}
+
+.period strong {
+  font-weight: var(--weight-label);
+}
+
+.periodDetail {
+  display: block;
+  margin-top: 2px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}

@@ -1,0 +1,280 @@
+.figure {
+  margin: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.reference {
+  stroke: var(--chart-axis);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  opacity: 0.6;
+  shape-rendering: crispEdges;
+}
+
+.axisLabel {
+  fill: var(--chart-axis);
+  font-size: 11px; /* axis labels measure 10-11 px; 11 is the micro floor */
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.surface {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  touch-action: pan-y pinch-zoom;
+  cursor: crosshair;
+  border-radius: var(--radius-sm);
+}
+
+.surface:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  animation: inspect-in var(--dur-inspect-in) var(--ease-standard) both;
+}
+
+.overlay[data-fading='true'] {
+  opacity: 0;
+  transition: opacity var(--dur-inspect-out) var(--ease-standard);
+}
+
+@keyframes inspect-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.crosshair {
+  position: absolute;
+  left: 0;
+  background: var(--fg);
+  opacity: 0.7;
+  will-change: transform;
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg);
+  will-change: transform;
+}
+
+.halo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: 0.14;
+  will-change: transform;
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  gap: 1px;
+  max-width: 176px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.18);
+  will-change: transform;
+  white-space: nowrap;
+}
+
+.tooltipPrice {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipMeta {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-variant-numeric: tabular-nums;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bg-tint);
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  pointer-events: none;
+}
+
+.unavailable,
+.singleNote {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  text-align: center;
+  border: var(--hairline) dashed var(--rule-strong);
+  border-radius: var(--radius-sm);
+}
+
+.singleNote {
+  inset: auto 0 0 0;
+  border: 0;
+  padding: 0;
+  place-items: end start;
+}
+
+.fadeInGroup {
+  animation: global(fade-in) var(--dur-range) var(--ease-standard) both;
+}
+
+.fadeOutGroup {
+  animation: global(vt-fade-out) var(--dur-range) var(--ease-standard) both;
+}
+
+.tableToggle {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tableButton {
+  min-height: var(--hit);
+  padding: 0 2px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tableWrap {
+  max-height: 320px;
+  overflow: auto;
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.table {
+  width: 100%;
+  font-size: var(--fs-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: 6px 4px;
+  border-bottom: var(--hairline) solid var(--rule);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table th:first-child {
+  text-align: left;
+  font-weight: 400;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  color: var(--fg-muted);
+  font-weight: var(--weight-medium);
+}
+
+.comparison {
+  stroke: var(--chart-neutral);
+  stroke-width: 1.25;
+  stroke-dasharray: 4 3;
+  stroke-linejoin: round;
+}
+
+.markerLine {
+  stroke: var(--fg-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}
+
+.markerLabel {
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 6px; /* wide enough to knock the series out between the letters */
+  stroke-linejoin: round;
+  fill: var(--fg-muted);
+  font-size: 12px; /* "Entry $128.00", 12 px in the photo */
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--fs-note);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendDash {
+  width: 16px;
+  border-top: 1.5px dashed var(--chart-neutral);
+}
+
+.tooltipKey {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}

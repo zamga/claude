@@ -1,0 +1,82 @@
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.forgot {
+  justify-self: end;
+  margin-top: calc(-1 * var(--space-2));
+  font-size: var(--fs-label);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.providers {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.or {
+  position: relative;
+  display: block;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  text-align: center;
+}
+
+.or::before,
+.or::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 24px);
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.or::before {
+  left: 0;
+}
+
+.or::after {
+  right: 0;
+}
+
+/* Notes with links, password progress and the terms error are read to act: 13 px, not micro. */
+.muted {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  text-align: center;
+}
+
+.rules {
+  display: grid;
+  gap: 4px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.rule[data-met='true'] {
+  color: var(--positive);
+}
+
+.state {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.big {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+}
+
+.cooldown {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  font-variant-numeric: tabular-nums;
+}

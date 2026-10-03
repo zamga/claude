@@ -1,0 +1,102 @@
+.regions {
+  padding: var(--space-3) var(--gutter) 0;
+}
+
+.regions > [role='radiogroup'] {
+  width: 100%;
+}
+
+.rank {
+  display: block;
+  padding-top: 8px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px var(--space-2);
+}
+
+.ticker {
+  font-size: 1.75rem;
+  line-height: 1.05;
+}
+
+.name {
+  display: block;
+  color: var(--fg-muted);
+  font-size: 0.875rem; /* 14, as photographed ("Alto Systems") */
+  line-height: 1.35;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.fact {
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  min-width: 0;
+  padding: 0 var(--space-2);
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+/* Sector, 14 px in the photo. */
+.fact:first-child {
+  padding-left: 0;
+  font-size: 0.875rem;
+}
+
+.fact + .fact {
+  border-left: var(--hairline) solid var(--rule);
+}
+
+/* Narrow panes (320 px; em is the pane's 15 px) and enlarged text: one fact per line. */
+@container pane (max-width: 21.5em) {
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+
+  .fact,
+  .fact:first-child {
+    padding: 0;
+  }
+
+  .fact + .fact {
+    border-left: 0;
+  }
+}
+
+.factValue {
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem; /* 20: price range; dates are 16 */
+  line-height: 1.15;
+  letter-spacing: var(--track-quote);
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.fact:last-child .factValue {
+  font-size: 1rem;
+}
+
+.factValue[data-pending='true'],
+.fact:last-child .factValue[data-pending='true'] {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: 0.875rem;
+  letter-spacing: 0;
+}
+
+/* Notes wrap rather than clip ("Indicative range", "Not disclosed", "Unconfirmed"). */
+.factNote {
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-motion="full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Stock Picks · Daily editorial stock research</title>
+    <meta
+      name="description"
+      content="Stock Picks: up to five sourced stock ideas a day, with the thesis, evidence, valuation and every past outcome on record. Demo build with illustrative data."
+    />
+    <meta name="theme-color" content="#f8f5ed" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      href="/fonts/freeserif-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/roboto-flex-400-700-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stock Picks" />
+    <meta property="og:title" content="Stock Picks · Today’s picks, sourced and on the record" />
+    <meta
+      property="og:description"
+      content="Daily editorial stock ideas with sources, valuation scenarios and a complete pick history, including the losses."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Stock Picks",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "description": "Daily editorial stock research, watchlists, alerts and a paper portfolio. Demo build with illustrative data; not investment advice.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <style>
+      html {
+        background: #f8f5ed;
+      }
+      #root:empty::before {
+        content: 'Stock picks.';
+        display: block;
+        padding: 72px 24px 0;
+        color: #111613;
+        font:
+          700 64px/0.82 'FreeSerif',
+          'Times New Roman',
+          serif;
+        letter-spacing: -0.045em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p
+        style="
+          padding: 24px;
+          font:
+            16px/1.5 system-ui,
+            sans-serif;
+        "
+      >
+        Stock Picks needs JavaScript to show live research, charts and your saved lists.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

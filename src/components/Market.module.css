@@ -1,0 +1,167 @@
+.change {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.change[data-direction='up'] {
+  color: var(--positive);
+}
+
+.change[data-direction='down'] {
+  color: var(--negative);
+}
+
+.change[data-direction='flat'],
+.change[data-direction='none'] {
+  color: var(--fg-muted);
+}
+
+.change[data-size='lg'] {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.change[data-size='md'] {
+  font-size: 1rem; /* 16: list rows and sector bars, measured 15-17 px in the photos */
+}
+
+/* The headline change beside a quote ("+2.34% today"), measured at 22 px in the photos. */
+.change[data-size='figure'] {
+  font-size: 1.375rem;
+  line-height: 1.1;
+  font-weight: var(--weight-figure);
+  letter-spacing: 0.01em;
+}
+
+.change[data-size='sm'] {
+  font-size: var(--fs-label);
+}
+
+/* "On the radar" rows: 14 px. */
+.change[data-size='compact'] {
+  font-size: 0.875rem;
+}
+
+.change[data-size='inline'] {
+  font-weight: inherit;
+}
+
+.suffix {
+  margin-left: 0.3em;
+  font-weight: 400;
+}
+
+.price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: var(--track-quote);
+  white-space: nowrap;
+}
+
+.price[data-size='hero'] {
+  font-size: var(--fs-quote);
+  line-height: var(--lh-quote);
+}
+
+.price[data-size='lg'] {
+  font-size: 2.125rem; /* 34: featured pick */
+  line-height: 1.05;
+}
+
+/* Row prices form a column down a list, which is not tracked. */
+.price[data-size='md'] {
+  font-size: 1.5rem; /* 24: list rows */
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.price[data-size='sm'] {
+  font-size: var(--fs-body-sm);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.rank {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2em;
+  min-height: 2em;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: 0.9375rem; /* 15 in a 30 px square, as photographed */
+  line-height: 1;
+  font-weight: var(--weight-regular);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Radar rows: 13 px numerals in a 26 px square. */
+.rank[data-size='sm'] {
+  font-size: var(--fs-label);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 20px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem; /* 12: chips measure 11.5-13 px */
+  line-height: 1.2;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.tag[data-tone='positive'] {
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+  color: var(--positive);
+}
+
+.tag[data-tone='negative'] {
+  background: color-mix(in srgb, var(--negative) 12%, transparent);
+  color: var(--negative);
+}
+
+.tag[data-tone='neutral'] {
+  background: var(--bg-tint);
+  color: var(--fg);
+}
+
+.tag[data-tone='accent'] {
+  background: var(--selected-bg);
+  color: var(--accent-fg);
+}
+
+.tag[data-tone='warning'] {
+  background: var(--warning-fill);
+  color: var(--on-warning);
+}
+
+.tag[data-tone='outline'] {
+  box-shadow: inset 0 0 0 1px var(--control-border);
+  color: var(--fg);
+}
+
+.ticker {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-ticker);
+  line-height: var(--lh-ticker);
+  letter-spacing: var(--track-display);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}

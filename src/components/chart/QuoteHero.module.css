@@ -1,0 +1,24 @@
+.hero {
+  display: grid;
+  gap: 2px;
+  min-height: 72px;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  row-gap: 0;
+}
+
+.meta {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero[data-state='inspecting'] .meta {
+  color: var(--fg);
+}

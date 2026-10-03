@@ -1,0 +1,17 @@
+node_modules
+dist
+dev-dist
+coverage
+*.local
+.env
+.env.*
+!.env.example
+test-results
+playwright-report
+blob-report
+.DS_Store
+*.tsbuildinfo
+.lighthouseci
+typography-report
+dist-preview
+click-audit*.jsonl

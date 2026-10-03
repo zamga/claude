@@ -1,0 +1,903 @@
+[
+  {
+    "id": "today",
+    "text": "Today’s",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "region": [284, 150, 526, 240],
+    "line": "top",
+    "split": 222
+  },
+  {
+    "id": "picks",
+    "text": "picks.",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "region": [284, 212, 482, 304],
+    "line": "bottom",
+    "split": 222,
+    "erase": [430, 212, 476, 240]
+  },
+  {
+    "id": "nvda_dark",
+    "text": "NVDA",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [822, 166, 1040, 229]
+  },
+  {
+    "id": "price_dark",
+    "text": "$142.80",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [822, 244, 1001, 298]
+  },
+  {
+    "id": "nvda_light",
+    "text": "NVDA",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [346, 394, 479, 433]
+  },
+  {
+    "id": "price_light",
+    "text": "$142.80",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [347, 480, 485, 522]
+  },
+  {
+    "id": "radar",
+    "text": "On the radar",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [286, 732, 462, 764]
+  },
+  {
+    "id": "thesis",
+    "text": "The thesis",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [822, 595, 973, 628]
+  },
+  {
+    "id": "strong",
+    "text": "Strong",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [831, 835, 905, 862]
+  },
+  {
+    "id": "high",
+    "text": "High",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [1004, 836, 1051, 861]
+  },
+  {
+    "id": "elevated",
+    "text": "Elevated",
+    "role": "display",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [1153, 835, 1225, 856]
+  },
+  {
+    "id": "semis",
+    "text": "Semiconductors",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [507, 405, 632, 423]
+  },
+  {
+    "id": "momentum_tag",
+    "text": "Strong momentum",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [356, 448, 486, 468]
+  },
+  {
+    "id": "change",
+    "text": "+2.34%",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [512, 486, 609, 513]
+  },
+  {
+    "id": "body",
+    "text": "Earnings strength. Growing demand.",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [287, 617, 586, 641]
+  },
+  {
+    "id": "explore",
+    "text": "Explore thesis",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [308, 669, 428, 692]
+  },
+  {
+    "id": "msft",
+    "text": "MSFT",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [339, 799, 388, 817]
+  },
+  {
+    "id": "microsoft",
+    "text": "Microsoft",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [409, 799, 478, 817]
+  },
+  {
+    "id": "earnings_tab",
+    "text": "Earnings",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [363, 315, 436, 338]
+  },
+  {
+    "id": "watchlist_tab",
+    "text": "Watchlist",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [409, 943, 470, 959]
+  },
+  {
+    "id": "today_change",
+    "text": "+2.34% today",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [1028, 263, 1196, 294]
+  },
+  {
+    "id": "thesis_body",
+    "text": "Demand growth supports the next earnings cycle.",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [823, 639, 1241, 663]
+  },
+  {
+    "id": "catalyst",
+    "text": "Catalyst",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [862, 699, 927, 720]
+  },
+  {
+    "id": "next_earnings",
+    "text": "Next earnings",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [1051, 699, 1158, 721]
+  },
+  {
+    "id": "valuation",
+    "text": "Valuation premium",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [1051, 751, 1194, 772]
+  },
+  {
+    "id": "key_risk",
+    "text": "Key risk",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [863, 751, 927, 772]
+  },
+  {
+    "id": "add",
+    "text": "Add to watchlist",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [986, 901, 1136, 921]
+  },
+  {
+    "id": "momentum",
+    "text": "Momentum",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [831, 811, 909, 827]
+  },
+  {
+    "id": "mar14",
+    "text": "Mar 14",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [895, 503, 941, 518]
+  },
+  {
+    "id": "stock_picks",
+    "text": "STOCK PICKS",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [286, 84, 406, 101]
+  },
+  {
+    "id": "daily_selection",
+    "text": "DAILY SELECTION",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [286, 132, 436, 147]
+  },
+  {
+    "id": "pick_analysis",
+    "text": "PICK ANALYSIS",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "light",
+    "box": [982, 87, 1100, 104]
+  },
+  {
+    "id": "b1_welcome",
+    "text": "Welcome",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [288, 142, 605, 212]
+  },
+  {
+    "id": "b1_back",
+    "text": "back.",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [289, 212, 472, 283]
+  },
+  {
+    "id": "b1_shape",
+    "text": "Shape your",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [826, 157, 1171, 238]
+  },
+  {
+    "id": "b1_shortlist",
+    "text": "shortlist.",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [826, 224, 1094, 289]
+  },
+  {
+    "id": "b1_interests",
+    "text": "What interests you?",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [825, 322, 1041, 353]
+  },
+  {
+    "id": "b1_horizon",
+    "text": "Your time horizon",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [826, 550, 1025, 575]
+  },
+  {
+    "id": "b1_markets",
+    "text": "Markets",
+    "role": "display",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [826, 665, 918, 690]
+  },
+  {
+    "id": "b1_research",
+    "text": "Your research, in one place.",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [289, 302, 564, 329]
+  },
+  {
+    "id": "b1_email",
+    "text": "Email address",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [290, 358, 397, 377]
+  },
+  {
+    "id": "b1_apple",
+    "text": "Continue with Apple",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [441, 733, 621, 757]
+  },
+  {
+    "id": "b1_google",
+    "text": "Continue with Google",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [438, 802, 625, 827]
+  },
+  {
+    "id": "b1_earnmom",
+    "text": "Earnings momentum",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [890, 376, 1049, 398]
+  },
+  {
+    "id": "b1_longterm",
+    "text": "Long-term quality",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [890, 491, 1028, 513]
+  },
+  {
+    "id": "b1_anytime",
+    "text": "You can change this anytime.",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [827, 824, 1032, 844]
+  },
+  {
+    "id": "b2_market",
+    "text": "The market.",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 119, 644, 182]
+  },
+  {
+    "id": "b2_find",
+    "text": "Find a pick.",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [822, 121, 1174, 197]
+  },
+  {
+    "id": "b2_leading",
+    "text": "Leading sectors",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 522, 464, 555]
+  },
+  {
+    "id": "b2_upcoming",
+    "text": "Upcoming catalysts",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [285, 704, 501, 736]
+  },
+  {
+    "id": "b2_refine",
+    "text": "Refine results",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [822, 647, 981, 675]
+  },
+  {
+    "id": "b2_sp",
+    "text": "S&P 500",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 249, 382, 274]
+  },
+  {
+    "id": "b2_sp_chg",
+    "text": "+0.72%",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 282, 400, 316]
+  },
+  {
+    "id": "b2_vix",
+    "text": "18.42",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [599, 281, 686, 316]
+  },
+  {
+    "id": "b2_tsm",
+    "text": "TSM",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [822, 474, 899, 506]
+  },
+  {
+    "id": "b2_tsm_px",
+    "text": "$178.40",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [940, 484, 1032, 513]
+  },
+  {
+    "id": "b2_amd_px",
+    "text": "$156.20",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [940, 564, 1031, 594]
+  },
+  {
+    "id": "b2_session",
+    "text": "US session open",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [313, 197, 439, 219]
+  },
+  {
+    "id": "b2_sample",
+    "text": "Sample session",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [472, 197, 591, 219]
+  },
+  {
+    "id": "b2_semis",
+    "text": "Semiconductors",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [884, 225, 1037, 247]
+  },
+  {
+    "id": "b2_tech",
+    "text": "Technology",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 568, 377, 591]
+  },
+  {
+    "id": "b2_industrials",
+    "text": "Industrials",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [285, 609, 368, 629]
+  },
+  {
+    "id": "b2_inflation",
+    "text": "Inflation data",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [363, 751, 472, 772]
+  },
+  {
+    "id": "b2_pmi",
+    "text": "Manufacturing PMI",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [362, 796, 511, 820]
+  },
+  {
+    "id": "b2_seetoday",
+    "text": "See today’s picks",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [305, 855, 457, 881]
+  },
+  {
+    "id": "b2_results",
+    "text": "12 results",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [822, 349, 893, 368]
+  },
+  {
+    "id": "b2_relevance",
+    "text": "Relevance",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [1149, 348, 1230, 368]
+  },
+  {
+    "id": "b5_investment",
+    "text": "The investment",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [287, 163, 711, 221]
+  },
+  {
+    "id": "b5_case",
+    "text": "case.",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [287, 238, 424, 280]
+  },
+  {
+    "id": "b5_price",
+    "text": "Price vs.",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [823, 163, 1073, 222]
+  },
+  {
+    "id": "b5_expectations",
+    "text": "expectations.",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [823, 222, 1203, 295]
+  },
+  {
+    "id": "b5_demand",
+    "text": "Demand",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [353, 354, 449, 380]
+  },
+  {
+    "id": "b5_earnings",
+    "text": "Earnings",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [353, 432, 453, 463]
+  },
+  {
+    "id": "b5_execution",
+    "text": "Execution",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [354, 512, 466, 537]
+  },
+  {
+    "id": "b5_view",
+    "text": "What could change the view?",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [286, 600, 676, 639]
+  },
+  {
+    "id": "b5_sources",
+    "text": "Source documents",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [287, 759, 512, 788]
+  },
+  {
+    "id": "b5_px",
+    "text": "$142.80",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [824, 328, 999, 381]
+  },
+  {
+    "id": "b5_basecase",
+    "text": "Base-case assumptions",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [823, 590, 1093, 624]
+  },
+  {
+    "id": "b5_sensitivity",
+    "text": "Sensitivity",
+    "role": "display",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [823, 761, 949, 795]
+  },
+  {
+    "id": "b5_infra",
+    "text": "Infrastructure spending supports growth.",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [354, 386, 686, 409]
+  },
+  {
+    "id": "b5_revenue",
+    "text": "Revenue momentum strengthens the outlook.",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [354, 465, 716, 489]
+  },
+  {
+    "id": "b5_capacity",
+    "text": "Capacity and margins remain decisive.",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [353, 544, 655, 568]
+  },
+  {
+    "id": "b5_slower",
+    "text": "Slower customer spending",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [353, 656, 563, 680]
+  },
+  {
+    "id": "b5_lower",
+    "text": "Lower gross margins",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [353, 705, 520, 728]
+  },
+  {
+    "id": "b5_filing",
+    "text": "Quarterly filing",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [307, 810, 431, 834]
+  },
+  {
+    "id": "b5_transcript",
+    "text": "Earnings transcript",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [308, 857, 466, 880]
+  },
+  {
+    "id": "b5_save",
+    "text": "Save research",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [456, 921, 585, 942]
+  },
+  {
+    "id": "b5_scen",
+    "text": "Illustrative 12-month scenarios",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [824, 299, 1097, 319]
+  },
+  {
+    "id": "b5_revgrowth",
+    "text": "Revenue growth",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [828, 635, 960, 659]
+  },
+  {
+    "id": "b5_opmargin",
+    "text": "Operating margin",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [827, 673, 973, 697]
+  },
+  {
+    "id": "b5_105",
+    "text": "$105",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [1003, 429, 1051, 453]
+  },
+  {
+    "id": "b5_rounded",
+    "text": "Rounded sample values.",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [824, 552, 991, 572]
+  },
+  {
+    "id": "tb_research_note",
+    "text": "RESEARCH NOTE",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "dark",
+    "box": [428, 86, 578, 102]
+  },
+  {
+    "id": "tb_valuation",
+    "text": "VALUATION",
+    "role": "ui",
+    "image": "img-005.png",
+    "polarity": "light",
+    "box": [994, 88, 1091, 104]
+  },
+  {
+    "id": "tb_app_settings",
+    "text": "APP SETTINGS",
+    "role": "ui",
+    "image": "img-010.png",
+    "polarity": "dark",
+    "box": [977, 86, 1102, 103]
+  },
+  {
+    "id": "tb_preferences",
+    "text": "YOUR PREFERENCES",
+    "role": "ui",
+    "image": "img-001.png",
+    "polarity": "dark",
+    "box": [954, 86, 1117, 103]
+  },
+  {
+    "id": "tb_account",
+    "text": "ACCOUNT",
+    "role": "ui",
+    "image": "img-010.png",
+    "polarity": "dark",
+    "box": [286, 85, 371, 102]
+  },
+  {
+    "id": "tb_market_overview",
+    "text": "MARKET OVERVIEW",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [284, 84, 467, 100]
+  },
+  {
+    "id": "row_b6_nvda",
+    "text": "NVDA",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [286, 318, 377, 348]
+  },
+  {
+    "id": "row_b6_msft",
+    "text": "MSFT",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [286, 492, 373, 522]
+  },
+  {
+    "id": "row_b6_px",
+    "text": "$142.80",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [548, 319, 640, 350]
+  },
+  {
+    "id": "row_b6_px2",
+    "text": "$418.60",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [548, 493, 640, 524]
+  },
+  {
+    "id": "row_b6_name",
+    "text": "Microsoft",
+    "role": "ui",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [286, 527, 358, 545]
+  },
+  {
+    "id": "row_b6_change",
+    "text": "+0.84%",
+    "role": "ui",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [566, 529, 638, 549]
+  },
+  {
+    "id": "row_b2_nvda",
+    "text": "NVDA",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [822, 396, 917, 426]
+  },
+  {
+    "id": "row_b2_px",
+    "text": "$142.80",
+    "role": "display",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [940, 403, 1030, 432]
+  },
+  {
+    "id": "row_b2_change",
+    "text": "+2.34%",
+    "role": "ui",
+    "image": "img-002.png",
+    "polarity": "dark",
+    "box": [1049, 405, 1120, 427]
+  },
+  {
+    "id": "row_b0_change",
+    "text": "+0.84%",
+    "role": "ui",
+    "image": "img-000.jpg",
+    "polarity": "dark",
+    "box": [536, 799, 603, 818]
+  },
+  {
+    "id": "hd_watchlist",
+    "text": "Watchlist.",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [284, 124, 549, 181]
+  },
+  {
+    "id": "hd_stay",
+    "text": "Stay informed.",
+    "role": "display",
+    "image": "img-006.png",
+    "polarity": "dark",
+    "box": [822, 135, 1201, 206]
+  },
+  {
+    "id": "hd_space",
+    "text": "Your space.",
+    "role": "display",
+    "image": "img-010.png",
+    "polarity": "dark",
+    "box": [284, 126, 644, 199]
+  },
+  {
+    "id": "hd_makeit",
+    "text": "Make it",
+    "role": "display",
+    "image": "img-010.png",
+    "polarity": "dark",
+    "box": [824, 123, 1049, 183]
+  }
+]
