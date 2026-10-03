@@ -183,6 +183,7 @@ function installProbe() {
       current:
         el.getAttribute('aria-checked') === 'true' ||
         el.getAttribute('aria-selected') === 'true' ||
+        el.getAttribute('aria-pressed') === 'true' ||
         el.getAttribute('aria-current') === 'page',
       shell: !!el.closest('nav[aria-label="Primary"]') || el.matches('a[href="#main-content"]'),
     }),
@@ -319,7 +320,7 @@ async function run(job, signedIn) {
         await page.waitForTimeout(650);
         await page.evaluate(installProbe);
         target = await page.evaluateHandle(
-          (index) => window.__audit.list().filter((el) => !window.__before.has(el))[index] ?? null,
+          (index) => window.__audit.list().filter((el) => !window.__before?.has(el))[index] ?? null,
           job.path[1],
         );
         result.opener = opener.name;
@@ -343,23 +344,29 @@ async function run(job, signedIn) {
       await page.evaluate(() => window.__audit.watch());
       result.activation = await activate(page, handle, info);
       await page.waitForTimeout(700);
+      await page.waitForLoadState('load');
       await page.evaluate(installProbe);
+      // A control may reload the page (restart, reset): then nothing from before survives.
       const after = await page.evaluate(() => ({
+        reloaded: !window.__before,
         loc: window.__audit.location(),
         dialogs: window.__audit.dialogs(),
         active: window.__audit.active(),
         mutations: window.__audit.stop(),
         errors: window.__audit.errors(),
-        revealed: window.__audit
-          .list()
-          .filter((el) => !window.__before.has(el))
-          .map(window.__audit.describe),
+        revealed: window.__before
+          ? window.__audit
+              .list()
+              .filter((el) => !window.__before.has(el))
+              .map(window.__audit.describe)
+          : [],
       }));
       result.to = appPath(after.loc);
       result.leftApp =
         new URL(after.loc.href).origin !== origin ||
         (args.hash && after.loc.pathname !== before.loc.pathname);
       result.effect =
+        after.reloaded ||
         after.loc.href !== before.loc.href ||
         after.mutations > baseline ||
         after.dialogs !== before.dialogs ||

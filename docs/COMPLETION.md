@@ -26,8 +26,9 @@ own rule (page 41): nothing is marked as passing without a recorded run.
 - **Click-through audit** (`npm run audit:clicks`, not in CI): every routed screen, signed in and
   signed out, with each control activated on its own from a fresh load and then every control that
   activation revealed (sheets, dialogs, menus). Phone and desktop on the production build: 3,677
-  activations. Found and fixed: sign-out leaving signed-in state on screen, saved items stamped
-  with the wall clock, a desktop deep link showing another tab's list, a dead "Refresh all data".
+  activations; phone on the hash-routed preview build: 1,362 more (5,039 in all). Found and fixed:
+  sign-out leaving signed-in state on screen, saved items stamped with the wall clock, a desktop
+  deep link showing another tab's list, a dead "Refresh all data".
   Final runs: no JavaScript errors, error screens, failed requests or links out of the app; every
   activation without a visible effect is a current tab, a disabled control that explains itself or
   a component-catalogue specimen.
