@@ -11,6 +11,7 @@ import {
 } from '@/data/queryClient';
 import { useNotificationOpen } from '@/features/notifications';
 import { AnnouncerProvider } from '@/lib/announcer';
+import { ROUTER_BASENAME } from '@/lib/base';
 import { DemoBridge } from './DemoBridge';
 import { DisplayProvider } from './display';
 import { preloadCoreScreens } from './routes';
@@ -41,23 +42,27 @@ function Background() {
  * One data router with a catch-all route: the shell renders the visible panes itself (so a
  * collection and a detail can show side by side), while the data router provides navigation
  * blocking for unsaved drafts. The static preview build (`npm run build:preview`) routes on the
- * URL hash, so it runs from any folder or embedded page without server rewrites.
+ * URL hash, so it runs from any folder or embedded page without server rewrites. Under a sub-path
+ * (the GitHub Pages build) the browser router takes the base as its basename.
  */
 const createRouter =
   import.meta.env.VITE_ROUTER === 'hash' ? createHashRouter : createBrowserRouter;
 
-const router = createRouter([
-  {
-    path: '*',
-    element: (
-      <>
-        <Background />
-        <DemoBridge />
-        <Shell />
-      </>
-    ),
-  },
-]);
+const router = createRouter(
+  [
+    {
+      path: '*',
+      element: (
+        <>
+          <Background />
+          <DemoBridge />
+          <Shell />
+        </>
+      ),
+    },
+  ],
+  { basename: ROUTER_BASENAME },
+);
 
 export function App() {
   return (

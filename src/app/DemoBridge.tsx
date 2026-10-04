@@ -71,8 +71,12 @@ export function DemoBridge() {
           tag: item.eventKey,
           data: { url: `${url}${url.includes('?') ? '&' : '?'}from=notification&item=${item.id}` },
         };
-        if (registration) await registration.showNotification(item.title, options);
-        else new Notification(item.title, options);
+        try {
+          if (registration) await registration.showNotification(item.title, options);
+          else new Notification(item.title, options);
+        } catch {
+          // Some browsers show notifications only through a service worker; the inbox has it.
+        }
       }
       void queryClient.invalidateQueries({ queryKey: ['private', 'inbox'] });
     };

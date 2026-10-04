@@ -1,4 +1,5 @@
 import { DATA_MODE } from '@/data/transport';
+import { appUrl } from '@/lib/base';
 
 /**
  * Startup configuration check (spec page 61): a live build without its required variables must
@@ -20,7 +21,7 @@ export function assertConfiguration(): void {
   const missing = missingLiveVariables();
   if (missing.length > 0) {
     console.error(`Live mode is missing required configuration: ${missing.join(', ')}`);
-    if (!window.location.pathname.startsWith('/maintenance'))
-      window.history.replaceState(null, '', '/maintenance?reason=configuration');
+    if (!window.location.pathname.startsWith(appUrl('/maintenance')))
+      window.history.replaceState(null, '', appUrl('/maintenance?reason=configuration'));
   }
 }

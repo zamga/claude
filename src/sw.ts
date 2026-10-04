@@ -13,20 +13,27 @@ import { NavigationRoute, registerRoute } from 'workbox-routing';
  */
 declare const self: ServiceWorkerGlobalScope;
 
+// The app's own address, "/" at a domain root or "/claude/" on a GitHub Pages project site.
+const scope = new URL(self.registration.scope);
+const scopePath = scope.pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 registerRoute(
-  new NavigationRoute(createHandlerBoundToURL('/index.html'), { denylist: [/^\/api\//] }),
+  new NavigationRoute(createHandlerBoundToURL(new URL('index.html', scope).href), {
+    denylist: [new RegExp(`^${scopePath}api/`)],
+  }),
 );
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') void self.skipWaiting();
 });
 
+/** An in-app path from a notification, as an address inside this app and never another site. */
 function safeUrl(value: unknown): string {
-  return typeof value === 'string' && value.startsWith('/') && !value.startsWith('//')
-    ? value
-    : '/';
+  const path =
+    typeof value === 'string' && value.startsWith('/') && !value.startsWith('//') ? value : '/';
+  return new URL(path.slice(1), scope).href;
 }
 
 self.addEventListener('notificationclick', (event) => {

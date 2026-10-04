@@ -41,15 +41,15 @@ function inlineEntryCss(): Plugin {
         const bundle = context.bundle;
         if (!bundle) return html;
         return html.replace(
-          /<link rel="stylesheet"[^>]*?href="\/(assets\/[^"]+\.css)"[^>]*>/g,
-          (tag, file: string) => {
+          /<link rel="stylesheet"[^>]*?href="([^"]*?)(assets\/[^"]+\.css)"[^>]*>/g,
+          (tag, base: string, file: string) => {
             const asset = bundle[file];
             if (!asset || asset.type !== 'asset') return tag;
             const css =
               typeof asset.source === 'string'
                 ? asset.source
                 : new TextDecoder().decode(asset.source);
-            return `<style data-href="/${file}">${css}</style><link rel="stylesheet" type="text/x-inlined" href="/${file}">`;
+            return `<style data-href="${base}${file}">${css}</style><link rel="stylesheet" type="text/x-inlined" href="${base}${file}">`;
           },
         );
       },
@@ -58,17 +58,21 @@ function inlineEntryCss(): Plugin {
 }
 
 /**
- * robots.txt and sitemap.xml from APP_URL at build time. Without an absolute origin a sitemap
- * would be invalid, so it is skipped with a warning instead of guessed.
+ * robots.txt and sitemap.xml from APP_URL at build time (an origin, or an origin and the base path
+ * the app is served under). Without an absolute address a sitemap would be invalid, so it is
+ * skipped with a warning instead of guessed.
  */
-function seoFiles(appUrl: string | undefined): Plugin {
+function seoFiles(appUrl: string | undefined, base: string): Plugin {
   return {
     name: 'stock-picks-seo-files',
     apply: 'build',
     generateBundle() {
       const origin = appUrl?.replace(/\/$/, '');
       const valid =
-        origin != null && /^https?:\/\/[^/]+$/.test(origin) && !origin.includes('localhost');
+        origin != null &&
+        /^https?:\/\/[^/]+(\/[\w.-]+)*$/.test(origin) &&
+        !origin.includes('localhost');
+      const prefix = base.startsWith('/') ? base.replace(/\/$/, '') : '';
       const disallow = [
         '/auth/',
         '/account/',
@@ -81,7 +85,7 @@ function seoFiles(appUrl: string | undefined): Plugin {
       ];
       const robots = [
         'User-agent: *',
-        ...disallow.map((path) => `Disallow: ${path}`),
+        ...disallow.map((path) => `Disallow: ${prefix}${path}`),
         valid ? `Sitemap: ${origin}/sitemap.xml` : '',
       ].filter(Boolean);
       this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `${robots.join('\n')}\n` });
@@ -101,85 +105,91 @@ function seoFiles(appUrl: string | undefined): Plugin {
   };
 }
 
-export default defineConfig(({ mode }) => ({
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  // "/" by default; "/claude/" for a GitHub Pages project site (npm run build:pages).
+  const base = env.VITE_BASE || '/';
+  return {
+    base,
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
-  },
-  plugins: [
-    react(),
-    seoFiles(loadEnv(mode, process.cwd(), '').VITE_APP_URL),
-    inlineEntryCss(),
-    VitePWA({
-      strategies: 'injectManifest',
-      srcDir: 'src',
-      filename: 'sw.ts',
-      injectRegister: false,
-      manifestFilename: 'manifest.webmanifest',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'fonts/*.txt'],
-      injectManifest: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
-        globIgnores: ['**/og-image.png'],
-      },
-      manifest: {
-        id: '/',
-        name: 'Stock Picks',
-        short_name: 'Stock Picks',
-        description:
-          'Daily editorial stock picks with sourced theses, watchlists, alerts and a paper portfolio.',
-        start_url: '/',
-        scope: '/',
-        display: 'standalone',
-        orientation: 'any',
-        lang: 'en',
-        dir: 'ltr',
-        background_color: paper,
-        theme_color: paper,
-        categories: ['finance', 'news', 'productivity'],
-        icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          {
-            src: '/icons/icon-maskable-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
+    plugins: [
+      react(),
+      seoFiles(env.VITE_APP_URL, base),
+      inlineEntryCss(),
+      VitePWA({
+        strategies: 'injectManifest',
+        srcDir: 'src',
+        filename: 'sw.ts',
+        injectRegister: false,
+        manifestFilename: 'manifest.webmanifest',
+        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'fonts/*.txt'],
+        injectManifest: {
+          globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
+          globIgnores: ['**/og-image.png'],
+        },
+        manifest: {
+          id: base,
+          name: 'Stock Picks',
+          short_name: 'Stock Picks',
+          description:
+            'Daily editorial stock picks with sourced theses, watchlists, alerts and a paper portfolio.',
+          start_url: base,
+          scope: base,
+          display: 'standalone',
+          orientation: 'any',
+          lang: 'en',
+          dir: 'ltr',
+          background_color: paper,
+          theme_color: paper,
+          categories: ['finance', 'news', 'productivity'],
+          icons: [
+            { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+            { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+            {
+              src: 'icons/icon-maskable-512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable',
+            },
+          ],
+        },
+        devOptions: {
+          enabled: false,
+          type: 'module',
+        },
+      }),
+    ],
+    build: {
+      target: 'es2022',
+      sourcemap: 'hidden',
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id: string) {
+            if (id.includes('node_modules')) {
+              if (/[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return 'react';
+              if (/[\\/]react-router[\\/]/.test(id)) return 'router';
+              if (/[\\/]@tanstack[\\/]/.test(id)) return 'query';
+            }
+            return undefined;
           },
-        ],
-      },
-      devOptions: {
-        enabled: false,
-        type: 'module',
-      },
-    }),
-  ],
-  build: {
-    target: 'es2022',
-    sourcemap: 'hidden',
-    cssMinify: true,
-    rollupOptions: {
-      output: {
-        manualChunks(id: string) {
-          if (id.includes('node_modules')) {
-            if (/[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return 'react';
-            if (/[\\/]react-router[\\/]/.test(id)) return 'router';
-            if (/[\\/]@tanstack[\\/]/.test(id)) return 'query';
-          }
-          return undefined;
         },
       },
     },
-  },
-  server: {
-    port: 5173,
-  },
-  preview: {
-    port: 4173,
-  },
-  test: {
-    include: ['src/**/*.test.ts'],
-    environment: 'node',
-    clearMocks: true,
-  },
-}));
+    server: {
+      port: 5173,
+    },
+    preview: {
+      port: 4173,
+    },
+    test: {
+      include: ['src/**/*.test.ts'],
+      environment: 'node',
+      clearMocks: true,
+    },
+  };
+});

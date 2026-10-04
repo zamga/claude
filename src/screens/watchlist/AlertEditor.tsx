@@ -58,7 +58,7 @@ import { dayLabel, releaseTimingText } from '@/features/earnings';
 import { useUnsavedChangesGuard } from '@/features/guard';
 import {
   describeRule,
-  PERMISSION_TEXT,
+  permissionText,
   RULE_STATE_LABEL,
   usePushPermission,
 } from '@/features/notifications';
@@ -297,7 +297,7 @@ function AlertFields({
       ; this alert will use your inbox until you turn it on.
     </>
   ) : (
-    PERMISSION_TEXT[permission]
+    permissionText(permission)
   );
 
   const emailDetail = !me?.verified

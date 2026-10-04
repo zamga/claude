@@ -58,6 +58,13 @@
   cursor: pointer;
 }
 
+/* iOS Safari zooms the page into any control set below 16 px when it is tapped. */
+@media (pointer: coarse) {
+  .sort select {
+    font-size: max(16px, 0.875rem);
+  }
+}
+
 .sort:focus-within {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;

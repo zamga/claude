@@ -24,6 +24,7 @@ import { useToast } from '@/components/Toast';
 import { formatMonthYear } from '@/domain/format';
 import { usePreferences } from '@/data/queries';
 import { DATA_MODE } from '@/data/transport';
+import { useInstallRow } from '@/features/install';
 import { useUserTimeZone } from '@/features/time';
 import { useDocumentTitle } from '@/features/title';
 import styles from './Profile.module.css';
@@ -41,6 +42,7 @@ export default function ProfileScreen() {
   const { confirm, element } = useConfirm();
   const sentinel = useRef<HTMLDivElement>(null);
   const [accessOpen, setAccessOpen] = useState(false);
+  const installRow = useInstallRow();
   const [signingOut, setSigningOut] = useState(false);
   useDocumentTitle('Your space');
 
@@ -130,6 +132,7 @@ export default function ProfileScreen() {
               />
               <Row to="/settings/notifications" icon={Bell} title="Notification settings" />
               <Row to="/settings" icon={Settings} title="App settings" />
+              {installRow.row}
               <Row to="/account/edit" icon={User} title="Account details" />
               <Row to="/account/security" icon={Lock} title="Account security" />
               <Row to="/account/data" icon={Shield} title="Privacy & data" />
@@ -184,6 +187,7 @@ export default function ProfileScreen() {
                 title="App settings"
                 detail="Saved on this device until you sign in"
               />
+              {installRow.row}
               <Row to="/help" icon={CircleHelp} title="Help & support" />
               <Row to="/legal/terms" icon={FileText} title="Terms and privacy" />
               {DATA_MODE === 'demo' && (
@@ -217,6 +221,7 @@ export default function ProfileScreen() {
           </p>
         </div>
       </Sheet>
+      {installRow.sheet}
       {element}
     </ScreenBody>
   );

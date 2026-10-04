@@ -32,6 +32,20 @@ your finger — time, price and change rewritten together, with a 180 ms hold th
 page scroll. Release, and it returns to the latest quote. The keyboard and a data-table view reach
 the same values, and a text summary describes the chart to assistive technology.
 
+## On your phone
+
+The app is published with demo data at **https://zamga.github.io/claude/** (GitHub Pages, deployed
+by `.github/workflows/pages-app.yml`). Open it on the phone, then:
+
+- **iPhone or iPad**: in Safari, tap **Share**, then **Add to Home Screen**, then **Add**. Today's
+  picks and Profile show the same steps. From the Home Screen it opens full screen, starts offline
+  and can show alert notifications (iOS 16.4 or later; allow them in Profile → Notification
+  settings).
+- **Android**: tap **Install** on the card on Today's picks, or Profile → Install the app.
+
+The installed app keeps its own demo data on the device. A new version is offered with an update
+banner ("An update is available"); nothing changes until you tap Reload.
+
 ## Quick start
 
 ```bash
@@ -49,22 +63,23 @@ its response, browse the component catalogue, or reset all demo data.
 
 ## Scripts
 
-| Command                                       | What it does                                                                |
-| --------------------------------------------- | --------------------------------------------------------------------------- |
-| `npm run dev`                                 | Vite dev server on port 5173                                                |
-| `npm run build`                               | Type-check (`tsc -b`) and production build to `dist/`                       |
-| `npm run build:preview`                       | Static demo in `dist-preview/`: hash routes, relative paths, embedded fonts |
-| `npm run preview`                             | Serve the production build on port 4173                                     |
-| `npm run typecheck`                           | TypeScript project build, strict                                            |
-| `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)             |
-| `npm run format:check`                        | Prettier check (`npm run format` writes)                                    |
-| `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world                 |
-| `npm run test:e2e`                            | Playwright journeys J01–J08, axe, enlarged text, reduced motion; both sizes |
-| `npm run check`                               | typecheck, lint, unit tests and build in one go                             |
-| `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)              |
-| `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs             |
-| `npm run audit:clicks -- --base <url>`        | Activate every control on every screen and summarise what needs a look      |
-| `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)          |
+| Command                                       | What it does                                                                                    |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run dev`                                 | Vite dev server on port 5173                                                                    |
+| `npm run build`                               | Type-check (`tsc -b`) and production build to `dist/`                                           |
+| `npm run build:preview`                       | Static demo in `dist-preview/`: hash routes, relative paths, embedded fonts                     |
+| `npm run build:pages`                         | Installable app for a GitHub Pages sub-path (`PAGES_BASE`, default `/claude/`) in `dist-pages/` |
+| `npm run preview`                             | Serve the production build on port 4173                                                         |
+| `npm run typecheck`                           | TypeScript project build, strict                                                                |
+| `npm run lint`                                | ESLint (typescript-eslint + React Hooks / React Compiler rules)                                 |
+| `npm run format:check`                        | Prettier check (`npm run format` writes)                                                        |
+| `npm test`                                    | Vitest unit tests: domain fixtures F01–F04, F06, demo world                                     |
+| `npm run test:e2e`                            | Playwright journeys J01–J08, axe, enlarged text, reduced motion; both sizes                     |
+| `npm run check`                               | typecheck, lint, unit tests and build in one go                                                 |
+| `npm run fonts`                               | Rebuild the subset WOFF2 fonts (Python `fonttools` + `brotli`)                                  |
+| `npm run typography:verify -- --images <dir>` | Score the bundled fonts against the specification's photographs                                 |
+| `npm run audit:clicks -- --base <url>`        | Activate every control on every screen and summarise what needs a look                          |
+| `npm run icons`                               | Re-render PWA icons and the Open Graph image (Playwright Chromium)                              |
 
 ### End-to-end tests
 
@@ -118,6 +133,14 @@ immutable`. Serve `index.html`, `sw.js` and `manifest.webmanifest` with `no-cach
 
 The service worker precaches the shell for offline starts and only switches versions when the page
 asks (an update banner offers it). Rolling back is redeploying the previous `dist/`.
+
+**GitHub Pages** (a project site under `/<repo>/`): `npm run build:pages` sets the base path
+(`PAGES_BASE`, default `/claude/`), so the router, manifest scope and service worker all live under
+it. Pages has no rewrites, so the build copies `index.html` to `404.html`: a first visit to a deep
+link starts the app from there (with HTTP status 404), and once the service worker is installed it
+answers every in-app address itself. The workflow `.github/workflows/pages-app.yml` builds and
+deploys on pushes to `main` and to the app's branch; the repository's Pages source must be
+**GitHub Actions**.
 
 ## Status and next steps
 

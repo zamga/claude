@@ -18,7 +18,7 @@ import { qk, usePreferences } from '@/data/queries';
 import type { Horizon, Interest, Preferences, Region } from '@/data/types';
 import { AuthLayout } from '@/features/AuthLayout';
 import { useUnsavedChangesGuard } from '@/features/guard';
-import { PERMISSION_TEXT, usePushPermission } from '@/features/notifications';
+import { permissionText, usePushPermission } from '@/features/notifications';
 import { DEFAULT_RESEARCH, INTEREST_OPTIONS, MARKET_OPTIONS } from '@/features/preferences';
 import { useOffline } from '@/features/status';
 import { useDocumentTitle } from '@/features/title';
@@ -202,7 +202,7 @@ export function OnboardingScreen() {
       >
         <div className={styles.permission}>
           <Bell size={28} aria-hidden />
-          <p className="t-body-sm">{PERMISSION_TEXT[permission]}</p>
+          <p className="t-body-sm">{permissionText(permission)}</p>
         </div>
         {permission === 'default' && (
           <Button

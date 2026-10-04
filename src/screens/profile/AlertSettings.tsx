@@ -25,7 +25,12 @@ import { api, deviceLabel } from '@/data/api';
 import { errorMessage } from '@/data/errors';
 import type { Preferences } from '@/data/types';
 import { useUnsavedChangesGuard } from '@/features/guard';
-import { PERMISSION_TEXT, usePushPermission } from '@/features/notifications';
+import { InstallSheet } from '@/features/install';
+import {
+  needsHomeScreenForPush,
+  permissionText,
+  usePushPermission,
+} from '@/features/notifications';
 import { timeZoneOptions, usePreferencesForm } from '@/features/preferences';
 import { useOffline } from '@/features/status';
 import { deviceTimeZone } from '@/features/time';
@@ -81,6 +86,7 @@ export default function AlertSettingsScreen() {
   const { push } = useAppNavigation();
   const [permission, requestPermission] = usePushPermission();
   const [deviceBusy, setDeviceBusy] = useState(false);
+  const [installOpen, setInstallOpen] = useState(false);
   const [timeErrors, setTimeErrors] = useState<
     Partial<Record<'briefing' | 'start' | 'end', string>>
   >({});
@@ -328,8 +334,13 @@ export default function AlertSettingsScreen() {
                 />
                 <div className={styles.permission}>
                   <span className={styles.permissionText} data-state={permission}>
-                    This device: {PERMISSION_TEXT[permission]}
+                    This device: {permissionText(permission)}
                   </span>
+                  {needsHomeScreenForPush(permission) && (
+                    <Button size="small" variant="secondary" onClick={() => setInstallOpen(true)}>
+                      How to install
+                    </Button>
+                  )}
                   {permission !== 'unsupported' && permission !== 'denied' && (
                     <Button
                       size="small"
@@ -397,6 +408,7 @@ export default function AlertSettingsScreen() {
           Save preferences
         </Button>
       </ActionBar>
+      <InstallSheet open={installOpen} onClose={() => setInstallOpen(false)} />
       {guard}
     </ScreenBody>
   );

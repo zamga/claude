@@ -7,6 +7,7 @@ import { Download, Trash2, TriangleAlert } from '@/components/icons';
 import { Content, ScreenBody } from '@/components/Layout';
 import { KeyValue, KeyValueList, List, Row } from '@/components/List';
 import { Tag } from '@/components/Market';
+import { Sheet } from '@/components/Sheet';
 import { Notice } from '@/components/Status';
 import { useToast } from '@/components/Toast';
 import { formatDateTime } from '@/domain/format';
@@ -20,6 +21,8 @@ import { QueryState, useOffline } from '@/features/status';
 import { useUserTimeZone } from '@/features/time';
 import { useDocumentTitle } from '@/features/title';
 import { haptics } from '@/lib/haptics';
+import { isIos } from '@/lib/platform';
+import { saveFile } from '@/lib/saveFile';
 import shared from '../shared.module.css';
 
 const STATUS: Record<
@@ -47,6 +50,8 @@ export default function AccountDataScreen() {
   const [requesting, setRequesting] = useState(false);
   const [downloading, setDownloading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // iPhone and iPad save through the share sheet, which opens only from a tap of its own.
+  const [ready, setReady] = useState<{ blob: Blob; filename: string } | null>(null);
   const key = useRef(newIdempotencyKey());
   useDocumentTitle('Privacy & data');
 
@@ -75,14 +80,12 @@ export default function AccountDataScreen() {
         () => api.me.downloadExport(request.id),
         'Downloading your data is a sensitive action.',
       );
-      const url = URL.createObjectURL(new Blob([file.json], { type: 'application/json' }));
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = file.filename;
-      document.body.append(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      const blob = new Blob([file.json], { type: 'application/json' });
+      if (isIos()) {
+        setReady({ blob, filename: file.filename });
+        return;
+      }
+      await saveFile(blob, file.filename);
       haptics.success();
       toast({ message: `Downloaded ${file.filename}` });
     } catch (failure) {
@@ -210,6 +213,36 @@ export default function AccountDataScreen() {
           </p>
         </div>
       </Content>
+      <Sheet
+        open={ready != null}
+        onClose={() => setReady(null)}
+        title="Your data export is ready"
+        size="auto"
+        footer={
+          <Button
+            full
+            icon={Download}
+            onClick={async () => {
+              if (!ready) return;
+              const outcome = await saveFile(ready.blob, ready.filename);
+              if (outcome === 'cancelled') return;
+              setReady(null);
+              haptics.success();
+              toast({
+                message:
+                  outcome === 'shared' ? `Saved ${ready.filename}` : `Downloaded ${ready.filename}`,
+              });
+            }}
+          >
+            Save to Files
+          </Button>
+        }
+      >
+        <p className="t-body">
+          {ready?.filename}, {ready ? Math.max(1, Math.round(ready.blob.size / 1024)) : 0} KB. Your
+          watchlists, alerts, saved research, journal and paper portfolio, as JSON.
+        </p>
+      </Sheet>
       {reauth.element}
     </ScreenBody>
   );

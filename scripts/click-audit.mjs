@@ -12,6 +12,7 @@
  * Options
  *   --base <url>       the app (default http://localhost:4175); for the static preview, the page URL
  *   --hash             routes live in the URL hash (the preview build)
+ *   --pages            the host answers deep links with 404.html, as GitHub Pages does
  *   --layout <name>    phone (390 x 844, touch; default) or desktop (1440 x 900, split view)
  *   --auth <list>      in,out (default both): signed in with the demo account, and as a guest
  *   --only <routes>    comma-separated routes instead of all of them
@@ -27,6 +28,7 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const [key, value] = [argv[i], argv[i + 1]];
     if (key === '--hash') args.hash = true;
+    else if (key === '--pages') args.pages = true;
     else if (key === '--base') args.base = value;
     else if (key === '--layout') args.layout = value;
     else if (key === '--auth') args.auth = value.split(',');
@@ -34,7 +36,7 @@ function parseArgs(argv) {
     else if (key === '--workers') args.workers = Number(value);
     else if (key === '--out') args.out = value;
     else continue;
-    if (key !== '--hash') i++;
+    if (key !== '--hash' && key !== '--pages') i++;
   }
   return args;
 }
@@ -288,12 +290,17 @@ async function run(job, signedIn) {
     popups: [],
   };
   page.on('pageerror', (error) => events.pageErrors.push(String(error.message).slice(0, 200)));
+  // On GitHub Pages a first visit to a deep link is answered by 404.html, which starts the app.
+  const pagesFallback = (response) =>
+    args.pages && response.status() === 404 && response.request().resourceType() === 'document';
   page.on('console', (message) => {
-    if (message.type() === 'error') events.consoleErrors.push(message.text().slice(0, 200));
+    if (message.type() !== 'error') return;
+    if (args.pages && /status of 404/.test(message.text())) return;
+    events.consoleErrors.push(message.text().slice(0, 200));
   });
   page.on('response', (response) => {
     const url = new URL(response.url());
-    if (url.origin === origin && response.status() >= 400)
+    if (url.origin === origin && response.status() >= 400 && !pagesFallback(response))
       events.failedRequests.push(`${response.status()} ${url.pathname}`);
   });
   page.on('dialog', (dialog) => void dialog.dismiss().catch(() => undefined));

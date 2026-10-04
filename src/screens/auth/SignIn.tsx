@@ -18,6 +18,7 @@ import { AuthLayout } from '@/features/AuthLayout';
 import { PasswordField } from '@/features/PasswordField';
 import { useOffline } from '@/features/status';
 import { useDocumentTitle } from '@/features/title';
+import { appUrl } from '@/lib/base';
 import { haptics } from '@/lib/haptics';
 import styles from './Auth.module.css';
 
@@ -189,7 +190,9 @@ export default function SignInScreen() {
               variant="secondary"
               onClick={() =>
                 window.location.assign(
-                  `/auth/callback?provider=${provider}&returnTo=${encodeURIComponent(safeReturnTo(returnTo))}`,
+                  appUrl(
+                    `/auth/callback?provider=${provider}&returnTo=${encodeURIComponent(safeReturnTo(returnTo))}`,
+                  ),
                 )
               }
             >

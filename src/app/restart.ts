@@ -1,3 +1,5 @@
+import { appUrl } from '@/lib/base';
+
 /** Reload the app at its start screen, in the browser build and in the hash-routed preview. */
 export function restartApp(): void {
   if (import.meta.env.VITE_ROUTER === 'hash') {
@@ -5,5 +7,5 @@ export function restartApp(): void {
     window.location.reload();
     return;
   }
-  window.location.assign('/');
+  window.location.assign(appUrl('/'));
 }

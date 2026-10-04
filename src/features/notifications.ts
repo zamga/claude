@@ -5,6 +5,7 @@ import { useSession } from '@/app/session';
 import { api } from '@/data/api';
 import type { AlertRule, DeliveryStatus, InboxItem } from '@/data/types';
 import { formatMoney } from '@/domain/format';
+import { isIos, isStandalone } from '@/lib/platform';
 
 /** The exact in-app context behind a notification (spec page 34). */
 export function inboxTargetPath(item: InboxItem): string {
@@ -98,6 +99,18 @@ export const PERMISSION_TEXT: Record<PushPermission, string> = {
   denied:
     'Blocked in this browser’s settings. Alerts still reach your inbox; allow notifications for this site to receive push.',
 };
+
+/** On iPhone and iPad, Safari offers notifications only to an app opened from the Home Screen. */
+export function needsHomeScreenForPush(permission: PushPermission): boolean {
+  return permission === 'unsupported' && isIos() && !isStandalone();
+}
+
+/** This device's notification status in words, with the way to make them available on iPhone. */
+export function permissionText(permission: PushPermission): string {
+  return needsHomeScreenForPush(permission)
+    ? 'On iPhone and iPad, notifications work once Stock Picks is on your Home Screen (iOS 16.4 or later). Alerts still reach your inbox.'
+    : PERMISSION_TEXT[permission];
+}
 
 /**
  * Opening a notification marks only that item read (spec page 34). Device notifications carry

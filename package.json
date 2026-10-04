@@ -2,7 +2,7 @@
   "name": "stock-picks",
   "private": true,
   "version": "0.1.0",
-  "description": "Stock Picks — daily editorial stock research, watchlists, alerts and paper tracking. Responsive web app / PWA built from the Version 3 application design.",
+  "description": "Stock Picks \u2014 daily editorial stock research, watchlists, alerts and paper tracking. Responsive web app / PWA built from the Version 3 application design.",
   "type": "module",
   "engines": {
     "node": ">=22.22.0"
@@ -11,6 +11,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:preview": "node scripts/build-preview.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty",
     "lint": "eslint .",

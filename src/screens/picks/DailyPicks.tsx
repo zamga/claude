@@ -16,6 +16,7 @@ import { computeChange } from '@/domain/change';
 import { formatClockWithZone, formatWeekdayDate } from '@/domain/format';
 import { usePicks, useQuotes, useSeries } from '@/data/queries';
 import type { Assessment, Interest, Pick, Quote } from '@/data/types';
+import { InstallBanner } from '@/features/install';
 import { InstrumentRow } from '@/features/InstrumentRow';
 import { AssessmentSheet, MethodologySheet } from '@/features/Methodology';
 import { QueryState, useCachedAt } from '@/features/status';
@@ -176,6 +177,7 @@ export default function DailyPicksScreen() {
         }
       />
       <Content>
+        <InstallBanner />
         <LargeTitle
           eyebrow="Daily selection"
           meta={<DemoTag />}

@@ -125,6 +125,13 @@
   font-size: var(--fs-body-sm);
 }
 
+/* iOS Safari zooms the page into any control set below 16 px when it is tapped. */
+@media (pointer: coarse) {
+  .select {
+    font-size: max(16px, var(--fs-body-sm));
+  }
+}
+
 .selectChevron {
   position: absolute;
   right: 14px;
