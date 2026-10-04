@@ -26,7 +26,8 @@ own rule (page 41): nothing is marked as passing without a recorded run.
 - **Click-through audit** (`npm run audit:clicks`, not in CI): every routed screen, signed in and
   signed out, with each control activated on its own from a fresh load and then every control that
   activation revealed (sheets, dialogs, menus). Phone and desktop on the production build: 3,677
-  activations; phone on the hash-routed preview build: 1,362 more (5,039 in all). Found and fixed:
+  activations; phone on the hash-routed preview build and on the GitHub Pages build (served under
+  `/claude/` as Pages serves it): 1,362 each (6,401 in all). Found and fixed:
   sign-out leaving signed-in state on screen, saved items stamped with the wall clock, a desktop
   deep link showing another tab's list, a silent "Refresh all data", a "Reset filters" that did
   nothing when no filter was set, filing names breaking inside "10-Q". Final runs: no JavaScript
