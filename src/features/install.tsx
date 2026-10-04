@@ -10,7 +10,6 @@ import {
 } from '@/components/icons';
 import { Row } from '@/components/List';
 import { Sheet } from '@/components/Sheet';
-import { Notice } from '@/components/Status';
 import { isIos, isStandalone, isTouchDevice } from '@/lib/platform';
 import { readJson, writeJson } from '@/lib/storage';
 import styles from './Install.module.css';
@@ -151,8 +150,12 @@ export function useInstallRow(): { row: ReactNode; sheet: ReactNode } {
 
 const DISMISSED_KEY = 'stockpicks.install.dismissed.v1';
 
-/** A one-time card on phones and tablets in the browser; "Not now" hides it on this device. */
-export function InstallBanner() {
+/**
+ * A one-time card on phones and tablets in the browser, floating above the tab bar: a browser's
+ * install offer can arrive after the first paint, and a card in the page would push it down.
+ * "Not now" hides it on this device.
+ */
+export function InstallPrompt() {
   const { mode, install } = useInstall();
   const [open, setOpen] = useState(false);
   const [dismissed, setDismissed] = useState(
@@ -164,28 +167,33 @@ export function InstallBanner() {
     setDismissed(true);
   };
   return (
-    <div className={styles.banner}>
-      <Notice
-        icon={Smartphone}
-        title="Use Stock Picks as an app"
-        actions={
-          <>
+    <>
+      <section
+        className={styles.prompt}
+        aria-labelledby="install-prompt-title"
+        data-surface="paper"
+      >
+        <Smartphone className={styles.promptIcon} size={20} strokeWidth={ICON_STROKE} aria-hidden />
+        <div className={styles.promptBody}>
+          <h2 className={styles.promptTitle} id="install-prompt-title">
+            Use Stock Picks as an app
+          </h2>
+          <p className={styles.promptText}>
+            {mode === 'ios'
+              ? 'Add it to your Home Screen: full screen, offline, with alert notifications.'
+              : 'Install it on this device: full screen, offline, with alert notifications.'}
+          </p>
+          <div className={styles.promptActions}>
             <Button size="small" onClick={() => (mode === 'ios' ? setOpen(true) : void install())}>
               {mode === 'ios' ? 'How to install' : 'Install'}
             </Button>
             <Button size="small" variant="text" onClick={dismiss}>
               Not now
             </Button>
-          </>
-        }
-      >
-        <p className={styles.bannerText}>
-          {mode === 'ios'
-            ? 'Add it to your Home Screen: full screen, offline, with alert notifications.'
-            : 'Install it on this device: full screen, offline, with alert notifications.'}
-        </p>
-      </Notice>
+          </div>
+        </div>
+      </section>
       <InstallSheet open={open} onClose={() => setOpen(false)} />
-    </div>
+    </>
   );
 }

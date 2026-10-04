@@ -3,6 +3,7 @@ import { useLocation, useNavigationType, useRoutes, type Location } from 'react-
 import { markFirstPaint } from '@/data/api';
 import { useAnnouncer } from '@/lib/announcer';
 import { useIsDesktop } from '@/lib/hooks';
+import { InstallPrompt } from '@/features/install';
 import { useDisplay } from './display';
 import { DefaultDetail } from './DefaultDetail';
 import { ConnectivityBanner } from './ConnectivityBanner';
@@ -347,6 +348,7 @@ export function Shell() {
         </main>
       </div>
       {showTabBar && <TabBar current={tab ?? 'picks'} />}
+      {showTabBar && <InstallPrompt />}
       {import.meta.env.VITE_PWA !== 'off' && <UpdatePrompt />}
     </div>
   );
