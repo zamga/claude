@@ -1,0 +1,49 @@
+.tape {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 2px var(--space-4);
+  padding: var(--space-4) 0;
+  border-top: var(--hairline) solid var(--rule);
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.symbol {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: var(--track-display);
+}
+
+.price {
+  justify-self: end;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--fg-muted);
+}
+
+.flat {
+  grid-column: 1 / -1;
+  height: 0;
+  margin: var(--space-3) 0 var(--space-2);
+  border-top: 1.5px dashed var(--chart-neutral);
+}
+
+.status {
+  grid-column: 1 / -1;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+}
+
+.icon {
+  display: grid;
+  place-items: start;
+}
+
+.list {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-4);
+  list-style: disc;
+}

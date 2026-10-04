@@ -1,0 +1,182 @@
+.valueBlock {
+  display: grid;
+  gap: 2px;
+  padding: 0 var(--gutter) var(--space-3);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: min(3.375rem, 13.8cqi); /* 54: model values measure 53-58 px */
+  line-height: 1;
+  letter-spacing: var(--track-quote);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.gain {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4375rem; /* 23, as photographed on the portfolio */
+  line-height: 1.2;
+  letter-spacing: var(--track-quote);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The position screen sets its gain in the interface face (20 px in the photo). */
+.gain[data-face='ui'] {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-regular);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+}
+
+.valueCaption {
+  color: var(--fg-muted);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
+}
+
+.gain[data-direction='up'] {
+  color: var(--positive);
+}
+
+.gain[data-direction='down'] {
+  color: var(--negative);
+}
+
+.gainNote {
+  color: var(--fg-muted);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--fs-label);
+  letter-spacing: 0;
+}
+
+.gainMuted {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+}
+
+.paperLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  color: var(--fg-muted);
+  font-size: var(--fs-body-sm); /* 15 ("Paper results • sample data") */
+}
+
+.rowTicker {
+  font-size: 1.25rem;
+}
+
+.positionAside {
+  display: grid;
+  justify-items: end;
+}
+
+.shares {
+  color: var(--fg);
+  font-size: var(--fs-body-sm); /* 15 ("20 shares") */
+  font-variant-numeric: tabular-nums;
+}
+
+.cash {
+  color: var(--fg-muted);
+  font-size: var(--fs-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.journal {
+  display: grid;
+  margin: 0 var(--gutter);
+}
+
+.entry {
+  display: grid;
+  gap: 4px;
+  padding: var(--space-3) 0;
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.entry:first-child {
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.entryMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.entryBody {
+  font-size: 1.0625rem; /* 17: journal entries measure 16-18 px */
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.composer {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) var(--gutter) 0;
+}
+
+.composerActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.syncState {
+  color: var(--fg-muted);
+  font-size: var(--fs-label); /* "Not saved yet. Your draft is kept on this device." */
+  line-height: var(--lh-label);
+}
+
+.syncState[data-state='unsynced'] {
+  color: var(--warning-fg);
+}
+
+.trigger {
+  margin: 0 var(--gutter);
+  padding: var(--space-3) 0;
+  border-top: var(--hairline) solid var(--rule);
+  border-bottom: var(--hairline) solid var(--rule);
+  font-size: var(--fs-dek);
+  line-height: var(--lh-dek);
+}
+
+.ledgerAmount {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-label);
+}
+
+.preview {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--bg-tint);
+}
+
+.previewTitle {
+  font-weight: var(--weight-label);
+  font-size: var(--fs-label);
+}
+
+.sourceNote {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+}
+
+.sourceNote[data-manual='true'] {
+  color: var(--warning-fg);
+}
+
+.composer [data-notice],
+.preview [data-notice] {
+  margin-left: 0;
+  margin-right: 0;
+}

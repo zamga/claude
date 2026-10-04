@@ -1,0 +1,302 @@
+/*
+ * Stock Picks design tokens (spec pages 18, 29, 30, 58).
+ * Primitive values live on :root. Components read the semantic tokens, which are scoped to a
+ * surface: [data-surface='paper'] for discovery/reading, [data-surface='charcoal'] for analysis.
+ */
+
+:root {
+  /* Primitive palette */
+  --c-paper: #f8f5ed;
+  --c-ink: #111613;
+  --c-charcoal: #101512;
+  --c-muted: #626960; /* board #687067 darkened: >= 4.5:1 on paper, tint and selected rows */
+  --c-rule: #d8d9d0;
+  --c-accent: #f3482d; /* decorative or large text only (3.34:1 on paper) */
+  --c-accent-strong: #bb321d; /* accent text 5.37:1, white label on fill 5.85:1 */
+  --c-positive: #196d49; /* 5.80:1 on paper */
+  --c-positive-dark: #8eddb0; /* 11.53:1 on charcoal */
+  --c-warning: #e9af49;
+  --c-white: #ffffff;
+
+  /* Typography — matched to the reference images (spec page 29; docs/TYPOGRAPHY.md) */
+  --font-display:
+    'FreeSerif', 'FreeSerif Fallback', 'Times New Roman', Times, 'Liberation Serif', serif;
+  --font-ui:
+    'Roboto Flex', 'Roboto Flex Fallback', Roboto, 'Helvetica Neue', Arial, system-ui, sans-serif;
+
+  /*
+   * Size / line height pairs measured from the photos at 390 px (logical px at 100% text). The
+   * photos use one headline tier for every screen title. Headlines are capped by the pane width
+   * (cqi), so at 200% text a headline word still fits its column; so are the largest figures
+   * (quotes, model values, table columns), which cannot wrap. Smaller figures and titles use
+   * clamp(floor, cqi, size): the photographed size at 100% and a rem floor that grows with the
+   * text setting, so enlarged text enlarges them too.
+   */
+  --fs-display: min(4rem, 16.4cqi); /* 64 */
+  --lh-display: 0.82; /* 52, measured 0.80-0.84 */
+  --fs-title: var(--fs-display);
+  --lh-title: var(--lh-display);
+  --fs-quote: min(2.875rem, 11.8cqi); /* 46 */
+  --lh-quote: 1;
+  --fs-section-lg: 1.9375rem; /* 31: feature sections measure 29-33 px ("Results at a glance") */
+  --fs-section: 1.5625rem; /* 25 */
+  --lh-section: 1.12;
+  --fs-section-sm: 1.3125rem; /* 21 */
+  --fs-ticker: 1.75rem; /* 28: list-row tickers measure 26-30 px */
+  --lh-ticker: 1.05;
+  --fs-lede: 1.125rem; /* 18: screen ledes */
+  --lh-lede: 1.35;
+  --fs-body: 0.9375rem; /* 15 */
+  --lh-body: 1.4667; /* 22 */
+  --fs-body-sm: 0.9375rem; /* 15 */
+  --lh-body-sm: 1.4;
+  --fs-dek: 1rem; /* 16: card summaries, takeaways */
+  --lh-dek: 1.5;
+  --fs-label: 0.8125rem; /* 13 */
+  --lh-label: 1.3847; /* 18 */
+  --fs-note: 0.75rem; /* 12: footnotes and captions */
+  --lh-note: 1.45;
+  --fs-micro: 0.6875rem; /* 11 */
+  --lh-micro: 1.3637; /* 15 */
+
+  /* Weights measured as ink mass against the photos: copy 400, rows and controls ~450,
+     figures ~550, eyebrows and ticker labels ~600. */
+  --weight-regular: 400;
+  --weight-medium: 450;
+  --weight-figure: 550;
+  --weight-label: 600;
+
+  --track-display: -0.045em;
+  --track-quote: -0.02em;
+  --track-section: -0.033em;
+  --track-eyebrow: 0.2em;
+  --track-bar-title: 0.12em;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --gutter: 24px;
+
+  /* Geometry */
+  --button-h: 48px;
+  --input-h: 52px;
+  --hit: 44px;
+  --icon: 22px;
+  --icon-sm: 20px;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 8px;
+  --hairline: 1px;
+  --tabbar-h: 60px;
+  --topbar-h: 52px;
+  --rail-w: 240px;
+  --pane-w: 368px;
+  --reading-measure: 68ch;
+
+  /* Safe areas */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Motion tokens (spec page 18) */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --dur-press-in: 80ms;
+  --dur-press-out: 140ms;
+  --dur-feedback: 120ms;
+  --dur-tab: 160ms;
+  --dur-detail-enter: 240ms;
+  --dur-detail-exit: 200ms;
+  --dur-sheet-open: 280ms;
+  --dur-sheet-close: 220ms;
+  --dur-inspect-in: 80ms;
+  --dur-inspect-out: 120ms;
+  --dur-range: 180ms;
+  --dur-toast-in: 160ms;
+  --dur-toast-out: 120ms;
+  --press-scale: 0.985;
+  --detail-offset: 24px;
+  --sheet-offset: 24px;
+  --toast-offset: 8px;
+  --backdrop: rgb(0 0 0 / 0.32);
+
+  /* Layering */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-banner: 30;
+  --z-sheet: 40;
+  --z-toast: 50;
+  --z-skip: 60;
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hairline: 0.5px;
+  }
+}
+
+@media (max-width: 389px) {
+  :root {
+    --gutter: 20px;
+  }
+}
+
+@media (max-width: 359px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+/* Reduced motion collapses every transform to a 0–100 ms opacity change (spec pages 18, 27). */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='full']) {
+    --dur-press-in: 0ms;
+    --dur-press-out: 0ms;
+    --dur-feedback: 80ms;
+    --dur-tab: 90ms;
+    --dur-detail-enter: 90ms;
+    --dur-detail-exit: 90ms;
+    --dur-sheet-open: 100ms;
+    --dur-sheet-close: 90ms;
+    --dur-range: 90ms;
+    --dur-toast-in: 90ms;
+    --dur-toast-out: 90ms;
+    --press-scale: 1;
+    --detail-offset: 0px;
+    --sheet-offset: 0px;
+    --toast-offset: 0px;
+  }
+}
+
+:root[data-motion='reduced'] {
+  --dur-press-in: 0ms;
+  --dur-press-out: 0ms;
+  --dur-feedback: 80ms;
+  --dur-tab: 90ms;
+  --dur-detail-enter: 90ms;
+  --dur-detail-exit: 90ms;
+  --dur-sheet-open: 100ms;
+  --dur-sheet-close: 90ms;
+  --dur-range: 90ms;
+  --dur-toast-in: 90ms;
+  --dur-toast-out: 90ms;
+  --press-scale: 1;
+  --detail-offset: 0px;
+  --sheet-offset: 0px;
+  --toast-offset: 0px;
+}
+
+/* ---------- Surfaces ---------- */
+
+[data-surface='paper'] {
+  color-scheme: light;
+  --bg: var(--c-paper);
+  --bg-raised: #fcfbf7;
+  --bg-tint: #f1ede3;
+  --fg: var(--c-ink);
+  --fg-muted: var(--c-muted);
+  --rule: var(--c-rule);
+  --rule-strong: #b9bcb1;
+  --control-border: #7d847c; /* 3.53:1 — meaningful control boundary */
+  --accent-fg: var(--c-accent-strong);
+  --accent-deco: var(--c-accent);
+  --accent-fill: var(--c-accent-strong);
+  --on-accent: var(--c-white);
+  --selected-bg: #fbe6df;
+  --positive: var(--c-positive);
+  --positive-area: rgb(25 109 73 / 0.16);
+  --negative: #b3261e; /* 6.00:1 */
+  --negative-area: rgb(179 38 30 / 0.12);
+  --warning-fg: #8a5a00; /* 5.44:1 */
+  --warning-fill: var(--c-warning);
+  --on-warning: var(--c-ink);
+  --primary-bg: var(--c-ink);
+  --primary-fg: var(--c-paper);
+  --primary-bg-pressed: #2a302c;
+  --press-tint: rgb(17 22 19 / 0.05);
+  --chart-grid: rgb(17 22 19 / 0.08);
+  --chart-axis: var(--c-muted);
+  --chart-neutral: #4e554d;
+  --focus-ring: var(--c-ink);
+  --skeleton: rgb(17 22 19 / 0.07);
+  --track-off: #c9cbc2;
+  --thumb: var(--c-white);
+  --shadow-sheet: 0 -8px 32px rgb(17 22 19 / 0.16);
+  --shadow-toast: 0 6px 24px rgb(17 22 19 / 0.18);
+  --demo-fg: var(--c-muted);
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+[data-surface='charcoal'],
+[data-appearance='night'] [data-surface='paper'] {
+  color-scheme: dark;
+  --bg: var(--c-charcoal);
+  --bg-raised: #171d19;
+  --bg-tint: #1c231e;
+  --fg: #f4f1e8;
+  --fg-muted: #9aa199; /* 6.97:1 */
+  --rule: #2a312c;
+  --rule-strong: #3d4540;
+  --control-border: #6b736c; /* 3.77:1 */
+  --accent-fg: var(--c-accent); /* 5.08:1 on charcoal */
+  --accent-deco: var(--c-accent);
+  --accent-fill: var(--c-accent-strong);
+  --on-accent: var(--c-white);
+  --selected-bg: #3a1d16;
+  --positive: var(--c-positive-dark);
+  --positive-area: rgb(142 221 176 / 0.16);
+  --negative: #ff8a7a; /* 8.06:1 */
+  --negative-area: rgb(255 138 122 / 0.12);
+  --warning-fg: var(--c-warning); /* 9.40:1 */
+  --warning-fill: var(--c-warning);
+  --on-warning: var(--c-ink);
+  --primary-bg: #f4f1e8;
+  --primary-fg: var(--c-ink);
+  --primary-bg-pressed: #dcd8ce;
+  --press-tint: rgb(244 241 232 / 0.06);
+  --chart-grid: rgb(244 241 232 / 0.08);
+  --chart-axis: #9aa199;
+  --chart-neutral: #c9cec7;
+  --focus-ring: #f4f1e8;
+  --skeleton: rgb(244 241 232 / 0.08);
+  --track-off: #4a524c;
+  --thumb: var(--c-white);
+  --shadow-sheet: 0 -8px 32px rgb(0 0 0 / 0.5);
+  --shadow-toast: 0 6px 24px rgb(0 0 0 / 0.5);
+  --demo-fg: #9aa199;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Increased contrast (S22) */
+[data-contrast='more'] [data-surface='paper'],
+[data-contrast='more'][data-surface='paper'] {
+  --fg-muted: #4e554d;
+  --rule: #a9ada3;
+  --rule-strong: #7d847c;
+  --control-border: #4e554d;
+  --chart-grid: rgb(17 22 19 / 0.16);
+}
+
+[data-contrast='more'] [data-surface='charcoal'],
+[data-contrast='more'][data-appearance='night'] [data-surface='paper'] {
+  --fg-muted: #c3c9c1;
+  --rule: #4a524c;
+  --rule-strong: #6b736c;
+  --control-border: #9aa199;
+  --chart-grid: rgb(244 241 232 / 0.16);
+}

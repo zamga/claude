@@ -1,0 +1,58 @@
+.column {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.options {
+  margin: 0 var(--gutter);
+  border-top: var(--hairline) solid var(--rule);
+}
+
+.options > * {
+  border-bottom: var(--hairline) solid var(--rule);
+}
+
+.segment {
+  padding: 0 var(--gutter);
+}
+
+.segment > [role='radiogroup'] {
+  width: 100%;
+}
+
+.note {
+  padding: var(--space-2) var(--gutter) 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-label); /* 13 ("You can change this anytime." measures 12.7) */
+}
+
+.step {
+  padding-right: 12px;
+  color: var(--fg-muted);
+  font-size: var(--fs-label); /* 13 ("2 of 3" measures 12.7) */
+  font-variant-numeric: tabular-nums;
+}
+
+.progress {
+  height: 3px;
+  margin: 0 var(--gutter);
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress > span {
+  display: block;
+  height: 100%;
+  background: var(--accent-fill);
+}
+
+.permission {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--bg-tint);
+}

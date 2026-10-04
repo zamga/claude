@@ -1,0 +1,365 @@
+.shell {
+  min-height: 100dvh;
+}
+
+.skip {
+  position: fixed;
+  top: calc(var(--safe-top) + 8px);
+  left: 8px;
+  z-index: var(--z-skip);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-weight: var(--weight-label);
+  transform: translateY(-200%);
+}
+
+.skip:focus-visible {
+  transform: none;
+}
+
+.workspace {
+  min-width: 0;
+}
+
+.panes {
+  min-height: 100dvh;
+}
+
+.panes:focus {
+  outline: none;
+}
+
+.frame {
+  min-height: 100dvh;
+}
+
+/* Phones and tablets: one coherent view; tablets keep a readable column up to 680 px. */
+.single {
+  min-height: 100dvh;
+}
+
+@media (min-width: 744px) and (max-width: 1023px) {
+  .single > .frame,
+  .single :global([data-pane='single']) {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+}
+
+/* Wide screens: 240 px rail, a 320–400 px collection pane and the detail. */
+.shell[data-layout='split'] {
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+}
+
+.shell[data-layout='split'] .panes {
+  display: grid;
+  grid-template-columns: clamp(320px, 28vw, 400px) minmax(0, 1fr);
+  align-items: start;
+}
+
+.collectionPane {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  border-right: var(--hairline) solid var(--c-rule);
+  background: var(--c-paper);
+}
+
+.collectionScroll {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.collectionPane .frame {
+  min-height: 100%;
+}
+
+.detailPane {
+  min-width: 0;
+  min-height: 100dvh;
+}
+
+.detailPane > .frame,
+.detailPane :global([data-pane='detail']) {
+  min-height: 100dvh;
+}
+
+/* ---------- Tab bar ---------- */
+
+.tabBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-nav);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: calc(var(--tabbar-h) + var(--safe-bottom));
+  padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: var(--c-paper);
+  border-top: var(--hairline) solid var(--c-rule);
+  color: var(--c-ink);
+  view-transition-name: tabbar;
+}
+
+:global([data-appearance='night']) .tabBar {
+  background: var(--c-charcoal);
+  border-top-color: #2a312c;
+  color: #f4f1e8;
+}
+
+@media (min-width: 744px) {
+  .tabBar {
+    left: 50%;
+    right: auto;
+    width: 680px;
+    transform: translateX(-50%);
+  }
+}
+
+.tab {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: var(--hit);
+  /* Like native tab bars, labels grow with the text setting only up to what four columns hold. */
+  font-size: min(0.6875rem, 15px);
+  line-height: 1.1;
+  font-weight: var(--weight-medium);
+  /* The surface's muted ink: it follows night appearance and the Increase contrast setting. */
+  color: var(--fg-muted);
+  transition: color var(--dur-feedback) var(--ease-standard);
+}
+
+.tab[aria-current='page'] {
+  color: var(--accent-fg);
+}
+
+.tab:focus-visible {
+  outline-offset: -4px;
+}
+
+.tabIcon {
+  position: relative;
+  display: grid;
+}
+
+.tabDot {
+  position: absolute;
+  top: -1px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 0 2px var(--c-paper);
+}
+
+.tabLabel {
+  max-width: 100%;
+  padding-inline: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Rail ---------- */
+
+.rail {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  height: 100dvh;
+  padding: var(--space-6) var(--space-4) var(--space-5) var(--space-5);
+  border-right: var(--hairline) solid var(--rule);
+  view-transition-name: rail;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  padding: 0 var(--space-2);
+}
+
+.brand::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin-bottom: var(--space-3);
+  background: var(--accent-deco);
+}
+
+.railList {
+  display: grid;
+  gap: 2px;
+}
+
+.railItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--hit);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--weight-medium);
+  transition:
+    background-color var(--dur-feedback) var(--ease-standard),
+    color var(--dur-feedback) var(--ease-standard);
+}
+
+.railItem:hover {
+  background: var(--press-tint);
+}
+
+.railItem[aria-current='page'] {
+  color: var(--accent-fg);
+  background: var(--selected-bg);
+}
+
+.railCount {
+  margin-left: auto;
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: var(--fs-micro);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.railFoot {
+  margin-top: auto;
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+}
+
+.railUser {
+  font-weight: var(--weight-label);
+  font-size: var(--fs-label);
+}
+
+.railNote {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+}
+
+/* ---------- Status bars ---------- */
+
+.offline {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-banner);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: calc(var(--safe-top) + 6px) var(--gutter) 6px;
+  background: var(--c-warning);
+  color: var(--c-ink);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+}
+
+.offline span {
+  flex: 1;
+}
+
+.offlineAction {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  font-weight: var(--weight-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.update {
+  position: fixed;
+  right: max(16px, var(--safe-right));
+  bottom: calc(var(--toast-bottom, 16px) + var(--safe-bottom));
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: calc(100vw - 32px);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-toast);
+  font-size: var(--fs-body-sm);
+}
+
+.updateActions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* ---------- Fallbacks and gates ---------- */
+
+.fallback {
+  min-height: 100dvh;
+}
+
+.fallbackBar {
+  height: calc(var(--topbar-h) + var(--safe-top));
+}
+
+.fallbackBody {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--gutter);
+}
+
+.gate {
+  display: grid;
+  min-height: 70dvh;
+  align-content: center;
+}
+
+.gateButton,
+.gateSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--button-h);
+  border-radius: var(--radius-sm);
+  font-weight: var(--weight-medium);
+  font-size: var(--fs-body-sm);
+}
+
+.gateButton {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+}
+
+.gateSecondary {
+  box-shadow: inset 0 0 0 1px var(--fg);
+}
+
+.placeholder {
+  display: grid;
+  min-height: 100dvh;
+  align-content: center;
+}
+
+@media (max-width: 1023px) {
+  .shell[data-layout='single'] {
+    --toast-bottom: calc(var(--tabbar-h) + 12px);
+  }
+}

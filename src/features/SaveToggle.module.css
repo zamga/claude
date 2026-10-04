@@ -1,0 +1,19 @@
+.toggle {
+  position: relative;
+  display: inline-grid;
+  justify-items: end;
+}
+
+.saved {
+  color: var(--accent-fg);
+}
+
+.label {
+  margin-top: -8px;
+  padding-right: 2px;
+  color: var(--accent-fg);
+  font-size: 0.75rem; /* 12, as photographed ("Watchlisted") */
+  line-height: 1.2;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
